@@ -13,12 +13,12 @@ namespace Model
         public bool IsBroken { get; private set; }
 
 
-        public Car(int quality, int performance, int speed, bool broken)
+        public Car(int quality, int performance, int speed)
         {
             this.Quality = quality;
             this.Performance = performance;
             this.Speed = speed;
-            this.IsBroken = broken;
+            this.IsBroken = false;
         }
 
     }
