@@ -21,7 +21,12 @@ namespace Model
 
         public Track NextTrack()
         {
-            return null;
+            if (this.Tracks == null || this.Tracks.Count() < 1)
+            {
+                return null;
+            }
+
+            return this.Tracks.Dequeue();
         }
 
     }
