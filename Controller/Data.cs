@@ -10,8 +10,8 @@ namespace Controller
     public static class Data
     {
 
-        public static Competition Competition { get; private set; }
-
+        private static Competition Competition;
+        public static Race CurrentRace { get; private set; }
 
         public static List<IParticipant> Participants { get; private set; }
         public static Queue<Track> Tracks { get; private set; }
@@ -22,6 +22,23 @@ namespace Controller
             Data.AddTestTracks();
 
             Data.Competition = new Competition(Data.Participants, Data.Tracks);
+
+            if (Data.CurrentRace == null)
+            {
+                Data.NextRace();
+            }
+        }
+
+        public static void NextRace()
+        {
+            Track currentTrack = Data.Competition.NextTrack();
+            if (currentTrack == null)
+            {
+                Data.CurrentRace = null;
+                return;
+            }
+
+            Data.CurrentRace = new Race(track: currentTrack, participants: Data.Participants);
         }
 
         private static void AddTestParticipants()
@@ -38,6 +55,11 @@ namespace Controller
 
         public static void AddParticipant(Driver driver)
         {
+            if (Data.Participants == null)
+            {
+                Data.Participants = new List<IParticipant>();
+            }
+
             Data.Participants.Add(driver);
         }
 
@@ -66,6 +88,11 @@ namespace Controller
 
         public static void AddTrack(Track track)
         {
+            if (Data.Tracks == null)
+            {
+                Data.Tracks = new Queue<Track>();
+            }
+
             Data.Tracks.Enqueue(track);
         }
 
