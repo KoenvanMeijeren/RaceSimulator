@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>E:\Development\C#\RaceSimulator\RaceSimulator\Program.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Threading;
+using Controller;
+using Model;
+
+namespace RaceSimulator
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // tests for the classes
+            Data.Initialize();
+
+            foreach (IParticipant participant in Data.Participants)
+            {
+                Console.WriteLine($&quot;Participant: {participant.Name}&quot;);
+            }
+
+            Console.WriteLine($&quot;\nCurrent track: {Data.CurrentRace.Track.Name}&quot;);
+            Data.NextRace();
+            Console.WriteLine($&quot;Next track: {Data.CurrentRace.Track.Name}&quot;);
+            Data.NextRace();
+            Console.WriteLine($&quot;Next track 1: {Data.CurrentRace.Track.Name}&quot;);
+            Data.NextRace();
+            Console.WriteLine($&quot;Next tracks: {Data.CurrentRace}&quot;);
+
+            for (; ; )
+            {
+                Thread.Sleep(100);
+            }
+
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[11,9,11,10,0],[13,13,13,31,0],[15,13,15,20,0],[15,22,15,46,0],[15,47,15,49,0],[15,50,15,67,0],[16,13,16,14,0],[17,17,17,71,0],[18,13,18,14,0],[20,13,20,82,0],[21,13,21,29,0],[22,13,22,77,0],[23,13,23,29,0],[24,13,24,79,0],[25,13,25,29,0],[26,13,26,67,0],[29,13,29,14,0],[30,17,30,35,0],[31,13,31,14,0]]);
+    </script>
+  </body>
+</html>

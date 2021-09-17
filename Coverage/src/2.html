@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>E:\Development\C#\RaceSimulator\Model\Competition.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Model
+{
+    public class Competition
+    {
+
+        public List&lt;IParticipant&gt; Participants { get; private set; }
+
+        public Queue&lt;Track&gt; Tracks { get; private set; }
+
+        public Competition(List&lt;IParticipant&gt; participants, Queue&lt;Track&gt; tracks)
+        {
+            this.Participants = participants;
+            this.Tracks = tracks;
+        }
+
+        public Track NextTrack()
+        {
+            if (this.Tracks == null || this.Tracks.Count &lt; 1)
+            {
+                return null;
+            }
+
+            return this.Tracks.Dequeue();
+        }
+
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[12,50,12,54,0],[12,55,12,67,1],[14,38,14,42,1],[14,43,14,55,1],[16,9,16,81,1],[17,9,17,10,1],[18,13,18,46,1],[19,13,19,34,1],[20,9,20,10,1],[23,9,23,10,1],[24,13,24,64,1],[25,13,25,14,1],[26,17,26,29,1],[29,13,29,42,1],[30,9,30,10,1]]);
+    </script>
+  </body>
+</html>

@@ -21,7 +21,7 @@ namespace Model
 
         public Track NextTrack()
         {
-            if (this.Tracks == null || this.Tracks.Count() < 1)
+            if (this.Tracks == null || this.Tracks.Count < 1)
             {
                 return null;
             }

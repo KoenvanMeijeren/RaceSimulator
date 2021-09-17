@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>E:\Development\C#\RaceSimulator\Model\Driver.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Model
+{
+    public class Driver : IParticipant
+    {
+        public string Name { get; private set; }
+
+        public int Points { get; private set; }
+
+        public IEquipment Equipment { get; private set; }
+
+        public TeamColors TeamColor { get; private set; }
+
+
+        public Driver(string name, int points, IEquipment equipment, TeamColors teamColor)
+        {
+            this.Name = name;
+            this.Points = points;
+            this.Equipment = equipment;
+            this.TeamColor = teamColor;
+        }
+
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[11,30,11,34,1],[11,35,11,47,1],[13,29,13,33,1],[13,34,13,46,1],[15,39,15,43,0],[15,44,15,56,1],[17,39,17,43,1],[17,44,17,56,1],[20,9,20,91,1],[21,9,21,10,1],[22,13,22,30,1],[23,13,23,34,1],[24,13,24,40,1],[25,13,25,40,1],[26,9,26,10,1]]);
+    </script>
+  </body>
+</html>
