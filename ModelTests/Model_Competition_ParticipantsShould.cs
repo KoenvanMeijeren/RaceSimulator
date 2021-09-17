@@ -36,13 +36,13 @@ namespace ControllerTests
         }
 
         [Test]
-        public void NextTrack_EmptyParticipants()
+        public void EmptyParticipants()
         {
             Assert.AreEqual(0, this._emptyCompetition.Participants.Count);
         }
 
         [Test]
-        public void NextTrack_NotEmptyParticipants()
+        public void NotEmptyParticipants()
         {
             Assert.AreEqual(5, this._competition.Participants.Count);
 
@@ -54,14 +54,18 @@ namespace ControllerTests
             IParticipant participantOne = this.Participants[0];
             IParticipant participantTwo = this.Participants[1];
 
+            IEquipment driverEquipmentOne = driverOne.Equipment;
+
 
             Assert.AreEqual(driverOne.Name, participantOne.Name);
             Assert.AreEqual(driverOne.Points, participantOne.Points);
             Assert.AreEqual(driverOne.TeamColor, participantOne.TeamColor);
+            Assert.AreEqual(driverOne.Equipment.GetType().ToString(), participantOne.Equipment.GetType().ToString());
 
             Assert.AreEqual(driverTwo.Name, participantTwo.Name);
             Assert.AreEqual(driverTwo.Points, participantTwo.Points);
             Assert.AreEqual(driverTwo.TeamColor, participantTwo.TeamColor);
+            Assert.AreEqual(driverTwo.Equipment.GetType().ToString(), participantTwo.Equipment.GetType().ToString());
         }
 
     }
