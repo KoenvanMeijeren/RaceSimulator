@@ -10,7 +10,7 @@ namespace Controller
     public static class Data
     {
 
-        private static Competition Competition;
+        private static Competition _competition;
         public static Race CurrentRace { get; private set; }
 
         public static List<IParticipant> Participants { get; private set; }
@@ -21,7 +21,7 @@ namespace Controller
             Data.AddTestParticipants();
             Data.AddTestTracks();
 
-            Data.Competition = new Competition(Data.Participants, Data.Tracks);
+            Data._competition = new Competition(Data.Participants, Data.Tracks);
 
             if (Data.CurrentRace == null)
             {
@@ -31,7 +31,7 @@ namespace Controller
 
         public static void NextRace()
         {
-            Track currentTrack = Data.Competition.NextTrack();
+            Track currentTrack = Data._competition.NextTrack();
             if (currentTrack == null)
             {
                 Data.CurrentRace = null;
@@ -65,20 +65,20 @@ namespace Controller
 
         private static void AddTestTracks()
         {
-            Section[] route = {
-                new Section(SectionTypes.StartGrid),
-                new Section(SectionTypes.Straight),
-                new Section(SectionTypes.LeftCorner),
-                new Section(SectionTypes.Straight),
-                new Section(SectionTypes.RightCorner),
-                new Section(SectionTypes.LeftCorner),
-                new Section(SectionTypes.Straight),
-                new Section(SectionTypes.RightCorner),
-                new Section(SectionTypes.Straight),
-                new Section(SectionTypes.LeftCorner),
-                new Section(SectionTypes.Straight),
-                new Section(SectionTypes.Straight),
-                new Section(SectionTypes.Finish),
+            SectionTypes[] route = {
+                SectionTypes.StartGrid,
+                SectionTypes.Straight,
+                SectionTypes.LeftCorner,
+                SectionTypes.Straight,
+                SectionTypes.RightCorner,
+                SectionTypes.LeftCorner,
+                SectionTypes.Straight,
+                SectionTypes.RightCorner,
+                SectionTypes.Straight,
+                SectionTypes.LeftCorner,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.Finish,
             };
 
             Data.AddTrack(new Track(name: "Zandvoort", sections: route));

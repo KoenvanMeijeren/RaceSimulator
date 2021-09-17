@@ -16,7 +16,7 @@ namespace Controller
 
         public DateTime StartTime { get; private set; }
 
-        private Random Random;
+        private Random _random;
 
         // Only 2 participants per section are allowed.
         private Dictionary<Section, SectionData> Positions;
@@ -25,7 +25,8 @@ namespace Controller
         {
             this.Track = track;
             this.Participants = participants;
-            this.Random = new Random(DateTime.Now.Millisecond);
+            this._random = new Random(DateTime.Now.Millisecond);
+            this.Positions = new Dictionary<Section, SectionData>();
         }
 
 

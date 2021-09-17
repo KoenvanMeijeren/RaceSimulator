@@ -11,12 +11,12 @@ namespace Model
 
         public string Name { get; private set; }
 
-        public LinkedList<Section> Sections { get; private set; }
+        public LinkedList<SectionTypes> Sections { get; private set; }
 
-        public Track(string name, Section[] sections)
+        public Track(string name, SectionTypes[] sections)
         {
             this.Name = name;
-            this.Sections = new LinkedList<Section>(sections);
+            this.Sections = new LinkedList<SectionTypes>(sections);
         }
 
     }
