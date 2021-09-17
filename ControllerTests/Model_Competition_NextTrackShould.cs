@@ -30,25 +30,30 @@ namespace ControllerTests
             this.Participants.Add(new Driver(name: "Piet van Meijeren", points: 192, equipment: toyota, teamColor: TeamColors.Grey));
             this.Participants.Add(new Driver(name: "Stan van Meijeren", points: 197, equipment: defaultCar, teamColor: TeamColors.Yellow));
 
-            SectionTypes[] route = {
-                SectionTypes.StartGrid,
-                SectionTypes.Straight,
-                SectionTypes.LeftCorner,
-                SectionTypes.Straight,
-                SectionTypes.RightCorner,
-                SectionTypes.LeftCorner,
-                SectionTypes.Straight,
-                SectionTypes.RightCorner,
-                SectionTypes.Straight,
-                SectionTypes.LeftCorner,
-                SectionTypes.Straight,
-                SectionTypes.Straight,
-                SectionTypes.Finish,
+            SectionTypes[] routeZwolle = {
+                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.Finish,
+                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.StartGrid
             };
 
-            this.Tracks.Enqueue(new Track(name: "Zandvoort", sections: route));
-            this.Tracks.Enqueue(new Track(name: "TT Assen", sections: route));
-            this.Tracks.Enqueue(new Track(name: "Monaco", sections: route));
+            SectionTypes[] routeElburg = {
+                SectionTypes.StartGrid, SectionTypes.Finish, SectionTypes.RightCorner, SectionTypes.Straight, 
+                SectionTypes.LeftCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.RightCorner, 
+                SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.LeftCorner, 
+                SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.LeftCorner, SectionTypes.RightCorner, 
+                SectionTypes.RightCorner, SectionTypes.LeftCorner, SectionTypes.Straight, SectionTypes.RightCorner, 
+                SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.RightCorner, 
+                SectionTypes.StartGrid, SectionTypes.StartGrid
+            };
+
+            SectionTypes[] routeAmsterdam =
+            {
+                SectionTypes.RightCorner, SectionTypes.StartGrid, SectionTypes.RightCorner, SectionTypes.Finish, SectionTypes.RightCorner,
+                SectionTypes.StartGrid, SectionTypes.RightCorner, SectionTypes.StartGrid
+            };
+
+            this.Tracks.Enqueue(new Track(name: "Circuit Zwolle", sections: routeZwolle));
+            this.Tracks.Enqueue(new Track(name: "TT Assen", sections: routeElburg));
+            this.Tracks.Enqueue(new Track(name: "Monaco", sections: routeAmsterdam));
 
             this.Competition = new Competition(this.Participants, new Queue<Track>());
         }

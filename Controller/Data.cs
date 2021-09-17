@@ -65,25 +65,30 @@ namespace Controller
 
         private static void AddTestTracks()
         {
-            SectionTypes[] route = {
-                SectionTypes.StartGrid,
-                SectionTypes.Straight,
-                SectionTypes.LeftCorner,
-                SectionTypes.Straight,
-                SectionTypes.RightCorner,
-                SectionTypes.LeftCorner,
-                SectionTypes.Straight,
-                SectionTypes.RightCorner,
-                SectionTypes.Straight,
-                SectionTypes.LeftCorner,
-                SectionTypes.Straight,
-                SectionTypes.Straight,
-                SectionTypes.Finish,
+            SectionTypes[] routeZwolle = {
+                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.Finish,
+                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.StartGrid
             };
 
-            Data.AddTrack(new Track(name: "Zandvoort", sections: route));
-            Data.AddTrack(new Track(name: "TT Assen", sections: route));
-            Data.AddTrack(new Track(name: "Monaco", sections: route));
+            SectionTypes[] routeElburg = {
+                SectionTypes.StartGrid, SectionTypes.Finish, SectionTypes.RightCorner, SectionTypes.Straight,
+                SectionTypes.LeftCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.RightCorner,
+                SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.LeftCorner,
+                SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.LeftCorner, SectionTypes.RightCorner,
+                SectionTypes.RightCorner, SectionTypes.LeftCorner, SectionTypes.Straight, SectionTypes.RightCorner,
+                SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.RightCorner,
+                SectionTypes.StartGrid, SectionTypes.StartGrid
+            };
+
+            SectionTypes[] routeAmsterdam =
+            {
+                SectionTypes.RightCorner, SectionTypes.StartGrid, SectionTypes.RightCorner, SectionTypes.Finish, SectionTypes.RightCorner,
+                SectionTypes.StartGrid, SectionTypes.RightCorner, SectionTypes.StartGrid
+            };
+
+            Data.AddTrack(new Track(name: "Circuit Zwolle", sections: routeZwolle));
+            Data.AddTrack(new Track(name: "TT Assen", sections: routeElburg));
+            Data.AddTrack(new Track(name: "Monaco", sections: routeAmsterdam));
         }
 
         public static void AddTrack(Track track)
