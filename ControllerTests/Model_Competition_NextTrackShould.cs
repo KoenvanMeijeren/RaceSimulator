@@ -13,9 +13,9 @@ namespace ControllerTests
     public class Model_Competition_NextTrackShould
     {
 
-        private Competition Competition;
+        private Competition _emptyCompetition;
+        private Competition _competition;
 
-        private List<IParticipant> Participants = new List<IParticipant>();
         private Queue<Track> Tracks = new Queue<Track>();
 
         [SetUp]
@@ -23,12 +23,6 @@ namespace ControllerTests
         {
             IEquipment defaultCar = new Car(quality: 100, performance: 150, speed: 25);
             IEquipment toyota = new Car(quality: 65, performance: 34, speed: 10);
-
-            this.Participants.Add(new Driver(name: "Koen van Meijeren", points: 200, equipment: defaultCar, teamColor: TeamColors.Red));
-            this.Participants.Add(new Driver(name: "Klaas van Meijeren", points: 190, equipment: toyota, teamColor: TeamColors.Blue));
-            this.Participants.Add(new Driver(name: "Jan van Meijeren", points: 195, equipment: defaultCar, teamColor: TeamColors.Green));
-            this.Participants.Add(new Driver(name: "Piet van Meijeren", points: 192, equipment: toyota, teamColor: TeamColors.Grey));
-            this.Participants.Add(new Driver(name: "Stan van Meijeren", points: 197, equipment: defaultCar, teamColor: TeamColors.Yellow));
 
             SectionTypes[] routeZwolle = {
                 SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.Finish,
@@ -51,18 +45,43 @@ namespace ControllerTests
                 SectionTypes.StartGrid, SectionTypes.RightCorner, SectionTypes.StartGrid
             };
 
+            this.Tracks = new Queue<Track>();
             this.Tracks.Enqueue(new Track(name: "Circuit Zwolle", sections: routeZwolle));
             this.Tracks.Enqueue(new Track(name: "TT Assen", sections: routeElburg));
             this.Tracks.Enqueue(new Track(name: "Monaco", sections: routeAmsterdam));
 
-            this.Competition = new Competition(this.Participants, new Queue<Track>());
+            this._emptyCompetition = new Competition(new List<IParticipant>(), new Queue<Track>());
+            this._competition = new Competition(new List<IParticipant>(), this.Tracks);
         }
 
         [Test]
         public void NextTrack_EmptyQueue_ReturnNull()
         {
-            var result = this.Competition.NextTrack();
+            var result = this._emptyCompetition.NextTrack();
             Assert.IsNull(result);
+            Assert.AreEqual(0, this._emptyCompetition.Tracks.Count);
+        }
+
+        [Test]
+        public void NextTrack_TracksInQueue()
+        {
+            Assert.AreEqual(3, this._competition.Tracks.Count);
+
+            Assert.IsInstanceOf(typeof(Track), this._competition.NextTrack());
+            Assert.AreEqual(2, this._competition.Tracks.Count);
+
+            Assert.IsInstanceOf(typeof(Track), this._competition.NextTrack());
+            Assert.AreEqual(1, this._competition.Tracks.Count);
+
+            Assert.IsInstanceOf(typeof(Track), this._competition.NextTrack());
+            Assert.AreEqual(0, this._competition.Tracks.Count);
+        }
+
+        [Test]
+        public void NextTrack_OneInQueue_ReturnTrack()
+        {
+            var result = this._competition.NextTrack();
+            Assert.IsInstanceOf(typeof(Track), result);
         }
 
     }
