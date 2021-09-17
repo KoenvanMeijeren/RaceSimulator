@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>E:\Development\C#\RaceSimulator\Model\Track.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Model
+{
+    public class Track
+    {
+
+        public string Name { get; private set; }
+
+        public LinkedList&lt;SectionTypes&gt; Sections { get; private set; }
+
+        public Track(string name, SectionTypes[] sections)
+        {
+            this.Name = name;
+            this.Sections = new LinkedList&lt;SectionTypes&gt;(sections);
+        }
+
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[12,30,12,34,0],[12,35,12,47,1],[14,52,14,56,0],[14,57,14,69,1],[16,9,16,59,1],[17,9,17,10,1],[18,13,18,30,1],[19,13,19,68,1],[20,9,20,10,1]]);
+    </script>
+  </body>
+</html>
