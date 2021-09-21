@@ -2,37 +2,80 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>E:\Development\C#\RaceSimulator\Model\Driver.cs</title>
+    <title>E:\Development\C#\RaceSimulator\ModelTests\Model_Competition_ParticipantsShould.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Model;
 
-namespace Model
+namespace ControllerTests
 {
-    public class Driver : IParticipant
+
+    [TestFixture]
+    public class Model_Competition_ParticipantsShould
     {
-        public string Name { get; private set; }
 
-        public int Points { get; private set; }
+        private Competition _emptyCompetition;
+        private Competition _competition;
 
-        public IEquipment Equipment { get; private set; }
+        private List&lt;IParticipant&gt; Participants = new List&lt;IParticipant&gt;();
 
-        public TeamColors TeamColor { get; private set; }
-
-
-        public Driver(string name, int points, IEquipment equipment, TeamColors teamColor)
+        [SetUp]
+        public void Setup()
         {
-            this.Name = name;
-            this.Points = points;
-            this.Equipment = equipment;
-            this.TeamColor = teamColor;
+            IEquipment defaultCar = new Car(quality: 100, performance: 150, speed: 25);
+            IEquipment toyota = new Car(quality: 65, performance: 34, speed: 10);
+
+            this.Participants = new List&lt;IParticipant&gt;();
+            this.Participants.Add(new Driver(name: &quot;Koen van Meijeren&quot;, points: 200, equipment: defaultCar, teamColor: TeamColors.Red));
+            this.Participants.Add(new Driver(name: &quot;Klaas van Meijeren&quot;, points: 190, equipment: toyota, teamColor: TeamColors.Blue));
+            this.Participants.Add(new Driver(name: &quot;Jan van Meijeren&quot;, points: 195, equipment: defaultCar, teamColor: TeamColors.Green));
+            this.Participants.Add(new Driver(name: &quot;Piet van Meijeren&quot;, points: 192, equipment: toyota, teamColor: TeamColors.Grey));
+            this.Participants.Add(new Driver(name: &quot;Stan van Meijeren&quot;, points: 197, equipment: defaultCar, teamColor: TeamColors.Yellow));
+
+            this._emptyCompetition = new Competition(new List&lt;IParticipant&gt;(), new Queue&lt;Track&gt;());
+            this._competition = new Competition(this.Participants, new Queue&lt;Track&gt;());
+        }
+
+        [Test]
+        public void EmptyParticipants()
+        {
+            Assert.AreEqual(0, this._emptyCompetition.Participants.Count);
+        }
+
+        [Test]
+        public void NotEmptyParticipants()
+        {
+            Assert.AreEqual(5, this._competition.Participants.Count);
+
+            IEquipment defaultCar = new Car(quality: 100, performance: 150, speed: 25);
+            IEquipment toyota = new Car(quality: 65, performance: 34, speed: 10);
+
+            Driver driverOne = new Driver(name: &quot;Koen van Meijeren&quot;, points: 200, equipment: defaultCar, teamColor: TeamColors.Red);
+            Driver driverTwo = new Driver(name: &quot;Klaas van Meijeren&quot;, points: 190, equipment: toyota, teamColor: TeamColors.Blue);
+            IParticipant participantOne = this.Participants[0];
+            IParticipant participantTwo = this.Participants[1];
+
+            IEquipment driverEquipmentOne = driverOne.Equipment;
+
+
+            Assert.AreEqual(driverOne.Name, participantOne.Name);
+            Assert.AreEqual(driverOne.Points, participantOne.Points);
+            Assert.AreEqual(driverOne.TeamColor, participantOne.TeamColor);
+            Assert.AreEqual(driverOne.Equipment.GetType().ToString(), participantOne.Equipment.GetType().ToString());
+
+            Assert.AreEqual(driverTwo.Name, participantTwo.Name);
+            Assert.AreEqual(driverTwo.Points, participantTwo.Points);
+            Assert.AreEqual(driverTwo.TeamColor, participantTwo.TeamColor);
+            Assert.AreEqual(driverTwo.Equipment.GetType().ToString(), participantTwo.Equipment.GetType().ToString());
         }
 
     }
@@ -40,7 +83,7 @@ namespace Model
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[11,30,11,34,0],[11,35,11,47,1],[13,29,13,33,0],[13,34,13,46,1],[15,39,15,43,0],[15,44,15,56,1],[17,39,17,43,0],[17,44,17,56,1],[20,9,20,91,1],[21,9,21,10,1],[22,13,22,30,1],[23,13,23,34,1],[24,13,24,40,1],[25,13,25,40,1],[26,9,26,10,1]]);
+      highlightRanges([[19,9,19,76,1],[23,9,23,10,1],[24,13,24,88,1],[25,13,25,82,1],[27,13,27,58,1],[28,13,28,137,1],[29,13,29,135,1],[30,13,30,138,1],[31,13,31,134,1],[32,13,32,140,1],[34,13,34,100,1],[35,13,35,88,1],[36,9,36,10,1],[40,9,40,10,1],[41,13,41,75,1],[42,9,42,10,1],[46,9,46,10,1],[47,13,47,70,1],[49,13,49,88,1],[50,13,50,82,1],[52,13,52,133,1],[53,13,53,131,1],[54,13,54,64,1],[55,13,55,64,1],[57,13,57,65,1],[60,13,60,66,1],[61,13,61,70,1],[62,13,62,76,1],[63,13,63,118,1],[65,13,65,66,1],[66,13,66,70,1],[67,13,67,76,1],[68,13,68,118,1],[69,9,69,10,1]]);
     </script>
   </body>
 </html>

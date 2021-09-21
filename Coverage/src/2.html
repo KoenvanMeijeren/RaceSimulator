@@ -2,41 +2,96 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>E:\Development\C#\RaceSimulator\Model\Competition.cs</title>
+    <title>E:\Development\C#\RaceSimulator\ModelTests\Model_Competition_NextTrackShould.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Model;
 
-namespace Model
+namespace ControllerTests
 {
-    public class Competition
+
+    [TestFixture]
+    public class Model_Competition_NextTrackShould
     {
 
-        public List&lt;IParticipant&gt; Participants { get; private set; }
+        private Competition _emptyCompetition;
+        private Competition _competition;
 
-        public Queue&lt;Track&gt; Tracks { get; private set; }
+        private Queue&lt;Track&gt; Tracks = new Queue&lt;Track&gt;();
 
-        public Competition(List&lt;IParticipant&gt; participants, Queue&lt;Track&gt; tracks)
+        [SetUp]
+        public void Setup()
         {
-            this.Participants = participants;
-            this.Tracks = tracks;
+            IEquipment defaultCar = new Car(quality: 100, performance: 150, speed: 25);
+            IEquipment toyota = new Car(quality: 65, performance: 34, speed: 10);
+
+            SectionTypes[] routeZwolle = {
+                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.Finish,
+                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.StartGrid
+            };
+
+            SectionTypes[] routeElburg = {
+                SectionTypes.StartGrid, SectionTypes.Finish, SectionTypes.RightCorner, SectionTypes.Straight, 
+                SectionTypes.LeftCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.RightCorner, 
+                SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.LeftCorner, 
+                SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.LeftCorner, SectionTypes.RightCorner, 
+                SectionTypes.RightCorner, SectionTypes.LeftCorner, SectionTypes.Straight, SectionTypes.RightCorner, 
+                SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.RightCorner, 
+                SectionTypes.StartGrid, SectionTypes.StartGrid
+            };
+
+            SectionTypes[] routeAmsterdam =
+            {
+                SectionTypes.RightCorner, SectionTypes.StartGrid, SectionTypes.RightCorner, SectionTypes.Finish, SectionTypes.RightCorner,
+                SectionTypes.StartGrid, SectionTypes.RightCorner, SectionTypes.StartGrid
+            };
+
+            this.Tracks = new Queue&lt;Track&gt;();
+            this.Tracks.Enqueue(new Track(name: &quot;Circuit Zwolle&quot;, sections: routeZwolle));
+            this.Tracks.Enqueue(new Track(name: &quot;TT Assen&quot;, sections: routeElburg));
+            this.Tracks.Enqueue(new Track(name: &quot;Monaco&quot;, sections: routeAmsterdam));
+
+            this._emptyCompetition = new Competition(new List&lt;IParticipant&gt;(), new Queue&lt;Track&gt;());
+            this._competition = new Competition(new List&lt;IParticipant&gt;(), this.Tracks);
         }
 
-        public Track NextTrack()
+        [Test]
+        public void NextTrack_EmptyQueue_ReturnNull()
         {
-            if (this.Tracks == null || this.Tracks.Count &lt; 1)
-            {
-                return null;
-            }
+            var result = this._emptyCompetition.NextTrack();
+            Assert.IsNull(result);
+            Assert.AreEqual(0, this._emptyCompetition.Tracks.Count);
+        }
 
-            return this.Tracks.Dequeue();
+        [Test]
+        public void NextTrack_TracksInQueue()
+        {
+            Assert.AreEqual(3, this._competition.Tracks.Count);
+
+            Assert.IsInstanceOf(typeof(Track), this._competition.NextTrack());
+            Assert.AreEqual(2, this._competition.Tracks.Count);
+
+            Assert.IsInstanceOf(typeof(Track), this._competition.NextTrack());
+            Assert.AreEqual(1, this._competition.Tracks.Count);
+
+            Assert.IsInstanceOf(typeof(Track), this._competition.NextTrack());
+            Assert.AreEqual(0, this._competition.Tracks.Count);
+        }
+
+        [Test]
+        public void NextTrack_OneInQueue_ReturnTrack()
+        {
+            var result = this._competition.NextTrack();
+            Assert.IsInstanceOf(typeof(Track), result);
         }
 
     }
@@ -44,7 +99,7 @@ namespace Model
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[12,50,12,54,0],[12,55,12,67,1],[14,38,14,42,1],[14,43,14,55,1],[16,9,16,81,1],[17,9,17,10,1],[18,13,18,46,1],[19,13,19,34,1],[20,9,20,10,1],[23,9,23,10,1],[24,13,24,64,1],[25,13,25,14,1],[26,17,26,29,1],[29,13,29,42,1],[30,9,30,10,1]]);
+      highlightRanges([[19,9,19,58,1],[23,9,23,10,1],[24,13,24,88,1],[25,13,25,82,1],[27,13,30,15,1],[32,13,40,15,1],[42,13,46,15,1],[48,13,48,46,1],[49,13,49,91,1],[50,13,50,85,1],[51,13,51,86,1],[53,13,53,100,1],[54,13,54,88,1],[55,9,55,10,1],[59,9,59,10,1],[60,13,60,61,1],[61,13,61,35,1],[62,13,62,69,1],[63,9,63,10,1],[67,9,67,10,1],[68,13,68,64,1],[70,13,70,79,1],[71,13,71,64,1],[73,13,73,79,1],[74,13,74,64,1],[76,13,76,79,1],[77,13,77,64,1],[78,9,78,10,1],[82,9,82,10,1],[83,13,83,56,1],[84,13,84,56,1],[85,9,85,10,1]]);
     </script>
   </body>
 </html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>E:\Development\C#\RaceSimulator\ModelTests\Model_TrackShould.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Model;
+using NUnit.Framework;
+
+namespace ModelTests
+{
+    [TestFixture]
+    class Model_TrackShould
+    {
+
+        [Test]
+        public void TrackCanCreate()
+        {
+            SectionTypes[] route = {
+                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.Finish,
+                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.StartGrid
+            };
+
+            Track track = new Track(&quot;Test Track&quot;, route);
+
+            Assert.AreEqual(&quot;Test Track&quot;, track.Name);
+            Assert.AreEqual(route, track.Sections);
+        }
+
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[17,9,17,10,1],[18,13,21,15,1],[23,13,23,58,1],[25,13,25,55,1],[26,13,26,52,1],[27,9,27,10,1]]);
+    </script>
+  </body>
+</html>
