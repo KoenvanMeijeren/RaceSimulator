@@ -13,7 +13,7 @@ namespace ModelTests
     {
 
         [Test]
-        public void TrackCanCreate()
+        public void Track_CanCreate()
         {
             SectionTypes[] route = {
                 SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.Finish,
@@ -24,6 +24,7 @@ namespace ModelTests
 
             Assert.AreEqual("Test Track", track.Name);
             Assert.AreEqual(route, track.Sections);
+            Assert.AreEqual(SectionTypes.LeftCorner, track.Sections.First.Value);
         }
 
     }

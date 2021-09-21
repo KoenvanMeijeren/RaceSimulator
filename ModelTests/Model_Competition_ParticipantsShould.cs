@@ -16,7 +16,7 @@ namespace ControllerTests
         private Competition _emptyCompetition;
         private Competition _competition;
 
-        private List<IParticipant> Participants = new List<IParticipant>();
+        private List<IParticipant> _participants = new List<IParticipant>();
 
         [SetUp]
         public void Setup()
@@ -24,15 +24,15 @@ namespace ControllerTests
             IEquipment defaultCar = new Car(quality: 100, performance: 150, speed: 25);
             IEquipment toyota = new Car(quality: 65, performance: 34, speed: 10);
 
-            this.Participants = new List<IParticipant>();
-            this.Participants.Add(new Driver(name: "Koen van Meijeren", points: 200, equipment: defaultCar, teamColor: TeamColors.Red));
-            this.Participants.Add(new Driver(name: "Klaas van Meijeren", points: 190, equipment: toyota, teamColor: TeamColors.Blue));
-            this.Participants.Add(new Driver(name: "Jan van Meijeren", points: 195, equipment: defaultCar, teamColor: TeamColors.Green));
-            this.Participants.Add(new Driver(name: "Piet van Meijeren", points: 192, equipment: toyota, teamColor: TeamColors.Grey));
-            this.Participants.Add(new Driver(name: "Stan van Meijeren", points: 197, equipment: defaultCar, teamColor: TeamColors.Yellow));
+            this._participants = new List<IParticipant>();
+            this._participants.Add(new Driver(name: "Koen van Meijeren", points: 200, equipment: defaultCar, teamColor: TeamColors.Red));
+            this._participants.Add(new Driver(name: "Klaas van Meijeren", points: 190, equipment: toyota, teamColor: TeamColors.Blue));
+            this._participants.Add(new Driver(name: "Jan van Meijeren", points: 195, equipment: defaultCar, teamColor: TeamColors.Green));
+            this._participants.Add(new Driver(name: "Piet van Meijeren", points: 192, equipment: toyota, teamColor: TeamColors.Grey));
+            this._participants.Add(new Driver(name: "Stan van Meijeren", points: 197, equipment: defaultCar, teamColor: TeamColors.Yellow));
 
             this._emptyCompetition = new Competition(new List<IParticipant>(), new Queue<Track>());
-            this._competition = new Competition(this.Participants, new Queue<Track>());
+            this._competition = new Competition(this._participants, new Queue<Track>());
         }
 
         [Test]
@@ -46,26 +46,23 @@ namespace ControllerTests
         {
             Assert.AreEqual(5, this._competition.Participants.Count);
 
-            IEquipment defaultCar = new Car(quality: 100, performance: 150, speed: 25);
-            IEquipment toyota = new Car(quality: 65, performance: 34, speed: 10);
-
-            Driver driverOne = new Driver(name: "Koen van Meijeren", points: 200, equipment: defaultCar, teamColor: TeamColors.Red);
-            Driver driverTwo = new Driver(name: "Klaas van Meijeren", points: 190, equipment: toyota, teamColor: TeamColors.Blue);
-            IParticipant participantOne = this.Participants[0];
-            IParticipant participantTwo = this.Participants[1];
-
-            IEquipment driverEquipmentOne = driverOne.Equipment;
+            IParticipant participantOne = this._participants[0];
+            IParticipant participantTwo = this._participants[1];
 
 
-            Assert.AreEqual(driverOne.Name, participantOne.Name);
-            Assert.AreEqual(driverOne.Points, participantOne.Points);
-            Assert.AreEqual(driverOne.TeamColor, participantOne.TeamColor);
-            Assert.AreEqual(driverOne.Equipment.GetType().ToString(), participantOne.Equipment.GetType().ToString());
+            Assert.AreEqual("Koen van Meijeren", participantOne.Name);
+            Assert.AreEqual(200, participantOne.Points);
+            Assert.AreEqual(TeamColors.Red, participantOne.TeamColor);
+            Assert.AreEqual(100, participantOne.Equipment.Quality);
+            Assert.AreEqual(150, participantOne.Equipment.Performance);
+            Assert.AreEqual(25, participantOne.Equipment.Speed);
 
-            Assert.AreEqual(driverTwo.Name, participantTwo.Name);
-            Assert.AreEqual(driverTwo.Points, participantTwo.Points);
-            Assert.AreEqual(driverTwo.TeamColor, participantTwo.TeamColor);
-            Assert.AreEqual(driverTwo.Equipment.GetType().ToString(), participantTwo.Equipment.GetType().ToString());
+            Assert.AreEqual("Klaas van Meijeren", participantTwo.Name);
+            Assert.AreEqual(190, participantTwo.Points);
+            Assert.AreEqual(TeamColors.Blue, participantTwo.TeamColor);
+            Assert.AreEqual(65, participantTwo.Equipment.Quality);
+            Assert.AreEqual(34, participantTwo.Equipment.Performance);
+            Assert.AreEqual(10, participantTwo.Equipment.Speed);
         }
 
     }

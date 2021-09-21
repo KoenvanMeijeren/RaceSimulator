@@ -16,11 +16,6 @@ namespace Model
         public int DistanceRight { get; private set; }
 
         // @todo find out how we can create a section data object.
-        public SectionData()
-        {
-
-        }
-
         public SectionData(IParticipant left, int distanceLeft, IParticipant right, int distanceRight)
         {
             this.Left = left;
