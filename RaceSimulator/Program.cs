@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using Controller;
 using Model;
@@ -7,6 +8,7 @@ namespace RaceSimulator
 {
     class Program
     {
+        [ExcludeFromCodeCoverage]
         static void Main(string[] args)
         {
             // tests for the classes
