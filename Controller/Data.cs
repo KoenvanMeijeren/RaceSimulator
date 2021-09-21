@@ -18,6 +18,12 @@ namespace Controller
 
         public static void Initialize()
         {
+            // resets the data in order to prevent data errors.
+            Data._competition = null;
+            Data.CurrentRace = null;
+            Data.Participants = new List<IParticipant>();
+            Data.Tracks = new Queue<Track>();
+
             Data.AddTestParticipants();
             Data.AddTestTracks();
 
@@ -55,10 +61,7 @@ namespace Controller
 
         public static void AddParticipant(Driver driver)
         {
-            if (Data.Participants == null)
-            {
-                Data.Participants = new List<IParticipant>();
-            }
+            Data.Participants ??= new List<IParticipant>();
 
             Data.Participants.Add(driver);
         }
@@ -93,10 +96,7 @@ namespace Controller
 
         public static void AddTrack(Track track)
         {
-            if (Data.Tracks == null)
-            {
-                Data.Tracks = new Queue<Track>();
-            }
+            Data.Tracks ??= new Queue<Track>();
 
             Data.Tracks.Enqueue(track);
         }
