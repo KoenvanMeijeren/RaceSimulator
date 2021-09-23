@@ -20,37 +20,41 @@ namespace RaceSimulator
     public static class CVisualization
     {
 
-        private static Directions _direction = Directions.East;
+        private static readonly Directions _start_direction = Directions.East;
+        private static Directions _direction = CVisualization._start_direction;
 
         private static readonly int
             _symbolSpaces = 4,
-            _cursorStartLeftPosition = 45,
-            _cursorStartTopPosition = 5;
+            _cursorStartEastPosition = 55,
+            _cursorStartNorthPosition = 15;
 
         private static int
-            _cursorLeftPosition = _cursorStartLeftPosition,
-            _cursorTopPosition = _cursorStartTopPosition;
+            _cursorEastPosition = _cursorStartEastPosition,
+            _cursorNorthPosition = _cursorStartNorthPosition;
 
         #region graphics
-        private static readonly string[] 
-            FinishHorizontal = { "----", "  # ", "  # ", "----" },
-            FinishVertical = { "|  |", "|##|", "|  |", "|  |" },
 
-            StartGridHorizontal = { "----", "  | ", "  | ", "----" },
-            StartGridVertical = { "|  |", "|--|", "|  |", "|  |" },
+        private static readonly string[]
+            FinishHorizontal = {"----", "  # ", "  # ", "----"},
+            FinishVertical = {"|  |", "|##|", "|  |", "|  |"},
 
-            StraightHorizontal = {"----", "    ", "    ", "----" },
-            StraightVertical = { "|  |", "|  |", "|  |", "|  |" },
+            StartGridHorizontal = {"----", "  | ", "  | ", "----"},
+            StartGridVertical = {"|  |", "|--|", "|  |", "|  |"},
 
-            RightCornerHorizontalRightwardsDownwards = { "|  \\", "|   ", "\\   ", " \\--" },
-            RightCornerHorizontalRightwardsUpwards = { "|  \\", "|   ", "\\   ", " \\--" },
-            RightCornerVerticalRightwardsDownwards = { " /--", "/   ", "|   ", "|  /" },
-            RightCornerVerticalRightwardsUpwards = { "|  /", "|   ", "/   ", " /--" },
+            StraightHorizontal = {"----", "    ", "    ", "----"},
+            StraightVertical = {"|  |", "|  |", "|  |", "|  |"},
 
-            LeftCornerHorizontalLeftwardsUpwards = { " /--", "/   ", "|   ", "|  /" },
-            LeftCornerVerticalLeftwardsUpwards = { "|  \\", "|   ", "\\   ", " \\--" },
-            LeftCornerHorizontalRightwardsDownwards = { "--\\ ", "   \\", "   |", "\\  |" },
-            LeftCornerVerticalRightwardsDownwards = { "/  |", "   |", "   /", "--/ " };
+            NorthCornerToRight = {"|  /", "|   ", "/   ", " /--"},
+            NorthCornerToLeft = {"\\  |", "   |", "   \\", "--\\ "},
+
+            EastCornerToRight = {"--\\ ", "   \\", "   |", "\\  |"},
+            EastCornerToLeft = {"/  |", "   |", "   /", "--/ "},
+
+            SouthCornerToRight = CVisualization.EastCornerToLeft,
+            SouthCornerToLeft = {"|  \\", "|   ", "\\   ", " \\--"},
+
+            WestCornerToRight = CVisualization.SouthCornerToLeft,
+            WestCornerToLeft = {" /--", "/   ", "|   ", "|  /"};
         #endregion
 
         public static void Initialize()
@@ -67,7 +71,32 @@ namespace RaceSimulator
             Console.SetCursorPosition(CenteredTextCursorStartPosition(track.Name), 1);
             Console.WriteLine(track.Name);
 
-            DrawRoundTestTrack();
+            foreach (Section trackSection in track.Sections)
+            {
+                CVisualization.DrawTrackSection(trackSection);
+            }
+        }
+
+        private static void DrawTrackSection(Section section)
+        {
+            switch (section.SectionType)
+            {
+                case SectionTypes.StartGrid:
+                    DrawStartGrid();
+                    break;
+                case SectionTypes.Straight:
+                    DrawStraight();
+                    break;
+                case SectionTypes.LeftCorner:
+                    DrawLeftCorner();
+                    break;
+                case SectionTypes.RightCorner:
+                    DrawRightCorner();
+                    break;
+                case SectionTypes.Finish:
+                    DrawFinish();
+                    break;
+            }
         }
 
         private static bool DirectionIsVertical()
@@ -78,6 +107,90 @@ namespace RaceSimulator
         private static bool DirectionIsHorizontal()
         {
             return CVisualization._direction is Directions.West or Directions.East;
+        }
+
+        private static void DrawLeftCorner()
+        {
+            if (CVisualization._direction == Directions.East)
+            {
+                DrawDownwards(CVisualization.EastCornerToLeft);
+                CVisualization._direction = Directions.North;
+            }
+            else if (CVisualization._direction == Directions.South)
+            {
+                DrawDownwards(CVisualization.SouthCornerToLeft);
+                CVisualization._direction = Directions.East;
+            }
+            else if (CVisualization._direction == Directions.West)
+            {
+                DrawDownwards(CVisualization.WestCornerToLeft);
+                CVisualization._direction = Directions.South;
+            }
+            else if (CVisualization._direction == Directions.North)
+            {
+                DrawUpwards(CVisualization.NorthCornerToLeft);
+                CVisualization._direction = Directions.West;
+            }
+
+            switch (CVisualization._direction)
+            {
+                case Directions.East:
+                    CVisualization._cursorNorthPosition -= CVisualization._symbolSpaces;
+                    CVisualization._cursorEastPosition += CVisualization._symbolSpaces;
+                    break;
+                case Directions.West:
+                    CVisualization._cursorNorthPosition += 1;
+                    CVisualization._cursorEastPosition -= CVisualization._symbolSpaces;
+                    break;
+                case Directions.North:
+                    CVisualization._cursorNorthPosition -= CVisualization._symbolSpaces + 1;
+                    break;
+                case Directions.South:
+                    // do nothing
+                    break;
+            }
+        }
+
+        private static void DrawRightCorner()
+        {
+            if (CVisualization._direction == Directions.East)
+            {
+                DrawDownwards(CVisualization.EastCornerToRight);
+                CVisualization._direction = Directions.South;
+            }
+            else if (CVisualization._direction == Directions.South)
+            {
+                DrawDownwards(CVisualization.SouthCornerToRight);
+                CVisualization._direction = Directions.West;
+            }
+            else if (CVisualization._direction == Directions.West)
+            {
+                DrawDownwards(CVisualization.WestCornerToRight);
+                CVisualization._direction = Directions.North;
+            }
+            else if (CVisualization._direction == Directions.North)
+            {
+                DrawUpwards(CVisualization.NorthCornerToRight);
+                CVisualization._direction = Directions.East;
+            }
+
+            switch (CVisualization._direction)
+            {
+                case Directions.East:
+                    CVisualization._cursorNorthPosition += 1;
+                    CVisualization._cursorEastPosition += CVisualization._symbolSpaces;
+                    break;
+                case Directions.West:
+                    CVisualization._cursorNorthPosition -= CVisualization._symbolSpaces;
+                    CVisualization._cursorEastPosition -= CVisualization._symbolSpaces;
+                    break;
+                case Directions.North:
+                    CVisualization._cursorNorthPosition -= CVisualization._symbolSpaces + 1;
+                    break;
+                case Directions.South:
+                    // do nothing
+                    break;
+            }
         }
 
         private static void DrawStraight()
@@ -113,75 +226,9 @@ namespace RaceSimulator
             CVisualization.Draw(CVisualization.FinishHorizontal);
         }
 
-        private static void DrawLeftCornerDownwardsClockwise()
-        {
-            if (CVisualization.DirectionIsVertical())
-            {
-                CVisualization.DrawLeftCorner(CVisualization.LeftCornerVerticalRightwardsDownwards, true);
-                return;
-            }
-
-            CVisualization.DrawLeftCorner(CVisualization.LeftCornerHorizontalRightwardsDownwards, true);
-        }
-
-        private static void DrawLeftCornerDownwardsCounterClockwise()
-        {
-            if (CVisualization.DirectionIsVertical())
-            {
-                CVisualization.DrawLeftCorner(CVisualization.LeftCornerVerticalRightwardsDownwards, false);
-                return;
-            }
-
-            CVisualization.DrawLeftCorner(CVisualization.LeftCornerHorizontalRightwardsDownwards, false);
-        }
-
-        private static void DrawRightCornerDownwardsClockwise()
-        {
-            if (CVisualization.DirectionIsVertical())
-            {
-                CVisualization.DrawRightCorner(CVisualization.RightCornerVerticalRightwardsDownwards, true);
-                return;
-            }
-
-            CVisualization.DrawRightCorner(CVisualization.RightCornerHorizontalRightwardsDownwards, true);
-        }
-
-        private static void DrawRightCornerDownwardsCounterClockwise()
-        {
-            if (CVisualization.DirectionIsVertical())
-            {
-                CVisualization.DrawRightCorner(CVisualization.RightCornerVerticalRightwardsDownwards, false);
-                return;
-            }
-
-            CVisualization.DrawRightCorner(CVisualization.RightCornerHorizontalRightwardsDownwards, false);
-        }
-
-        private static void DrawRightCornerUpwardsClockwise()
-        {
-            if (CVisualization.DirectionIsVertical())
-            {
-                CVisualization.DrawRightCorner(CVisualization.RightCornerVerticalRightwardsUpwards, true);
-                return;
-            }
-
-            CVisualization.DrawRightCorner(CVisualization.RightCornerHorizontalRightwardsUpwards, true);
-        }
-
-        private static void DrawRightCornerUpwardsCounterClockwise()
-        {
-            if (CVisualization.DirectionIsVertical())
-            {
-                CVisualization.DrawRightCorner(CVisualization.RightCornerVerticalRightwardsUpwards, false);
-                return;
-            }
-
-            CVisualization.DrawRightCorner(CVisualization.RightCornerHorizontalRightwardsUpwards, false);
-        }
-
         private static void Draw(string[] symbols)
         {
-            if (CVisualization._direction == Directions.East || CVisualization._direction == Directions.West || CVisualization._direction == Directions.South)
+            if (CVisualization._direction is Directions.East or Directions.West or Directions.South)
             {
                 DrawDownwards(symbols);
             }
@@ -193,83 +240,14 @@ namespace RaceSimulator
             switch (CVisualization._direction)
             {
                 case Directions.East:
-                    CVisualization._cursorTopPosition -= CVisualization._symbolSpaces;
-                    CVisualization._cursorLeftPosition += CVisualization._symbolSpaces;
+                    CVisualization._cursorNorthPosition -= CVisualization._symbolSpaces;
+                    CVisualization._cursorEastPosition += CVisualization._symbolSpaces;
                     break;
                 case Directions.West:
-                    CVisualization._cursorTopPosition -= CVisualization._symbolSpaces;
-                    CVisualization._cursorLeftPosition -= CVisualization._symbolSpaces;
-                    break;
-                case Directions.South:
-
+                    CVisualization._cursorNorthPosition -= CVisualization._symbolSpaces;
+                    CVisualization._cursorEastPosition -= CVisualization._symbolSpaces;
                     break;
             }
-
-            CVisualization.WriteLine("test");
-        }
-
-        private static void DrawLeftCorner(string[] symbols, bool clockwise)
-        {
-            if (CVisualization._direction == Directions.East || CVisualization._direction == Directions.West)
-            {
-                DrawDownwards(symbols);
-                CVisualization._direction = Directions.South;
-            }
-            else if (CVisualization._direction == Directions.South)
-            {
-                DrawDownwards(symbols);
-                CVisualization._direction = clockwise ? Directions.West : Directions.East;
-            }
-
-            switch (CVisualization._direction)
-            {
-                case Directions.East:
-                    CVisualization._cursorTopPosition -= CVisualization._symbolSpaces;
-                    CVisualization._cursorLeftPosition += CVisualization._symbolSpaces;
-                    break;
-                case Directions.West:
-                    CVisualization._cursorTopPosition -= CVisualization._symbolSpaces;
-                    CVisualization._cursorLeftPosition -= CVisualization._symbolSpaces;
-                    break;
-                case Directions.South:
-                    // do nothing
-                    break;
-            }
-
-            CVisualization.WriteLine("test");
-        }
-
-        private static void DrawRightCorner(string[] symbols, bool clockwise)
-        {
-            if (CVisualization._direction == Directions.East || CVisualization._direction == Directions.West)
-            {
-                DrawDownwards(symbols);
-                CVisualization._direction = Directions.North;
-            }
-            else if (CVisualization._direction == Directions.North)
-            {
-                DrawUpwards(symbols);
-                CVisualization._direction = clockwise ? Directions.East : Directions.West;
-            }
-
-            switch (CVisualization._direction)
-            {
-                case Directions.East:
-                    CVisualization._cursorTopPosition += 1;
-                    CVisualization._cursorLeftPosition += CVisualization._symbolSpaces;
-                    break;
-                case Directions.West:
-
-                    break;
-                case Directions.North:
-                    CVisualization._cursorTopPosition -= CVisualization._symbolSpaces + 1;
-                    break;
-                case Directions.South:
-                    // do nothing
-                    break;
-            }
-
-            CVisualization.WriteLine("test");
         }
 
         private static void DrawDownwards(string[] symbols)
@@ -292,27 +270,27 @@ namespace RaceSimulator
 
         private static void MoveCursorLeftwards()
         {
-            CVisualization._cursorLeftPosition--;
+            CVisualization._cursorEastPosition--;
         }
 
         private static void MoveCursorRightwards()
         {
-            CVisualization._cursorLeftPosition++;
+            CVisualization._cursorEastPosition++;
         }
 
         private static void MoveCursorUpwards()
         {
-            CVisualization._cursorTopPosition--;
+            CVisualization._cursorNorthPosition--;
         }
 
         private static void MoveCursorDownwards()
         {
-            CVisualization._cursorTopPosition++;
+            CVisualization._cursorNorthPosition++;
         }
 
         private static void WriteLine(string symbol)
         {
-            Console.SetCursorPosition(CVisualization._cursorLeftPosition, CVisualization._cursorTopPosition);
+            Console.SetCursorPosition(CVisualization._cursorEastPosition, CVisualization._cursorNorthPosition);
             Console.WriteLine(symbol);
         }
 
@@ -321,20 +299,54 @@ namespace RaceSimulator
             return (Console.WindowWidth / 2) - (text.Length / 2);
         }
 
-        private static void DrawRoundTestTrack()
+        private static void DrawTestTracks()
         {
+            DrawRoundTestTrackClockwise();
+            _cursorEastPosition += 50;
+            DrawRoundTestTrackCounterClockwise();
+            _cursorNorthPosition += 30;
+            DrawHalfRoundTestTracks();
+        }
+
+        private static void DrawHalfRoundTestTracks()
+        {
+            DrawStartGrid();
+            DrawStraight();
+            DrawRightCorner();
+            DrawStraight();
+            DrawLeftCorner();
+            DrawStraight();
+            DrawFinish();
+
+            _cursorNorthPosition += 15;
+
+            _direction = Directions.West;
+
+            DrawStartGrid();
+            DrawStraight();
+            DrawLeftCorner();
+            DrawStraight();
+            DrawRightCorner();
+            DrawStraight();
+            DrawFinish();
+        }
+
+        private static void DrawRoundTestTrackCounterClockwise()
+        {
+            CVisualization._direction = Directions.West;
+
             CVisualization.DrawStraight();
             CVisualization.DrawStartGrid();
             CVisualization.DrawStraight();
             CVisualization.DrawFinish();
             CVisualization.DrawStraight();
 
-            CVisualization.DrawLeftCornerDownwardsClockwise();
+            CVisualization.DrawLeftCorner();
             CVisualization.DrawStraight();
             CVisualization.DrawFinish();
             CVisualization.DrawStartGrid();
 
-            CVisualization.DrawLeftCornerDownwardsClockwise();
+            CVisualization.DrawLeftCorner();
             CVisualization.DrawStraight();
             CVisualization.DrawStartGrid();
             CVisualization.DrawStraight();
@@ -342,12 +354,44 @@ namespace RaceSimulator
             CVisualization.DrawStraight();
             CVisualization.DrawStraight();
 
-            CVisualization.DrawRightCornerDownwardsClockwise();
+            CVisualization.DrawLeftCorner();
             CVisualization.DrawStraight();
             CVisualization.DrawFinish();
             CVisualization.DrawStartGrid();
 
-            CVisualization.DrawRightCornerUpwardsClockwise();
+            CVisualization.DrawLeftCorner();
+            CVisualization.DrawStraight();
+        }
+
+        private static void DrawRoundTestTrackClockwise()
+        {
+            CVisualization._direction = Directions.East;
+
+            CVisualization.DrawStraight();
+            CVisualization.DrawStartGrid();
+            CVisualization.DrawStraight();
+            CVisualization.DrawFinish();
+            CVisualization.DrawStraight();
+
+            CVisualization.DrawRightCorner();
+            CVisualization.DrawStraight();
+            CVisualization.DrawFinish();
+            CVisualization.DrawStartGrid();
+
+            CVisualization.DrawRightCorner();
+            CVisualization.DrawStraight();
+            CVisualization.DrawStartGrid();
+            CVisualization.DrawStraight();
+            CVisualization.DrawFinish();
+            CVisualization.DrawStraight();
+            CVisualization.DrawStraight();
+
+            CVisualization.DrawRightCorner();
+            CVisualization.DrawStraight();
+            CVisualization.DrawFinish();
+            CVisualization.DrawStartGrid();
+
+            CVisualization.DrawRightCorner();
             CVisualization.DrawStraight();
         }
 
