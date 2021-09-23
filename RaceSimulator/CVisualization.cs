@@ -25,12 +25,12 @@ namespace RaceSimulator
 
         private static readonly int
             _symbolSpaces = 4,
-            _cursorStartEastPosition = 55,
-            _cursorStartNorthPosition = 15;
+            CursorStartEastPosition = Console.WindowWidth / 2, 
+            CursorStartNorthPosition = Console.WindowHeight / 2;
 
         private static int
-            _cursorEastPosition = _cursorStartEastPosition,
-            _cursorNorthPosition = _cursorStartNorthPosition;
+            _cursorEastPosition = CursorStartEastPosition,
+            _cursorNorthPosition = CursorStartNorthPosition;
 
         #region graphics
 
@@ -70,6 +70,16 @@ namespace RaceSimulator
 
             Console.SetCursorPosition(CenteredTextCursorStartPosition(track.Name), 1);
             Console.WriteLine(track.Name);
+
+            if (track.EastStartPosition != Track.StartPositionUndefined)
+            {
+                CVisualization._cursorEastPosition = track.EastStartPosition;
+            }
+
+            if (track.NorthStartPosition != Track.StartPositionUndefined)
+            {
+                CVisualization._cursorNorthPosition = track.NorthStartPosition;
+            }
 
             foreach (Section trackSection in track.Sections)
             {
