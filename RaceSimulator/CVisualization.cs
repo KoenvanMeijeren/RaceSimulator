@@ -311,6 +311,7 @@ namespace RaceSimulator
 
         private static void DrawTestTracks()
         {
+            _cursorEastPosition -= 30;
             DrawRoundTestTrackClockwise();
             _cursorEastPosition += 50;
             DrawRoundTestTrackCounterClockwise();
