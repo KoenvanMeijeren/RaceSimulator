@@ -90,7 +90,7 @@ namespace Controller
             };
 
             Data.AddTrack(new Track(name: "Circuit Zwolle", sections: routeZwolle));
-            Data.AddTrack(new Track(name: "TT Assen", sections: routeElburg));
+            Data.AddTrack(new Track(name: "TT Assen", sections: routeElburg, Track.StartPositionUndefined, 4));
             Data.AddTrack(new Track(name: "Monaco", sections: routeAmsterdam));
         }
 

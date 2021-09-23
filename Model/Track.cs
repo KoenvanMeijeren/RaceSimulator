@@ -8,15 +8,25 @@ namespace Model
 {
     public class Track
     {
-
+        public const int StartPositionUndefined = -1;
         public string Name { get; private set; }
 
         public LinkedList<Section> Sections { get; private set; }
 
-        public Track(string name, SectionTypes[] sections)
+        public int EastStartPosition { get; private set; }
+        public int NorthStartPosition { get; private set; }
+
+        public Track(string name, SectionTypes[] sections) : this(name, sections, StartPositionUndefined, StartPositionUndefined)
+        {
+            
+        }
+
+        public Track(string name, SectionTypes[] sections, int eastStartPosition, int northStartPosition)
         {
             this.Name = name;
             this.Sections = this.SectionTypeToSections(sections);
+            this.EastStartPosition = eastStartPosition;
+            this.NorthStartPosition = northStartPosition;
         }
 
         private LinkedList<Section> SectionTypeToSections(SectionTypes[] sectionTypes)
