@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>E:\Development\C#\RaceSimulator\ModelTests\Model_SectionDataShould.cs</title>
+    <title>E:\Development\C#\RaceSimulator\ModelTests\Model_SectionShould.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
@@ -15,26 +15,28 @@ using System.Text;
 using System.Threading.Tasks;
 using Model;
 using NUnit.Framework;
+using NUnit.Framework.Internal;
 
 namespace ModelTests
 {
     [TestFixture]
-    public class Model_SectionDataShould
+    class Model_SectionShould
     {
 
         [Test]
-        public void SectionDate_CanCreate()
+        public void CanCreateSection()
         {
-            Car car = new Car(IEquipment.MaximumQuality, IEquipment.MaximumPerformance, IEquipment.MaximumSpeed);
-            Driver driverLeft = new Driver(&quot;Klaas&quot;, 100, car, TeamColors.Blue);
-            Driver driverRight = new Driver(&quot;Jan&quot;, 100, car, TeamColors.Blue);
+            Section sectionOne = new Section(SectionTypes.StartGrid);
+            Section sectionTwo = new Section(SectionTypes.LeftCorner);
+            Section sectionThree = new Section(SectionTypes.Straight);
+            Section sectionFour = new Section(SectionTypes.RightCorner);
+            Section sectionFive = new Section(SectionTypes.Finish);
 
-            SectionData sectionData = new SectionData(driverLeft, 10, driverRight, 20);
-
-            Assert.AreEqual(&quot;Klaas&quot;, sectionData.Left.Name);
-            Assert.AreEqual(&quot;Jan&quot;, sectionData.Right.Name);
-            Assert.AreEqual(10, sectionData.DistanceLeft);
-            Assert.AreEqual(20, sectionData.DistanceRight);
+            Assert.AreEqual(SectionTypes.StartGrid, sectionOne.SectionType);
+            Assert.AreEqual(SectionTypes.LeftCorner, sectionTwo.SectionType);
+            Assert.AreEqual(SectionTypes.Straight, sectionThree.SectionType);
+            Assert.AreEqual(SectionTypes.RightCorner, sectionFour.SectionType);
+            Assert.AreEqual(SectionTypes.Finish, sectionFive.SectionType);
         }
 
     }
@@ -42,7 +44,7 @@ namespace ModelTests
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[17,9,17,10,1],[18,13,18,114,1],[19,13,19,80,1],[20,13,20,79,1],[22,13,22,88,1],[24,13,24,61,1],[25,13,25,60,1],[26,13,26,59,1],[27,13,27,60,1],[28,9,28,10,1]]);
+      highlightRanges([[18,9,18,10,1],[19,13,19,70,1],[20,13,20,71,1],[21,13,21,71,1],[22,13,22,73,1],[23,13,23,68,1],[25,13,25,77,1],[26,13,26,78,1],[27,13,27,78,1],[28,13,28,80,1],[29,13,29,75,1],[30,9,30,10,1]]);
     </script>
   </body>
 </html>
