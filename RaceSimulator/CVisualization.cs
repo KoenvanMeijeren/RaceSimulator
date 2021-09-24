@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Controller;
 using Model;
 
 namespace RaceSimulator
@@ -20,11 +21,31 @@ namespace RaceSimulator
     public static class CVisualization
     {
 
-        private static readonly Directions _start_direction = Directions.East;
-        private static Directions _direction = CVisualization._start_direction;
+        private static readonly Directions _startDirection = Directions.East;
+        private static Directions _direction = CVisualization._startDirection;
+
+        private const int
+            SymbolSpaces = 4,
+
+            /*
+             * The first property determines the max length of the initials and trims the initials
+             * to the selected length. The second property determines the index of the initials
+             * inside a string of the graphics strings.
+             *
+             * If we have the string: "----", "  | ", "  | ", "----" for example, the initials
+             * will be placed on the selected position. The third and fourth property determines
+             * which string of the symbols we have to take. 
+             *
+             * If the value of the first property is 0, and of the second 1 and of the third 2,
+             * the output will be this: "----", "AB| ", "CD| ", "----" or "----", "A | ", "BC| ", "----"
+             * or "----", "AB| ", "  | ", "----".
+             */
+            MaxInitialsLength = 2,
+            InitialsInGraphicsSymbolStartIndex = 0,
+            InitialsOnPositionOneInGraphicsSymbolsIndex = 1,
+            InitialsOnPositionTwoInGraphicsSymbolsIndex = 2;
 
         private static readonly int
-            _symbolSpaces = 4,
             CursorStartEastPosition = Console.WindowWidth / 2, 
             CursorStartNorthPosition = Console.WindowHeight / 2;
 
@@ -62,8 +83,10 @@ namespace RaceSimulator
             
         }
 
-        public static void DrawTrack(Track track)
+        public static void DrawTrack(Race race)
         {
+            Track track = race.Track;
+
             Console.BackgroundColor = ConsoleColor.Blue;
             Console.ForegroundColor = ConsoleColor.White;
             Console.Clear();
@@ -83,28 +106,28 @@ namespace RaceSimulator
 
             foreach (Section trackSection in track.Sections)
             {
-                CVisualization.DrawTrackSection(trackSection);
+                CVisualization.DrawTrackSection(trackSection, race.GetSectionData(trackSection));
             }
         }
 
-        private static void DrawTrackSection(Section section)
+        private static void DrawTrackSection(Section section, SectionData sectionData)
         {
             switch (section.SectionType)
             {
                 case SectionTypes.StartGrid:
-                    DrawStartGrid();
+                    DrawStartGrid(sectionData);
                     break;
                 case SectionTypes.Straight:
-                    DrawStraight();
+                    DrawStraight(sectionData);
                     break;
                 case SectionTypes.LeftCorner:
-                    DrawLeftCorner();
+                    DrawLeftCorner(sectionData);
                     break;
                 case SectionTypes.RightCorner:
-                    DrawRightCorner();
+                    DrawRightCorner(sectionData);
                     break;
                 case SectionTypes.Finish:
-                    DrawFinish();
+                    DrawFinish(sectionData);
                     break;
             }
         }
@@ -119,41 +142,41 @@ namespace RaceSimulator
             return CVisualization._direction is Directions.West or Directions.East;
         }
 
-        private static void DrawLeftCorner()
+        private static void DrawLeftCorner(SectionData sectionData = null)
         {
             if (CVisualization._direction == Directions.East)
             {
-                DrawDownwards(CVisualization.EastCornerToLeft);
+                DrawDownwards(CVisualization.EastCornerToLeft, sectionData);
                 CVisualization._direction = Directions.North;
             }
             else if (CVisualization._direction == Directions.South)
             {
-                DrawDownwards(CVisualization.SouthCornerToLeft);
+                DrawDownwards(CVisualization.SouthCornerToLeft, sectionData);
                 CVisualization._direction = Directions.East;
             }
             else if (CVisualization._direction == Directions.West)
             {
-                DrawDownwards(CVisualization.WestCornerToLeft);
+                DrawDownwards(CVisualization.WestCornerToLeft, sectionData);
                 CVisualization._direction = Directions.South;
             }
             else if (CVisualization._direction == Directions.North)
             {
-                DrawUpwards(CVisualization.NorthCornerToLeft);
+                DrawUpwards(CVisualization.NorthCornerToLeft, sectionData);
                 CVisualization._direction = Directions.West;
             }
 
             switch (CVisualization._direction)
             {
                 case Directions.East:
-                    CVisualization._cursorNorthPosition -= CVisualization._symbolSpaces;
-                    CVisualization._cursorEastPosition += CVisualization._symbolSpaces;
+                    CVisualization._cursorNorthPosition -= CVisualization.SymbolSpaces;
+                    CVisualization._cursorEastPosition += CVisualization.SymbolSpaces;
                     break;
                 case Directions.West:
                     CVisualization._cursorNorthPosition += 1;
-                    CVisualization._cursorEastPosition -= CVisualization._symbolSpaces;
+                    CVisualization._cursorEastPosition -= CVisualization.SymbolSpaces;
                     break;
                 case Directions.North:
-                    CVisualization._cursorNorthPosition -= CVisualization._symbolSpaces + 1;
+                    CVisualization._cursorNorthPosition -= CVisualization.SymbolSpaces + 1;
                     break;
                 case Directions.South:
                     // do nothing
@@ -161,26 +184,26 @@ namespace RaceSimulator
             }
         }
 
-        private static void DrawRightCorner()
+        private static void DrawRightCorner(SectionData sectionData = null)
         {
             if (CVisualization._direction == Directions.East)
             {
-                DrawDownwards(CVisualization.EastCornerToRight);
+                DrawDownwards(CVisualization.EastCornerToRight, sectionData);
                 CVisualization._direction = Directions.South;
             }
             else if (CVisualization._direction == Directions.South)
             {
-                DrawDownwards(CVisualization.SouthCornerToRight);
+                DrawDownwards(CVisualization.SouthCornerToRight, sectionData);
                 CVisualization._direction = Directions.West;
             }
             else if (CVisualization._direction == Directions.West)
             {
-                DrawDownwards(CVisualization.WestCornerToRight);
+                DrawDownwards(CVisualization.WestCornerToRight, sectionData);
                 CVisualization._direction = Directions.North;
             }
             else if (CVisualization._direction == Directions.North)
             {
-                DrawUpwards(CVisualization.NorthCornerToRight);
+                DrawUpwards(CVisualization.NorthCornerToRight, sectionData);
                 CVisualization._direction = Directions.East;
             }
 
@@ -188,14 +211,14 @@ namespace RaceSimulator
             {
                 case Directions.East:
                     CVisualization._cursorNorthPosition += 1;
-                    CVisualization._cursorEastPosition += CVisualization._symbolSpaces;
+                    CVisualization._cursorEastPosition += CVisualization.SymbolSpaces;
                     break;
                 case Directions.West:
-                    CVisualization._cursorNorthPosition -= CVisualization._symbolSpaces;
-                    CVisualization._cursorEastPosition -= CVisualization._symbolSpaces;
+                    CVisualization._cursorNorthPosition -= CVisualization.SymbolSpaces;
+                    CVisualization._cursorEastPosition -= CVisualization.SymbolSpaces;
                     break;
                 case Directions.North:
-                    CVisualization._cursorNorthPosition -= CVisualization._symbolSpaces + 1;
+                    CVisualization._cursorNorthPosition -= CVisualization.SymbolSpaces + 1;
                     break;
                 case Directions.South:
                     // do nothing
@@ -203,79 +226,123 @@ namespace RaceSimulator
             }
         }
 
-        private static void DrawStraight()
+        private static void DrawStraight(SectionData sectionData = null)
         {
             if (CVisualization.DirectionIsVertical())
             {
-                CVisualization.Draw(CVisualization.StraightVertical);
+                CVisualization.Draw(CVisualization.StraightVertical, sectionData);
                 return;
             }
 
-            CVisualization.Draw(CVisualization.StraightHorizontal);
+            CVisualization.Draw(CVisualization.StraightHorizontal, sectionData);
         }
 
-        private static void DrawStartGrid()
+        private static void DrawStartGrid(SectionData sectionData = null)
         {
             if (CVisualization.DirectionIsVertical())
             {
-                CVisualization.Draw(CVisualization.StartGridVertical);
+                CVisualization.Draw(CVisualization.StartGridVertical, sectionData);
                 return;
             }
 
-            CVisualization.Draw(CVisualization.StartGridHorizontal);
+            CVisualization.Draw(CVisualization.StartGridHorizontal, sectionData);
         }
 
-        private static void DrawFinish()
+        private static void DrawFinish(SectionData sectionData = null)
         {
             if (CVisualization.DirectionIsVertical())
             {
-                CVisualization.Draw(CVisualization.FinishVertical);
+                CVisualization.Draw(CVisualization.FinishVertical, sectionData);
                 return;
             }
 
-            CVisualization.Draw(CVisualization.FinishHorizontal);
+            CVisualization.Draw(CVisualization.FinishHorizontal, sectionData);
         }
 
-        private static void Draw(string[] symbols)
+        private static void Draw(string[] symbols, SectionData sectionData = null)
         {
             if (CVisualization._direction is Directions.East or Directions.West or Directions.South)
             {
-                DrawDownwards(symbols);
+                DrawDownwards(symbols, sectionData);
             }
             else
             {
-                DrawUpwards(symbols);
+                DrawUpwards(symbols, sectionData);
             }
 
             switch (CVisualization._direction)
             {
                 case Directions.East:
-                    CVisualization._cursorNorthPosition -= CVisualization._symbolSpaces;
-                    CVisualization._cursorEastPosition += CVisualization._symbolSpaces;
+                    CVisualization._cursorNorthPosition -= CVisualization.SymbolSpaces;
+                    CVisualization._cursorEastPosition += CVisualization.SymbolSpaces;
                     break;
                 case Directions.West:
-                    CVisualization._cursorNorthPosition -= CVisualization._symbolSpaces;
-                    CVisualization._cursorEastPosition -= CVisualization._symbolSpaces;
+                    CVisualization._cursorNorthPosition -= CVisualization.SymbolSpaces;
+                    CVisualization._cursorEastPosition -= CVisualization.SymbolSpaces;
                     break;
             }
         }
 
-        private static void DrawDownwards(string[] symbols)
+        private static void DrawDownwards(string[] symbols, SectionData sectionData = null)
         {
-            foreach (string symbol in symbols)
+            string[] writeSymbols = CVisualization.SectionDataToSymbols(symbols, sectionData);
+
+            foreach (string symbol in writeSymbols)
             {
                 CVisualization.WriteLine(symbol);
                 CVisualization.MoveCursorDownwards();
             }
         }
 
-        private static void DrawUpwards(string[] symbols)
+        private static void DrawUpwards(string[] symbols, SectionData sectionData = null)
         {
-            foreach (string symbol in symbols)
+            string[] writeSymbols = CVisualization.SectionDataToSymbols(symbols, sectionData);
+
+            foreach (string symbol in writeSymbols)
             {
                 CVisualization.WriteLine(symbol);
                 CVisualization.MoveCursorUpwards();
             }
+        }
+
+        private static string[] SectionDataToSymbols(string[] symbols, SectionData sectionData = null)
+        {
+            if (sectionData == null || (sectionData.Left == null && sectionData.Right == null))
+            {
+                return symbols;
+            }
+
+            if (sectionData.Left != null && sectionData.Right != null)
+            {
+                return CVisualization.PlaceBothParticipantsOnSection(symbols.ToArray(), sectionData.Left, sectionData.Right);
+            }
+            
+            if (sectionData.Left != null || sectionData.Right != null)
+            {
+                return CVisualization.PlaceOneParticipantOnSection(symbols.ToArray(), sectionData.Left ?? sectionData.Right);
+            }
+
+            return symbols;
+        }
+
+        private static string[] PlaceBothParticipantsOnSection(string[] symbols, IParticipant participantOne, IParticipant participantTwo)
+        {
+            int indexOne = CVisualization.InitialsOnPositionOneInGraphicsSymbolsIndex,
+                indexTwo = CVisualization.InitialsOnPositionTwoInGraphicsSymbolsIndex;
+
+            symbols[indexOne] = CVisualization.MergeInitialsIntoSymbol(symbols[indexOne], participantOne.GetInitials(CVisualization.MaxInitialsLength));
+            symbols[indexTwo] = CVisualization.MergeInitialsIntoSymbol(symbols[indexTwo], participantTwo.GetInitials(CVisualization.MaxInitialsLength));
+
+            return symbols;
+        }
+
+        private static string[] PlaceOneParticipantOnSection(string[] symbols, IParticipant participant)
+        {
+            int indexOne = CVisualization.InitialsOnPositionOneInGraphicsSymbolsIndex;
+
+            symbols[indexOne] = CVisualization.MergeInitialsIntoSymbol(symbols[indexOne], participant.GetInitials(CVisualization.MaxInitialsLength));
+
+            return symbols;
         }
 
         private static void MoveCursorLeftwards()
@@ -302,6 +369,20 @@ namespace RaceSimulator
         {
             Console.SetCursorPosition(CVisualization._cursorEastPosition, CVisualization._cursorNorthPosition);
             Console.WriteLine(symbol);
+        }
+
+        private static string MergeInitialsIntoSymbol(string symbol, string initials)
+        {
+            int initialsStartIndex = CVisualization.InitialsInGraphicsSymbolStartIndex,
+                maxInitialsLength = initials.Length < CVisualization.MaxInitialsLength ? initials.Length : CVisualization.MaxInitialsLength;
+
+            string trimmedInitials = initials.ToString();
+            if (initials.Length > CVisualization.MaxInitialsLength)
+            {
+                trimmedInitials = trimmedInitials.Remove(CVisualization.MaxInitialsLength);
+            }
+
+            return symbol.Remove(initialsStartIndex, maxInitialsLength).Insert(initialsStartIndex, trimmedInitials);
         }
 
         private static int CenteredTextCursorStartPosition(string text)
