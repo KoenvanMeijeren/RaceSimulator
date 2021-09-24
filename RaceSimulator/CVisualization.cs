@@ -41,9 +41,12 @@ namespace RaceSimulator
              * or "----", "AB| ", "  | ", "----".
              */
             MaxInitialsLength = 2,
-            InitialsInGraphicsSymbolStartIndex = 0,
-            InitialsOnPositionOneInGraphicsSymbolsIndex = 1,
-            InitialsOnPositionTwoInGraphicsSymbolsIndex = 2;
+            InitialsInGraphicsSymbolHorizontalStartIndex = 0,
+            InitialsOnPositionOneInGraphicsSymbolsHorizontalIndex = 1,
+            InitialsOnPositionTwoInGraphicsSymbolsHorizontalIndex = 2,
+            InitialsInGraphicsSymbolVerticalStartIndex = 1,
+            InitialsOnPositionOneInGraphicsSymbolsVerticalIndex = 2,
+            InitialsOnPositionTwoInGraphicsSymbolsVerticalIndex = 3;
 
         private static readonly int
             CursorStartEastPosition = Console.WindowWidth / 2, 
@@ -327,18 +330,35 @@ namespace RaceSimulator
 
         private static string[] PlaceBothParticipantsOnSection(string[] symbols, IParticipant participantOne, IParticipant participantTwo)
         {
-            int indexOne = CVisualization.InitialsOnPositionOneInGraphicsSymbolsIndex,
-                indexTwo = CVisualization.InitialsOnPositionTwoInGraphicsSymbolsIndex;
+            int indexOne = CVisualization.InitialsOnPositionOneInGraphicsSymbolsHorizontalIndex,
+                indexTwo = CVisualization.InitialsOnPositionTwoInGraphicsSymbolsHorizontalIndex,
+                initialsStartIndex = CVisualization.InitialsInGraphicsSymbolHorizontalStartIndex;
+            string
+                initialsStartOne = participantOne.GetInitials(CVisualization.MaxInitialsLength),
+                initialsStartTwo = participantTwo.GetInitials(CVisualization.MaxInitialsLength),
+                initialsOne = initialsStartOne,
+                initialsTwo = initialsStartTwo;
 
-            symbols[indexOne] = CVisualization.MergeInitialsIntoSymbol(symbols[indexOne], participantOne.GetInitials(CVisualization.MaxInitialsLength));
-            symbols[indexTwo] = CVisualization.MergeInitialsIntoSymbol(symbols[indexTwo], participantTwo.GetInitials(CVisualization.MaxInitialsLength));
+
+            if (CVisualization.DirectionIsVertical())
+            {
+                indexOne = CVisualization.InitialsOnPositionOneInGraphicsSymbolsVerticalIndex;
+                indexTwo = CVisualization.InitialsOnPositionTwoInGraphicsSymbolsVerticalIndex;
+                initialsStartIndex = CVisualization.InitialsInGraphicsSymbolVerticalStartIndex;
+                initialsOne = initialsStartOne.First().ToString() + initialsStartTwo.First().ToString();
+                initialsTwo = initialsStartOne?.ElementAtOrDefault(1).ToString() +
+                              initialsStartTwo?.ElementAtOrDefault(1).ToString();
+            }
+
+            symbols[indexOne] = CVisualization.MergeInitialsIntoSymbol(symbols[indexOne], initialsOne, initialsStartIndex);
+            symbols[indexTwo] = CVisualization.MergeInitialsIntoSymbol(symbols[indexTwo], initialsTwo, initialsStartIndex);
 
             return symbols;
         }
 
         private static string[] PlaceOneParticipantOnSection(string[] symbols, IParticipant participant)
         {
-            int indexOne = CVisualization.InitialsOnPositionOneInGraphicsSymbolsIndex;
+            int indexOne = CVisualization.InitialsOnPositionOneInGraphicsSymbolsHorizontalIndex;
 
             symbols[indexOne] = CVisualization.MergeInitialsIntoSymbol(symbols[indexOne], participant.GetInitials(CVisualization.MaxInitialsLength));
 
@@ -371,10 +391,9 @@ namespace RaceSimulator
             Console.WriteLine(symbol);
         }
 
-        private static string MergeInitialsIntoSymbol(string symbol, string initials)
-        {
-            int initialsStartIndex = CVisualization.InitialsInGraphicsSymbolStartIndex,
-                maxInitialsLength = initials.Length < CVisualization.MaxInitialsLength ? initials.Length : CVisualization.MaxInitialsLength;
+        private static string MergeInitialsIntoSymbol(string symbol, string initials, int initialsStartIndex = CVisualization.InitialsInGraphicsSymbolHorizontalStartIndex)
+        { 
+            int maxInitialsLength = initials.Length < CVisualization.MaxInitialsLength ? initials.Length : CVisualization.MaxInitialsLength;
 
             string trimmedInitials = initials.ToString();
             if (initials.Length > CVisualization.MaxInitialsLength)
