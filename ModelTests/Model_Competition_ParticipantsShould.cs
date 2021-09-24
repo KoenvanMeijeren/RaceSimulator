@@ -65,5 +65,23 @@ namespace ControllerTests
             Assert.AreEqual(10, participantTwo.Equipment.Speed);
         }
 
+        [Test]
+        public void CanReadParticipantsInitials()
+        {
+            IEquipment defaultCar = new Car(quality: 100, performance: 150, speed: 25);
+            IEquipment toyota = new Car(quality: 65, performance: 34, speed: 10);
+
+            IParticipant testParticipant = new Driver(name: "K", points: 200, equipment: defaultCar,
+                teamColor: TeamColors.Red);
+
+            Assert.AreEqual("", testParticipant.GetInitials(0));
+            Assert.AreEqual("K", testParticipant.GetInitials());
+            Assert.AreEqual("K", testParticipant.GetInitials(4));
+
+            Assert.AreEqual("Ko", this._participants.ElementAt(0).GetInitials());
+            Assert.AreEqual("Koen", this._participants.ElementAt(0).GetInitials(4));
+            Assert.AreEqual("Kl", this._participants.ElementAt(1).GetInitials());
+        }
+
     }
 }
