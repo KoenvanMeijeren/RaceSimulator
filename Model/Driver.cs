@@ -16,7 +16,6 @@ namespace Model
 
         public TeamColors TeamColor { get; private set; }
 
-
         public Driver(string name, int points, IEquipment equipment, TeamColors teamColor)
         {
             this.Name = name;
@@ -25,5 +24,17 @@ namespace Model
             this.TeamColor = teamColor;
         }
 
+        public string GetInitials(int initialsLength = 2)
+        {
+            char[] chars = this.Name.ToCharArray();
+
+            StringBuilder initials = new StringBuilder(initialsLength);
+            for (int delta = 0; delta < chars.Length && delta < initialsLength; delta++)
+            {
+                initials.Append(chars.ElementAtOrDefault(delta).ToString());
+            }
+
+            return initials.ToString();
+        }
     }
 }

@@ -17,6 +17,8 @@ namespace Model
 
         public TeamColors TeamColor { get; }
 
+        public string GetInitials(int initialsLength = 2);
+
     }
 
     public enum TeamColors
