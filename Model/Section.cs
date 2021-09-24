@@ -17,10 +17,10 @@ namespace Model
         }
 
         // check which number is the lowest one and increase all other numbers with that number.
-        public Section(SectionTypes sectionType, int x, int y)
-        {
-            this.SectionType = sectionType;
-        }
+        // public Section(SectionTypes sectionType, int x, int y)
+        // {
+        //    // this.SectionType = sectionType;
+        // }
 
     }
 
