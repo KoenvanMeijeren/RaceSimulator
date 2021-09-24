@@ -1,14 +1,4 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>E:\Development\C#\RaceSimulator\ControllerTests\Controller_RaceShould.cs</title>
-    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
-    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
-  </head>
-  <body>
-    <pre id="content" class="source-code">
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -36,25 +26,27 @@ namespace ControllerTests
                 SectionTypes.RightCorner, SectionTypes.StartGrid, SectionTypes.RightCorner, SectionTypes.Finish, SectionTypes.RightCorner,
                 SectionTypes.StartGrid, SectionTypes.RightCorner, SectionTypes.StartGrid
             };
-            List&lt;IParticipant&gt; participants = new List&lt;IParticipant&gt;();
+            List<IParticipant> participants = new List<IParticipant>();
             IEquipment defaultCar = new Car(quality: 100, performance: 150, speed: 25);
             IEquipment toyota = new Car(quality: 65, performance: 34, speed: 10);
 
-            participants.Add(new Driver(name: &quot;Koen van Meijeren&quot;, points: 200, equipment: defaultCar, teamColor: TeamColors.Red));
-            participants.Add(new Driver(name: &quot;Klaas van Meijeren&quot;, points: 190, equipment: toyota, teamColor: TeamColors.Blue));
-            participants.Add(new Driver(name: &quot;Jan van Meijeren&quot;, points: 195, equipment: defaultCar, teamColor: TeamColors.Green));
+            participants.Add(new Driver(name: "Koen van Meijeren", points: 200, equipment: defaultCar, teamColor: TeamColors.Red));
+            participants.Add(new Driver(name: "Klaas van Meijeren", points: 190, equipment: toyota, teamColor: TeamColors.Blue));
+            participants.Add(new Driver(name: "Jan van Meijeren", points: 195, equipment: defaultCar, teamColor: TeamColors.Green));
 
-            this._race = new Race(new Track(name: &quot;Monaco&quot;, sections: route), participants);
-            this._emptyRace = new Race(new Track(&quot;Test&quot;, new SectionTypes[0]), new List&lt;IParticipant&gt;());
+            this._race = new Race(new Track(name: "Monaco", sections: route), participants);
+            this._emptyRace = new Race(new Track("Test", new SectionTypes[0]), new List<IParticipant>());
         }
 
         [Test]
         public void Race_CanRead_Track()
         {
             Assert.AreEqual(5, Data.CurrentRace.Participants.Count);
-            Assert.AreEqual(&quot;Circuit Zwolle&quot;, Data.CurrentRace.Track.Name);
-            Assert.AreEqual(&quot;Monaco&quot;, this._race.Track.Name);
-            Assert.AreEqual(&quot;Test&quot;, this._emptyRace.Track.Name);
+            Assert.AreEqual("Circuit Zwolle", Data.CurrentRace.Track.Name);
+            Assert.AreEqual("Monaco", this._race.Track.Name);
+            Assert.AreEqual("Test", this._emptyRace.Track.Name);
+            Assert.AreEqual("1-1-0001 00:00:00", this._emptyRace.StartTime.ToString());
+            Assert.AreEqual("1-1-0001 00:00:00", this._race.StartTime.ToString());
         }
 
         [Test]
@@ -87,10 +79,3 @@ namespace ControllerTests
 
     }
 }
-
-    </pre>
-    <script type="text/javascript">
-      highlightRanges([[21,9,21,10,1],[22,13,22,31,1],[24,13,28,15,1],[29,13,29,72,1],[30,13,30,88,1],[31,13,31,82,1],[33,13,33,132,1],[34,13,34,130,1],[35,13,35,133,1],[37,13,37,93,1],[38,13,38,106,1],[39,9,39,10,1],[43,9,43,10,1],[44,13,44,69,1],[45,13,45,76,1],[46,13,46,62,1],[47,13,47,65,1],[48,9,48,10,1],[52,9,52,10,1],[53,13,53,98,1],[54,13,54,99,1],[55,13,55,102,1],[56,13,56,103,1],[57,13,57,99,1],[58,13,58,100,1],[59,13,59,99,1],[60,13,60,100,1],[61,13,61,99,1],[62,13,62,100,1],[63,13,63,102,1],[64,13,64,100,1],[65,13,65,99,1],[66,13,66,100,1],[67,13,67,99,1],[68,13,68,100,1],[69,9,69,10,1],[73,9,73,10,1],[74,13,74,119,1],[75,13,75,116,1],[76,9,76,10,1]]);
-    </script>
-  </body>
-</html>

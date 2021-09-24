@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>E:\Development\C#\RaceSimulator\Model\SectionData.cs</title>
+    <title>E:\Development\C#\RaceSimulator\Model\Section.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
@@ -16,31 +16,38 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public class SectionData
+    public class Section
     {
 
-        public IParticipant Left { get; private set; }
-        public int DistanceLeft { get; private set; }
+        public SectionTypes SectionType { get; private set; }
 
-        public IParticipant Right { get; private set; }
-        public int DistanceRight { get; private set; }
-
-        // @todo find out how we can create a section data object.
-        public SectionData(IParticipant left, int distanceLeft, IParticipant right, int distanceRight)
+        public Section(SectionTypes sectionType)
         {
-            this.Left = left;
-            this.DistanceLeft = distanceLeft;
-
-            this.Right = right;
-            this.DistanceRight = distanceRight;
+            this.SectionType = sectionType;
         }
 
+        // check which number is the lowest one and increase all other numbers with that number.
+        // public Section(SectionTypes sectionType, int x, int y)
+        // {
+        //    // this.SectionType = sectionType;
+        // }
+
     }
+
+    public enum SectionTypes
+    {
+        Straight,
+        LeftCorner,
+        RightCorner,
+        StartGrid,
+        Finish
+    }
+
 }
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[12,36,12,40,1],[12,41,12,53,1],[13,35,13,39,1],[13,40,13,52,1],[15,37,15,41,1],[15,42,15,54,1],[16,36,16,40,1],[16,41,16,53,1],[19,9,19,103,1],[20,9,20,10,1],[21,13,21,30,1],[22,13,22,46,1],[24,13,24,32,1],[25,13,25,48,1],[26,9,26,10,1]]);
+      highlightRanges([[12,43,12,47,1],[12,48,12,60,1],[14,9,14,49,1],[15,9,15,10,1],[16,13,16,44,1],[17,9,17,10,1]]);
     </script>
   </body>
 </html>
