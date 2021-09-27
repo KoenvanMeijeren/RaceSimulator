@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using Controller;
 using Model;
 using NUnit.Framework;
@@ -75,6 +76,23 @@ namespace ControllerTests
         {
             Assert.IsFalse(this._emptyRace.UpdateSectionData(new Section(SectionTypes.StartGrid), new SectionData()));
             Assert.IsTrue(this._race.UpdateSectionData(this._race.Track.Sections.ElementAt(1), new SectionData()));
+        }
+
+        [Test]
+        public void Race_CanStart()
+        {
+            this._race.Start();
+            this._emptyRace.Start();
+
+            Assert.AreNotEqual("1-1-0001 00:00:00", this._race.StartTime.ToString());
+            Assert.AreNotEqual("1-1-0001 00:00:00", this._emptyRace.StartTime.ToString());
+        }
+
+        [Test]
+        public void Race_CanPerformActions_OnTimedEvent()
+        {
+            Race.OnTimedEvent(null, null);
+            Race.OnTimedEvent(null, null);
         }
 
     }

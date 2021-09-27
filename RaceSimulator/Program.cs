@@ -8,10 +8,8 @@ namespace RaceSimulator
 {
     class Program
     {
-        [ExcludeFromCodeCoverage]
         static void Main(string[] args)
         {
-            // tests for the classes
             Data.Initialize();
 
             CVisualization.Initialize();
@@ -22,7 +20,6 @@ namespace RaceSimulator
             {
                 Thread.Sleep(100);
             }
-
         }
     }
 }

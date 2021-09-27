@@ -77,5 +77,15 @@ namespace ModelTests
             Assert.IsTrue(car.Performance <= IEquipment.MaximumPerformance);
         }
 
+        [Test]
+        public void Car_CanRead_RealSpeed()
+        {
+            Car car = new Car(100, 2, 10);
+            
+            Assert.AreEqual(20, car.GetRealSpeed());
+            Assert.AreNotEqual(2, car.GetRealSpeed());
+            Assert.AreNotEqual(10, car.GetRealSpeed());
+        } 
+
     }
 }

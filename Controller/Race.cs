@@ -31,6 +31,8 @@ namespace Controller
 
         private static Race _raceReference;
 
+        private static bool _hasChangedDrivers = false;
+
         public Race(Track track, List<IParticipant> participants)
         {
             this.Track = track;
@@ -40,7 +42,7 @@ namespace Controller
             this._timer = new Timer(Race.TimerInterval);
 
             // Renders the participants to a new list in order to prevent changing the participants permanently.
-            this.PlaceParticipantsOnTrack(track, participants.ToList());
+            this.PlaceParticipantsOnTrack();
 
             this._timer.Elapsed += Race.OnTimedEvent;
         }
@@ -52,14 +54,20 @@ namespace Controller
             Race._raceReference = this;
         }
 
-        private static void OnTimedEvent(Object source, ElapsedEventArgs e)
+        public static void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
-            // Race.DriversChanged?.Invoke(source, new DriversChangedEventArgs(Race._raceReference));
+            if (!Race._hasChangedDrivers)
+            {
+                return;
+            }
+
+            Race.DriversChanged?.Invoke(source, new DriversChangedEventArgs(Race._raceReference));
+            Race._hasChangedDrivers = false;
         }
 
         public SectionData GetSectionData(Section section)
         {
-            if (this._positions == null || !this._positions.Any() || !this._positions.TryGetValue(section, out var foundSectionData))
+            if (!this._positions.Any() || !this._positions.TryGetValue(section, out var foundSectionData))
             {
                 foundSectionData = new SectionData();
                 this._positions.Add(section, foundSectionData);
@@ -76,12 +84,15 @@ namespace Controller
             }
 
             this._positions[section] = sectionData;
+            Race._hasChangedDrivers = true;
             return true;
         }
 
         // @todo find out what we should do when there are more participants than start grids.
-        private void PlaceParticipantsOnTrack(Track track, List<IParticipant> participants)
+        private void PlaceParticipantsOnTrack()
         {
+            List<IParticipant> participants = this.Participants.ToList();
+
             for (int delta = 0; delta < this.Track.Sections.Count; delta++)
             {
                 Section section = this.Track.Sections.ToArray()[delta];
@@ -95,11 +106,6 @@ namespace Controller
 
                 IParticipant participantOne = participants.ElementAtOrDefault(0);
                 IParticipant participantTwo = participants.ElementAtOrDefault(1);
-                if (participantOne == null && participantTwo == null)
-                {
-                    continue;
-                }
-
                 bool canPlaceBoth =
                         this.CanPlaceBothParticipants(sectionData, participantOne, participantTwo),
                     canPlaceOne = this.CanPlaceOneParticipant(sectionData, participantOne);

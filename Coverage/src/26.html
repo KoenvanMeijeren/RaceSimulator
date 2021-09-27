@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>E:\Development\C#\RaceSimulator\RaceSimulator\Program.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading;
+using Controller;
+using Model;
+
+namespace RaceSimulator
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Data.Initialize();
+
+            CVisualization.Initialize();
+            CVisualization.DrawTrack(Data.CurrentRace);
+            Data.CurrentRace.Start();
+
+            for (;;)
+            {
+                Thread.Sleep(100);
+            }
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[12,9,12,10,0],[13,13,13,27,0],[15,9,15,10,0],[18,9,18,10,0],[19,13,19,31,0],[21,13,21,41,0],[22,13,22,56,0],[23,13,23,38,0],[26,13,26,14,0],[27,17,27,35,0],[28,13,28,14,0]]);
+    </script>
+  </body>
+</html>
