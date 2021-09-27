@@ -83,7 +83,12 @@ namespace RaceSimulator
 
         public static void Initialize()
         {
-            
+            Race.DriversChanged += CVisualization.OnDriversChanged;
+        }
+
+        public static void OnDriversChanged(object sender, DriversChangedEventArgs eventArgs)
+        {
+            CVisualization.DrawTrack(eventArgs.Race);
         }
 
         public static void DrawTrack(Race race)
@@ -132,6 +137,8 @@ namespace RaceSimulator
                 case SectionTypes.Finish:
                     DrawFinish(sectionData);
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException("Unknown section type given!");
             }
         }
 
