@@ -8,10 +8,11 @@ using Model;
 
 namespace Controller
 {
+
     public class Race
     {
 
-        private const int StartDistanceBetweenParticipants = 0, Interval = 500;
+        private const int StartDistanceBetweenParticipants = 0, TimerInterval = 500;
 
         public Track Track { get; private set; }
 
@@ -24,7 +25,11 @@ namespace Controller
         // Only 2 participants per section are allowed.
         private Dictionary<Section, SectionData> _positions;
 
-        private Timer _timer;
+        private readonly Timer _timer;
+
+        public static event EventHandler<DriversChangedEventArgs> DriversChanged;
+
+        private static Race _raceReference;
 
         public Race(Track track, List<IParticipant> participants)
         {
@@ -32,7 +37,7 @@ namespace Controller
             this.Participants = participants;
             this._random = new Random(DateTime.Now.Millisecond);
             this._positions = new Dictionary<Section, SectionData>();
-            this._timer = new Timer(Race.Interval);
+            this._timer = new Timer(Race.TimerInterval);
 
             // Renders the participants to a new list in order to prevent changing the participants permanently.
             this.PlaceParticipantsOnTrack(track, participants.ToList());
@@ -44,12 +49,12 @@ namespace Controller
         {
             this.StartTime = DateTime.Now;
             this._timer.Enabled = true;
+            Race._raceReference = this;
         }
 
         private static void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
-            Console.WriteLine("The Elapsed event was raised at {0:HH:mm:ss.fff}",
-                e.SignalTime);
+            // Race.DriversChanged?.Invoke(source, new DriversChangedEventArgs(Race._raceReference));
         }
 
         public SectionData GetSectionData(Section section)
