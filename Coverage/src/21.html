@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>E:\Development\C#\RaceSimulator\Controller\Race.cs</title>
+    <title>E:\Development\C#\RaceSimulator\Controller\DriversChangedEventArgs.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
@@ -13,54 +13,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Model;
 
 namespace Controller
 {
-    public class Race
+    public class DriversChangedEventArgs : EventArgs
     {
 
-        public Track Track { get; private set; }
+        public Race Race { get; private set; }
 
-        public List&lt;IParticipant&gt; Participants { get; private set; }
-
-        public DateTime StartTime { get; private set; }
-
-        private Random _random;
-
-        // Only 2 participants per section are allowed.
-        private Dictionary&lt;Section, SectionData&gt; _positions;
-
-        public Race(Track track, List&lt;IParticipant&gt; participants)
+        public DriversChangedEventArgs(Race race)
         {
-            this.Track = track;
-            this.Participants = participants;
-            this._random = new Random(DateTime.Now.Millisecond);
-            this._positions = new Dictionary&lt;Section, SectionData&gt;();
-        }
-
-
-        public SectionData GetSectionData(Section section)
-        {
-            SectionData foundSectionData;
-            if (this._positions == null || !this._positions.Any() || !this._positions.TryGetValue(section, out foundSectionData))
-            {
-                // @todo find out how we can create a new section data object.
-                foundSectionData = new SectionData(null, 1, null, 2);
-                this._positions.Add(section, foundSectionData);
-            }
-
-            return foundSectionData;
-        }
-
-        private void RandomizeEquipment()
-        {
-            foreach (IParticipant participant in this.Participants)
-            {
-                IEquipment equipment = participant.Equipment;
-                equipment.SetRandomPerformance();
-                equipment.SetRandomQuality();
-            }
+            this.Race = race;
         }
 
     }
@@ -68,7 +31,7 @@ namespace Controller
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[13,30,13,34,1],[13,35,13,47,1],[15,50,15,54,1],[15,55,15,67,1],[17,37,17,41,0],[17,42,17,54,0],[24,9,24,66,1],[25,9,25,10,1],[26,13,26,32,1],[27,13,27,46,1],[28,13,28,65,1],[29,13,29,70,1],[30,9,30,10,1],[34,9,34,10,0],[36,13,36,130,0],[37,13,37,14,0],[39,17,39,70,0],[40,17,40,64,0],[41,13,41,14,0],[43,13,43,37,0],[44,9,44,10,0],[47,9,47,10,0],[48,13,48,20,0],[48,22,48,46,0],[48,47,48,49,0],[48,50,48,67,0],[49,13,49,14,0],[50,17,50,62,0],[51,17,51,50,0],[52,17,52,46,0],[53,13,53,14,0],[54,9,54,10,0]]);
+      highlightRanges([[12,28,12,32,1],[12,33,12,45,1],[14,9,14,50,1],[15,9,15,10,1],[16,13,16,30,1],[17,9,17,10,1]]);
     </script>
   </body>
 </html>

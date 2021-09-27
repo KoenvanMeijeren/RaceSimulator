@@ -54,7 +54,7 @@ namespace Controller
             Race._raceReference = this;
         }
 
-        private static void OnTimedEvent(Object source, ElapsedEventArgs e)
+        public static void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
             if (!Race._hasChangedDrivers)
             {
@@ -106,11 +106,6 @@ namespace Controller
 
                 IParticipant participantOne = participants.ElementAtOrDefault(0);
                 IParticipant participantTwo = participants.ElementAtOrDefault(1);
-                if (participantOne == null && participantTwo == null)
-                {
-                    continue;
-                }
-
                 bool canPlaceBoth =
                         this.CanPlaceBothParticipants(sectionData, participantOne, participantTwo),
                     canPlaceOne = this.CanPlaceOneParticipant(sectionData, participantOne);
