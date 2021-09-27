@@ -16,8 +16,9 @@ namespace RaceSimulator
 
             CVisualization.Initialize();
             CVisualization.DrawTrack(Data.CurrentRace);
+            Data.CurrentRace.Start();
 
-            for (; ; )
+            for (;;)
             {
                 Thread.Sleep(100);
             }

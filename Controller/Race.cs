@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using Model;
 
 namespace Controller
@@ -10,7 +11,7 @@ namespace Controller
     public class Race
     {
 
-        private readonly int _startDistanceBetweenParticipants = 0;
+        private const int StartDistanceBetweenParticipants = 0, Interval = 500;
 
         public Track Track { get; private set; }
 
@@ -23,15 +24,32 @@ namespace Controller
         // Only 2 participants per section are allowed.
         private Dictionary<Section, SectionData> _positions;
 
+        private Timer _timer;
+
         public Race(Track track, List<IParticipant> participants)
         {
             this.Track = track;
             this.Participants = participants;
             this._random = new Random(DateTime.Now.Millisecond);
             this._positions = new Dictionary<Section, SectionData>();
+            this._timer = new Timer(Race.Interval);
 
             // Renders the participants to a new list in order to prevent changing the participants permanently.
             this.PlaceParticipantsOnTrack(track, participants.ToList());
+
+            this._timer.Elapsed += Race.OnTimedEvent;
+        }
+
+        public void Start()
+        {
+            this.StartTime = DateTime.Now;
+            this._timer.Enabled = true;
+        }
+
+        private static void OnTimedEvent(Object source, ElapsedEventArgs e)
+        {
+            Console.WriteLine("The Elapsed event was raised at {0:HH:mm:ss.fff}",
+                e.SignalTime);
         }
 
         public SectionData GetSectionData(Section section)
@@ -140,14 +158,14 @@ namespace Controller
                 return null;
             }
 
-            int defaultDistance = this._startDistanceBetweenParticipants;
+            int defaultDistance = Race.StartDistanceBetweenParticipants;
 
             return new SectionData(leftParticipant, defaultDistance, rightParticipant, defaultDistance);
         }
 
         private SectionData OneParticipantToSectionData(SectionData sectionData, IParticipant participant)
         {
-            int defaultDistance = this._startDistanceBetweenParticipants;
+            int defaultDistance = Race.StartDistanceBetweenParticipants;
 
             if (this.CanPlaceLeftParticipant(sectionData))
             {
