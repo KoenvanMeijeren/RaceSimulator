@@ -147,11 +147,6 @@ namespace RaceSimulator
             return CVisualization._direction is Directions.South or Directions.North;
         }
 
-        private static bool DirectionIsHorizontal()
-        {
-            return CVisualization._direction is Directions.West or Directions.East;
-        }
-
         private static void DrawLeftCorner(SectionData sectionData = null)
         {
             if (CVisualization._direction == Directions.East)
@@ -372,16 +367,6 @@ namespace RaceSimulator
             return symbols;
         }
 
-        private static void MoveCursorLeftwards()
-        {
-            CVisualization._cursorEastPosition--;
-        }
-
-        private static void MoveCursorRightwards()
-        {
-            CVisualization._cursorEastPosition++;
-        }
-
         private static void MoveCursorUpwards()
         {
             CVisualization._cursorNorthPosition--;
@@ -415,103 +400,5 @@ namespace RaceSimulator
         {
             return (Console.WindowWidth / 2) - (text.Length / 2);
         }
-
-        private static void DrawTestTracks()
-        {
-            _cursorEastPosition -= 30;
-            DrawRoundTestTrackClockwise();
-            _cursorEastPosition += 50;
-            DrawRoundTestTrackCounterClockwise();
-            _cursorNorthPosition += 30;
-            DrawHalfRoundTestTracks();
-        }
-
-        private static void DrawHalfRoundTestTracks()
-        {
-            DrawStartGrid();
-            DrawStraight();
-            DrawRightCorner();
-            DrawStraight();
-            DrawLeftCorner();
-            DrawStraight();
-            DrawFinish();
-
-            _cursorNorthPosition += 15;
-
-            _direction = Directions.West;
-
-            DrawStartGrid();
-            DrawStraight();
-            DrawLeftCorner();
-            DrawStraight();
-            DrawRightCorner();
-            DrawStraight();
-            DrawFinish();
-        }
-
-        private static void DrawRoundTestTrackCounterClockwise()
-        {
-            CVisualization._direction = Directions.West;
-
-            CVisualization.DrawStraight();
-            CVisualization.DrawStartGrid();
-            CVisualization.DrawStraight();
-            CVisualization.DrawFinish();
-            CVisualization.DrawStraight();
-
-            CVisualization.DrawLeftCorner();
-            CVisualization.DrawStraight();
-            CVisualization.DrawFinish();
-            CVisualization.DrawStartGrid();
-
-            CVisualization.DrawLeftCorner();
-            CVisualization.DrawStraight();
-            CVisualization.DrawStartGrid();
-            CVisualization.DrawStraight();
-            CVisualization.DrawFinish();
-            CVisualization.DrawStraight();
-            CVisualization.DrawStraight();
-
-            CVisualization.DrawLeftCorner();
-            CVisualization.DrawStraight();
-            CVisualization.DrawFinish();
-            CVisualization.DrawStartGrid();
-
-            CVisualization.DrawLeftCorner();
-            CVisualization.DrawStraight();
-        }
-
-        private static void DrawRoundTestTrackClockwise()
-        {
-            CVisualization._direction = Directions.East;
-
-            CVisualization.DrawStraight();
-            CVisualization.DrawStartGrid();
-            CVisualization.DrawStraight();
-            CVisualization.DrawFinish();
-            CVisualization.DrawStraight();
-
-            CVisualization.DrawRightCorner();
-            CVisualization.DrawStraight();
-            CVisualization.DrawFinish();
-            CVisualization.DrawStartGrid();
-
-            CVisualization.DrawRightCorner();
-            CVisualization.DrawStraight();
-            CVisualization.DrawStartGrid();
-            CVisualization.DrawStraight();
-            CVisualization.DrawFinish();
-            CVisualization.DrawStraight();
-            CVisualization.DrawStraight();
-
-            CVisualization.DrawRightCorner();
-            CVisualization.DrawStraight();
-            CVisualization.DrawFinish();
-            CVisualization.DrawStartGrid();
-
-            CVisualization.DrawRightCorner();
-            CVisualization.DrawStraight();
-        }
-
     }
 }
