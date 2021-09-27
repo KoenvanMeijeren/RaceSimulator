@@ -77,6 +77,11 @@ namespace Model
             this._randominizer = new Random(DateTime.Now.Millisecond);
         }
 
+        public int GetRealSpeed()
+        {
+            return this.Performance * this.Speed;
+        }
+
         public void SetRandomQuality()
         {
             this.Quality = this._randominizer.Next(IEquipment.MinimumQuality, IEquipment.MaximumQuality);
