@@ -132,6 +132,8 @@ namespace RaceSimulator
                 case SectionTypes.Finish:
                     DrawFinish(sectionData);
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException("Unknown section type given!");
             }
         }
 
