@@ -91,6 +91,7 @@ namespace ControllerTests
         [Test]
         public void Race_CanPerformActions_OnTimedEvent()
         {
+            this._race.Start();
             Race.OnTimedEvent(null, null);
             Race.OnTimedEvent(null, null);
         }
