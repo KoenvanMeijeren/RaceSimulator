@@ -10,7 +10,7 @@ using Model;
 
 namespace RaceSimulator
 {
-    public enum Directions
+    internal enum Directions
     {
         North = 0,
         East = 1,
