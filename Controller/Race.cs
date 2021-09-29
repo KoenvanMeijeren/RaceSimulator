@@ -12,7 +12,10 @@ namespace Controller
     public class Race
     {
 
-        private const int StartDistanceOfParticipant = 0, TimerInterval = 500, SectionLength = 4;
+        private const int 
+            StartDistanceOfParticipant = 0, 
+            TimerInterval = 500, 
+            SectionLength = 4;
 
         public Track Track { get; private set; }
 
@@ -31,7 +34,7 @@ namespace Controller
 
         private static Race _raceReference;
 
-        private static bool _hasChangedDrivers;
+        private static bool _changedDrivers;
 
         public Race(Track track, List<IParticipant> participants)
         {
@@ -42,7 +45,7 @@ namespace Controller
             this._timer = new Timer(Race.TimerInterval);
             this._timer.Elapsed += Race.OnTimedEvent;
             
-            this.PlaceParticipantsOnTrackStartPosition();
+            this.PlaceParticipantsOnStartPositions();
         }
 
         public void Start()
@@ -54,14 +57,14 @@ namespace Controller
 
         public static void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
-            Race._raceReference.MoveParticipantsOnTrack();
-            if (!Race._hasChangedDrivers)
+            Race._raceReference.MoveParticipants();
+            if (!Race._changedDrivers)
             {
                 return;
             }
 
             Race.DriversChanged?.Invoke(source, new DriversChangedEventArgs(Race._raceReference));
-            Race._hasChangedDrivers = false;
+            Race._changedDrivers = false;
         }
 
         public SectionData GetSectionData(Section section)
@@ -83,11 +86,11 @@ namespace Controller
             }
 
             this._positions[section] = sectionData;
-            Race._hasChangedDrivers = true;
+            Race._changedDrivers = true;
             return true;
         }
 
-        private void MoveParticipantsOnTrack()
+        private void MoveParticipants()
         {
             Section[] sections = this.Track.Sections.ToArray();
             foreach (Section section in sections)
@@ -124,7 +127,7 @@ namespace Controller
             foreach (Section section in sections)
             {
                 SectionData sectionData = this.GetSectionData(section);
-                if (this.ShouldMoveOneParticipantToNextSection(sectionData))
+                if (this.ShouldMoveParticipantToNextSection(sectionData))
                 {
                     sectionsWhichShouldMove++;
                 }
@@ -146,20 +149,20 @@ namespace Controller
                     sectionData = this.GetSectionData(section),
                     nextSectionData = this.GetSectionData(nextSection);
                 
-                if (this.ShouldMoveBothParticipantsToNextSection(sectionData))
+                if (this.ShouldMoveParticipantsToNextSection(sectionData))
                 {
-                    nextSectionData = this.MoveBothParticipantsToNextSection(
+                    nextSectionData = this.MoveParticipantsToNextSection(
                         sectionData, nextSectionData, sectionData.Left, sectionData.Right
                     );
                     
                     this.UpdateSectionData(nextSection, nextSectionData);
                     this.UpdateSectionData(section, sectionData);
                 }
-                else if (this.ShouldMoveOneParticipantToNextSection(sectionData))
+                else if (this.ShouldMoveParticipantToNextSection(sectionData))
                 {
                     IParticipant participant = this.GetParticipantWhoShouldMoveToNextSection(sectionData);
                 
-                    nextSectionData = this.MoveOneParticipantsToNextSection(
+                    nextSectionData = this.MoveParticipantToNextSection(
                         sectionData, nextSectionData, participant
                     );
                     
@@ -176,13 +179,13 @@ namespace Controller
             return distance < Race.SectionLength;
         }
         
-        private bool ShouldMoveOneParticipantToNextSection(SectionData sectionData)
+        private bool ShouldMoveParticipantToNextSection(SectionData sectionData)
         {
             return (sectionData.DistanceLeft >= Race.SectionLength && sectionData.Left != null) 
                    || (sectionData.DistanceRight >= Race.SectionLength && sectionData.Right != null);
         }
 
-        private bool ShouldMoveBothParticipantsToNextSection(SectionData sectionData)
+        private bool ShouldMoveParticipantsToNextSection(SectionData sectionData)
         {
             return sectionData.DistanceLeft >= Race.SectionLength && sectionData.Left != null
                    && sectionData.DistanceRight >= Race.SectionLength && sectionData.Right != null;
@@ -190,7 +193,7 @@ namespace Controller
 
         private IParticipant GetParticipantWhoShouldMoveToNextSection(SectionData sectionData)
         {
-            if (!this.ShouldMoveOneParticipantToNextSection(sectionData))
+            if (!this.ShouldMoveParticipantToNextSection(sectionData))
             {
                 return null;
             }
@@ -198,34 +201,34 @@ namespace Controller
             return sectionData.DistanceLeft >= Race.SectionLength ? sectionData.Left : sectionData.Right;
         }
 
-        private SectionData MoveOneParticipantsToNextSection(SectionData sectionData, SectionData nextSectionData, IParticipant participant)
+        private SectionData MoveParticipantToNextSection(SectionData sectionData, SectionData nextSectionData, IParticipant participant)
         {
-            if (!this.CanPlaceOneParticipant(nextSectionData, participant))
+            if (!this.CanPlaceParticipant(nextSectionData, participant))
             {
                 return nextSectionData;
             }
             
-            nextSectionData = this.OneParticipantToSectionData(nextSectionData, participant);
+            nextSectionData = this.ParticipantToSectionData(nextSectionData, participant);
             sectionData.Clear(participant);
 
             return nextSectionData;
         }
 
-        private SectionData MoveBothParticipantsToNextSection(SectionData sectionData, SectionData nextSectionData, IParticipant participantLeft, IParticipant participantRight)
+        private SectionData MoveParticipantsToNextSection(SectionData sectionData, SectionData nextSectionData, IParticipant participantLeft, IParticipant participantRight)
         {
-            if (!this.CanPlaceBothParticipants(nextSectionData, participantLeft, participantRight))
+            if (!this.CanPlaceParticipants(nextSectionData, participantLeft, participantRight))
             {
                 return nextSectionData;
             }
             
-            nextSectionData = this.BothParticipantsToSectionData(nextSectionData, participantLeft, participantRight);
+            nextSectionData = this.ParticipantsToSectionData(nextSectionData, participantLeft, participantRight);
             sectionData.Clear(participantLeft, participantRight);
 
             return nextSectionData;
         }
 
         // @todo find out what we should do when there are more participants than start grids.
-        private void PlaceParticipantsOnTrackStartPosition()
+        private void PlaceParticipantsOnStartPositions()
         {
             List<IParticipant> participants = this.Participants.ToList();
             Section[] sections = this.Track.Sections.ToArray();
@@ -235,26 +238,25 @@ namespace Controller
                 Section section = sections[delta];
                 SectionData sectionData = this.GetSectionData(section);
 
-                if (!this.CanPlaceParticipantsOnStartPositionOnSectionType(section.SectionType))
+                if (!this.CanPlaceParticipantsOnStartPosition(section.SectionType))
                 {
-                    this.GetSectionData(section);
                     continue;
                 }
 
                 IParticipant participantOne = participants.ElementAtOrDefault(0);
                 IParticipant participantTwo = participants.ElementAtOrDefault(1);
-                bool canPlaceBoth =
-                        this.CanPlaceBothParticipants(sectionData, participantOne, participantTwo),
-                    canPlaceOne = this.CanPlaceOneParticipant(sectionData, participantOne);
+                bool 
+                    canPlaceBoth = this.CanPlaceParticipants(sectionData, participantOne, participantTwo),
+                    canPlaceOne = this.CanPlaceParticipant(sectionData, participantOne);
 
                 if (!canPlaceBoth && canPlaceOne)
                 {
-                    sectionData = this.OneParticipantToSectionData(sectionData, participantOne);
+                    sectionData = this.ParticipantToSectionData(sectionData, participantOne);
                     participants.RemoveAt(0);
                 }
                 else if (canPlaceBoth)
                 {
-                    sectionData = this.BothParticipantsToSectionData(sectionData, participantOne, participantTwo);
+                    sectionData = this.ParticipantsToSectionData(sectionData, participantOne, participantTwo);
                     participants.RemoveAt(0);
                     participants.RemoveAt(0);
                 }
@@ -263,12 +265,12 @@ namespace Controller
             }
         }
 
-        private bool CanPlaceParticipantsOnStartPositionOnSectionType(SectionTypes sectionType)
+        private bool CanPlaceParticipantsOnStartPosition(SectionTypes sectionType)
         {
             return sectionType == SectionTypes.StartGrid;
         }
 
-        private bool CanPlaceBothParticipants(SectionData sectionData, IParticipant leftParticipant, IParticipant rightParticipant)
+        private bool CanPlaceParticipants(SectionData sectionData, IParticipant leftParticipant, IParticipant rightParticipant)
         {
             if (leftParticipant == null || rightParticipant == null)
             {
@@ -278,7 +280,7 @@ namespace Controller
             return sectionData.Left == null && sectionData.Right == null;
         }
 
-        private bool CanPlaceOneParticipant(SectionData sectionData, IParticipant participant)
+        private bool CanPlaceParticipant(SectionData sectionData, IParticipant participant)
         {
             if (participant == null)
             {
@@ -299,9 +301,9 @@ namespace Controller
         }
 
         // @todo implement distance between participants calculation.
-        private SectionData BothParticipantsToSectionData(SectionData sectionData, IParticipant leftParticipant, IParticipant rightParticipant)
+        private SectionData ParticipantsToSectionData(SectionData sectionData, IParticipant leftParticipant, IParticipant rightParticipant)
         {
-            if (!this.CanPlaceBothParticipants(sectionData, leftParticipant, rightParticipant))
+            if (!this.CanPlaceParticipants(sectionData, leftParticipant, rightParticipant))
             {
                 return null;
             }
@@ -311,7 +313,7 @@ namespace Controller
             return new SectionData(leftParticipant, defaultDistance, rightParticipant, defaultDistance);
         }
 
-        private SectionData OneParticipantToSectionData(SectionData sectionData, IParticipant participant)
+        private SectionData ParticipantToSectionData(SectionData sectionData, IParticipant participant)
         {
             int defaultDistance = Race.StartDistanceOfParticipant;
 
