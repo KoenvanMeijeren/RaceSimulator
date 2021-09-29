@@ -102,11 +102,13 @@ namespace RaceSimulator
             Console.SetCursorPosition(CenteredTextCursorStartPosition(track.Name), 1);
             Console.WriteLine(track.Name);
 
+            CVisualization._cursorEastPosition = CVisualization.CursorStartEastPosition;
             if (track.EastStartPosition != Track.StartPositionUndefined)
             {
                 CVisualization._cursorEastPosition = track.EastStartPosition;
             }
 
+            CVisualization._cursorNorthPosition = CVisualization.CursorStartNorthPosition;
             if (track.NorthStartPosition != Track.StartPositionUndefined)
             {
                 CVisualization._cursorNorthPosition = track.NorthStartPosition;
