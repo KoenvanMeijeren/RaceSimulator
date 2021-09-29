@@ -301,7 +301,6 @@ namespace Controller
             return sectionData.Right == null && (sectionData.Left != null || sectionData.Left == null);
         }
 
-        // @todo implement distance between participants calculation.
         private SectionData ParticipantsToSectionData(SectionData sectionData, IParticipant leftParticipant, IParticipant rightParticipant)
         {
             if (!this.CanPlaceParticipants(sectionData, leftParticipant, rightParticipant))
