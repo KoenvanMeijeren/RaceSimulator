@@ -22,27 +22,72 @@ namespace ModelTests
     public class Model_SectionDataShould
     {
 
-        [Test]
-        public void SectionDate_CanCreate()
+        private SectionData _sectionData;
+
+        [SetUp]
+        public void Setup()
         {
             Car car = new Car(IEquipment.MaximumQuality, IEquipment.MaximumPerformance, IEquipment.MaximumSpeed);
             Driver driverLeft = new Driver(&quot;Klaas&quot;, 100, car, TeamColors.Blue);
             Driver driverRight = new Driver(&quot;Jan&quot;, 100, car, TeamColors.Blue);
 
-            SectionData sectionData = new SectionData(driverLeft, 10, driverRight, 20);
-
-            Assert.AreEqual(&quot;Klaas&quot;, sectionData.Left.Name);
-            Assert.AreEqual(&quot;Jan&quot;, sectionData.Right.Name);
-            Assert.AreEqual(10, sectionData.DistanceLeft);
-            Assert.AreEqual(20, sectionData.DistanceRight);
+            this._sectionData = new SectionData(driverLeft, 10, driverRight, 20);
+        }
+        
+        [Test]
+        public void SectionData_CanCreate()
+        {
+            Assert.AreEqual(&quot;Klaas&quot;, this._sectionData.Left.Name);
+            Assert.AreEqual(&quot;Jan&quot;, this._sectionData.Right.Name);
+            Assert.AreEqual(10, this._sectionData.DistanceLeft);
+            Assert.AreEqual(20, this._sectionData.DistanceRight);
         }
 
+        [Test]
+        public void SectionData_CanRead_CanCompare()
+        {
+            Car car = new Car(IEquipment.MaximumQuality, IEquipment.MaximumPerformance, IEquipment.MaximumSpeed);
+            Driver driverLeft = new Driver(&quot;Klaas&quot;, 100, car, TeamColors.Blue);
+            Driver driverRight = new Driver(&quot;Jan&quot;, 100, car, TeamColors.Blue);
+            
+            Assert.IsFalse(this._sectionData.Left.Equals(this._sectionData.Right));
+            Assert.IsFalse(this._sectionData.Left.Equals(driverRight));
+            Assert.IsFalse(this._sectionData.Left.Equals(null));
+            Assert.IsFalse(this._sectionData.Left.Equals(car));
+            
+            Assert.IsTrue(this._sectionData.Left.Equals(driverLeft));
+            Assert.IsTrue(this._sectionData.Left.Equals(new Driver(&quot;Klaas&quot;, 100, car, TeamColors.Blue)));
+        }
+
+        [Test]
+        public void SectionData_CanClear_BothParticipants()
+        {
+            this._sectionData.Clear(this._sectionData.Left, this._sectionData.Right);
+            
+            Assert.IsNull(this._sectionData.Left);
+            Assert.IsNull(this._sectionData.Right);
+            Assert.AreEqual(0, this._sectionData.DistanceLeft);
+            Assert.AreEqual(0, this._sectionData.DistanceRight);
+        }
+        
+        [Test]
+        public void SectionData_CanClear_OneParticipants()
+        {
+            this._sectionData.Clear(null);
+            this._sectionData.Clear(this._sectionData.Left);
+            
+            Assert.IsNull(this._sectionData.Left);
+            Assert.IsNotNull(this._sectionData.Right);
+            Assert.AreEqual(0, this._sectionData.DistanceLeft);
+            Assert.AreNotEqual(0, this._sectionData.DistanceRight);
+        }
+        
     }
 }
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[17,9,17,10,1],[18,13,18,114,1],[19,13,19,80,1],[20,13,20,79,1],[22,13,22,88,1],[24,13,24,61,1],[25,13,25,60,1],[26,13,26,59,1],[27,13,27,60,1],[28,9,28,10,1]]);
+      highlightRanges([[19,9,19,10,1],[20,13,20,114,1],[21,13,21,80,1],[22,13,22,79,1],[24,13,24,82,1],[25,9,25,10,1],[29,9,29,10,1],[30,13,30,67,1],[31,13,31,66,1],[32,13,32,65,1],[33,13,33,66,1],[34,9,34,10,1],[38,9,38,10,1],[39,13,39,114,1],[40,13,40,80,1],[41,13,41,79,1],[43,13,43,84,1],[44,13,44,72,1],[45,13,45,65,1],[46,13,46,64,1],[48,13,48,70,1],[49,13,49,106,1],[50,9,50,10,1],[54,9,54,10,1],[55,13,55,86,1],[57,13,57,51,1],[58,13,58,52,1],[59,13,59,64,1],[60,13,60,65,1],[61,9,61,10,1],[65,9,65,10,1],[66,13,66,43,1],[67,13,67,61,1],[69,13,69,51,1],[70,13,70,55,1],[71,13,71,64,1],[72,13,72,68,1],[73,9,73,10,1]]);
     </script>
   </body>
 </html>
