@@ -24,6 +24,8 @@ namespace Model
         
         public bool IsBroken { get; }
 
+        public int GetRealSpeed();
+        
         public void SetRandomPerformance();
         public void SetRandomQuality();
 

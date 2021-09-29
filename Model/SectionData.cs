@@ -10,10 +10,10 @@ namespace Model
     {
 
         public IParticipant Left { get; private set; }
-        public int DistanceLeft { get; set; }
+        public int DistanceLeft { get; private set; }
 
         public IParticipant Right { get; private set; }
-        public int DistanceRight { get; set; }
+        public int DistanceRight { get; private set; }
 
         public SectionData()
         {
@@ -27,6 +27,26 @@ namespace Model
 
             this.Right = right;
             this.DistanceRight = distanceRight;
+        }
+
+        public void MoveLeft()
+        {
+            if (this.Left == null)
+            {
+                return;
+            }
+            
+            this.DistanceLeft += this.Left.Equipment.GetRealSpeed();
+        }
+
+        public void MoveRight()
+        {
+            if (this.Right == null)
+            {
+                return;
+            }
+            
+            this.DistanceRight += this.Right.Equipment.GetRealSpeed();
         }
 
         public SectionData Clear(IParticipant participant)
