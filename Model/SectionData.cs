@@ -10,10 +10,10 @@ namespace Model
     {
 
         public IParticipant Left { get; private set; }
-        public int DistanceLeft { get; private set; }
+        public int DistanceLeft { get; set; }
 
         public IParticipant Right { get; private set; }
-        public int DistanceRight { get; private set; }
+        public int DistanceRight { get; set; }
 
         public SectionData()
         {
@@ -27,6 +27,33 @@ namespace Model
 
             this.Right = right;
             this.DistanceRight = distanceRight;
+        }
+
+        public SectionData Clear(IParticipant participant)
+        {
+            if (participant == null)
+            {
+                return this;
+            }
+
+            if (this.Left != null && this.Left.Equals(participant))
+            {
+                this.Left = null;
+                this.DistanceLeft = 0;
+            }
+            else if (this.Right != null && this.Right.Equals(participant))
+            {
+                this.Right = null;
+                this.DistanceRight = 0;
+            }
+
+            return this;
+        }
+
+        public void Clear(IParticipant left, IParticipant right)
+        {
+            this.Clear(left).Clear(right);
+
         }
 
     }

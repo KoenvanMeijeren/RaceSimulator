@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,6 +36,16 @@ namespace Model
             }
 
             return initials.ToString();
+        }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj is IParticipant participant)
+            {
+                return this.Name.Equals(participant.Name);
+            }
+
+            return false;
         }
     }
 }
