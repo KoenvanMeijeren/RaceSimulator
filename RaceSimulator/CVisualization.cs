@@ -390,9 +390,10 @@ namespace RaceSimulator
             Console.WriteLine(symbol);
         }
 
-        private static string MergeInitialsIntoSymbol(string symbol, string initials, int initialsStartIndex)
+        private static string MergeInitialsIntoSymbol(string symbol, string initials, int distance)
         { 
             int maxInitialsLength = initials.Length < CVisualization.MaxInitialsLength ? initials.Length : CVisualization.MaxInitialsLength;
+            int initialsStartIndex = Race.ConvertRange(0, Race.SectionLength, 0, CVisualization.SymbolSpaces, distance);
 
             string trimmedInitials = initials.ToString();
             if (initials.Length > CVisualization.MaxInitialsLength)

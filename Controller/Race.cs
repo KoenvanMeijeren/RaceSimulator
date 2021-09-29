@@ -12,10 +12,10 @@ namespace Controller
     public class Race
     {
 
-        private const int 
+        public const int 
             StartDistanceOfParticipant = 0, 
             TimerInterval = 500, 
-            SectionLength = 4;
+            SectionLength = 100;
 
         public Track Track { get; private set; }
 
@@ -98,12 +98,12 @@ namespace Controller
                 SectionData sectionData = this.GetSectionData(section);
                 if (sectionData.Left != null && this.CanMoveParticipant(sectionData.DistanceLeft))
                 {
-                    sectionData.DistanceLeft++;
+                    sectionData.MoveLeft();
                 }
 
                 if (sectionData.Right != null && this.CanMoveParticipant(sectionData.DistanceRight))
                 {
-                    sectionData.DistanceRight++;
+                    sectionData.MoveRight();
                 }
                 
                 this.UpdateSectionData(section, sectionData);
@@ -340,5 +340,12 @@ namespace Controller
             }
         }
 
+        public static int ConvertRange(int originalStart, int originalEnd, int newStart, int newEnd, int value)
+        {
+            double scale = (double)(newEnd - newStart) / (originalEnd - originalStart);
+            
+            return (int)(newStart + ((value - originalStart) * scale));
+        }
+        
     }
 }
