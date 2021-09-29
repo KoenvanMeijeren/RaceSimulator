@@ -112,6 +112,7 @@ namespace Controller
             this.MoveParticipantsToNextSectionIfNecessary();
         }
 
+        // @todo find out why this method causes a stack overflow when participants are going to overtake their positions.
         private void MoveParticipantsToNextSectionIfNecessary()
         {
             Section[] sections = this.Track.Sections.ToArray();
