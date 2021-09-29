@@ -106,10 +106,10 @@ namespace Controller
                 this.UpdateSectionData(section, sectionData);
             }
             
-            this.MoveParticipantsToNextSection();
+            this.MoveParticipantsToNextSectionIfNecessary();
         }
 
-        private void MoveParticipantsToNextSection()
+        private void MoveParticipantsToNextSectionIfNecessary()
         {
             Section[] sections = this.Track.Sections.ToArray();
             
@@ -168,7 +168,7 @@ namespace Controller
                 }
             }
 
-            this.MoveParticipantsToNextSection();
+            this.MoveParticipantsToNextSectionIfNecessary();
         }
 
         private bool CanMoveParticipant(int distance)
