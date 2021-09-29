@@ -2,221 +2,41 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>E:\Development\C#\RaceSimulator\Controller\Race.cs</title>
+    <title>E:\Development\C#\RaceSimulator\RaceSimulator\Program.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading;
+using Controller;
 using Model;
 
-namespace Controller
+namespace RaceSimulator
 {
-
-    public class Race
+    class Program
     {
-
-        private const int StartDistanceBetweenParticipants = 0, TimerInterval = 500;
-
-        public Track Track { get; private set; }
-
-        public List&lt;IParticipant&gt; Participants { get; private set; }
-
-        public DateTime StartTime { get; private set; }
-
-        private Random _random;
-
-        // Only 2 participants per section are allowed.
-        private Dictionary&lt;Section, SectionData&gt; _positions;
-
-        private readonly Timer _timer;
-
-        public static event EventHandler&lt;DriversChangedEventArgs&gt; DriversChanged;
-
-        private static Race _raceReference;
-
-        private static bool _hasChangedDrivers = false;
-
-        public Race(Track track, List&lt;IParticipant&gt; participants)
+        static void Main(string[] args)
         {
-            this.Track = track;
-            this.Participants = participants;
-            this._random = new Random(DateTime.Now.Millisecond);
-            this._positions = new Dictionary&lt;Section, SectionData&gt;();
-            this._timer = new Timer(Race.TimerInterval);
+            Data.Initialize();
 
-            // Renders the participants to a new list in order to prevent changing the participants permanently.
-            this.PlaceParticipantsOnTrack();
+            CVisualization.Initialize();
+            CVisualization.DrawTrack(Data.CurrentRace);
+            Data.CurrentRace.Start();
 
-            this._timer.Elapsed += Race.OnTimedEvent;
-        }
-
-        public void Start()
-        {
-            this.StartTime = DateTime.Now;
-            this._timer.Enabled = true;
-            Race._raceReference = this;
-        }
-
-        public static void OnTimedEvent(Object source, ElapsedEventArgs e)
-        {
-            if (!Race._hasChangedDrivers)
+            for (;;)
             {
-                return;
-            }
-
-            Race.DriversChanged?.Invoke(source, new DriversChangedEventArgs(Race._raceReference));
-            Race._hasChangedDrivers = false;
-        }
-
-        public SectionData GetSectionData(Section section)
-        {
-            if (!this._positions.Any() || !this._positions.TryGetValue(section, out var foundSectionData))
-            {
-                foundSectionData = new SectionData();
-                this._positions.Add(section, foundSectionData);
-            }
-
-            return foundSectionData;
-        }
-
-        public bool UpdateSectionData(Section section, SectionData sectionData)
-        {
-            if (!this._positions.ContainsKey(section))
-            {
-                return false;
-            }
-
-            this._positions[section] = sectionData;
-            Race._hasChangedDrivers = true;
-            return true;
-        }
-
-        // @todo find out what we should do when there are more participants than start grids.
-        private void PlaceParticipantsOnTrack()
-        {
-            List&lt;IParticipant&gt; participants = this.Participants.ToList();
-
-            for (int delta = 0; delta &lt; this.Track.Sections.Count; delta++)
-            {
-                Section section = this.Track.Sections.ToArray()[delta];
-                SectionData sectionData = this.GetSectionData(section);
-
-                if (!this.CanPlaceParticipantsOnSectionType(section.SectionType))
-                {
-                    this.GetSectionData(section);
-                    continue;
-                }
-
-                IParticipant participantOne = participants.ElementAtOrDefault(0);
-                IParticipant participantTwo = participants.ElementAtOrDefault(1);
-                bool canPlaceBoth =
-                        this.CanPlaceBothParticipants(sectionData, participantOne, participantTwo),
-                    canPlaceOne = this.CanPlaceOneParticipant(sectionData, participantOne);
-
-                if (!canPlaceBoth &amp;&amp; canPlaceOne)
-                {
-                    sectionData = this.OneParticipantToSectionData(sectionData, participantOne);
-                    participants.RemoveAt(0);
-                }
-                else if (canPlaceBoth)
-                {
-                    sectionData = this.BothParticipantsToSectionData(sectionData, participantOne, participantTwo);
-                    participants.RemoveAt(0);
-                    participants.RemoveAt(0);
-                }
-
-                this.UpdateSectionData(section, sectionData);
+                Thread.Sleep(100);
             }
         }
-
-        private bool CanPlaceParticipantsOnSectionType(SectionTypes sectionType)
-        {
-            return sectionType == SectionTypes.StartGrid;
-        }
-
-        private bool CanPlaceBothParticipants(SectionData sectionData, IParticipant leftParticipant, IParticipant rightParticipant)
-        {
-            if (leftParticipant == null || rightParticipant == null)
-            {
-                return false;
-            }
-
-            return sectionData.Left == null &amp;&amp; sectionData.Right == null;
-        }
-
-        private bool CanPlaceOneParticipant(SectionData sectionData, IParticipant participant)
-        {
-            if (participant == null)
-            {
-                return false;
-            }
-
-            return this.CanPlaceLeftParticipant(sectionData) || this.CanPlaceRightParticipant(sectionData);
-        }
-
-        private bool CanPlaceLeftParticipant(SectionData sectionData)
-        {
-            return sectionData.Left == null &amp;&amp; (sectionData.Right != null || sectionData.Right == null);
-        }
-
-        private bool CanPlaceRightParticipant(SectionData sectionData)
-        {
-            return sectionData.Right != null &amp;&amp; (sectionData.Left != null || sectionData.Left == null);
-        }
-
-        // @todo implement distance between participants calculation.
-        private SectionData BothParticipantsToSectionData(SectionData sectionData, IParticipant leftParticipant, IParticipant rightParticipant)
-        {
-            if (!this.CanPlaceBothParticipants(sectionData, leftParticipant, rightParticipant))
-            {
-                return null;
-            }
-
-            int defaultDistance = Race.StartDistanceBetweenParticipants;
-
-            return new SectionData(leftParticipant, defaultDistance, rightParticipant, defaultDistance);
-        }
-
-        private SectionData OneParticipantToSectionData(SectionData sectionData, IParticipant participant)
-        {
-            int defaultDistance = Race.StartDistanceBetweenParticipants;
-
-            if (this.CanPlaceLeftParticipant(sectionData))
-            {
-                return new SectionData(participant, defaultDistance, sectionData.Right, defaultDistance);
-            }
-
-            if (this.CanPlaceRightParticipant(sectionData))
-            {
-                return new SectionData(sectionData.Left, defaultDistance, participant, defaultDistance);
-            }
-
-            return null;
-        }
-
-        private void RandomizeEquipment()
-        {
-            foreach (IParticipant participant in this.Participants)
-            {
-                IEquipment equipment = participant.Equipment;
-                equipment.SetRandomPerformance();
-                equipment.SetRandomQuality();
-            }
-        }
-
     }
 }
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[17,30,17,34,1],[17,35,17,47,1],[19,50,19,54,1],[19,55,19,67,1],[21,37,21,41,1],[21,42,21,54,1],[36,9,36,66,1],[37,9,37,10,1],[38,13,38,32,1],[39,13,39,46,1],[40,13,40,65,1],[41,13,41,70,1],[42,13,42,57,1],[45,13,45,45,1],[47,13,47,54,1],[48,9,48,10,1],[51,9,51,10,1],[52,13,52,43,1],[53,13,53,40,1],[54,13,54,40,1],[55,9,55,10,1],[58,9,58,10,1],[59,13,59,42,1],[60,13,60,14,1],[61,17,61,24,1],[64,13,64,99,1],[65,13,65,45,1],[66,9,66,10,1],[69,9,69,10,1],[70,13,70,107,1],[71,13,71,14,1],[72,17,72,54,1],[73,17,73,64,1],[74,13,74,14,1],[76,13,76,37,1],[77,9,77,10,1],[80,9,80,10,1],[81,13,81,55,1],[82,13,82,14,1],[83,17,83,30,1],[86,13,86,52,1],[87,13,87,44,1],[88,13,88,25,1],[89,9,89,10,1],[93,9,93,10,1],[94,13,94,74,1],[96,18,96,31,1],[96,33,96,66,1],[96,68,96,75,1],[97,13,97,14,1],[98,17,98,72,1],[99,17,99,72,1],[101,17,101,82,1],[102,17,102,18,1],[103,21,103,50,1],[104,21,104,30,1],[107,17,107,82,1],[108,17,108,82,1],[109,17,110,99,1],[111,21,111,91,1],[113,17,113,50,1],[114,17,114,18,1],[115,21,115,97,1],[116,21,116,46,1],[117,17,117,18,1],[118,22,118,39,1],[119,17,119,18,1],[120,21,120,115,1],[121,21,121,46,1],[122,21,122,46,1],[123,17,123,18,1],[125,17,125,62,1],[126,13,126,14,1],[127,9,127,10,1],[130,9,130,10,1],[131,13,131,58,1],[132,9,132,10,1],[135,9,135,10,1],[136,13,136,69,1],[137,13,137,14,1],[138,17,138,30,1],[141,13,141,74,1],[142,9,142,10,1],[145,9,145,10,1],[146,13,146,37,1],[147,13,147,14,1],[148,17,148,30,1],[151,13,151,108,1],[152,9,152,10,1],[155,9,155,10,1],[156,13,156,105,1],[157,9,157,10,1],[160,9,160,10,0],[161,13,161,104,0],[162,9,162,10,0],[166,9,166,10,1],[167,13,167,96,1],[168,13,168,14,0],[169,17,169,29,0],[172,13,172,73,1],[174,13,174,105,1],[175,9,175,10,1],[178,9,178,10,1],[179,13,179,73,1],[181,13,181,59,1],[182,13,182,14,1],[183,17,183,106,1],[186,13,186,60,0],[187,13,187,14,0],[188,17,188,105,0],[191,13,191,25,0],[192,9,192,10,1],[195,9,195,10,0],[196,13,196,20,0],[196,22,196,46,0],[196,47,196,49,0],[196,50,196,67,0],[197,13,197,14,0],[198,17,198,62,0],[199,17,199,50,0],[200,17,200,46,0],[201,13,201,14,0],[202,9,202,10,0]]);
+      highlightRanges([[12,9,12,10,0],[13,13,13,31,0],[15,13,15,41,0],[16,13,16,56,0],[17,13,17,38,0],[20,13,20,14,0],[21,17,21,35,0],[22,13,22,14,0]]);
     </script>
   </body>
 </html>

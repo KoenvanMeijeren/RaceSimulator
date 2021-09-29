@@ -96,5 +96,26 @@ namespace ControllerTests
             Race.OnTimedEvent(null, null);
         }
 
+        [Test]
+        public void Race_CanCovertRange()
+        {
+            Assert.AreEqual(0, Race.ConvertRange(0, 100, 0, 4, 10));
+            Assert.AreEqual(1, Race.ConvertRange(0, 100, 0, 4, 30));
+            Assert.AreEqual(2, Race.ConvertRange(0, 100, 0, 4, 60));
+            Assert.AreEqual(3, Race.ConvertRange(0, 100, 0, 4, 80));
+            Assert.AreEqual(4, Race.ConvertRange(0, 100, 0, 4, 110));
+            
+            Assert.AreEqual(0, Race.ConvertRange(0, 100, 0, 4, 12));
+            Assert.AreEqual(0, Race.ConvertRange(0, 100, 0, 4, 24));
+            Assert.AreEqual(1, Race.ConvertRange(0, 100, 0, 4, 36));
+            Assert.AreEqual(1, Race.ConvertRange(0, 100, 0, 4, 48));
+            Assert.AreEqual(2, Race.ConvertRange(0, 100, 0, 4, 60));
+            Assert.AreEqual(2, Race.ConvertRange(0, 100, 0, 4, 72));
+            Assert.AreEqual(3, Race.ConvertRange(0, 100, 0, 4, 84));
+            Assert.AreEqual(3, Race.ConvertRange(0, 100, 0, 4, 96));
+            Assert.AreEqual(4, Race.ConvertRange(0, 100, 0, 4, 108));
+            Assert.AreEqual(4, Race.ConvertRange(0, 100, 0, 4, 120));
+        }
+        
     }
 }
