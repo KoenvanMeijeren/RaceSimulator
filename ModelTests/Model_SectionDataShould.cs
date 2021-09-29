@@ -71,6 +71,27 @@ namespace ModelTests
             Assert.AreEqual(0, this._sectionData.DistanceLeft);
             Assert.AreNotEqual(0, this._sectionData.DistanceRight);
         }
+
+        [Test]
+        public void SectionData_CanMoveParticipants()
+        {
+            int previousDistance = this._sectionData.DistanceLeft;
+            this._sectionData.MoveLeft();
+            Assert.AreNotEqual(previousDistance, this._sectionData.DistanceLeft);
+            
+            previousDistance = this._sectionData.DistanceRight;
+            this._sectionData.MoveRight();
+            Assert.AreNotEqual(previousDistance, this._sectionData.DistanceRight);
+
+            SectionData sectionData = new SectionData();
+            previousDistance = sectionData.DistanceLeft;
+            sectionData.MoveLeft();
+            Assert.AreEqual(previousDistance, sectionData.DistanceLeft);
+            
+            previousDistance = sectionData.DistanceRight;
+            sectionData.MoveRight();
+            Assert.AreEqual(previousDistance, sectionData.DistanceRight);
+        }
         
     }
 }
