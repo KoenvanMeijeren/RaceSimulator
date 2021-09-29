@@ -28,7 +28,7 @@ namespace ControllerTests
             Assert.IsNotEmpty(Data.Participants);
             Assert.AreEqual(5, Data.Participants.Count);
             Assert.AreEqual("Koen van Meijeren", Data.Participants.First().Name);
-            Assert.AreEqual("Klaas van Meijeren", Data.Participants[1].Name);
+            Assert.AreEqual("Henk van Meijeren", Data.Participants[1].Name);
             Assert.AreEqual("Jan van Meijeren", Data.Participants[2].Name);
             Assert.AreEqual("Piet van Meijeren", Data.Participants[3].Name);
             Assert.AreEqual("Stan van Meijeren", Data.Participants[4].Name);

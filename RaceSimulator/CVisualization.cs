@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -9,8 +10,7 @@ using Model;
 
 namespace RaceSimulator
 {
-
-    public enum Directions
+    internal enum Directions
     {
         North = 0,
         East = 1,
@@ -40,11 +40,9 @@ namespace RaceSimulator
              * the output will be this: "----", "AB| ", "CD| ", "----" or "----", "A | ", "BC| ", "----"
              * or "----", "AB| ", "  | ", "----".
              */
-            MaxInitialsLength = 2,
-            InitialsInGraphicsSymbolHorizontalStartIndex = 0,
+            MaxInitialsLength = 1,
             InitialsOnPositionOneInGraphicsSymbolsHorizontalIndex = 1,
             InitialsOnPositionTwoInGraphicsSymbolsHorizontalIndex = 2,
-            InitialsInGraphicsSymbolVerticalStartIndex = 1,
             InitialsOnPositionOneInGraphicsSymbolsVerticalIndex = 2,
             InitialsOnPositionTwoInGraphicsSymbolsVerticalIndex = 3;
 
@@ -102,11 +100,13 @@ namespace RaceSimulator
             Console.SetCursorPosition(CenteredTextCursorStartPosition(track.Name), 1);
             Console.WriteLine(track.Name);
 
+            CVisualization._cursorEastPosition = CVisualization.CursorStartEastPosition;
             if (track.EastStartPosition != Track.StartPositionUndefined)
             {
                 CVisualization._cursorEastPosition = track.EastStartPosition;
             }
 
+            CVisualization._cursorNorthPosition = CVisualization.CursorStartNorthPosition;
             if (track.NorthStartPosition != Track.StartPositionUndefined)
             {
                 CVisualization._cursorNorthPosition = track.NorthStartPosition;
@@ -319,22 +319,28 @@ namespace RaceSimulator
 
             if (sectionData.Left != null && sectionData.Right != null)
             {
-                return CVisualization.PlaceBothParticipantsOnSection(symbols.ToArray(), sectionData.Left, sectionData.Right);
+                return CVisualization.PlaceBothParticipantsOnSection(
+                    symbols.ToArray(), 
+                    sectionData.Left, sectionData.DistanceLeft, 
+                    sectionData.Right, sectionData.DistanceRight
+                    );
             }
             
             if (sectionData.Left != null || sectionData.Right != null)
             {
-                return CVisualization.PlaceOneParticipantOnSection(symbols.ToArray(), sectionData.Left ?? sectionData.Right);
+                return CVisualization.PlaceOneParticipantOnSection(
+                    symbols.ToArray(), sectionData.Left ?? sectionData.Right, 
+                    sectionData.Left != null ? sectionData.DistanceLeft : sectionData.DistanceRight
+                    );
             }
 
             return symbols;
         }
 
-        private static string[] PlaceBothParticipantsOnSection(string[] symbols, IParticipant participantOne, IParticipant participantTwo)
+        private static string[] PlaceBothParticipantsOnSection(string[] symbols, IParticipant participantOne, int distanceOne, IParticipant participantTwo, int distanceTwo)
         {
             int indexOne = CVisualization.InitialsOnPositionOneInGraphicsSymbolsHorizontalIndex,
-                indexTwo = CVisualization.InitialsOnPositionTwoInGraphicsSymbolsHorizontalIndex,
-                initialsStartIndex = CVisualization.InitialsInGraphicsSymbolHorizontalStartIndex;
+                indexTwo = CVisualization.InitialsOnPositionTwoInGraphicsSymbolsHorizontalIndex;
             string
                 initialsStartOne = participantOne.GetInitials(CVisualization.MaxInitialsLength),
                 initialsStartTwo = participantTwo.GetInitials(CVisualization.MaxInitialsLength),
@@ -346,23 +352,24 @@ namespace RaceSimulator
             {
                 indexOne = CVisualization.InitialsOnPositionOneInGraphicsSymbolsVerticalIndex;
                 indexTwo = CVisualization.InitialsOnPositionTwoInGraphicsSymbolsVerticalIndex;
-                initialsStartIndex = CVisualization.InitialsInGraphicsSymbolVerticalStartIndex;
                 initialsOne = initialsStartOne.First().ToString() + initialsStartTwo.First().ToString();
                 initialsTwo = initialsStartOne?.ElementAtOrDefault(1).ToString() +
                               initialsStartTwo?.ElementAtOrDefault(1).ToString();
             }
 
-            symbols[indexOne] = CVisualization.MergeInitialsIntoSymbol(symbols[indexOne], initialsOne, initialsStartIndex);
-            symbols[indexTwo] = CVisualization.MergeInitialsIntoSymbol(symbols[indexTwo], initialsTwo, initialsStartIndex);
+            symbols[indexOne] = CVisualization.MergeInitialsIntoSymbol(symbols[indexOne], initialsOne, distanceOne);
+            symbols[indexTwo] = CVisualization.MergeInitialsIntoSymbol(symbols[indexTwo], initialsTwo, distanceTwo);
 
             return symbols;
         }
 
-        private static string[] PlaceOneParticipantOnSection(string[] symbols, IParticipant participant)
+        private static string[] PlaceOneParticipantOnSection(string[] symbols, IParticipant participant, int distance)
         {
             int indexOne = CVisualization.InitialsOnPositionOneInGraphicsSymbolsHorizontalIndex;
 
-            symbols[indexOne] = CVisualization.MergeInitialsIntoSymbol(symbols[indexOne], participant.GetInitials(CVisualization.MaxInitialsLength));
+            symbols[indexOne] = CVisualization.MergeInitialsIntoSymbol(
+                symbols[indexOne], participant.GetInitials(CVisualization.MaxInitialsLength), distance
+            );
 
             return symbols;
         }
@@ -383,7 +390,7 @@ namespace RaceSimulator
             Console.WriteLine(symbol);
         }
 
-        private static string MergeInitialsIntoSymbol(string symbol, string initials, int initialsStartIndex = CVisualization.InitialsInGraphicsSymbolHorizontalStartIndex)
+        private static string MergeInitialsIntoSymbol(string symbol, string initials, int initialsStartIndex)
         { 
             int maxInitialsLength = initials.Length < CVisualization.MaxInitialsLength ? initials.Length : CVisualization.MaxInitialsLength;
 
@@ -391,6 +398,11 @@ namespace RaceSimulator
             if (initials.Length > CVisualization.MaxInitialsLength)
             {
                 trimmedInitials = trimmedInitials.Remove(CVisualization.MaxInitialsLength);
+            }
+
+            if ((trimmedInitials.Length + initialsStartIndex) > symbol.Length)
+            {
+                return symbol;
             }
 
             return symbol.Remove(initialsStartIndex, maxInitialsLength).Insert(initialsStartIndex, trimmedInitials);
