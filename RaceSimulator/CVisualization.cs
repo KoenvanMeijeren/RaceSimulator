@@ -372,8 +372,8 @@ namespace RaceSimulator
                 initialsOne = initialsStartOne,
                 initialsTwo = initialsStartTwo;
             
-            symbols[indexOne] = CVisualization.MergeInitialsIntoSymbol(symbols[indexOne], initialsOne, 1);
-            symbols[indexTwo] = CVisualization.MergeInitialsIntoSymbol(symbols[indexTwo], initialsTwo, 2);
+            symbols[indexOne] = CVisualization.MergeInitialsIntoSymbolByDistance(symbols[indexOne], initialsOne, 1);
+            symbols[indexTwo] = CVisualization.MergeInitialsIntoSymbolByDistance(symbols[indexTwo], initialsTwo, 2);
             
             return symbols;
         }
@@ -404,7 +404,7 @@ namespace RaceSimulator
 
             string initials = participant.GetInitials(CVisualization.MaxInitialsLength);
             
-            symbols[index] = CVisualization.MergeInitialsIntoSymbol(symbols[index], initials, left ? 1 : 2);
+            symbols[index] = CVisualization.MergeInitialsIntoSymbolByDistance(symbols[index], initials, left ? 1 : 2);
             
             return symbols;
         }
@@ -438,8 +438,15 @@ namespace RaceSimulator
 
         private static string MergeInitialsIntoSymbol(string symbol, string initials, int distance)
         { 
-            int maxInitialsLength = initials.Length < CVisualization.MaxInitialsLength ? initials.Length : CVisualization.MaxInitialsLength;
             int initialsStartIndex = CVisualization.ConvertDistanceToSymbolIndex(distance);
+
+            return CVisualization.MergeInitialsIntoSymbolByDistance(symbol, initials, initialsStartIndex);
+        }
+
+        private static string MergeInitialsIntoSymbolByDistance(string symbol, string initials, int distance)
+        {
+            int maxInitialsLength = initials.Length < CVisualization.MaxInitialsLength ? initials.Length : CVisualization.MaxInitialsLength;
+            int startIndex = CVisualization.FlipSymbolIndexIfNecessary(distance);
 
             string trimmedInitials = initials.ToString();
             if (initials.Length > CVisualization.MaxInitialsLength)
@@ -447,31 +454,29 @@ namespace RaceSimulator
                 trimmedInitials = trimmedInitials.Remove(CVisualization.MaxInitialsLength);
             }
 
-            if ((trimmedInitials.Length + initialsStartIndex) > symbol.Length)
+            if ((trimmedInitials.Length + startIndex) > symbol.Length)
             {
                 return symbol;
             }
 
-            return symbol.Remove(initialsStartIndex, maxInitialsLength).Insert(initialsStartIndex, trimmedInitials);
+            return symbol.Remove(startIndex, maxInitialsLength).Insert(startIndex, trimmedInitials);
         }
 
         private static int ConvertDistanceToSymbolIndex(int distance)
         {
-            if (distance is >= 0 and <= CVisualization.SymbolSpaces)
-            {
-                return distance;
-            }
-            
-            int initialsStartIndex = Race.ConvertRange(0, Race.SectionLength, 0, CVisualization.SymbolSpaces, distance);
-            if (CVisualization._direction == Directions.West)
-            {
-                initialsStartIndex = Race.ConvertRange(0, CVisualization.SymbolSpaces, CVisualization.SymbolSpaces, 0,
-                    initialsStartIndex);
-            }
-
-            return initialsStartIndex;
+            return Race.ConvertRange(0, Race.SectionLength, 0, CVisualization.SymbolSpaces, distance);
         }
 
+        private static int FlipSymbolIndexIfNecessary(int distance)
+        {
+            if (CVisualization._direction == Directions.West)
+            {
+                distance = Race.ConvertRange(0, CVisualization.SymbolSpaces, CVisualization.SymbolSpaces, 0, distance);
+            }
+
+            return distance;
+        }
+        
         private static int CenteredTextCursorStartPosition(string text)
         {
             return (Console.WindowWidth / 2) - (text.Length / 2);
