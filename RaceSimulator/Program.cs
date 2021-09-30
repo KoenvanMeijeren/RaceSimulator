@@ -12,19 +12,36 @@ namespace RaceSimulator
         {
             Data.Initialize();
 
-            CVisualization.Initialize();
-            CVisualization.DrawTrack(Data.CurrentRace);
-            Data.CurrentRace.Start();
+            Program.StartRace();
             
-            Data.NextRace();
-            CVisualization.Initialize();
-            CVisualization.DrawTrack(Data.CurrentRace);
-            Data.CurrentRace.Start();
+            Race.RaceEnded += Program.OnRaceEnded;
 
             for (;;)
             {
                 Thread.Sleep(100);
             }
         }
+
+        private static void OnRaceEnded(object source, DriversChangedEventArgs eventArgs)
+        {
+            Data.NextRace();
+            if (Data.CurrentRace == null)
+            {
+                Race.DestructAllEvents();
+                Console.SetCursorPosition(5, 5);
+                Console.WriteLine("De races zijn afgelopen.");
+                return;
+            }
+            
+            Program.StartRace();
+        }
+
+        private static void StartRace()
+        {
+            CVisualization.Initialize();
+            CVisualization.DrawTrack(Data.CurrentRace);
+            Data.CurrentRace.Start();
+        }
+        
     }
 }
