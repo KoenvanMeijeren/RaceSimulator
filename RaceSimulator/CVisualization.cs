@@ -82,7 +82,7 @@ namespace RaceSimulator
             Race.DriversChanged += CVisualization.OnDriversChanged;
         }
 
-        public static void OnDriversChanged(object sender, DriversChangedEventArgs eventArgs)
+        private static void OnDriversChanged(object sender, DriversChangedEventArgs eventArgs)
         {
             CVisualization.DrawTrack(eventArgs.Race);
         }
@@ -98,6 +98,7 @@ namespace RaceSimulator
             Console.SetCursorPosition(CenteredTextCursorStartPosition(track.Name), 1);
             Console.WriteLine(track.Name);
 
+            CVisualization._direction = CVisualization._startDirection;
             CVisualization._cursorEastPosition = CVisualization.CursorStartEastPosition;
             if (track.EastStartPosition != Track.StartPositionUndefined)
             {
