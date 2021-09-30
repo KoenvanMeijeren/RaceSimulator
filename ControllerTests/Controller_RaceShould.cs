@@ -28,8 +28,8 @@ namespace ControllerTests
                 SectionTypes.StartGrid, SectionTypes.RightCorner, SectionTypes.StartGrid
             };
             List<IParticipant> participants = new List<IParticipant>();
-            IEquipment defaultCar = new Car(quality: 100, performance: 150, speed: 25);
-            IEquipment toyota = new Car(quality: 65, performance: 34, speed: 10);
+            IEquipment defaultCar = new Car(quality: 100, performance: 3, speed: 10);
+            IEquipment toyota = new Car(quality: 65, performance: 2, speed: 25);
 
             participants.Add(new Driver(name: "Koen van Meijeren", points: 200, equipment: defaultCar, teamColor: TeamColors.Red));
             participants.Add(new Driver(name: "Klaas van Meijeren", points: 190, equipment: toyota, teamColor: TeamColors.Blue));
@@ -115,6 +115,21 @@ namespace ControllerTests
             Assert.AreEqual(3, Race.ConvertRange(0, 100, 0, 4, 96));
             Assert.AreEqual(4, Race.ConvertRange(0, 100, 0, 4, 108));
             Assert.AreEqual(4, Race.ConvertRange(0, 100, 0, 4, 120));
+        }
+
+        [Test]
+        public void Race_CanFlipRace()
+        {
+            int value = Race.ConvertRange(0, 100, 0, 4, 10);
+            Assert.AreEqual(4, Race.ConvertRange(0, 4,  4, 0, value));
+            value = Race.ConvertRange(0, 100, 0, 4, 35);
+            Assert.AreEqual(3, Race.ConvertRange(0, 4,  4, 0, value));
+            value = Race.ConvertRange(0, 100, 0, 4, 55);
+            Assert.AreEqual(2, Race.ConvertRange(0, 4,  4, 0, value));
+            value = Race.ConvertRange(0, 100, 0, 4, 78);
+            Assert.AreEqual(1, Race.ConvertRange(0, 4,  4, 0, value));
+            value = Race.ConvertRange(0, 100, 0, 4, 105);
+            Assert.AreEqual(0, Race.ConvertRange(0, 4,  4, 0, value));
         }
         
     }
