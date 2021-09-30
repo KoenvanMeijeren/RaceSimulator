@@ -626,11 +626,6 @@ namespace RaceSimulator
                     
                     return 2;
                 case 2:
-                    if (CVisualization._direction == Directions.East)
-                    {
-                        return 2;
-                    }
-
                     if (CVisualization._direction == Directions.South || CVisualization._direction == Directions.North)
                     {
                         return right ? 1 : 2;
@@ -643,11 +638,6 @@ namespace RaceSimulator
                     
                     return 2;
                 default:
-                    if (CVisualization._direction == Directions.East)
-                    {
-                        return 3;
-                    }
-                    
                     if (CVisualization._direction == Directions.South || CVisualization._direction == Directions.North)
                     {
                         return right ? 1 : 2;
@@ -678,12 +668,7 @@ namespace RaceSimulator
                         return right ? 2 : 1;
                     }
 
-                    if (CVisualization._direction == Directions.West)
-                    {
-                        return 1;
-                    }
-
-                    return 2;
+                    return 1;
                 case 1:
                     if (CVisualization._direction == Directions.East)
                     {
@@ -693,11 +678,6 @@ namespace RaceSimulator
                     if (CVisualization._direction == Directions.South || CVisualization._direction == Directions.North)
                     {
                         return right ? 2 : 1;
-                    }
-                    
-                    if (CVisualization._direction == Directions.West)
-                    {
-                        return 2;
                     }
 
                     return 2;
@@ -717,11 +697,6 @@ namespace RaceSimulator
                         return right ? 2 : 3;
                     }
 
-                    if (CVisualization._direction == Directions.North)
-                    {
-                        return 2;
-                    }
-                    
                     return 2;
                 default:
                     if (CVisualization._direction == Directions.East)
@@ -739,11 +714,6 @@ namespace RaceSimulator
                         return right ? 2 : 3;
                     }
 
-                    if (CVisualization._direction == Directions.North)
-                    {
-                        return 3;
-                    }
-                    
                     return 3;
             }
         }
@@ -759,26 +729,16 @@ namespace RaceSimulator
                         return left ? 1 : 2;
                     }
 
-                    if (CVisualization._direction == Directions.South || CVisualization._direction == Directions.North)
-                    {
-                        return 0;
-                    }
-
                     if (CVisualization._direction == Directions.West)
                     {
                         return left ? 2 : 1;
                     }
 
-                    return 2;
+                    return 0;
                 case 1:
                     if (CVisualization._direction == Directions.East)
                     {
                         return left ? 1 : 2;
-                    }
-
-                    if (CVisualization._direction == Directions.South || CVisualization._direction == Directions.North)
-                    {
-                        return 1;
                     }
 
                     if (CVisualization._direction == Directions.West)
@@ -786,7 +746,7 @@ namespace RaceSimulator
                         return left ? 2 : 1;
                     }
                     
-                    return 2;
+                    return 1;
                 case 2:
                     if (CVisualization._direction == Directions.East)
                     {
@@ -797,12 +757,7 @@ namespace RaceSimulator
                     {
                         return left ? 1 : 2;
                     }
-                    
-                    if (CVisualization._direction == Directions.West)
-                    {
-                        return 2;
-                    }
-                    
+
                     if (CVisualization._direction == Directions.North)
                     {
                         return left ? 2 : 1;
@@ -818,11 +773,6 @@ namespace RaceSimulator
                     if (CVisualization._direction == Directions.South)
                     {
                         return left ? 1 : 2;
-                    }
-                    
-                    if (CVisualization._direction == Directions.West)
-                    {
-                        return 3;
                     }
 
                     if (CVisualization._direction == Directions.North)
@@ -850,12 +800,7 @@ namespace RaceSimulator
                         return left ? 2 : 1;
                     }
 
-                    if (CVisualization._direction == Directions.West)
-                    {
-                        return 1;
-                    }
-
-                    return 2;
+                    return 1;
                 case 1:
                     if (CVisualization._direction == Directions.East)
                     {
@@ -866,11 +811,6 @@ namespace RaceSimulator
                     {
                         return left ? 2 : 1;
                     }
-                    
-                    if (CVisualization._direction == Directions.West)
-                    {
-                        return 2;
-                    }
 
                     return 2;
                 case 2:
@@ -878,12 +818,7 @@ namespace RaceSimulator
                     {
                         return left ? 1 : 2;
                     }
-                    
-                    if (CVisualization._direction == Directions.South)
-                    {
-                        return 2;
-                    }
-                    
+
                     if (CVisualization._direction == Directions.West)
                     {
                         return left ? 2 : 3;
@@ -899,11 +834,6 @@ namespace RaceSimulator
                     if (CVisualization._direction == Directions.East)
                     {
                         return left ? 1 : 2;
-                    }
-                    
-                    if (CVisualization._direction == Directions.South)
-                    {
-                        return 3;
                     }
 
                     if (CVisualization._direction == Directions.West)
