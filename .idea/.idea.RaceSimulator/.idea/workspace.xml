@@ -4,7 +4,12 @@
     <projectFile>RaceSimulator/RaceSimulator.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8a783f09-19f2-47c7-9340-0fa8907541ee" name="Changes" comment="" />
+    <list default="true" id="8a783f09-19f2-47c7-9340-0fa8907541ee" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controller/Data.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controller/Data.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controller/Race.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controller/Race.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RaceSimulator/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RaceSimulator/Program.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,50 +23,18 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Data.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/RaceSimulator/CVisualization.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/RaceSimulator/CVisualization.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Data.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/Model/IEquipment.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Race.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/RaceSimulator/CVisualization.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/RaceSimulator/CVisualization.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Data.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Data.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/ControllerTests/Controller_RaceShould.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/RaceSimulator/CVisualization.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/RaceSimulator/CVisualization.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Data.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Race.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Race.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/ControllerTests/Controller_DataShould.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/RaceSimulator/CVisualization.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/RaceSimulator/CVisualization.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/RaceSimulator/CVisualization.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Data.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/RaceSimulator/CVisualization.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Data.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/Model/IEquipment.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Race.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Race.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Data.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/ControllerTests/Controller_DriversChangedEventArgsShould.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Data.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/RaceSimulator/CVisualization.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/84f06ea1ac414f7f82c8570fa35e8d9fab590/E/Timer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/bc3d7024e97f4f818de53bc3c23872b48f5790/37/Object.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Data.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Race.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Data.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Data.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/RaceSimulator/CVisualization.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Data.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Race.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8c5d964499a04c04b2b151bbd137532725590/4/Console.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/RaceSimulator/CVisualization.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Data.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/84f06ea1ac414f7f82c8570fa35e8d9fab590/E/Timer.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="1ylipXz4TwR0b6Wso2y4JUpH2hN" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -115,6 +88,8 @@
       <workItem from="1632925941173" duration="545000" />
       <workItem from="1632931234330" duration="488000" />
       <workItem from="1632982441721" duration="28412000" />
+      <workItem from="1633022639355" duration="236000" />
+      <workItem from="1633024391669" duration="630000" />
     </task>
     <task id="LOCAL-00001" summary="Debug tests">
       <created>1632833224665</created>
@@ -424,7 +399,14 @@
       <option name="project" value="LOCAL" />
       <updated>1633022455772</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="Update .idea">
+      <created>1633022702649</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1633022702650</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -458,11 +440,11 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Implement correct speeds" />
     <MESSAGE value="Merge initials into symbols based on direction" />
     <MESSAGE value="Debug placing participants on section" />
     <MESSAGE value="Debug redrawing a track" />
@@ -487,7 +469,8 @@
     <MESSAGE value="Increase the rounds start value" />
     <MESSAGE value="Only update the section data if necessary" />
     <MESSAGE value="Update tests" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update tests" />
+    <MESSAGE value="Update .idea" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update .idea" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
