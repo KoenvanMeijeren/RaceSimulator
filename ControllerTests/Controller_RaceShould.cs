@@ -42,7 +42,7 @@ namespace ControllerTests
         [Test]
         public void Race_CanRead_Track()
         {
-            Assert.AreEqual(5, Data.CurrentRace.Participants.Count);
+            Assert.AreEqual(6, Data.CurrentRace.Participants.Count);
             Assert.AreEqual("Circuit Zwolle", Data.CurrentRace.Track.Name);
             Assert.AreEqual("Monaco", this._race.Track.Name);
             Assert.AreEqual("Test", this._emptyRace.Track.Name);

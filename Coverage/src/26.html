@@ -22,10 +22,11 @@ namespace Controller
     public class Race
     {
 
-        public const int 
-            StartDistanceOfParticipant = 0, 
-            TimerInterval = 500, 
-            SectionLength = 100;
+        private const int
+            StartDistanceOfParticipant = 0,
+            TimerInterval = 500;
+        
+        public const int SectionLength = IEquipment.MaximumPerformance * IEquipment.MaximumSpeed;
 
         public Track Track { get; private set; }
 
@@ -125,29 +126,6 @@ namespace Controller
         private void MoveParticipantsToNextSectionIfNecessary()
         {
             Section[] sections = this.Track.Sections.ToArray();
-            
-            // Determine how many participants should move to the next section. Than move them, if they can move, and
-            // re-trigger this method. We do this because it is not always possible to move the participants to the next
-            // section. For example if there are participants on the last 2 sections, and they both should move, then we 
-            // cannot move them both, because the second last one cannot move to the next section because those
-            // participants weren&#39;t move to the next section yet. After the first loop all non-blocking participants
-            // were moved to the next section. Now we can move all blocking participants to next section. We repeat this
-            // until there are no more participants who should move.
-            int sectionsWhichShouldMove = 0;
-            foreach (Section section in sections)
-            {
-                SectionData sectionData = this.GetSectionData(section);
-                if (this.ShouldMoveParticipantToNextSection(sectionData))
-                {
-                    sectionsWhichShouldMove++;
-                }
-            }
-
-            if (sectionsWhichShouldMove &lt;= 0)
-            {
-                return;
-            }
-            
             for (int delta = 0; delta &lt; sections.Length; delta++)
             {
                 int nextSectionDelta = (delta + 1) &gt;= sections.Length ? 0 : delta + 1;
@@ -162,7 +140,7 @@ namespace Controller
                 if (this.ShouldMoveParticipantsToNextSection(sectionData))
                 {
                     nextSectionData = this.MoveParticipantsToNextSection(
-                        sectionData, nextSectionData, sectionData.Left, sectionData.Right
+                        sectionData, nextSection, nextSectionData, sectionData.Left, sectionData.Right
                     );
                     
                     this.UpdateSectionData(nextSection, nextSectionData);
@@ -173,15 +151,13 @@ namespace Controller
                     IParticipant participant = this.GetParticipantWhoShouldMoveToNextSection(sectionData);
                 
                     nextSectionData = this.MoveParticipantToNextSection(
-                        sectionData, nextSectionData, participant
+                        sectionData, nextSection, nextSectionData, participant
                     );
                     
                     this.UpdateSectionData(nextSection, nextSectionData);
                     this.UpdateSectionData(section, sectionData);
                 }
             }
-
-            this.MoveParticipantsToNextSectionIfNecessary();
         }
 
         private bool CanMoveParticipant(int distance)
@@ -211,33 +187,32 @@ namespace Controller
             return sectionData.DistanceLeft &gt;= Race.SectionLength ? sectionData.Left : sectionData.Right;
         }
 
-        private SectionData MoveParticipantToNextSection(SectionData sectionData, SectionData nextSectionData, IParticipant participant)
+        private SectionData MoveParticipantToNextSection(SectionData sectionData, Section nextSection, SectionData nextSectionData, IParticipant participant)
         {
             if (!this.CanPlaceParticipant(nextSectionData, participant))
             {
                 return nextSectionData;
             }
             
-            nextSectionData = this.ParticipantToSectionData(nextSectionData, participant);
+            nextSectionData = this.ParticipantToSectionData(nextSection, nextSectionData, participant);
             sectionData.Clear(participant);
 
             return nextSectionData;
         }
 
-        private SectionData MoveParticipantsToNextSection(SectionData sectionData, SectionData nextSectionData, IParticipant participantLeft, IParticipant participantRight)
+        private SectionData MoveParticipantsToNextSection(SectionData sectionData, Section nextSection, SectionData nextSectionData, IParticipant participantLeft, IParticipant participantRight)
         {
             if (!this.CanPlaceParticipants(nextSectionData, participantLeft, participantRight))
             {
                 return nextSectionData;
             }
             
-            nextSectionData = this.ParticipantsToSectionData(nextSectionData, participantLeft, participantRight);
+            nextSectionData = this.ParticipantsToSectionData(nextSection, nextSectionData, participantLeft, participantRight);
             sectionData.Clear(participantLeft, participantRight);
 
             return nextSectionData;
         }
 
-        // @todo find out what we should do when there are more participants than start grids.
         private void PlaceParticipantsOnStartPositions()
         {
             List&lt;IParticipant&gt; participants = this.Participants.ToList();
@@ -261,12 +236,12 @@ namespace Controller
 
                 if (!canPlaceBoth &amp;&amp; canPlaceOne)
                 {
-                    sectionData = this.ParticipantToSectionData(sectionData, participantOne);
+                    sectionData = this.ParticipantToSectionData(section, sectionData, participantOne);
                     participants.RemoveAt(0);
                 }
                 else if (canPlaceBoth)
                 {
-                    sectionData = this.ParticipantsToSectionData(sectionData, participantOne, participantTwo);
+                    sectionData = this.ParticipantsToSectionData(section, sectionData, participantOne, participantTwo);
                     participants.RemoveAt(0);
                     participants.RemoveAt(0);
                 }
@@ -310,8 +285,7 @@ namespace Controller
             return sectionData.Right == null &amp;&amp; (sectionData.Left != null || sectionData.Left == null);
         }
 
-        // @todo implement distance between participants calculation.
-        private SectionData ParticipantsToSectionData(SectionData sectionData, IParticipant leftParticipant, IParticipant rightParticipant)
+        private SectionData ParticipantsToSectionData(Section section, SectionData sectionData, IParticipant leftParticipant, IParticipant rightParticipant)
         {
             if (!this.CanPlaceParticipants(sectionData, leftParticipant, rightParticipant))
             {
@@ -320,21 +294,21 @@ namespace Controller
 
             int defaultDistance = Race.StartDistanceOfParticipant;
 
-            return new SectionData(leftParticipant, defaultDistance, rightParticipant, defaultDistance);
+            return new SectionData(section, leftParticipant, defaultDistance, rightParticipant, defaultDistance);
         }
 
-        private SectionData ParticipantToSectionData(SectionData sectionData, IParticipant participant)
+        private SectionData ParticipantToSectionData(Section section, SectionData sectionData, IParticipant participant)
         {
             int defaultDistance = Race.StartDistanceOfParticipant;
 
             if (this.CanPlaceLeftParticipant(sectionData))
             {
-                return new SectionData(participant, defaultDistance, sectionData.Right, defaultDistance);
+                return new SectionData(section, participant, defaultDistance, sectionData.Right, defaultDistance);
             }
 
             if (this.CanPlaceRightParticipant(sectionData))
             {
-                return new SectionData(sectionData.Left, defaultDistance, participant, defaultDistance);
+                return new SectionData(section, sectionData.Left, defaultDistance, participant, defaultDistance);
             }
 
             return null;
@@ -362,7 +336,7 @@ namespace Controller
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[20,30,20,34,1],[20,35,20,47,1],[22,50,22,54,1],[22,55,22,67,1],[24,37,24,41,1],[24,42,24,54,1],[39,9,39,66,1],[40,9,40,10,1],[41,13,41,32,1],[42,13,42,46,1],[43,13,43,65,1],[44,13,44,70,1],[45,13,45,57,1],[46,13,46,54,1],[48,13,48,54,1],[49,9,49,10,1],[52,9,52,10,1],[53,13,53,43,1],[54,13,54,40,1],[55,13,55,40,1],[56,9,56,10,1],[59,9,59,10,1],[60,13,60,52,1],[61,13,61,39,1],[62,13,62,14,0],[63,17,63,24,0],[66,13,66,99,1],[67,13,67,42,1],[68,9,68,10,1],[71,9,71,10,1],[72,13,72,107,1],[73,13,73,14,1],[74,17,74,54,1],[75,17,75,64,1],[76,13,76,14,1],[78,13,78,37,1],[79,9,79,10,1],[82,9,82,10,1],[83,13,83,55,1],[84,13,84,14,1],[85,17,85,30,1],[88,13,88,52,1],[89,13,89,41,1],[90,13,90,25,1],[91,9,91,10,1],[94,9,94,10,1],[95,13,95,64,1],[96,13,96,20,1],[96,22,96,37,1],[96,38,96,40,1],[96,41,96,49,1],[97,13,97,14,1],[98,17,98,72,1],[99,17,99,99,1],[100,17,100,18,1],[101,21,101,44,1],[102,17,102,18,1],[104,17,104,101,1],[105,17,105,18,1],[106,21,106,45,1],[107,17,107,18,1],[109,17,109,62,1],[110,13,110,14,1],[112,13,112,61,1],[113,9,113,10,1],[116,9,116,10,1],[117,13,117,64,1],[126,13,126,45,1],[127,13,127,20,1],[127,22,127,37,1],[127,38,127,40,1],[127,41,127,49,1],[128,13,128,14,1],[129,17,129,72,1],[130,17,130,74,1],[131,17,131,18,1],[132,21,132,47,1],[133,17,133,18,1],[134,13,134,14,1],[136,13,136,46,1],[137,13,137,14,1],[138,17,138,24,1],[141,18,141,31,1],[141,33,141,56,1],[141,58,141,65,1],[142,13,142,14,1],[143,17,143,87,1],[145,17,146,46,1],[147,21,147,61,1],[148,17,149,63,1],[150,21,150,71,1],[152,17,152,75,1],[153,17,153,18,1],[154,21,156,23,1],[158,21,158,74,1],[159,21,159,66,1],[160,17,160,18,1],[161,22,161,79,1],[162,17,162,18,1],[163,21,163,107,1],[165,21,167,23,1],[169,21,169,74,1],[170,21,170,66,1],[171,17,171,18,1],[172,13,172,14,1],[174,13,174,61,1],[175,9,175,10,1],[178,9,178,10,1],[179,13,179,50,1],[180,9,180,10,1],[183,9,183,10,1],[184,13,185,102,1],[186,9,186,10,1],[189,9,189,10,1],[190,13,191,100,1],[192,9,192,10,1],[195,9,195,10,1],[196,13,196,71,1],[197,13,197,14,0],[198,17,198,29,0],[201,13,201,106,1],[202,9,202,10,1],[205,9,205,10,1],[206,13,206,73,1],[207,13,207,14,0],[208,17,208,40,0],[211,13,211,91,1],[212,13,212,44,1],[214,13,214,36,1],[215,9,215,10,1],[218,9,218,10,1],[219,13,219,96,1],[220,13,220,14,0],[221,17,221,40,0],[224,13,224,114,1],[225,13,225,66,1],[227,13,227,36,1],[228,9,228,10,1],[232,9,232,10,1],[233,13,233,74,1],[234,13,234,64,1],[236,18,236,31,1],[236,33,236,56,1],[236,58,236,65,1],[237,13,237,14,1],[238,17,238,51,1],[239,17,239,72,1],[241,17,241,84,1],[242,17,242,18,1],[243,21,243,30,1],[246,17,246,82,1],[247,17,247,82,1],[248,17,249,106,1],[250,21,250,88,1],[252,17,252,50,1],[253,17,253,18,1],[254,21,254,94,1],[255,21,255,46,1],[256,17,256,18,1],[257,22,257,39,1],[258,17,258,18,1],[259,21,259,111,1],[260,21,260,46,1],[261,21,261,46,1],[262,17,262,18,1],[264,17,264,62,1],[265,13,265,14,1],[266,9,266,10,1],[269,9,269,10,1],[270,13,270,58,1],[271,9,271,10,1],[274,9,274,10,1],[275,13,275,69,1],[276,13,276,14,1],[277,17,277,30,1],[280,13,280,74,1],[281,9,281,10,1],[284,9,284,10,1],[285,13,285,37,1],[286,13,286,14,1],[287,17,287,30,1],[290,13,290,108,1],[291,9,291,10,1],[294,9,294,10,1],[295,13,295,105,1],[296,9,296,10,1],[299,9,299,10,0],[300,13,300,104,0],[301,9,301,10,0],[305,9,305,10,1],[306,13,306,92,1],[307,13,307,14,0],[308,17,308,29,0],[311,13,311,67,1],[313,13,313,105,1],[314,9,314,10,1],[317,9,317,10,1],[318,13,318,67,1],[320,13,320,59,1],[321,13,321,14,1],[322,17,322,106,1],[325,13,325,60,0],[326,13,326,14,0],[327,17,327,105,0],[330,13,330,25,0],[331,9,331,10,1],[334,9,334,10,0],[335,13,335,20,0],[335,22,335,46,0],[335,47,335,49,0],[335,50,335,67,0],[336,13,336,14,0],[337,17,337,62,0],[338,17,338,50,0],[339,17,339,46,0],[340,13,340,14,0],[341,9,341,10,0],[344,9,344,10,1],[345,13,345,88,1],[347,13,347,72,1],[348,9,348,10,1]]);
+      highlightRanges([[21,30,21,34,1],[21,35,21,47,1],[23,50,23,54,1],[23,55,23,67,1],[25,37,25,41,1],[25,42,25,54,1],[40,9,40,66,1],[41,9,41,10,1],[42,13,42,32,1],[43,13,43,46,1],[44,13,44,65,1],[45,13,45,70,1],[46,13,46,57,1],[47,13,47,54,1],[49,13,49,54,1],[50,9,50,10,1],[53,9,53,10,1],[54,13,54,43,1],[55,13,55,40,1],[56,13,56,40,1],[57,9,57,10,1],[60,9,60,10,1],[61,13,61,52,1],[62,13,62,39,1],[63,13,63,14,0],[64,17,64,24,0],[67,13,67,99,1],[68,13,68,42,1],[69,9,69,10,1],[72,9,72,10,1],[73,13,73,107,1],[74,13,74,14,1],[75,17,75,54,1],[76,17,76,64,1],[77,13,77,14,1],[79,13,79,37,1],[80,9,80,10,1],[83,9,83,10,1],[84,13,84,55,1],[85,13,85,14,1],[86,17,86,30,1],[89,13,89,52,1],[90,13,90,41,1],[91,13,91,25,1],[92,9,92,10,1],[95,9,95,10,1],[96,13,96,64,1],[97,13,97,20,1],[97,22,97,37,1],[97,38,97,40,1],[97,41,97,49,1],[98,13,98,14,1],[99,17,99,72,1],[100,17,100,99,1],[101,17,101,18,1],[102,21,102,44,1],[103,17,103,18,1],[105,17,105,101,1],[106,17,106,18,1],[107,21,107,45,1],[108,17,108,18,1],[110,17,110,62,1],[111,13,111,14,1],[113,13,113,61,1],[114,9,114,10,1],[117,9,117,10,1],[118,13,118,64,1],[119,18,119,31,1],[119,33,119,56,1],[119,58,119,65,1],[120,13,120,14,1],[121,17,121,87,1],[123,17,124,46,1],[125,21,125,61,1],[126,17,127,63,1],[128,21,128,71,1],[130,17,130,75,1],[131,17,131,18,1],[132,21,134,23,1],[136,21,136,74,1],[137,21,137,66,1],[138,17,138,18,1],[139,22,139,79,1],[140,17,140,18,1],[141,21,141,107,1],[143,21,145,23,1],[147,21,147,74,1],[148,21,148,66,1],[149,17,149,18,1],[150,13,150,14,1],[151,9,151,10,1],[154,9,154,10,1],[155,13,155,50,1],[156,9,156,10,1],[159,9,159,10,1],[160,13,161,102,1],[162,9,162,10,1],[165,9,165,10,1],[166,13,167,100,1],[168,9,168,10,1],[171,9,171,10,1],[172,13,172,71,1],[173,13,173,14,0],[174,17,174,29,0],[177,13,177,106,1],[178,9,178,10,1],[181,9,181,10,1],[182,13,182,73,1],[183,13,183,14,0],[184,17,184,40,0],[187,13,187,104,1],[188,13,188,44,1],[190,13,190,36,1],[191,9,191,10,1],[194,9,194,10,1],[195,13,195,96,1],[196,13,196,14,0],[197,17,197,40,0],[200,13,200,127,1],[201,13,201,66,1],[203,13,203,36,1],[204,9,204,10,1],[207,9,207,10,1],[208,13,208,74,1],[209,13,209,64,1],[211,18,211,31,1],[211,33,211,56,1],[211,58,211,65,1],[212,13,212,14,1],[213,17,213,51,1],[214,17,214,72,1],[216,17,216,84,1],[217,17,217,18,1],[218,21,218,30,1],[221,17,221,82,1],[222,17,222,82,1],[223,17,224,106,1],[225,21,225,88,1],[227,17,227,50,1],[228,17,228,18,1],[229,21,229,103,1],[230,21,230,46,1],[231,17,231,18,1],[232,22,232,39,1],[233,17,233,18,1],[234,21,234,120,1],[235,21,235,46,1],[236,21,236,46,1],[237,17,237,18,1],[239,17,239,62,1],[240,13,240,14,1],[241,9,241,10,1],[244,9,244,10,1],[245,13,245,58,1],[246,9,246,10,1],[249,9,249,10,1],[250,13,250,69,1],[251,13,251,14,1],[252,17,252,30,1],[255,13,255,74,1],[256,9,256,10,1],[259,9,259,10,1],[260,13,260,37,1],[261,13,261,14,1],[262,17,262,30,1],[265,13,265,108,1],[266,9,266,10,1],[269,9,269,10,1],[270,13,270,105,1],[271,9,271,10,1],[274,9,274,10,0],[275,13,275,104,0],[276,9,276,10,0],[279,9,279,10,1],[280,13,280,92,1],[281,13,281,14,0],[282,17,282,29,0],[285,13,285,67,1],[287,13,287,114,1],[288,9,288,10,1],[291,9,291,10,1],[292,13,292,67,1],[294,13,294,59,1],[295,13,295,14,1],[296,17,296,115,1],[299,13,299,60,0],[300,13,300,14,0],[301,17,301,114,0],[304,13,304,25,0],[305,9,305,10,1],[308,9,308,10,0],[309,13,309,20,0],[309,22,309,46,0],[309,47,309,49,0],[309,50,309,67,0],[310,13,310,14,0],[311,17,311,62,0],[312,17,312,50,0],[313,17,313,46,0],[314,13,314,14,0],[315,9,315,10,0],[318,9,318,10,1],[319,13,319,88,1],[321,13,321,72,1],[322,9,322,10,1]]);
     </script>
   </body>
 </html>

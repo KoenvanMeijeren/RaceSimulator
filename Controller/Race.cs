@@ -14,7 +14,9 @@ namespace Controller
 
         private const int
             StartDistanceOfParticipant = 0,
-            TimerInterval = 500;
+            TimerInterval = 500,
+            RoundsStartValue = -1,
+            MaxRounds = 2;
         
         public const int SectionLength = IEquipment.MaximumPerformance * IEquipment.MaximumSpeed;
 
@@ -28,6 +30,8 @@ namespace Controller
 
         // Only 2 participants per section are allowed.
         private Dictionary<Section, SectionData> _positions;
+
+        public Dictionary<IParticipant, int> Rounds { get; private set; }
 
         private readonly Timer _timer;
 
@@ -43,6 +47,7 @@ namespace Controller
             this.Participants = participants;
             this._random = new Random(DateTime.Now.Millisecond);
             this._positions = new Dictionary<Section, SectionData>();
+            this.Rounds = new Dictionary<IParticipant, int>(participants.Capacity);
             this._timer = new Timer(Race.TimerInterval);
             this._timer.Elapsed += Race.OnTimedEvent;
             
@@ -90,30 +95,30 @@ namespace Controller
             Race._changedDrivers = true;
             return true;
         }
-
-        private void MoveParticipants()
+        
+        public int GetRounds(IParticipant participant)
         {
-            Section[] sections = this.Track.Sections.ToArray();
-            foreach (Section section in sections)
+            if (!this.Rounds.Any() || !this.Rounds.TryGetValue(participant, out var rounds))
             {
-                SectionData sectionData = this.GetSectionData(section);
-                if (sectionData.Left != null && this.CanMoveParticipant(sectionData.DistanceLeft))
-                {
-                    sectionData.MoveLeft();
-                }
-
-                if (sectionData.Right != null && this.CanMoveParticipant(sectionData.DistanceRight))
-                {
-                    sectionData.MoveRight();
-                }
-                
-                this.UpdateSectionData(section, sectionData);
+                rounds = Race.RoundsStartValue;
+                this.Rounds.Add(participant, rounds);
             }
-            
-            this.MoveParticipantsToNextSectionIfNecessary();
+
+            return rounds;
         }
 
-        private void MoveParticipantsToNextSectionIfNecessary()
+        public bool UpdateRounds(IParticipant participant, int rounds)
+        {
+            if (!this.Rounds.ContainsKey(participant))
+            {
+                return false;
+            }
+
+            this.Rounds[participant] = rounds;
+            return true;
+        }
+
+        private void MoveParticipants()
         {
             Section[] sections = this.Track.Sections.ToArray();
             for (int delta = 0; delta < sections.Length; delta++)
@@ -127,27 +132,73 @@ namespace Controller
                     sectionData = this.GetSectionData(section),
                     nextSectionData = this.GetSectionData(nextSection);
                 
-                if (this.ShouldMoveParticipantsToNextSection(sectionData))
+                if (sectionData.Left != null && this.CanMoveParticipant(sectionData.DistanceLeft))
                 {
-                    nextSectionData = this.MoveParticipantsToNextSection(
-                        sectionData, nextSection, nextSectionData, sectionData.Left, sectionData.Right
-                    );
-                    
-                    this.UpdateSectionData(nextSection, nextSectionData);
-                    this.UpdateSectionData(section, sectionData);
+                    sectionData.MoveLeft();
                 }
-                else if (this.ShouldMoveParticipantToNextSection(sectionData))
+
+                if (sectionData.Right != null && this.CanMoveParticipant(sectionData.DistanceRight))
                 {
-                    IParticipant participant = this.GetParticipantWhoShouldMoveToNextSection(sectionData);
+                    sectionData.MoveRight();
+                }
                 
-                    nextSectionData = this.MoveParticipantToNextSection(
-                        sectionData, nextSection, nextSectionData, participant
-                    );
-                    
-                    this.UpdateSectionData(nextSection, nextSectionData);
-                    this.UpdateSectionData(section, sectionData);
-                }
+                this.MoveParticipantsToNextSectionIfNecessary(section, sectionData, nextSection, nextSectionData);
+                this.UpdateSectionData(section, sectionData);
             }
+        }
+
+        private void MoveParticipantsToNextSectionIfNecessary(Section section, SectionData sectionData, Section nextSection, SectionData nextSectionData)
+        {
+            if (this.ShouldMoveParticipantsToNextSection(sectionData))
+            {
+                nextSectionData = this.MoveParticipantsToNextSection(
+                    sectionData, nextSection, nextSectionData, sectionData.Left, sectionData.Right
+                );
+
+                if (section.SectionType == SectionTypes.Finish)
+                {
+                    int roundsLeft = this.GetRounds(nextSectionData.Left);
+                    this.UpdateRounds(nextSectionData.Left, roundsLeft + 1);
+                
+                    int roundsRight = this.GetRounds(nextSectionData.Right);
+                    this.UpdateRounds(nextSectionData.Right, roundsRight + 1);
+
+                    nextSectionData = this.RemoveParticipantsOnTrackCompletion(nextSectionData, nextSectionData.Left, roundsLeft);
+                    nextSectionData = this.RemoveParticipantsOnTrackCompletion(nextSectionData, nextSectionData.Right, roundsRight);
+                }
+
+                this.UpdateSectionData(nextSection, nextSectionData);
+                this.UpdateSectionData(section, sectionData);
+            }
+            else if (this.ShouldMoveParticipantToNextSection(sectionData))
+            {
+                IParticipant participant = this.GetParticipantWhoShouldMoveToNextSection(sectionData);
+                
+                nextSectionData = this.MoveParticipantToNextSection(
+                    sectionData, nextSection, nextSectionData, participant
+                );
+
+                if (section.SectionType == SectionTypes.Finish)
+                {
+                    int rounds = this.GetRounds(participant);
+                    this.UpdateRounds(participant, rounds + 1);
+                    
+                    nextSectionData = this.RemoveParticipantsOnTrackCompletion(nextSectionData, participant, rounds);
+                }
+
+                this.UpdateSectionData(nextSection, nextSectionData);
+                this.UpdateSectionData(section, sectionData);
+            }
+        }
+        
+        private SectionData RemoveParticipantsOnTrackCompletion(SectionData sectionData, IParticipant participant, int rounds)
+        {
+            if (rounds >= Race.MaxRounds)
+            {
+                sectionData.Clear(participant);
+            }
+            
+            return sectionData;
         }
 
         private bool CanMoveParticipant(int distance)
