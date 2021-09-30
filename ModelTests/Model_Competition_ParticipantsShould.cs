@@ -21,8 +21,8 @@ namespace ControllerTests
         [SetUp]
         public void Setup()
         {
-            IEquipment defaultCar = new Car(quality: 100, performance: 150, speed: 25);
-            IEquipment toyota = new Car(quality: 65, performance: 34, speed: 10);
+            IEquipment defaultCar = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
+            IEquipment toyota = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
 
             this._participants = new List<IParticipant>();
             this._participants.Add(new Driver(name: "Koen van Meijeren", points: 200, equipment: defaultCar, teamColor: TeamColors.Red));
@@ -53,23 +53,22 @@ namespace ControllerTests
             Assert.AreEqual("Koen van Meijeren", participantOne.Name);
             Assert.AreEqual(200, participantOne.Points);
             Assert.AreEqual(TeamColors.Red, participantOne.TeamColor);
-            Assert.AreEqual(100, participantOne.Equipment.Quality);
-            Assert.AreEqual(150, participantOne.Equipment.Performance);
-            Assert.AreEqual(25, participantOne.Equipment.Speed);
+            Assert.AreEqual(IEquipment.MaximumQuality, participantOne.Equipment.Quality);
+            Assert.AreEqual(IEquipment.MaximumPerformance, participantOne.Equipment.Performance);
+            Assert.AreEqual(IEquipment.MaximumSpeed, participantOne.Equipment.Speed);
 
             Assert.AreEqual("Klaas van Meijeren", participantTwo.Name);
             Assert.AreEqual(190, participantTwo.Points);
             Assert.AreEqual(TeamColors.Blue, participantTwo.TeamColor);
-            Assert.AreEqual(65, participantTwo.Equipment.Quality);
-            Assert.AreEqual(34, participantTwo.Equipment.Performance);
-            Assert.AreEqual(10, participantTwo.Equipment.Speed);
+            Assert.AreEqual(IEquipment.MaximumQuality, participantTwo.Equipment.Quality);
+            Assert.AreEqual(IEquipment.MaximumPerformance, participantTwo.Equipment.Performance);
+            Assert.AreEqual(IEquipment.MaximumSpeed, participantTwo.Equipment.Speed);
         }
 
         [Test]
         public void CanReadParticipantsInitials()
         {
-            IEquipment defaultCar = new Car(quality: 100, performance: 150, speed: 25);
-            IEquipment toyota = new Car(quality: 65, performance: 34, speed: 10);
+            IEquipment defaultCar = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
 
             IParticipant testParticipant = new Driver(name: "K", points: 200, equipment: defaultCar,
                 teamColor: TeamColors.Red);

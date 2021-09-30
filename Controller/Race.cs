@@ -12,10 +12,11 @@ namespace Controller
     public class Race
     {
 
-        public const int 
-            StartDistanceOfParticipant = 0, 
-            TimerInterval = 500, 
-            SectionLength = 100;
+        private const int
+            StartDistanceOfParticipant = 0,
+            TimerInterval = 500;
+        
+        public const int SectionLength = IEquipment.MaximumPerformance * IEquipment.MaximumSpeed;
 
         public Track Track { get; private set; }
 
@@ -115,29 +116,6 @@ namespace Controller
         private void MoveParticipantsToNextSectionIfNecessary()
         {
             Section[] sections = this.Track.Sections.ToArray();
-            
-            // Determine how many participants should move to the next section. Than move them, if they can move, and
-            // re-trigger this method. We do this because it is not always possible to move the participants to the next
-            // section. For example if there are participants on the last 2 sections, and they both should move, then we 
-            // cannot move them both, because the second last one cannot move to the next section because those
-            // participants weren't move to the next section yet. After the first loop all non-blocking participants
-            // were moved to the next section. Now we can move all blocking participants to next section. We repeat this
-            // until there are no more participants who should move.
-            int sectionsWhichShouldMove = 0;
-            foreach (Section section in sections)
-            {
-                SectionData sectionData = this.GetSectionData(section);
-                if (this.ShouldMoveParticipantToNextSection(sectionData))
-                {
-                    sectionsWhichShouldMove++;
-                }
-            }
-
-            if (sectionsWhichShouldMove <= 0)
-            {
-                return;
-            }
-            
             for (int delta = 0; delta < sections.Length; delta++)
             {
                 int nextSectionDelta = (delta + 1) >= sections.Length ? 0 : delta + 1;
@@ -170,8 +148,6 @@ namespace Controller
                     this.UpdateSectionData(section, sectionData);
                 }
             }
-
-            this.MoveParticipantsToNextSectionIfNecessary();
         }
 
         private bool CanMoveParticipant(int distance)
@@ -227,7 +203,6 @@ namespace Controller
             return nextSectionData;
         }
 
-        // @todo find out what we should do when there are more participants than start grids.
         private void PlaceParticipantsOnStartPositions()
         {
             List<IParticipant> participants = this.Participants.ToList();
@@ -300,7 +275,6 @@ namespace Controller
             return sectionData.Right == null && (sectionData.Left != null || sectionData.Left == null);
         }
 
-        // @todo implement distance between participants calculation.
         private SectionData ParticipantsToSectionData(SectionData sectionData, IParticipant leftParticipant, IParticipant rightParticipant)
         {
             if (!this.CanPlaceParticipants(sectionData, leftParticipant, rightParticipant))

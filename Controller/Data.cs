@@ -49,11 +49,8 @@ namespace Controller
 
         private static void AddTestParticipants()
         {
-            // The real speed of the car (performance * speed) must be dividable by the number of symbol spaces (4).
-            
-            // @todo find out why 3 * 12 causes a stack overflow error.
-            IEquipment defaultCar = new Car(quality: 100, performance: 3, speed: 10);
-            IEquipment toyota = new Car(quality: 65, performance: 2, speed: 25);
+            IEquipment defaultCar = new Car(quality: 100, performance: 3, speed: 50);
+            IEquipment toyota = new Car(quality: 65, performance: 2, speed: 100);
 
             Data.AddParticipant(new Driver(name: "Koen van Meijeren", points: 200, equipment: defaultCar, teamColor: TeamColors.Red));
             Data.AddParticipant(new Driver(name: "Henk van Meijeren", points: 190, equipment: toyota, teamColor: TeamColors.Blue));
