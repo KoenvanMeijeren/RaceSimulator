@@ -1,4 +1,14 @@
-﻿using System;
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>E:\Development\C#\RaceSimulator\Controller\Race.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,32 +32,32 @@ namespace Controller
 
         public Track Track { get; private set; }
 
-        public List<IParticipant> Participants { get; private set; }
+        public List&lt;IParticipant&gt; Participants { get; private set; }
 
         public DateTime StartTime { get; private set; }
 
         private Random _random;
 
         // Only 2 participants per section are allowed.
-        private Dictionary<Section, SectionData> _positions;
+        private Dictionary&lt;Section, SectionData&gt; _positions;
 
-        public Dictionary<IParticipant, int> Rounds { get; private set; }
+        public Dictionary&lt;IParticipant, int&gt; Rounds { get; private set; }
 
         private readonly Timer _timer;
 
-        public static event EventHandler<DriversChangedEventArgs> DriversChanged;
+        public static event EventHandler&lt;DriversChangedEventArgs&gt; DriversChanged;
 
         private static Race _raceReference;
 
         private static bool _changedDrivers;
 
-        public Race(Track track, List<IParticipant> participants)
+        public Race(Track track, List&lt;IParticipant&gt; participants)
         {
             this.Track = track;
             this.Participants = participants;
             this._random = new Random(DateTime.Now.Millisecond);
-            this._positions = new Dictionary<Section, SectionData>();
-            this.Rounds = new Dictionary<IParticipant, int>(participants.Capacity);
+            this._positions = new Dictionary&lt;Section, SectionData&gt;();
+            this.Rounds = new Dictionary&lt;IParticipant, int&gt;(participants.Capacity);
             this._timer = new Timer(Race.TimerInterval);
             this._timer.Elapsed += Race.OnTimedEvent;
             
@@ -121,9 +131,9 @@ namespace Controller
         private void MoveParticipants()
         {
             Section[] sections = this.Track.Sections.ToArray();
-            for (int delta = 0; delta < sections.Length; delta++)
+            for (int delta = 0; delta &lt; sections.Length; delta++)
             {
-                int nextSectionDelta = (delta + 1) >= sections.Length ? 0 : delta + 1;
+                int nextSectionDelta = (delta + 1) &gt;= sections.Length ? 0 : delta + 1;
 
                 Section
                     section = sections[delta],
@@ -132,13 +142,13 @@ namespace Controller
                     sectionData = this.GetSectionData(section),
                     nextSectionData = this.GetSectionData(nextSection);
                 
-                if (sectionData.Left != null && this.CanMoveParticipant(sectionData.DistanceLeft))
+                if (sectionData.Left != null &amp;&amp; this.CanMoveParticipant(sectionData.DistanceLeft))
                 {
                     sectionData.MoveLeft();
                     this.UpdateSectionData(section, sectionData);
                 }
 
-                if (sectionData.Right != null && this.CanMoveParticipant(sectionData.DistanceRight))
+                if (sectionData.Right != null &amp;&amp; this.CanMoveParticipant(sectionData.DistanceRight))
                 {
                     sectionData.MoveRight();
                     this.UpdateSectionData(section, sectionData);
@@ -194,7 +204,7 @@ namespace Controller
         
         public SectionData RemoveParticipantsOnTrackCompletion(SectionData sectionData, IParticipant participant, int rounds)
         {
-            if (rounds >= Race.MaxRounds)
+            if (rounds &gt;= Race.MaxRounds)
             {
                 sectionData.Clear(participant);
             }
@@ -204,19 +214,19 @@ namespace Controller
 
         private bool CanMoveParticipant(int distance)
         {
-            return distance < Race.SectionLength;
+            return distance &lt; Race.SectionLength;
         }
         
         private bool ShouldMoveParticipantToNextSection(SectionData sectionData)
         {
-            return (sectionData.DistanceLeft >= Race.SectionLength && sectionData.Left != null) 
-                   || (sectionData.DistanceRight >= Race.SectionLength && sectionData.Right != null);
+            return (sectionData.DistanceLeft &gt;= Race.SectionLength &amp;&amp; sectionData.Left != null) 
+                   || (sectionData.DistanceRight &gt;= Race.SectionLength &amp;&amp; sectionData.Right != null);
         }
 
         private bool ShouldMoveParticipantsToNextSection(SectionData sectionData)
         {
-            return sectionData.DistanceLeft >= Race.SectionLength && sectionData.Left != null
-                   && sectionData.DistanceRight >= Race.SectionLength && sectionData.Right != null;
+            return sectionData.DistanceLeft &gt;= Race.SectionLength &amp;&amp; sectionData.Left != null
+                   &amp;&amp; sectionData.DistanceRight &gt;= Race.SectionLength &amp;&amp; sectionData.Right != null;
         }
 
         private IParticipant GetParticipantWhoShouldMoveToNextSection(SectionData sectionData)
@@ -226,7 +236,7 @@ namespace Controller
                 return null;
             }
 
-            return sectionData.DistanceLeft >= Race.SectionLength ? sectionData.Left : sectionData.Right;
+            return sectionData.DistanceLeft &gt;= Race.SectionLength ? sectionData.Left : sectionData.Right;
         }
 
         private SectionData MoveParticipantToNextSection(SectionData sectionData, Section nextSection, SectionData nextSectionData, IParticipant participant)
@@ -257,10 +267,10 @@ namespace Controller
 
         private void PlaceParticipantsOnStartPositions()
         {
-            List<IParticipant> participants = this.Participants.ToList();
+            List&lt;IParticipant&gt; participants = this.Participants.ToList();
             Section[] sections = this.Track.Sections.ToArray();
 
-            for (int delta = 0; delta < sections.Length; delta++)
+            for (int delta = 0; delta &lt; sections.Length; delta++)
             {
                 Section section = sections[delta];
                 SectionData sectionData = this.GetSectionData(section);
@@ -276,7 +286,7 @@ namespace Controller
                     canPlaceBoth = this.CanPlaceParticipants(sectionData, participantOne, participantTwo),
                     canPlaceOne = this.CanPlaceParticipant(sectionData, participantOne);
 
-                if (!canPlaceBoth && canPlaceOne)
+                if (!canPlaceBoth &amp;&amp; canPlaceOne)
                 {
                     sectionData = this.ParticipantToSectionData(section, sectionData, participantOne);
                     participants.RemoveAt(0);
@@ -304,7 +314,7 @@ namespace Controller
                 return false;
             }
 
-            return sectionData.Left == null && sectionData.Right == null;
+            return sectionData.Left == null &amp;&amp; sectionData.Right == null;
         }
 
         private bool CanPlaceParticipant(SectionData sectionData, IParticipant participant)
@@ -319,12 +329,12 @@ namespace Controller
 
         private bool CanPlaceLeftParticipant(SectionData sectionData)
         {
-            return sectionData.Left == null && (sectionData.Right != null || sectionData.Right == null);
+            return sectionData.Left == null &amp;&amp; (sectionData.Right != null || sectionData.Right == null);
         }
 
         private bool CanPlaceRightParticipant(SectionData sectionData)
         {
-            return sectionData.Right == null && (sectionData.Left != null || sectionData.Left == null);
+            return sectionData.Right == null &amp;&amp; (sectionData.Left != null || sectionData.Left == null);
         }
 
         private SectionData ParticipantsToSectionData(Section section, SectionData sectionData, IParticipant leftParticipant, IParticipant rightParticipant)
@@ -375,3 +385,10 @@ namespace Controller
         
     }
 }
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[23,30,23,34,1],[23,35,23,47,1],[25,50,25,54,1],[25,55,25,67,1],[27,37,27,41,1],[27,42,27,54,1],[34,55,34,59,1],[34,60,34,72,1],[44,9,44,66,1],[45,9,45,10,1],[46,13,46,32,1],[47,13,47,46,1],[48,13,48,65,1],[49,13,49,70,1],[50,13,50,84,1],[51,13,51,57,1],[52,13,52,54,1],[54,13,54,54,1],[55,9,55,10,1],[58,9,58,10,1],[59,13,59,43,1],[60,13,60,40,1],[61,13,61,40,1],[62,9,62,10,1],[65,9,65,10,1],[66,13,66,52,1],[67,13,67,39,1],[68,13,68,14,0],[69,17,69,24,0],[72,13,72,99,1],[73,13,73,42,1],[74,9,74,10,1],[77,9,77,10,1],[78,13,78,107,1],[79,13,79,14,1],[80,17,80,54,1],[81,17,81,64,1],[82,13,82,14,1],[84,13,84,37,1],[85,9,85,10,1],[88,9,88,10,1],[89,13,89,55,1],[90,13,90,14,1],[91,17,91,30,1],[94,13,94,52,1],[95,13,95,41,1],[96,13,96,25,1],[97,9,97,10,1],[100,9,100,10,1],[101,13,101,93,1],[102,13,102,14,1],[103,17,103,48,1],[104,17,104,54,1],[105,13,105,14,1],[107,13,107,27,1],[108,9,108,10,1],[111,9,111,10,1],[112,13,112,55,1],[113,13,113,14,0],[114,17,114,30,0],[117,13,117,47,1],[118,13,118,25,1],[119,9,119,10,1],[122,9,122,10,1],[123,13,123,64,1],[124,18,124,31,1],[124,33,124,56,1],[124,58,124,65,1],[125,13,125,14,1],[126,17,126,87,1],[128,17,129,46,1],[130,21,130,61,1],[131,17,132,63,1],[133,21,133,71,1],[135,17,135,99,1],[136,17,136,18,1],[137,21,137,44,1],[138,21,138,66,1],[139,17,139,18,1],[141,17,141,101,1],[142,17,142,18,1],[143,21,143,45,1],[144,21,144,66,1],[145,17,145,18,1],[147,17,147,115,1],[148,13,148,14,1],[149,9,149,10,1],[152,9,152,10,1],[153,13,153,71,1],[154,13,154,14,1],[155,17,157,19,1],[159,17,159,64,1],[160,17,160,18,1],[161,21,161,75,1],[162,21,162,77,1],[164,21,164,77,1],[165,21,165,79,1],[167,21,167,131,1],[168,21,168,133,1],[169,17,169,18,1],[171,17,171,70,1],[172,17,172,62,1],[173,13,173,14,1],[174,18,174,75,1],[175,13,175,14,1],[176,17,176,103,1],[178,17,180,19,1],[182,17,182,64,1],[183,17,183,18,1],[184,21,184,62,1],[185,21,185,64,1],[187,21,187,118,1],[188,17,188,18,1],[190,17,190,70,1],[191,17,191,62,1],[192,13,192,14,1],[193,9,193,10,1],[196,9,196,10,1],[197,13,197,42,1],[198,13,198,14,0],[199,17,199,48,0],[200,13,200,14,0],[202,13,202,32,1],[203,9,203,10,1],[206,9,206,10,1],[207,13,207,50,1],[208,9,208,10,1],[211,9,211,10,1],[212,13,213,102,1],[214,9,214,10,1],[217,9,217,10,1],[218,13,219,100,1],[220,9,220,10,1],[223,9,223,10,1],[224,13,224,71,1],[225,13,225,14,0],[226,17,226,29,0],[229,13,229,106,1],[230,9,230,10,1],[233,9,233,10,1],[234,13,234,73,1],[235,13,235,14,1],[236,17,236,40,1],[239,13,239,104,1],[240,13,240,44,1],[242,13,242,36,1],[243,9,243,10,1],[246,9,246,10,1],[247,13,247,96,1],[248,13,248,14,1],[249,17,249,40,1],[252,13,252,127,1],[253,13,253,66,1],[255,13,255,36,1],[256,9,256,10,1],[259,9,259,10,1],[260,13,260,74,1],[261,13,261,64,1],[263,18,263,31,1],[263,33,263,56,1],[263,58,263,65,1],[264,13,264,14,1],[265,17,265,51,1],[266,17,266,72,1],[268,17,268,84,1],[269,17,269,18,1],[270,21,270,30,1],[273,17,273,82,1],[274,17,274,82,1],[275,17,276,106,1],[277,21,277,88,1],[279,17,279,50,1],[280,17,280,18,1],[281,21,281,103,1],[282,21,282,46,1],[283,17,283,18,1],[284,22,284,39,1],[285,17,285,18,1],[286,21,286,120,1],[287,21,287,46,1],[288,21,288,46,1],[289,17,289,18,1],[291,17,291,62,1],[292,13,292,14,1],[293,9,293,10,1],[296,9,296,10,1],[297,13,297,58,1],[298,9,298,10,1],[301,9,301,10,1],[302,13,302,69,1],[303,13,303,14,1],[304,17,304,30,1],[307,13,307,74,1],[308,9,308,10,1],[311,9,311,10,1],[312,13,312,37,1],[313,13,313,14,1],[314,17,314,30,1],[317,13,317,108,1],[318,9,318,10,1],[321,9,321,10,1],[322,13,322,105,1],[323,9,323,10,1],[326,9,326,10,1],[327,13,327,104,1],[328,9,328,10,1],[331,9,331,10,1],[332,13,332,92,1],[333,13,333,14,0],[334,17,334,29,0],[337,13,337,67,1],[339,13,339,114,1],[340,9,340,10,1],[343,9,343,10,1],[344,13,344,67,1],[346,13,346,59,1],[347,13,347,14,1],[348,17,348,115,1],[351,13,351,60,0],[352,13,352,14,0],[353,17,353,114,0],[356,13,356,25,0],[357,9,357,10,1],[360,9,360,10,0],[361,13,361,20,0],[361,22,361,46,0],[361,47,361,49,0],[361,50,361,67,0],[362,13,362,14,0],[363,17,363,62,0],[364,17,364,50,0],[365,17,365,46,0],[366,13,366,14,0],[367,9,367,10,0],[370,9,370,10,1],[371,13,371,88,1],[373,13,373,72,1],[374,9,374,10,1]]);
+    </script>
+  </body>
+</html>

@@ -32,8 +32,8 @@ namespace ControllerTests
                 SectionTypes.StartGrid, SectionTypes.RightCorner, SectionTypes.StartGrid
             };
             List&lt;IParticipant&gt; participants = new List&lt;IParticipant&gt;();
-            IEquipment defaultCar = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
-            IEquipment toyota = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
+            IEquipment defaultCar = new Car(quality: 100, performance: 150, speed: 25);
+            IEquipment toyota = new Car(quality: 65, performance: 34, speed: 10);
 
             participants.Add(new Driver(name: &quot;Koen van Meijeren&quot;, points: 200, equipment: defaultCar, teamColor: TeamColors.Red));
             participants.Add(new Driver(name: &quot;Klaas van Meijeren&quot;, points: 190, equipment: toyota, teamColor: TeamColors.Blue));
@@ -49,7 +49,7 @@ namespace ControllerTests
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[18,9,18,10,1],[19,13,23,15,1],[24,13,24,72,1],[25,13,25,157,1],[26,13,26,153,1],[28,13,28,132,1],[29,13,29,130,1],[30,13,30,133,1],[32,13,32,145,1],[34,13,34,66,1],[35,9,35,10,1]]);
+      highlightRanges([[18,9,18,10,1],[19,13,23,15,1],[24,13,24,72,1],[25,13,25,88,1],[26,13,26,82,1],[28,13,28,132,1],[29,13,29,130,1],[30,13,30,133,1],[32,13,32,145,1],[34,13,34,66,1],[35,9,35,10,1]]);
     </script>
   </body>
 </html>

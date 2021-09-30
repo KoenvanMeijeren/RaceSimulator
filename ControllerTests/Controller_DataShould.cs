@@ -26,12 +26,12 @@ namespace ControllerTests
             Data.Initialize();
 
             Assert.IsNotEmpty(Data.Participants);
-            Assert.AreEqual(5, Data.Participants.Count);
-            Assert.AreEqual("Koen van Meijeren", Data.Participants.First().Name);
-            Assert.AreEqual("Klaas van Meijeren", Data.Participants[1].Name);
-            Assert.AreEqual("Jan van Meijeren", Data.Participants[2].Name);
-            Assert.AreEqual("Piet van Meijeren", Data.Participants[3].Name);
-            Assert.AreEqual("Stan van Meijeren", Data.Participants[4].Name);
+            Assert.AreEqual(6, Data.Participants.Count);
+            Assert.AreEqual("Koen", Data.Participants.First().Name);
+            Assert.AreEqual("Henk", Data.Participants[1].Name);
+            Assert.AreEqual("Jan", Data.Participants[2].Name);
+            Assert.AreEqual("Piet", Data.Participants[3].Name);
+            Assert.AreEqual("Stan", Data.Participants[4].Name);
         }
 
         [Test]
@@ -41,10 +41,10 @@ namespace ControllerTests
 
             Data.AddParticipant(new Driver("Test Driver", 100, defaultCar, TeamColors.Green));
 
-            Assert.AreEqual(6, Data.Participants.Count);
-            Assert.AreEqual("Koen van Meijeren", Data.Participants.First().Name);
-            Assert.AreEqual("Stan van Meijeren", Data.Participants[4].Name);
-            Assert.AreEqual("Test Driver", Data.Participants[5].Name);
+            Assert.AreEqual(7, Data.Participants.Count);
+            Assert.AreEqual("Koen", Data.Participants.First().Name);
+            Assert.AreEqual("Stan", Data.Participants[4].Name);
+            Assert.AreEqual("Test Driver", Data.Participants[6].Name);
         }
 
         [Test]
@@ -77,7 +77,7 @@ namespace ControllerTests
         [Test]
         public void Data_CurrentRace_CanRead()
         {
-            Assert.AreEqual(5, Data.CurrentRace.Participants.Count);
+            Assert.AreEqual(6, Data.CurrentRace.Participants.Count);
             Assert.AreEqual("Circuit Zwolle", Data.CurrentRace.Track.Name);
         }
 

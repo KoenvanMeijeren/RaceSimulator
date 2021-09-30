@@ -15,11 +15,11 @@ namespace ModelTests
         [Test]
         public void Car_CanCreate()
         {
-            Car car = new Car(100, 100, 200);
+            Car car = new Car(IEquipment.MaximumQuality, IEquipment.MaximumPerformance, IEquipment.MaximumSpeed);
 
-            Assert.AreEqual(100, car.Quality);
-            Assert.AreEqual(100, car.Performance);
-            Assert.AreEqual(200, car.Speed);
+            Assert.AreEqual(IEquipment.MaximumQuality, car.Quality);
+            Assert.AreEqual(IEquipment.MaximumPerformance, car.Performance);
+            Assert.AreEqual(IEquipment.MaximumSpeed, car.Speed);
             Assert.IsFalse(car.IsBroken);
         }
         
@@ -40,7 +40,7 @@ namespace ModelTests
             Assert.Throws<ArgumentOutOfRangeException>(() => new Car(IEquipment.MaximumQuality, IEquipment.MinimumPerformance - 1, IEquipment.MinimumSpeed));
             Assert.DoesNotThrow(() => new Car(IEquipment.MaximumQuality, IEquipment.MaximumPerformance, IEquipment.MinimumSpeed));
             Assert.DoesNotThrow(() => new Car(IEquipment.MaximumQuality, IEquipment.MaximumPerformance, IEquipment.MaximumSpeed));
-            Assert.DoesNotThrow(() => new Car(IEquipment.MaximumQuality, IEquipment.MaximumPerformance - 40, IEquipment.MaximumSpeed));
+            Assert.DoesNotThrow(() => new Car(IEquipment.MaximumQuality, IEquipment.MaximumPerformance - 1, IEquipment.MaximumSpeed));
         }
 
         [Test]
@@ -76,6 +76,16 @@ namespace ModelTests
             Assert.IsTrue(car.Performance >= IEquipment.MinimumPerformance);
             Assert.IsTrue(car.Performance <= IEquipment.MaximumPerformance);
         }
+
+        [Test]
+        public void Car_CanRead_RealSpeed()
+        {
+            Car car = new Car(100, 2, 10);
+            
+            Assert.AreEqual(20, car.GetRealSpeed());
+            Assert.AreNotEqual(2, car.GetRealSpeed());
+            Assert.AreNotEqual(10, car.GetRealSpeed());
+        } 
 
     }
 }

@@ -2,192 +2,41 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>E:\Development\C#\RaceSimulator\Controller\Race.cs</title>
+    <title>E:\Development\C#\RaceSimulator\RaceSimulator\Program.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading;
+using Controller;
 using Model;
 
-namespace Controller
+namespace RaceSimulator
 {
-    public class Race
+    class Program
     {
-
-        private readonly int _startDistanceBetweenParticipants = 0;
-
-        public Track Track { get; private set; }
-
-        public List&lt;IParticipant&gt; Participants { get; private set; }
-
-        public DateTime StartTime { get; private set; }
-
-        private Random _random;
-
-        // Only 2 participants per section are allowed.
-        private Dictionary&lt;Section, SectionData&gt; _positions;
-
-        public Race(Track track, List&lt;IParticipant&gt; participants)
+        static void Main(string[] args)
         {
-            this.Track = track;
-            this.Participants = participants;
-            this._random = new Random(DateTime.Now.Millisecond);
-            this._positions = new Dictionary&lt;Section, SectionData&gt;();
+            Data.Initialize();
 
-            // Renders the participants to a new list in order to prevent changing the participants permanently.
-            this.PlaceParticipantsOnTrack(track, participants.ToList());
-        }
+            CVisualization.Initialize();
+            CVisualization.DrawTrack(Data.CurrentRace);
+            Data.CurrentRace.Start();
 
-        public SectionData GetSectionData(Section section)
-        {
-            if (this._positions == null || !this._positions.Any() || !this._positions.TryGetValue(section, out var foundSectionData))
+            for (;;)
             {
-                foundSectionData = new SectionData();
-                this._positions.Add(section, foundSectionData);
-            }
-
-            return foundSectionData;
-        }
-
-        public bool UpdateSectionData(Section section, SectionData sectionData)
-        {
-            if (!this._positions.ContainsKey(section))
-            {
-                return false;
-            }
-
-            this._positions[section] = sectionData;
-            return true;
-        }
-
-        // @todo find out what we should do when there are more participants than start grids.
-        private void PlaceParticipantsOnTrack(Track track, List&lt;IParticipant&gt; participants)
-        {
-            for (int delta = 0; delta &lt; this.Track.Sections.Count; delta++)
-            {
-                Section section = this.Track.Sections.ToArray()[delta];
-                SectionData sectionData = this.GetSectionData(section);
-
-                if (!this.CanPlaceParticipantsOnSectionType(section.SectionType))
-                {
-                    this.GetSectionData(section);
-                    continue;
-                }
-
-                IParticipant participantOne = participants.ElementAtOrDefault(0);
-                IParticipant participantTwo = participants.ElementAtOrDefault(1);
-                if (participantOne == null &amp;&amp; participantTwo == null)
-                {
-                    continue;
-                }
-
-                bool canPlaceBoth =
-                        this.CanPlaceBothParticipants(sectionData, participantOne, participantTwo),
-                    canPlaceOne = this.CanPlaceOneParticipant(sectionData, participantOne);
-
-                if (!canPlaceBoth &amp;&amp; canPlaceOne)
-                {
-                    sectionData = this.OneParticipantToSectionData(sectionData, participantOne);
-                    participants.RemoveAt(0);
-                }
-                else if (canPlaceBoth)
-                {
-                    sectionData = this.BothParticipantsToSectionData(sectionData, participantOne, participantTwo);
-                    participants.RemoveAt(0);
-                    participants.RemoveAt(0);
-                }
-
-                this.UpdateSectionData(section, sectionData);
+                Thread.Sleep(100);
             }
         }
-
-        private bool CanPlaceParticipantsOnSectionType(SectionTypes sectionType)
-        {
-            return sectionType == SectionTypes.StartGrid;
-        }
-
-        private bool CanPlaceBothParticipants(SectionData sectionData, IParticipant leftParticipant, IParticipant rightParticipant)
-        {
-            if (leftParticipant == null || rightParticipant == null)
-            {
-                return false;
-            }
-
-            return sectionData.Left == null &amp;&amp; sectionData.Right == null;
-        }
-
-        private bool CanPlaceOneParticipant(SectionData sectionData, IParticipant participant)
-        {
-            if (participant == null)
-            {
-                return false;
-            }
-
-            return this.CanPlaceLeftParticipant(sectionData) || this.CanPlaceRightParticipant(sectionData);
-        }
-
-        private bool CanPlaceLeftParticipant(SectionData sectionData)
-        {
-            return sectionData.Left == null &amp;&amp; (sectionData.Right != null || sectionData.Right == null);
-        }
-
-        private bool CanPlaceRightParticipant(SectionData sectionData)
-        {
-            return sectionData.Right != null &amp;&amp; (sectionData.Left != null || sectionData.Left == null);
-        }
-
-        // @todo implement distance between participants calculation.
-        private SectionData BothParticipantsToSectionData(SectionData sectionData, IParticipant leftParticipant, IParticipant rightParticipant)
-        {
-            if (!this.CanPlaceBothParticipants(sectionData, leftParticipant, rightParticipant))
-            {
-                return null;
-            }
-
-            int defaultDistance = this._startDistanceBetweenParticipants;
-
-            return new SectionData(leftParticipant, defaultDistance, rightParticipant, defaultDistance);
-        }
-
-        private SectionData OneParticipantToSectionData(SectionData sectionData, IParticipant participant)
-        {
-            int defaultDistance = this._startDistanceBetweenParticipants;
-
-            if (this.CanPlaceLeftParticipant(sectionData))
-            {
-                return new SectionData(participant, defaultDistance, sectionData.Right, defaultDistance);
-            }
-
-            if (this.CanPlaceRightParticipant(sectionData))
-            {
-                return new SectionData(sectionData.Left, defaultDistance, participant, defaultDistance);
-            }
-
-            return null;
-        }
-
-        private void RandomizeEquipment()
-        {
-            foreach (IParticipant participant in this.Participants)
-            {
-                IEquipment equipment = participant.Equipment;
-                equipment.SetRandomPerformance();
-                equipment.SetRandomQuality();
-            }
-        }
-
     }
 }
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[13,9,13,68,1],[15,30,15,34,1],[15,35,15,47,1],[17,50,17,54,1],[17,55,17,67,1],[19,37,19,41,1],[19,42,19,54,0],[26,9,26,66,1],[27,9,27,10,1],[28,13,28,32,1],[29,13,29,46,1],[30,13,30,65,1],[31,13,31,70,1],[34,13,34,73,1],[35,9,35,10,1],[38,9,38,10,1],[39,13,39,134,1],[40,13,40,14,1],[41,17,41,54,1],[42,17,42,64,1],[43,13,43,14,1],[45,13,45,37,1],[46,9,46,10,1],[49,9,49,10,1],[50,13,50,55,1],[51,13,51,14,1],[52,17,52,30,1],[55,13,55,52,1],[56,13,56,25,1],[57,9,57,10,1],[61,9,61,10,1],[62,18,62,31,1],[62,33,62,66,1],[62,68,62,75,1],[63,13,63,14,1],[64,17,64,72,1],[65,17,65,72,1],[67,17,67,82,1],[68,17,68,18,1],[69,21,69,50,1],[70,21,70,30,1],[73,17,73,82,1],[74,17,74,82,1],[75,17,75,70,1],[76,17,76,18,1],[77,21,77,30,1],[80,17,81,99,1],[82,21,82,91,1],[84,17,84,50,1],[85,17,85,18,1],[86,21,86,97,1],[87,21,87,46,1],[88,17,88,18,1],[89,22,89,39,1],[90,17,90,18,1],[91,21,91,115,1],[92,21,92,46,1],[93,21,93,46,1],[94,17,94,18,1],[96,17,96,62,1],[97,13,97,14,1],[98,9,98,10,1],[101,9,101,10,1],[102,13,102,58,1],[103,9,103,10,1],[106,9,106,10,1],[107,13,107,69,1],[108,13,108,14,1],[109,17,109,30,1],[112,13,112,74,1],[113,9,113,10,1],[116,9,116,10,1],[117,13,117,37,1],[118,13,118,14,0],[119,17,119,30,0],[122,13,122,108,1],[123,9,123,10,1],[126,9,126,10,1],[127,13,127,105,1],[128,9,128,10,1],[131,9,131,10,0],[132,13,132,104,0],[133,9,133,10,0],[137,9,137,10,1],[138,13,138,96,1],[139,13,139,14,0],[140,17,140,29,0],[143,13,143,74,1],[145,13,145,105,1],[146,9,146,10,1],[149,9,149,10,1],[150,13,150,74,1],[152,13,152,59,1],[153,13,153,14,1],[154,17,154,106,1],[157,13,157,60,0],[158,13,158,14,0],[159,17,159,105,0],[162,13,162,25,0],[163,9,163,10,1],[166,9,166,10,0],[167,13,167,20,0],[167,22,167,46,0],[167,47,167,49,0],[167,50,167,67,0],[168,13,168,14,0],[169,17,169,62,0],[170,17,170,50,0],[171,17,171,46,0],[172,13,172,14,0],[173,9,173,10,0]]);
+      highlightRanges([[12,9,12,10,0],[13,13,13,31,0],[15,13,15,41,0],[16,13,16,56,0],[17,13,17,38,0],[20,13,20,14,0],[21,17,21,35,0],[22,13,22,14,0]]);
     </script>
   </body>
 </html>

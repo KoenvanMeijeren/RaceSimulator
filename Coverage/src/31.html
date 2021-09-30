@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>E:\Development\C#\RaceSimulator\ModelTests\Model_TrackShould.cs</title>
+    <title>E:\Development\C#\RaceSimulator\ControllerTests\Controller_RaceShould.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
@@ -13,87 +13,141 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
+using Controller;
 using Model;
 using NUnit.Framework;
 
-namespace ModelTests
+namespace ControllerTests
 {
     [TestFixture]
-    class Model_TrackShould
+    public class Controller_RaceShould
     {
 
-        private Track _track;
+        private Race _race;
+        private Race _emptyRace;
 
         [SetUp]
         public void Setup()
         {
-            SectionTypes[] route = {
-                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.Finish,
-                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.StartGrid
-            };
+            Data.Initialize();
 
-            this._track = new Track(&quot;Test Track&quot;, route);
+            SectionTypes[] route =
+            {
+                SectionTypes.RightCorner, SectionTypes.StartGrid, SectionTypes.RightCorner, SectionTypes.Finish, SectionTypes.RightCorner,
+                SectionTypes.StartGrid, SectionTypes.RightCorner, SectionTypes.StartGrid
+            };
+            List&lt;IParticipant&gt; participants = new List&lt;IParticipant&gt;();
+            IEquipment defaultCar = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
+            IEquipment toyota = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
+
+            participants.Add(new Driver(name: &quot;Koen van Meijeren&quot;, points: 200, equipment: defaultCar, teamColor: TeamColors.Red));
+            participants.Add(new Driver(name: &quot;Klaas van Meijeren&quot;, points: 190, equipment: toyota, teamColor: TeamColors.Blue));
+            participants.Add(new Driver(name: &quot;Jan van Meijeren&quot;, points: 195, equipment: defaultCar, teamColor: TeamColors.Green));
+
+            this._race = new Race(new Track(name: &quot;Monaco&quot;, sections: route), participants);
+            this._emptyRace = new Race(new Track(&quot;Test&quot;, new SectionTypes[0]), new List&lt;IParticipant&gt;());
         }
 
         [Test]
-        public void Track_CanCreate()
+        public void Race_CanRead_Track()
         {
-            SectionTypes[] route = {
-                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.Finish,
-                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.StartGrid
-            };
-
-            Track track = new Track(&quot;Test Track 2&quot;, route);
-
-            Assert.AreEqual(&quot;Test Track 2&quot;, track.Name);
-            Assert.AreEqual(-1, track.EastStartPosition);
-            Assert.AreEqual(-1, track.NorthStartPosition);
+            Assert.AreEqual(6, Data.CurrentRace.Participants.Count);
+            Assert.AreEqual(&quot;Circuit Zwolle&quot;, Data.CurrentRace.Track.Name);
+            Assert.AreEqual(&quot;Monaco&quot;, this._race.Track.Name);
+            Assert.AreEqual(&quot;Test&quot;, this._emptyRace.Track.Name);
+            Assert.AreEqual(&quot;1-1-0001 00:00:00&quot;, this._emptyRace.StartTime.ToString());
+            Assert.AreEqual(&quot;1-1-0001 00:00:00&quot;, this._race.StartTime.ToString());
         }
 
         [Test]
-        public void Track_CanRead_Sections()
+        public void Race_CanRead_SectionData()
         {
-            Assert.AreEqual(8, this._track.Sections.Count);
-            Assert.AreEqual(SectionTypes.LeftCorner, this._track.Sections.First.Value.SectionType);
-            Assert.AreEqual(SectionTypes.StartGrid, this._track.Sections.ElementAt(1).SectionType);
-            Assert.AreEqual(SectionTypes.LeftCorner, this._track.Sections.ElementAt(2).SectionType);
-            Assert.AreEqual(SectionTypes.Finish, this._track.Sections.ElementAt(3).SectionType);
-
-            Assert.AreEqual(SectionTypes.LeftCorner, this._track.Sections.ElementAt(4).SectionType);
-            Assert.AreEqual(SectionTypes.StartGrid, this._track.Sections.ElementAt(5).SectionType);
-            Assert.AreEqual(SectionTypes.LeftCorner, this._track.Sections.ElementAt(6).SectionType);
-            Assert.AreEqual(SectionTypes.StartGrid, this._track.Sections.ElementAt(7).SectionType);
-
+            Assert.IsNull(this._race.GetSectionData(this._race.Track.Sections.First.Value).Left);
+            Assert.IsNull(this._race.GetSectionData(this._race.Track.Sections.First.Value).Right);
+            Assert.IsNotNull(this._race.GetSectionData(this._race.Track.Sections.ElementAt(1)).Left);
+            Assert.IsNotNull(this._race.GetSectionData(this._race.Track.Sections.ElementAt(1)).Right);
+            Assert.IsNull(this._race.GetSectionData(this._race.Track.Sections.ElementAt(2)).Left);
+            Assert.IsNull(this._race.GetSectionData(this._race.Track.Sections.ElementAt(2)).Right);
+            Assert.IsNull(this._race.GetSectionData(this._race.Track.Sections.ElementAt(3)).Left);
+            Assert.IsNull(this._race.GetSectionData(this._race.Track.Sections.ElementAt(3)).Right);
+            Assert.IsNull(this._race.GetSectionData(this._race.Track.Sections.ElementAt(4)).Left);
+            Assert.IsNull(this._race.GetSectionData(this._race.Track.Sections.ElementAt(4)).Right);
+            Assert.IsNotNull(this._race.GetSectionData(this._race.Track.Sections.ElementAt(5)).Left);
+            Assert.IsNull(this._race.GetSectionData(this._race.Track.Sections.ElementAt(5)).Right);
+            Assert.IsNull(this._race.GetSectionData(this._race.Track.Sections.ElementAt(6)).Left);
+            Assert.IsNull(this._race.GetSectionData(this._race.Track.Sections.ElementAt(6)).Right);
+            Assert.IsNull(this._race.GetSectionData(this._race.Track.Sections.ElementAt(7)).Left);
+            Assert.IsNull(this._race.GetSectionData(this._race.Track.Sections.ElementAt(7)).Right);
         }
 
         [Test]
-        public void Track_CanCreate_WithDifferentStartPosition()
+        public void Race_CanUpdate_SectionData()
         {
-            SectionTypes[] route = {
-                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.Finish,
-                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.StartGrid
-            };
-
-            Track track = new Track(&quot;Test Track 2&quot;, route, 25, 10);
-
-            Assert.AreEqual(&quot;Test Track 2&quot;, track.Name);
-            Assert.AreEqual(25, track.EastStartPosition);
-            Assert.AreEqual(10, track.NorthStartPosition);
-            Assert.AreEqual(-1, Track.StartPositionUndefined);
-
-            Track trackTwo = new Track(&quot;Test Track 3&quot;, route, Track.StartPositionUndefined, 40);
-            Assert.AreEqual(&quot;Test Track 3&quot;, trackTwo.Name);
-            Assert.AreEqual(-1, trackTwo.EastStartPosition);
-            Assert.AreEqual(40, trackTwo.NorthStartPosition);
-            Assert.AreEqual(-1, Track.StartPositionUndefined);
+            Assert.IsFalse(this._emptyRace.UpdateSectionData(new Section(SectionTypes.StartGrid), new SectionData()));
+            Assert.IsTrue(this._race.UpdateSectionData(this._race.Track.Sections.ElementAt(1), new SectionData()));
         }
 
+        [Test]
+        public void Race_CanStart()
+        {
+            this._race.Start();
+            this._emptyRace.Start();
+
+            Assert.AreNotEqual(&quot;1-1-0001 00:00:00&quot;, this._race.StartTime.ToString());
+            Assert.AreNotEqual(&quot;1-1-0001 00:00:00&quot;, this._emptyRace.StartTime.ToString());
+        }
+
+        [Test]
+        public void Race_CanPerformActions_OnTimedEvent()
+        {
+            this._race.Start();
+            Race.OnTimedEvent(null, null);
+            Race.OnTimedEvent(null, null);
+        }
+
+        [Test]
+        public void Race_CanCovertRange()
+        {
+            Assert.AreEqual(0, Race.ConvertRange(0, 100, 0, 4, 10));
+            Assert.AreEqual(1, Race.ConvertRange(0, 100, 0, 4, 30));
+            Assert.AreEqual(2, Race.ConvertRange(0, 100, 0, 4, 60));
+            Assert.AreEqual(3, Race.ConvertRange(0, 100, 0, 4, 80));
+            Assert.AreEqual(4, Race.ConvertRange(0, 100, 0, 4, 110));
+            
+            Assert.AreEqual(0, Race.ConvertRange(0, 100, 0, 4, 12));
+            Assert.AreEqual(0, Race.ConvertRange(0, 100, 0, 4, 24));
+            Assert.AreEqual(1, Race.ConvertRange(0, 100, 0, 4, 36));
+            Assert.AreEqual(1, Race.ConvertRange(0, 100, 0, 4, 48));
+            Assert.AreEqual(2, Race.ConvertRange(0, 100, 0, 4, 60));
+            Assert.AreEqual(2, Race.ConvertRange(0, 100, 0, 4, 72));
+            Assert.AreEqual(3, Race.ConvertRange(0, 100, 0, 4, 84));
+            Assert.AreEqual(3, Race.ConvertRange(0, 100, 0, 4, 96));
+            Assert.AreEqual(4, Race.ConvertRange(0, 100, 0, 4, 108));
+            Assert.AreEqual(4, Race.ConvertRange(0, 100, 0, 4, 120));
+        }
+
+        [Test]
+        public void Race_CanFlipRace()
+        {
+            int value = Race.ConvertRange(0, 100, 0, 4, 10);
+            Assert.AreEqual(4, Race.ConvertRange(0, 4,  4, 0, value));
+            value = Race.ConvertRange(0, 100, 0, 4, 35);
+            Assert.AreEqual(3, Race.ConvertRange(0, 4,  4, 0, value));
+            value = Race.ConvertRange(0, 100, 0, 4, 55);
+            Assert.AreEqual(2, Race.ConvertRange(0, 4,  4, 0, value));
+            value = Race.ConvertRange(0, 100, 0, 4, 78);
+            Assert.AreEqual(1, Race.ConvertRange(0, 4,  4, 0, value));
+            value = Race.ConvertRange(0, 100, 0, 4, 105);
+            Assert.AreEqual(0, Race.ConvertRange(0, 4,  4, 0, value));
+        }
+        
     }
 }
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[19,9,19,10,1],[20,13,23,15,1],[25,13,25,58,1],[26,9,26,10,1],[30,9,30,10,1],[31,13,34,15,1],[36,13,36,60,1],[38,13,38,57,1],[39,13,39,58,1],[40,13,40,59,1],[41,9,41,10,1],[45,9,45,10,1],[46,13,46,60,1],[47,13,47,100,1],[48,13,48,100,1],[49,13,49,101,1],[50,13,50,97,1],[52,13,52,101,1],[53,13,53,100,1],[54,13,54,101,1],[55,13,55,100,1],[57,9,57,10,1],[61,9,61,10,1],[62,13,65,15,1],[67,13,67,68,1],[69,13,69,57,1],[70,13,70,58,1],[71,13,71,59,1],[72,13,72,63,1],[74,13,74,97,1],[75,13,75,60,1],[76,13,76,61,1],[77,13,77,62,1],[78,13,78,63,1],[79,9,79,10,1]]);
+      highlightRanges([[22,9,22,10,1],[23,13,23,31,1],[25,13,29,15,1],[30,13,30,72,1],[31,13,31,157,1],[32,13,32,153,1],[34,13,34,132,1],[35,13,35,130,1],[36,13,36,133,1],[38,13,38,93,1],[39,13,39,106,1],[40,9,40,10,1],[44,9,44,10,1],[45,13,45,69,1],[46,13,46,76,1],[47,13,47,62,1],[48,13,48,65,1],[49,13,49,88,1],[50,13,50,83,1],[51,9,51,10,1],[55,9,55,10,1],[56,13,56,98,1],[57,13,57,99,1],[58,13,58,102,1],[59,13,59,103,1],[60,13,60,99,1],[61,13,61,100,1],[62,13,62,99,1],[63,13,63,100,1],[64,13,64,99,1],[65,13,65,100,1],[66,13,66,102,1],[67,13,67,100,1],[68,13,68,99,1],[69,13,69,100,1],[70,13,70,99,1],[71,13,71,100,1],[72,9,72,10,1],[76,9,76,10,1],[77,13,77,119,1],[78,13,78,116,1],[79,9,79,10,1],[83,9,83,10,1],[84,13,84,32,1],[85,13,85,37,1],[87,13,87,86,1],[88,13,88,91,1],[89,9,89,10,1],[93,9,93,10,1],[94,13,94,32,1],[95,13,95,43,1],[96,13,96,43,1],[97,9,97,10,1],[101,9,101,10,1],[102,13,102,69,1],[103,13,103,69,1],[104,13,104,69,1],[105,13,105,69,1],[106,13,106,70,1],[108,13,108,69,1],[109,13,109,69,1],[110,13,110,69,1],[111,13,111,69,1],[112,13,112,69,1],[113,13,113,69,1],[114,13,114,69,1],[115,13,115,69,1],[116,13,116,70,1],[117,13,117,70,1],[118,9,118,10,1],[122,9,122,10,1],[123,13,123,61,1],[124,13,124,71,1],[125,13,125,57,1],[126,13,126,71,1],[127,13,127,57,1],[128,13,128,71,1],[129,13,129,57,1],[130,13,130,71,1],[131,13,131,58,1],[132,13,132,71,1],[133,9,133,10,1]]);
     </script>
   </body>
 </html>

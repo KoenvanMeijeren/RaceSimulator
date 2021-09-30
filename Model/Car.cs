@@ -10,10 +10,7 @@ namespace Model
         private int _speed;
         public int Quality
         {
-            get
-            {
-                return this._quality;
-            }
+            get => this._quality;
 
             private set
             {
@@ -28,10 +25,7 @@ namespace Model
 
         public int Performance
         {
-            get
-            {
-                return this._performance;
-            }
+            get => this._performance;
 
             private set
             {
@@ -46,10 +40,7 @@ namespace Model
 
         public int Speed
         {
-            get
-            {
-                return this._speed;
-            }
+            get => this._speed;
 
             private set
             {
@@ -75,6 +66,11 @@ namespace Model
             this.IsBroken = false;
 
             this._randominizer = new Random(DateTime.Now.Millisecond);
+        }
+
+        public int GetRealSpeed()
+        {
+            return this.Performance * this.Speed;
         }
 
         public void SetRandomQuality()

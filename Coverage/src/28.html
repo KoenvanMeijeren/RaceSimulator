@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>E:\Development\C#\RaceSimulator\RaceSimulator\CVisualization.cs</title>
+    <title>E:\Development\C#\RaceSimulator\Controller\Data.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
@@ -12,508 +12,104 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using Controller;
 using Model;
 
-namespace RaceSimulator
+namespace Controller
 {
-
-    public enum Directions
-    {
-        North = 0,
-        East = 1,
-        South = 2,
-        West = 3
-    }
-
-    public static class CVisualization
+    public static class Data
     {
 
-        private static readonly Directions _startDirection = Directions.East;
-        private static Directions _direction = CVisualization._startDirection;
+        private static Competition _competition;
+        public static Race CurrentRace { get; private set; }
 
-        private const int
-            SymbolSpaces = 4,
-
-            /*
-             * The first property determines the max length of the initials and trims the initials
-             * to the selected length. The second property determines the index of the initials
-             * inside a string of the graphics strings.
-             *
-             * If we have the string: &quot;----&quot;, &quot;  | &quot;, &quot;  | &quot;, &quot;----&quot; for example, the initials
-             * will be placed on the selected position. The third and fourth property determines
-             * which string of the symbols we have to take. 
-             *
-             * If the value of the first property is 0, and of the second 1 and of the third 2,
-             * the output will be this: &quot;----&quot;, &quot;AB| &quot;, &quot;CD| &quot;, &quot;----&quot; or &quot;----&quot;, &quot;A | &quot;, &quot;BC| &quot;, &quot;----&quot;
-             * or &quot;----&quot;, &quot;AB| &quot;, &quot;  | &quot;, &quot;----&quot;.
-             */
-            MaxInitialsLength = 2,
-            InitialsInGraphicsSymbolHorizontalStartIndex = 0,
-            InitialsOnPositionOneInGraphicsSymbolsHorizontalIndex = 1,
-            InitialsOnPositionTwoInGraphicsSymbolsHorizontalIndex = 2,
-            InitialsInGraphicsSymbolVerticalStartIndex = 1,
-            InitialsOnPositionOneInGraphicsSymbolsVerticalIndex = 2,
-            InitialsOnPositionTwoInGraphicsSymbolsVerticalIndex = 3;
-
-        private static readonly int
-            CursorStartEastPosition = Console.WindowWidth / 2, 
-            CursorStartNorthPosition = Console.WindowHeight / 2;
-
-        private static int
-            _cursorEastPosition = CursorStartEastPosition,
-            _cursorNorthPosition = CursorStartNorthPosition;
-
-        #region graphics
-
-        private static readonly string[]
-            FinishHorizontal = {&quot;----&quot;, &quot;  # &quot;, &quot;  # &quot;, &quot;----&quot;},
-            FinishVertical = {&quot;|  |&quot;, &quot;|##|&quot;, &quot;|  |&quot;, &quot;|  |&quot;},
-
-            StartGridHorizontal = {&quot;----&quot;, &quot;  | &quot;, &quot;  | &quot;, &quot;----&quot;},
-            StartGridVertical = {&quot;|  |&quot;, &quot;|--|&quot;, &quot;|  |&quot;, &quot;|  |&quot;},
-
-            StraightHorizontal = {&quot;----&quot;, &quot;    &quot;, &quot;    &quot;, &quot;----&quot;},
-            StraightVertical = {&quot;|  |&quot;, &quot;|  |&quot;, &quot;|  |&quot;, &quot;|  |&quot;},
-
-            NorthCornerToRight = {&quot;|  /&quot;, &quot;|   &quot;, &quot;/   &quot;, &quot; /--&quot;},
-            NorthCornerToLeft = {&quot;\\  |&quot;, &quot;   |&quot;, &quot;   \\&quot;, &quot;--\\ &quot;},
-
-            EastCornerToRight = {&quot;--\\ &quot;, &quot;   \\&quot;, &quot;   |&quot;, &quot;\\  |&quot;},
-            EastCornerToLeft = {&quot;/  |&quot;, &quot;   |&quot;, &quot;   /&quot;, &quot;--/ &quot;},
-
-            SouthCornerToRight = CVisualization.EastCornerToLeft,
-            SouthCornerToLeft = {&quot;|  \\&quot;, &quot;|   &quot;, &quot;\\   &quot;, &quot; \\--&quot;},
-
-            WestCornerToRight = CVisualization.SouthCornerToLeft,
-            WestCornerToLeft = {&quot; /--&quot;, &quot;/   &quot;, &quot;|   &quot;, &quot;|  /&quot;};
-        #endregion
+        public static List&lt;IParticipant&gt; Participants { get; private set; }
+        public static Queue&lt;Track&gt; Tracks { get; private set; }
 
         public static void Initialize()
         {
-            
-        }
+            // resets the data in order to prevent data errors.
+            Data._competition = null;
+            Data.CurrentRace = null;
+            Data.Participants = new List&lt;IParticipant&gt;();
+            Data.Tracks = new Queue&lt;Track&gt;();
 
-        public static void DrawTrack(Race race)
-        {
-            Track track = race.Track;
+            Data.AddTestParticipants();
+            Data.AddTestTracks();
 
-            Console.BackgroundColor = ConsoleColor.Blue;
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.Clear();
+            Data._competition = new Competition(Data.Participants, Data.Tracks);
 
-            Console.SetCursorPosition(CenteredTextCursorStartPosition(track.Name), 1);
-            Console.WriteLine(track.Name);
-
-            if (track.EastStartPosition != Track.StartPositionUndefined)
+            if (Data.CurrentRace == null)
             {
-                CVisualization._cursorEastPosition = track.EastStartPosition;
-            }
-
-            if (track.NorthStartPosition != Track.StartPositionUndefined)
-            {
-                CVisualization._cursorNorthPosition = track.NorthStartPosition;
-            }
-
-            foreach (Section trackSection in track.Sections)
-            {
-                CVisualization.DrawTrackSection(trackSection, race.GetSectionData(trackSection));
+                Data.NextRace();
             }
         }
 
-        private static void DrawTrackSection(Section section, SectionData sectionData)
+        public static void NextRace()
         {
-            switch (section.SectionType)
+            Track currentTrack = Data._competition.NextTrack();
+            if (currentTrack == null)
             {
-                case SectionTypes.StartGrid:
-                    DrawStartGrid(sectionData);
-                    break;
-                case SectionTypes.Straight:
-                    DrawStraight(sectionData);
-                    break;
-                case SectionTypes.LeftCorner:
-                    DrawLeftCorner(sectionData);
-                    break;
-                case SectionTypes.RightCorner:
-                    DrawRightCorner(sectionData);
-                    break;
-                case SectionTypes.Finish:
-                    DrawFinish(sectionData);
-                    break;
-            }
-        }
-
-        private static bool DirectionIsVertical()
-        {
-            return CVisualization._direction is Directions.South or Directions.North;
-        }
-
-        private static bool DirectionIsHorizontal()
-        {
-            return CVisualization._direction is Directions.West or Directions.East;
-        }
-
-        private static void DrawLeftCorner(SectionData sectionData = null)
-        {
-            if (CVisualization._direction == Directions.East)
-            {
-                DrawDownwards(CVisualization.EastCornerToLeft, sectionData);
-                CVisualization._direction = Directions.North;
-            }
-            else if (CVisualization._direction == Directions.South)
-            {
-                DrawDownwards(CVisualization.SouthCornerToLeft, sectionData);
-                CVisualization._direction = Directions.East;
-            }
-            else if (CVisualization._direction == Directions.West)
-            {
-                DrawDownwards(CVisualization.WestCornerToLeft, sectionData);
-                CVisualization._direction = Directions.South;
-            }
-            else if (CVisualization._direction == Directions.North)
-            {
-                DrawUpwards(CVisualization.NorthCornerToLeft, sectionData);
-                CVisualization._direction = Directions.West;
-            }
-
-            switch (CVisualization._direction)
-            {
-                case Directions.East:
-                    CVisualization._cursorNorthPosition -= CVisualization.SymbolSpaces;
-                    CVisualization._cursorEastPosition += CVisualization.SymbolSpaces;
-                    break;
-                case Directions.West:
-                    CVisualization._cursorNorthPosition += 1;
-                    CVisualization._cursorEastPosition -= CVisualization.SymbolSpaces;
-                    break;
-                case Directions.North:
-                    CVisualization._cursorNorthPosition -= CVisualization.SymbolSpaces + 1;
-                    break;
-                case Directions.South:
-                    // do nothing
-                    break;
-            }
-        }
-
-        private static void DrawRightCorner(SectionData sectionData = null)
-        {
-            if (CVisualization._direction == Directions.East)
-            {
-                DrawDownwards(CVisualization.EastCornerToRight, sectionData);
-                CVisualization._direction = Directions.South;
-            }
-            else if (CVisualization._direction == Directions.South)
-            {
-                DrawDownwards(CVisualization.SouthCornerToRight, sectionData);
-                CVisualization._direction = Directions.West;
-            }
-            else if (CVisualization._direction == Directions.West)
-            {
-                DrawDownwards(CVisualization.WestCornerToRight, sectionData);
-                CVisualization._direction = Directions.North;
-            }
-            else if (CVisualization._direction == Directions.North)
-            {
-                DrawUpwards(CVisualization.NorthCornerToRight, sectionData);
-                CVisualization._direction = Directions.East;
-            }
-
-            switch (CVisualization._direction)
-            {
-                case Directions.East:
-                    CVisualization._cursorNorthPosition += 1;
-                    CVisualization._cursorEastPosition += CVisualization.SymbolSpaces;
-                    break;
-                case Directions.West:
-                    CVisualization._cursorNorthPosition -= CVisualization.SymbolSpaces;
-                    CVisualization._cursorEastPosition -= CVisualization.SymbolSpaces;
-                    break;
-                case Directions.North:
-                    CVisualization._cursorNorthPosition -= CVisualization.SymbolSpaces + 1;
-                    break;
-                case Directions.South:
-                    // do nothing
-                    break;
-            }
-        }
-
-        private static void DrawStraight(SectionData sectionData = null)
-        {
-            if (CVisualization.DirectionIsVertical())
-            {
-                CVisualization.Draw(CVisualization.StraightVertical, sectionData);
+                Data.CurrentRace = null;
                 return;
             }
 
-            CVisualization.Draw(CVisualization.StraightHorizontal, sectionData);
+            Data.CurrentRace = new Race(track: currentTrack, participants: Data.Participants);
         }
 
-        private static void DrawStartGrid(SectionData sectionData = null)
+        private static void AddTestParticipants()
         {
-            if (CVisualization.DirectionIsVertical())
+            IEquipment defaultCar = new Car(quality: 100, performance: 1, speed: 50);
+            IEquipment toyota = new Car(quality: 65, performance: 1, speed: 50);
+
+            Data.AddParticipant(new Driver(name: &quot;Koen&quot;, points: 200, equipment: defaultCar, teamColor: TeamColors.Red));
+            Data.AddParticipant(new Driver(name: &quot;Henk&quot;, points: 190, equipment: toyota, teamColor: TeamColors.Blue));
+            Data.AddParticipant(new Driver(name: &quot;Jan&quot;, points: 195, equipment: defaultCar, teamColor: TeamColors.Green));
+            Data.AddParticipant(new Driver(name: &quot;Piet&quot;, points: 192, equipment: toyota, teamColor: TeamColors.Grey));
+            Data.AddParticipant(new Driver(name: &quot;Stan&quot;, points: 197, equipment: defaultCar, teamColor: TeamColors.Yellow));
+            Data.AddParticipant(new Driver(name: &quot;Boris&quot;, points: 197, equipment: defaultCar, teamColor: TeamColors.Yellow));
+        }
+
+        public static void AddParticipant(Driver driver)
+        {
+            Data.Participants ??= new List&lt;IParticipant&gt;();
+
+            Data.Participants.Add(driver);
+        }
+
+        private static void AddTestTracks()
+        {
+            SectionTypes[] routeZwolle = {
+                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.Finish,
+                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.StartGrid
+            };
+
+            SectionTypes[] routeElburg = {
+                SectionTypes.StartGrid, SectionTypes.Finish, SectionTypes.RightCorner, SectionTypes.Straight,
+                SectionTypes.LeftCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.RightCorner,
+                SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.LeftCorner,
+                SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.LeftCorner, SectionTypes.RightCorner,
+                SectionTypes.RightCorner, SectionTypes.LeftCorner, SectionTypes.Straight, SectionTypes.RightCorner,
+                SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.RightCorner,
+                SectionTypes.StartGrid, SectionTypes.StartGrid
+            };
+
+            SectionTypes[] routeAmsterdam =
             {
-                CVisualization.Draw(CVisualization.StartGridVertical, sectionData);
-                return;
-            }
+                SectionTypes.RightCorner, SectionTypes.StartGrid, SectionTypes.RightCorner, SectionTypes.Finish, SectionTypes.RightCorner,
+                SectionTypes.StartGrid, SectionTypes.RightCorner, SectionTypes.StartGrid
+            };
 
-            CVisualization.Draw(CVisualization.StartGridHorizontal, sectionData);
+            Data.AddTrack(new Track(name: &quot;Circuit Zwolle&quot;, sections: routeElburg, Track.StartPositionUndefined, 4));
+            Data.AddTrack(new Track(name: &quot;TT Assen&quot;, sections: routeZwolle));
+            Data.AddTrack(new Track(name: &quot;Monaco&quot;, sections: routeAmsterdam, Track.StartPositionUndefined, 4));
         }
 
-        private static void DrawFinish(SectionData sectionData = null)
+        public static void AddTrack(Track track)
         {
-            if (CVisualization.DirectionIsVertical())
-            {
-                CVisualization.Draw(CVisualization.FinishVertical, sectionData);
-                return;
-            }
+            Data.Tracks ??= new Queue&lt;Track&gt;();
 
-            CVisualization.Draw(CVisualization.FinishHorizontal, sectionData);
-        }
-
-        private static void Draw(string[] symbols, SectionData sectionData = null)
-        {
-            if (CVisualization._direction is Directions.East or Directions.West or Directions.South)
-            {
-                DrawDownwards(symbols, sectionData);
-            }
-            else
-            {
-                DrawUpwards(symbols, sectionData);
-            }
-
-            switch (CVisualization._direction)
-            {
-                case Directions.East:
-                    CVisualization._cursorNorthPosition -= CVisualization.SymbolSpaces;
-                    CVisualization._cursorEastPosition += CVisualization.SymbolSpaces;
-                    break;
-                case Directions.West:
-                    CVisualization._cursorNorthPosition -= CVisualization.SymbolSpaces;
-                    CVisualization._cursorEastPosition -= CVisualization.SymbolSpaces;
-                    break;
-            }
-        }
-
-        private static void DrawDownwards(string[] symbols, SectionData sectionData = null)
-        {
-            string[] writeSymbols = CVisualization.SectionDataToSymbols(symbols, sectionData);
-
-            foreach (string symbol in writeSymbols)
-            {
-                CVisualization.WriteLine(symbol);
-                CVisualization.MoveCursorDownwards();
-            }
-        }
-
-        private static void DrawUpwards(string[] symbols, SectionData sectionData = null)
-        {
-            string[] writeSymbols = CVisualization.SectionDataToSymbols(symbols, sectionData);
-
-            foreach (string symbol in writeSymbols)
-            {
-                CVisualization.WriteLine(symbol);
-                CVisualization.MoveCursorUpwards();
-            }
-        }
-
-        private static string[] SectionDataToSymbols(string[] symbols, SectionData sectionData = null)
-        {
-            if (sectionData == null || (sectionData.Left == null &amp;&amp; sectionData.Right == null))
-            {
-                return symbols;
-            }
-
-            if (sectionData.Left != null &amp;&amp; sectionData.Right != null)
-            {
-                return CVisualization.PlaceBothParticipantsOnSection(symbols.ToArray(), sectionData.Left, sectionData.Right);
-            }
-            
-            if (sectionData.Left != null || sectionData.Right != null)
-            {
-                return CVisualization.PlaceOneParticipantOnSection(symbols.ToArray(), sectionData.Left ?? sectionData.Right);
-            }
-
-            return symbols;
-        }
-
-        private static string[] PlaceBothParticipantsOnSection(string[] symbols, IParticipant participantOne, IParticipant participantTwo)
-        {
-            int indexOne = CVisualization.InitialsOnPositionOneInGraphicsSymbolsHorizontalIndex,
-                indexTwo = CVisualization.InitialsOnPositionTwoInGraphicsSymbolsHorizontalIndex,
-                initialsStartIndex = CVisualization.InitialsInGraphicsSymbolHorizontalStartIndex;
-            string
-                initialsStartOne = participantOne.GetInitials(CVisualization.MaxInitialsLength),
-                initialsStartTwo = participantTwo.GetInitials(CVisualization.MaxInitialsLength),
-                initialsOne = initialsStartOne,
-                initialsTwo = initialsStartTwo;
-
-
-            if (CVisualization.DirectionIsVertical())
-            {
-                indexOne = CVisualization.InitialsOnPositionOneInGraphicsSymbolsVerticalIndex;
-                indexTwo = CVisualization.InitialsOnPositionTwoInGraphicsSymbolsVerticalIndex;
-                initialsStartIndex = CVisualization.InitialsInGraphicsSymbolVerticalStartIndex;
-                initialsOne = initialsStartOne.First().ToString() + initialsStartTwo.First().ToString();
-                initialsTwo = initialsStartOne?.ElementAtOrDefault(1).ToString() +
-                              initialsStartTwo?.ElementAtOrDefault(1).ToString();
-            }
-
-            symbols[indexOne] = CVisualization.MergeInitialsIntoSymbol(symbols[indexOne], initialsOne, initialsStartIndex);
-            symbols[indexTwo] = CVisualization.MergeInitialsIntoSymbol(symbols[indexTwo], initialsTwo, initialsStartIndex);
-
-            return symbols;
-        }
-
-        private static string[] PlaceOneParticipantOnSection(string[] symbols, IParticipant participant)
-        {
-            int indexOne = CVisualization.InitialsOnPositionOneInGraphicsSymbolsHorizontalIndex;
-
-            symbols[indexOne] = CVisualization.MergeInitialsIntoSymbol(symbols[indexOne], participant.GetInitials(CVisualization.MaxInitialsLength));
-
-            return symbols;
-        }
-
-        private static void MoveCursorLeftwards()
-        {
-            CVisualization._cursorEastPosition--;
-        }
-
-        private static void MoveCursorRightwards()
-        {
-            CVisualization._cursorEastPosition++;
-        }
-
-        private static void MoveCursorUpwards()
-        {
-            CVisualization._cursorNorthPosition--;
-        }
-
-        private static void MoveCursorDownwards()
-        {
-            CVisualization._cursorNorthPosition++;
-        }
-
-        private static void WriteLine(string symbol)
-        {
-            Console.SetCursorPosition(CVisualization._cursorEastPosition, CVisualization._cursorNorthPosition);
-            Console.WriteLine(symbol);
-        }
-
-        private static string MergeInitialsIntoSymbol(string symbol, string initials, int initialsStartIndex = CVisualization.InitialsInGraphicsSymbolHorizontalStartIndex)
-        { 
-            int maxInitialsLength = initials.Length &lt; CVisualization.MaxInitialsLength ? initials.Length : CVisualization.MaxInitialsLength;
-
-            string trimmedInitials = initials.ToString();
-            if (initials.Length &gt; CVisualization.MaxInitialsLength)
-            {
-                trimmedInitials = trimmedInitials.Remove(CVisualization.MaxInitialsLength);
-            }
-
-            return symbol.Remove(initialsStartIndex, maxInitialsLength).Insert(initialsStartIndex, trimmedInitials);
-        }
-
-        private static int CenteredTextCursorStartPosition(string text)
-        {
-            return (Console.WindowWidth / 2) - (text.Length / 2);
-        }
-
-        private static void DrawTestTracks()
-        {
-            _cursorEastPosition -= 30;
-            DrawRoundTestTrackClockwise();
-            _cursorEastPosition += 50;
-            DrawRoundTestTrackCounterClockwise();
-            _cursorNorthPosition += 30;
-            DrawHalfRoundTestTracks();
-        }
-
-        private static void DrawHalfRoundTestTracks()
-        {
-            DrawStartGrid();
-            DrawStraight();
-            DrawRightCorner();
-            DrawStraight();
-            DrawLeftCorner();
-            DrawStraight();
-            DrawFinish();
-
-            _cursorNorthPosition += 15;
-
-            _direction = Directions.West;
-
-            DrawStartGrid();
-            DrawStraight();
-            DrawLeftCorner();
-            DrawStraight();
-            DrawRightCorner();
-            DrawStraight();
-            DrawFinish();
-        }
-
-        private static void DrawRoundTestTrackCounterClockwise()
-        {
-            CVisualization._direction = Directions.West;
-
-            CVisualization.DrawStraight();
-            CVisualization.DrawStartGrid();
-            CVisualization.DrawStraight();
-            CVisualization.DrawFinish();
-            CVisualization.DrawStraight();
-
-            CVisualization.DrawLeftCorner();
-            CVisualization.DrawStraight();
-            CVisualization.DrawFinish();
-            CVisualization.DrawStartGrid();
-
-            CVisualization.DrawLeftCorner();
-            CVisualization.DrawStraight();
-            CVisualization.DrawStartGrid();
-            CVisualization.DrawStraight();
-            CVisualization.DrawFinish();
-            CVisualization.DrawStraight();
-            CVisualization.DrawStraight();
-
-            CVisualization.DrawLeftCorner();
-            CVisualization.DrawStraight();
-            CVisualization.DrawFinish();
-            CVisualization.DrawStartGrid();
-
-            CVisualization.DrawLeftCorner();
-            CVisualization.DrawStraight();
-        }
-
-        private static void DrawRoundTestTrackClockwise()
-        {
-            CVisualization._direction = Directions.East;
-
-            CVisualization.DrawStraight();
-            CVisualization.DrawStartGrid();
-            CVisualization.DrawStraight();
-            CVisualization.DrawFinish();
-            CVisualization.DrawStraight();
-
-            CVisualization.DrawRightCorner();
-            CVisualization.DrawStraight();
-            CVisualization.DrawFinish();
-            CVisualization.DrawStartGrid();
-
-            CVisualization.DrawRightCorner();
-            CVisualization.DrawStraight();
-            CVisualization.DrawStartGrid();
-            CVisualization.DrawStraight();
-            CVisualization.DrawFinish();
-            CVisualization.DrawStraight();
-            CVisualization.DrawStraight();
-
-            CVisualization.DrawRightCorner();
-            CVisualization.DrawStraight();
-            CVisualization.DrawFinish();
-            CVisualization.DrawStartGrid();
-
-            CVisualization.DrawRightCorner();
-            CVisualization.DrawStraight();
+            Data.Tracks.Enqueue(track);
         }
 
     }
@@ -521,7 +117,7 @@ namespace RaceSimulator
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[24,9,24,78,0],[25,9,25,79,0],[51,9,52,62,0],[53,13,53,64,0],[55,9,56,58,0],[57,13,57,60,0],[61,9,62,64,0],[63,13,63,62,0],[65,13,65,67,0],[66,13,66,65,0],[68,13,68,66,0],[69,13,69,64,0],[71,13,71,66,0],[72,13,72,68,0],[74,13,74,68,0],[75,13,75,64,0],[77,13,77,65,0],[78,13,78,68,0],[80,13,80,65,0],[81,13,81,64,0],[85,9,85,10,0],[87,9,87,10,0],[90,9,90,10,0],[91,13,91,38,0],[93,13,93,57,0],[94,13,94,58,0],[95,13,95,29,0],[97,13,97,87,0],[98,13,98,43,0],[100,13,100,73,0],[101,13,101,14,0],[102,17,102,78,0],[103,13,103,14,0],[105,13,105,74,0],[106,13,106,14,0],[107,17,107,80,0],[108,13,108,14,0],[110,13,110,20,0],[110,22,110,42,0],[110,43,110,45,0],[110,46,110,60,0],[111,13,111,14,0],[112,17,112,98,0],[113,13,113,14,0],[114,9,114,10,0],[117,9,117,10,0],[118,13,118,41,0],[121,21,121,48,0],[122,21,122,27,0],[124,21,124,47,0],[125,21,125,27,0],[127,21,127,49,0],[128,21,128,27,0],[130,21,130,50,0],[131,21,131,27,0],[133,21,133,45,0],[134,21,134,27,0],[136,9,136,10,0],[139,9,139,10,0],[140,13,140,86,0],[141,9,141,10,0],[144,9,144,10,0],[145,13,145,84,0],[146,9,146,10,0],[149,9,149,10,0],[150,13,150,62,0],[151,13,151,14,0],[152,17,152,77,0],[153,17,153,62,0],[154,13,154,14,0],[155,18,155,68,0],[156,13,156,14,0],[157,17,157,78,0],[158,17,158,61,0],[159,13,159,14,0],[160,18,160,67,0],[161,13,161,14,0],[162,17,162,77,0],[163,17,163,62,0],[164,13,164,14,0],[165,18,165,68,0],[166,13,166,14,0],[167,17,167,76,0],[168,17,168,61,0],[169,13,169,14,0],[171,13,171,47,0],[174,21,174,88,0],[175,21,175,87,0],[176,21,176,27,0],[178,21,178,62,0],[179,21,179,87,0],[180,21,180,27,0],[182,21,182,92,0],[183,21,183,27,0],[186,21,186,27,0],[188,9,188,10,0],[191,9,191,10,0],[192,13,192,62,0],[193,13,193,14,0],[194,17,194,78,0],[195,17,195,62,0],[196,13,196,14,0],[197,18,197,68,0],[198,13,198,14,0],[199,17,199,79,0],[200,17,200,61,0],[201,13,201,14,0],[202,18,202,67,0],[203,13,203,14,0],[204,17,204,78,0],[205,17,205,62,0],[206,13,206,14,0],[207,18,207,68,0],[208,13,208,14,0],[209,17,209,77,0],[210,17,210,61,0],[211,13,211,14,0],[213,13,213,47,0],[216,21,216,62,0],[217,21,217,87,0],[218,21,218,27,0],[220,21,220,88,0],[221,21,221,87,0],[222,21,222,27,0],[224,21,224,92,0],[225,21,225,27,0],[228,21,228,27,0],[230,9,230,10,0],[233,9,233,10,0],[234,13,234,54,0],[235,13,235,14,0],[236,17,236,83,0],[237,17,237,24,0],[240,13,240,81,0],[241,9,241,10,0],[244,9,244,10,0],[245,13,245,54,0],[246,13,246,14,0],[247,17,247,84,0],[248,17,248,24,0],[251,13,251,82,0],[252,9,252,10,0],[255,9,255,10,0],[256,13,256,54,0],[257,13,257,14,0],[258,17,258,81,0],[259,17,259,24,0],[262,13,262,79,0],[263,9,263,10,0],[266,9,266,10,0],[267,13,267,101,0],[268,13,268,14,0],[269,17,269,53,0],[270,13,270,14,0],[272,13,272,14,0],[273,17,273,51,0],[274,13,274,14,0],[276,13,276,47,0],[279,21,279,88,0],[280,21,280,87,0],[281,21,281,27,0],[283,21,283,88,0],[284,21,284,87,0],[285,21,285,27,0],[287,9,287,10,0],[290,9,290,10,0],[291,13,291,95,0],[293,13,293,20,0],[293,22,293,35,0],[293,36,293,38,0],[293,39,293,51,0],[294,13,294,14,0],[295,17,295,50,0],[296,17,296,54,0],[297,13,297,14,0],[298,9,298,10,0],[301,9,301,10,0],[302,13,302,95,0],[304,13,304,20,0],[304,22,304,35,0],[304,36,304,38,0],[304,39,304,51,0],[305,13,305,14,0],[306,17,306,50,0],[307,17,307,52,0],[308,13,308,14,0],[309,9,309,10,0],[312,9,312,10,0],[313,13,313,96,0],[314,13,314,14,0],[315,17,315,32,0],[318,13,318,71,0],[319,13,319,14,0],[320,17,320,126,0],[323,13,323,71,0],[324,13,324,14,0],[325,17,325,126,0],[328,13,328,28,0],[329,9,329,10,0],[332,9,332,10,0],[333,13,333,96,0],[334,17,334,96,0],[335,17,335,97,0],[336,13,337,96,0],[338,17,338,96,0],[339,17,339,47,0],[340,17,340,47,0],[343,13,343,54,0],[344,13,344,14,0],[345,17,345,95,0],[346,17,346,95,0],[347,17,347,96,0],[348,17,348,105,0],[349,17,350,82,0],[351,13,351,14,0],[353,13,353,124,0],[354,13,354,124,0],[356,13,356,28,0],[357,9,357,10,0],[360,9,360,10,0],[361,13,361,97,0],[363,13,363,150,0],[365,13,365,28,0],[366,9,366,10,0],[369,9,369,10,0],[370,13,370,50,0],[371,9,371,10,0],[374,9,374,10,0],[375,13,375,50,0],[376,9,376,10,0],[379,9,379,10,0],[380,13,380,51,0],[381,9,381,10,0],[384,9,384,10,0],[385,13,385,51,0],[386,9,386,10,0],[389,9,389,10,0],[390,13,390,112,0],[391,13,391,39,0],[392,9,392,10,0],[395,9,395,10,0],[396,13,396,141,0],[398,13,398,58,0],[399,13,399,68,0],[400,13,400,14,0],[401,17,401,92,0],[402,13,402,14,0],[404,13,404,117,0],[405,9,405,10,0],[408,9,408,10,0],[409,13,409,66,0],[410,9,410,10,0],[413,9,413,10,0],[414,13,414,39,0],[415,13,415,43,0],[416,13,416,39,0],[417,13,417,50,0],[418,13,418,40,0],[419,13,419,39,0],[420,9,420,10,0],[423,9,423,10,0],[424,13,424,29,0],[425,13,425,28,0],[426,13,426,31,0],[427,13,427,28,0],[428,13,428,30,0],[429,13,429,28,0],[430,13,430,26,0],[432,13,432,40,0],[434,13,434,42,0],[436,13,436,29,0],[437,13,437,28,0],[438,13,438,30,0],[439,13,439,28,0],[440,13,440,31,0],[441,13,441,28,0],[442,13,442,26,0],[443,9,443,10,0],[446,9,446,10,0],[447,13,447,57,0],[449,13,449,43,0],[450,13,450,44,0],[451,13,451,43,0],[452,13,452,41,0],[453,13,453,43,0],[455,13,455,45,0],[456,13,456,43,0],[457,13,457,41,0],[458,13,458,44,0],[460,13,460,45,0],[461,13,461,43,0],[462,13,462,44,0],[463,13,463,43,0],[464,13,464,41,0],[465,13,465,43,0],[466,13,466,43,0],[468,13,468,45,0],[469,13,469,43,0],[470,13,470,41,0],[471,13,471,44,0],[473,13,473,45,0],[474,13,474,43,0],[475,9,475,10,0],[478,9,478,10,0],[479,13,479,57,0],[481,13,481,43,0],[482,13,482,44,0],[483,13,483,43,0],[484,13,484,41,0],[485,13,485,43,0],[487,13,487,46,0],[488,13,488,43,0],[489,13,489,41,0],[490,13,490,44,0],[492,13,492,46,0],[493,13,493,43,0],[494,13,494,44,0],[495,13,495,43,0],[496,13,496,41,0],[497,13,497,43,0],[498,13,498,43,0],[500,13,500,46,0],[501,13,501,43,0],[502,13,502,41,0],[503,13,503,44,0],[505,13,505,46,0],[506,13,506,43,0],[507,9,507,10,0]]);
+      highlightRanges([[14,42,14,46,1],[14,47,14,59,1],[16,57,16,61,1],[16,62,16,74,1],[17,45,17,49,1],[17,50,17,62,1],[20,9,20,10,1],[22,13,22,38,1],[23,13,23,37,1],[24,13,24,58,1],[25,13,25,46,1],[27,13,27,40,1],[28,13,28,34,1],[30,13,30,81,1],[32,13,32,42,1],[33,13,33,14,1],[34,17,34,33,1],[35,13,35,14,1],[36,9,36,10,1],[39,9,39,10,1],[40,13,40,64,1],[41,13,41,38,1],[42,13,42,14,1],[43,17,43,41,1],[44,17,44,24,1],[47,13,47,95,1],[48,9,48,10,1],[51,9,51,10,1],[52,13,52,86,1],[53,13,53,81,1],[55,13,55,122,1],[56,13,56,119,1],[57,13,57,123,1],[58,13,58,119,1],[59,13,59,125,1],[60,13,60,126,1],[61,9,61,10,1],[64,9,64,10,1],[65,13,65,60,1],[67,13,67,43,1],[68,9,68,10,1],[71,9,71,10,1],[72,13,75,15,1],[77,13,85,15,1],[87,13,91,15,1],[93,13,93,118,1],[94,13,94,79,1],[95,13,95,113,1],[96,9,96,10,1],[99,9,99,10,1],[100,13,100,48,1],[102,13,102,40,1],[103,9,103,10,1]]);
     </script>
   </body>
 </html>

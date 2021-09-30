@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using Controller;
 using Model;
 using NUnit.Framework;
@@ -27,8 +28,8 @@ namespace ControllerTests
                 SectionTypes.StartGrid, SectionTypes.RightCorner, SectionTypes.StartGrid
             };
             List<IParticipant> participants = new List<IParticipant>();
-            IEquipment defaultCar = new Car(quality: 100, performance: 150, speed: 25);
-            IEquipment toyota = new Car(quality: 65, performance: 34, speed: 10);
+            IEquipment defaultCar = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
+            IEquipment toyota = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
 
             participants.Add(new Driver(name: "Koen van Meijeren", points: 200, equipment: defaultCar, teamColor: TeamColors.Red));
             participants.Add(new Driver(name: "Klaas van Meijeren", points: 190, equipment: toyota, teamColor: TeamColors.Blue));
@@ -41,7 +42,7 @@ namespace ControllerTests
         [Test]
         public void Race_CanRead_Track()
         {
-            Assert.AreEqual(5, Data.CurrentRace.Participants.Count);
+            Assert.AreEqual(6, Data.CurrentRace.Participants.Count);
             Assert.AreEqual("Circuit Zwolle", Data.CurrentRace.Track.Name);
             Assert.AreEqual("Monaco", this._race.Track.Name);
             Assert.AreEqual("Test", this._emptyRace.Track.Name);
@@ -77,5 +78,70 @@ namespace ControllerTests
             Assert.IsTrue(this._race.UpdateSectionData(this._race.Track.Sections.ElementAt(1), new SectionData()));
         }
 
+        [Test]
+        public void Race_CanStart()
+        {
+            this._race.Start();
+            this._emptyRace.Start();
+
+            Assert.AreNotEqual("1-1-0001 00:00:00", this._race.StartTime.ToString());
+            Assert.AreNotEqual("1-1-0001 00:00:00", this._emptyRace.StartTime.ToString());
+        }
+
+        [Test]
+        public void Race_CanPerformActions_OnTimedEvent()
+        {
+            this._race.Start();
+            Race.OnTimedEvent(null, null);
+            Race.OnTimedEvent(null, null);
+        }
+
+        [Test]
+        public void Race_CanCovertRange()
+        {
+            Assert.AreEqual(0, Race.ConvertRange(0, 100, 0, 4, 10));
+            Assert.AreEqual(1, Race.ConvertRange(0, 100, 0, 4, 30));
+            Assert.AreEqual(2, Race.ConvertRange(0, 100, 0, 4, 60));
+            Assert.AreEqual(3, Race.ConvertRange(0, 100, 0, 4, 80));
+            Assert.AreEqual(4, Race.ConvertRange(0, 100, 0, 4, 110));
+            
+            Assert.AreEqual(0, Race.ConvertRange(0, 100, 0, 4, 12));
+            Assert.AreEqual(0, Race.ConvertRange(0, 100, 0, 4, 24));
+            Assert.AreEqual(1, Race.ConvertRange(0, 100, 0, 4, 36));
+            Assert.AreEqual(1, Race.ConvertRange(0, 100, 0, 4, 48));
+            Assert.AreEqual(2, Race.ConvertRange(0, 100, 0, 4, 60));
+            Assert.AreEqual(2, Race.ConvertRange(0, 100, 0, 4, 72));
+            Assert.AreEqual(3, Race.ConvertRange(0, 100, 0, 4, 84));
+            Assert.AreEqual(3, Race.ConvertRange(0, 100, 0, 4, 96));
+            Assert.AreEqual(4, Race.ConvertRange(0, 100, 0, 4, 108));
+            Assert.AreEqual(4, Race.ConvertRange(0, 100, 0, 4, 120));
+        }
+
+        [Test]
+        public void Race_CanFlipRace()
+        {
+            int value = Race.ConvertRange(0, 100, 0, 4, 10);
+            Assert.AreEqual(4, Race.ConvertRange(0, 4,  4, 0, value));
+            value = Race.ConvertRange(0, 100, 0, 4, 35);
+            Assert.AreEqual(3, Race.ConvertRange(0, 4,  4, 0, value));
+            value = Race.ConvertRange(0, 100, 0, 4, 55);
+            Assert.AreEqual(2, Race.ConvertRange(0, 4,  4, 0, value));
+            value = Race.ConvertRange(0, 100, 0, 4, 78);
+            Assert.AreEqual(1, Race.ConvertRange(0, 4,  4, 0, value));
+            value = Race.ConvertRange(0, 100, 0, 4, 105);
+            Assert.AreEqual(0, Race.ConvertRange(0, 4,  4, 0, value));
+        }
+
+        [Test]
+        public void Race_CannotUpdateRounds_ForNonExistingParticipant()
+        {
+            IEquipment defaultCar = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
+
+            IParticipant participant = new Driver(name: "Klaas", points: 200, equipment: defaultCar,
+                teamColor: TeamColors.Red);
+            
+            Assert.IsFalse(this._race.UpdateRounds(participant, 2));
+        }
+        
     }
 }

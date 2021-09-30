@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,7 +25,7 @@ namespace Model
             this.TeamColor = teamColor;
         }
 
-        public string GetInitials(int initialsLength = 2)
+        public string GetInitials(int initialsLength = 1)
         {
             char[] chars = this.Name.ToCharArray();
 
@@ -35,6 +36,16 @@ namespace Model
             }
 
             return initials.ToString();
+        }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj is IParticipant participant)
+            {
+                return this.Name.Equals(participant.Name);
+            }
+
+            return false;
         }
     }
 }
