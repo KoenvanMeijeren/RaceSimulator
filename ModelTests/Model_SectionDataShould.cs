@@ -21,7 +21,7 @@ namespace ModelTests
             Driver driverLeft = new Driver("Klaas", 100, car, TeamColors.Blue);
             Driver driverRight = new Driver("Jan", 100, car, TeamColors.Blue);
 
-            this._sectionData = new SectionData(driverLeft, 10, driverRight, 20);
+            this._sectionData = new SectionData(new Section(SectionTypes.StartGrid), driverLeft, 10, driverRight, 20);
         }
         
         [Test]
