@@ -471,8 +471,8 @@ namespace RaceSimulator
                 initialsOne = initialsStartOne,
                 initialsTwo = initialsStartTwo;
             
-            symbols[indexOne] = CVisualization.MergeInitialsIntoSymbolByIndex(symbols[indexOne], initialsOne, 1);
-            symbols[indexTwo] = CVisualization.MergeInitialsIntoSymbolByIndex(symbols[indexTwo], initialsTwo, 2);
+            symbols[indexOne] = CVisualization.MergeInitialsIntoSymbolByIndex(symbols[indexOne], initialsOne, 2);
+            symbols[indexTwo] = CVisualization.MergeInitialsIntoSymbolByIndex(symbols[indexTwo], initialsTwo, 1);
             
             return symbols;
         }
@@ -503,7 +503,7 @@ namespace RaceSimulator
 
             string initials = participant.GetInitials(CVisualization.MaxInitialsLength);
             
-            symbols[index] = CVisualization.MergeInitialsIntoSymbolByIndex(symbols[index], initials, left ? 1 : 2);
+            symbols[index] = CVisualization.MergeInitialsIntoSymbolByIndex(symbols[index], initials, left ? 2 : 1);
             
             return symbols;
         }
