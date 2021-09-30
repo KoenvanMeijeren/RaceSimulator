@@ -61,6 +61,13 @@ namespace Controller
             Race._raceReference = this;
         }
 
+        public void End()
+        {
+            this._timer.Close();
+            this._timer.Enabled = false;
+            Race.DriversChanged = null;
+        }
+
         public static void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
             Race._raceReference.MoveParticipants();

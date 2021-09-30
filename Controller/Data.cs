@@ -37,6 +37,11 @@ namespace Controller
 
         public static void NextRace()
         {
+            if (Data.CurrentRace != null)
+            {
+                Data.CurrentRace.End();
+            }
+
             Track currentTrack = Data._competition.NextTrack();
             if (currentTrack == null)
             {
