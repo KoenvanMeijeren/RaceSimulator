@@ -131,6 +131,17 @@ namespace ControllerTests
             value = Race.ConvertRange(0, 100, 0, 4, 105);
             Assert.AreEqual(0, Race.ConvertRange(0, 4,  4, 0, value));
         }
+
+        [Test]
+        public void Race_CannotUpdateRounds_ForNonExistingParticipant()
+        {
+            IEquipment defaultCar = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
+
+            IParticipant participant = new Driver(name: "Klaas", points: 200, equipment: defaultCar,
+                teamColor: TeamColors.Red);
+            
+            Assert.IsFalse(this._race.UpdateRounds(participant, 2));
+        }
         
     }
 }

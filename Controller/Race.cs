@@ -15,7 +15,7 @@ namespace Controller
         private const int
             StartDistanceOfParticipant = 0,
             TimerInterval = 500,
-            RoundsStartValue = -1,
+            RoundsStartValue = 0,
             MaxRounds = 2;
         
         public const int SectionLength = IEquipment.MaximumPerformance * IEquipment.MaximumSpeed;
@@ -135,15 +135,16 @@ namespace Controller
                 if (sectionData.Left != null && this.CanMoveParticipant(sectionData.DistanceLeft))
                 {
                     sectionData.MoveLeft();
+                    this.UpdateSectionData(section, sectionData);
                 }
 
                 if (sectionData.Right != null && this.CanMoveParticipant(sectionData.DistanceRight))
                 {
                     sectionData.MoveRight();
+                    this.UpdateSectionData(section, sectionData);
                 }
                 
                 this.MoveParticipantsToNextSectionIfNecessary(section, sectionData, nextSection, nextSectionData);
-                this.UpdateSectionData(section, sectionData);
             }
         }
 
@@ -191,7 +192,7 @@ namespace Controller
             }
         }
         
-        private SectionData RemoveParticipantsOnTrackCompletion(SectionData sectionData, IParticipant participant, int rounds)
+        public SectionData RemoveParticipantsOnTrackCompletion(SectionData sectionData, IParticipant participant, int rounds)
         {
             if (rounds >= Race.MaxRounds)
             {
