@@ -17,12 +17,7 @@ namespace Model
         public IParticipant Right { get; private set; }
         public int DistanceRight { get; private set; }
 
-        public SectionData() : this(null)
-        {
-            
-        }
-        
-        public SectionData(Section section) : this(section, null, 0, null, 0)
+        public SectionData()
         {
 
         }
