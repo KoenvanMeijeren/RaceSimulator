@@ -94,28 +94,6 @@ namespace Controller
         private void MoveParticipants()
         {
             Section[] sections = this.Track.Sections.ToArray();
-            foreach (Section section in sections)
-            {
-                SectionData sectionData = this.GetSectionData(section);
-                if (sectionData.Left != null && this.CanMoveParticipant(sectionData.DistanceLeft))
-                {
-                    sectionData.MoveLeft();
-                }
-
-                if (sectionData.Right != null && this.CanMoveParticipant(sectionData.DistanceRight))
-                {
-                    sectionData.MoveRight();
-                }
-                
-                this.UpdateSectionData(section, sectionData);
-            }
-            
-            this.MoveParticipantsToNextSectionIfNecessary();
-        }
-
-        private void MoveParticipantsToNextSectionIfNecessary()
-        {
-            Section[] sections = this.Track.Sections.ToArray();
             for (int delta = 0; delta < sections.Length; delta++)
             {
                 int nextSectionDelta = (delta + 1) >= sections.Length ? 0 : delta + 1;
@@ -127,26 +105,52 @@ namespace Controller
                     sectionData = this.GetSectionData(section),
                     nextSectionData = this.GetSectionData(nextSection);
                 
-                if (this.ShouldMoveParticipantsToNextSection(sectionData))
+                if (sectionData.Left != null && this.CanMoveParticipant(sectionData.DistanceLeft))
                 {
-                    nextSectionData = this.MoveParticipantsToNextSection(
-                        sectionData, nextSection, nextSectionData, sectionData.Left, sectionData.Right
-                    );
-                    
-                    this.UpdateSectionData(nextSection, nextSectionData);
-                    this.UpdateSectionData(section, sectionData);
+                    sectionData.MoveLeft();
                 }
-                else if (this.ShouldMoveParticipantToNextSection(sectionData))
+
+                if (sectionData.Right != null && this.CanMoveParticipant(sectionData.DistanceRight))
                 {
-                    IParticipant participant = this.GetParticipantWhoShouldMoveToNextSection(sectionData);
+                    sectionData.MoveRight();
+                }
                 
-                    nextSectionData = this.MoveParticipantToNextSection(
-                        sectionData, nextSection, nextSectionData, participant
-                    );
+                this.MoveParticipantsToNextSectionIfNecessary(section, sectionData, nextSection, nextSectionData);
+                this.UpdateSectionData(section, sectionData);
+            }
+        }
+
+        private SectionData RemoveParticipantsOnTrackCompletion(SectionData sectionData, IParticipant participant, int rounds)
+        {
+            if (rounds >= Race.MaxRounds)
+            {
+                sectionData.Clear(participant);
+            }
+            
+            return sectionData;
+        }
+        
+        private void MoveParticipantsToNextSectionIfNecessary(Section section, SectionData sectionData, Section nextSection, SectionData nextSectionData)
+        {
+            if (this.ShouldMoveParticipantsToNextSection(sectionData))
+            {
+                nextSectionData = this.MoveParticipantsToNextSection(
+                    sectionData, nextSection, nextSectionData, sectionData.Left, sectionData.Right
+                );
                     
-                    this.UpdateSectionData(nextSection, nextSectionData);
-                    this.UpdateSectionData(section, sectionData);
-                }
+                this.UpdateSectionData(nextSection, nextSectionData);
+                this.UpdateSectionData(section, sectionData);
+            }
+            else if (this.ShouldMoveParticipantToNextSection(sectionData))
+            {
+                IParticipant participant = this.GetParticipantWhoShouldMoveToNextSection(sectionData);
+                
+                nextSectionData = this.MoveParticipantToNextSection(
+                    sectionData, nextSection, nextSectionData, participant
+                );
+                    
+                this.UpdateSectionData(nextSection, nextSectionData);
+                this.UpdateSectionData(section, sectionData);
             }
         }
 
