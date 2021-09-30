@@ -361,15 +361,13 @@ namespace RaceSimulator
             {
                 return CVisualization.PlaceParticipantOnRightCorner(
                     symbols.ToArray(), sectionData.Left ?? sectionData.Right, 
-                    sectionData.Left != null ? sectionData.DistanceLeft : sectionData.DistanceRight,
-                    sectionData.Right != null
+                    sectionData.Left != null ? sectionData.DistanceLeft : sectionData.DistanceRight
                 );
             }
             
             return CVisualization.PlaceParticipantOnLeftCorner(
                 symbols.ToArray(), sectionData.Left ?? sectionData.Right, 
-                sectionData.Left != null ? sectionData.DistanceLeft : sectionData.DistanceRight,
-                sectionData.Left != null
+                sectionData.Left != null ? sectionData.DistanceLeft : sectionData.DistanceRight
             );
         }
 
@@ -409,24 +407,24 @@ namespace RaceSimulator
             return symbols;
         }
 
-        private static string[] PlaceParticipantOnLeftCorner(string[] symbols, IParticipant participant, int distance, bool left)
+        private static string[] PlaceParticipantOnLeftCorner(string[] symbols, IParticipant participant, int distance)
         {
-            int index = CVisualization.ConvertIndexForLeftCorner(distance, left),
-                distanceOne = CVisualization.ConvertDistanceForLeftCorner(distance, left);
+            int index = CVisualization.ConvertIndexForLeftCorner(distance, CVisualization._direction == Directions.East),
+                distanceOne = CVisualization.ConvertDistanceForLeftCorner(distance, CVisualization._direction == Directions.East);
 
-            symbols[index] = CVisualization.MergeInitialsIntoSymbol(
+            symbols[index] = CVisualization.MergeInitialsIntoSymbolByDistance(
                 symbols[index], participant.GetInitials(CVisualization.MaxInitialsLength), distanceOne
             );
 
             return symbols;
         }
 
-        private static string[] PlaceParticipantOnRightCorner(string[] symbols, IParticipant participant, int distance, bool right)
+        private static string[] PlaceParticipantOnRightCorner(string[] symbols, IParticipant participant, int distance)
         {
-            int index = CVisualization.ConvertIndexForRightCorner(distance, right),
-                distanceOne = CVisualization.ConvertDistanceForRightCorner(distance, right);
+            int index = CVisualization.ConvertIndexForRightCorner(distance, CVisualization._direction == Directions.West),
+                distanceOne = CVisualization.ConvertDistanceForRightCorner(distance, CVisualization._direction == Directions.West);
 
-            symbols[index] = CVisualization.MergeInitialsIntoSymbol(
+            symbols[index] = CVisualization.MergeInitialsIntoSymbolByDistance(
                 symbols[index], participant.GetInitials(CVisualization.MaxInitialsLength), distanceOne
             );
 
@@ -749,7 +747,7 @@ namespace RaceSimulator
                     return 3;
             }
         }
-        
+
         private static int ConvertIndexForLeftCorner(int distance, bool left)
         {
             int newDistance = Race.ConvertRange(0, Race.SectionLength, 0, CVisualization.SymbolSpaces, distance);
