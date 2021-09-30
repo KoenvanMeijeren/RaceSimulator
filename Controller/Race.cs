@@ -12,10 +12,11 @@ namespace Controller
     public class Race
     {
 
-        public const int 
-            StartDistanceOfParticipant = 0, 
-            TimerInterval = 500, 
-            SectionLength = 100;
+        private const int
+            StartDistanceOfParticipant = 0,
+            TimerInterval = 500;
+        
+        public const int SectionLength = IEquipment.MaximumPerformance * IEquipment.MaximumSpeed;
 
         public Track Track { get; private set; }
 
@@ -202,7 +203,6 @@ namespace Controller
             return nextSectionData;
         }
 
-        // @todo find out what we should do when there are more participants than start grids.
         private void PlaceParticipantsOnStartPositions()
         {
             List<IParticipant> participants = this.Participants.ToList();

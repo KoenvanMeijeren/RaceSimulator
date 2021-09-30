@@ -12,11 +12,11 @@ namespace Model
         public const int MinimumQuality = 0;
         public const int MaximumQuality = 100;
 
-        public const int MinimumPerformance = 0;
-        public const int MaximumPerformance = 200;
+        public const int MinimumPerformance = 1;
+        public const int MaximumPerformance = 3;
 
         public const int MinimumSpeed = 0;
-        public const int MaximumSpeed = 200;
+        public const int MaximumSpeed = 100;
 
         public int Quality { get; }
         public int Performance { get; }
