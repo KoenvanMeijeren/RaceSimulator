@@ -20,6 +20,8 @@ namespace Controller
         
         public const int SectionLength = IEquipment.MaximumPerformance * IEquipment.MaximumSpeed;
 
+        public int FinishedParticipants { get; private set; } = 0;
+
         public Track Track { get; private set; }
 
         public List<IParticipant> Participants { get; private set; }
@@ -36,6 +38,8 @@ namespace Controller
         private readonly Timer _timer;
 
         public static event EventHandler<DriversChangedEventArgs> DriversChanged;
+        
+        public static event EventHandler<DriversChangedEventArgs> RaceEnded;
 
         private static Race _raceReference;
 
@@ -68,8 +72,21 @@ namespace Controller
             Race.DriversChanged = null;
         }
 
+        public static void DestructAllEvents()
+        {
+            Race.DriversChanged = null;
+            Race.RaceEnded = null;
+        }
+
         public static void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
+            if (Race._raceReference.AllParticipantsFinished())
+            {
+                Race._raceReference.End();
+                Race.RaceEnded?.Invoke(source, new DriversChangedEventArgs(Race._raceReference));
+                return;
+            }
+            
             Race._raceReference.MoveParticipants();
             if (!Race._changedDrivers)
             {
@@ -80,6 +97,11 @@ namespace Controller
             Race._changedDrivers = false;
         }
 
+        public bool AllParticipantsFinished()
+        {
+            return this.FinishedParticipants >= this.Participants.Count;
+        }
+        
         public SectionData GetSectionData(Section section)
         {
             if (!this._positions.Any() || !this._positions.TryGetValue(section, out var foundSectionData))
@@ -203,6 +225,7 @@ namespace Controller
         {
             if (rounds >= Race.MaxRounds)
             {
+                this.FinishedParticipants++;
                 sectionData.Clear(participant);
             }
             
