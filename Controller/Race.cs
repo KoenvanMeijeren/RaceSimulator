@@ -130,7 +130,7 @@ namespace Controller
                 if (this.ShouldMoveParticipantsToNextSection(sectionData))
                 {
                     nextSectionData = this.MoveParticipantsToNextSection(
-                        sectionData, nextSectionData, sectionData.Left, sectionData.Right
+                        sectionData, nextSection, nextSectionData, sectionData.Left, sectionData.Right
                     );
                     
                     this.UpdateSectionData(nextSection, nextSectionData);
@@ -141,7 +141,7 @@ namespace Controller
                     IParticipant participant = this.GetParticipantWhoShouldMoveToNextSection(sectionData);
                 
                     nextSectionData = this.MoveParticipantToNextSection(
-                        sectionData, nextSectionData, participant
+                        sectionData, nextSection, nextSectionData, participant
                     );
                     
                     this.UpdateSectionData(nextSection, nextSectionData);
@@ -177,27 +177,27 @@ namespace Controller
             return sectionData.DistanceLeft >= Race.SectionLength ? sectionData.Left : sectionData.Right;
         }
 
-        private SectionData MoveParticipantToNextSection(SectionData sectionData, SectionData nextSectionData, IParticipant participant)
+        private SectionData MoveParticipantToNextSection(SectionData sectionData, Section nextSection, SectionData nextSectionData, IParticipant participant)
         {
             if (!this.CanPlaceParticipant(nextSectionData, participant))
             {
                 return nextSectionData;
             }
             
-            nextSectionData = this.ParticipantToSectionData(nextSectionData, participant);
+            nextSectionData = this.ParticipantToSectionData(nextSection, nextSectionData, participant);
             sectionData.Clear(participant);
 
             return nextSectionData;
         }
 
-        private SectionData MoveParticipantsToNextSection(SectionData sectionData, SectionData nextSectionData, IParticipant participantLeft, IParticipant participantRight)
+        private SectionData MoveParticipantsToNextSection(SectionData sectionData, Section nextSection, SectionData nextSectionData, IParticipant participantLeft, IParticipant participantRight)
         {
             if (!this.CanPlaceParticipants(nextSectionData, participantLeft, participantRight))
             {
                 return nextSectionData;
             }
             
-            nextSectionData = this.ParticipantsToSectionData(nextSectionData, participantLeft, participantRight);
+            nextSectionData = this.ParticipantsToSectionData(nextSection, nextSectionData, participantLeft, participantRight);
             sectionData.Clear(participantLeft, participantRight);
 
             return nextSectionData;
@@ -226,12 +226,12 @@ namespace Controller
 
                 if (!canPlaceBoth && canPlaceOne)
                 {
-                    sectionData = this.ParticipantToSectionData(sectionData, participantOne);
+                    sectionData = this.ParticipantToSectionData(section, sectionData, participantOne);
                     participants.RemoveAt(0);
                 }
                 else if (canPlaceBoth)
                 {
-                    sectionData = this.ParticipantsToSectionData(sectionData, participantOne, participantTwo);
+                    sectionData = this.ParticipantsToSectionData(section, sectionData, participantOne, participantTwo);
                     participants.RemoveAt(0);
                     participants.RemoveAt(0);
                 }
@@ -275,7 +275,7 @@ namespace Controller
             return sectionData.Right == null && (sectionData.Left != null || sectionData.Left == null);
         }
 
-        private SectionData ParticipantsToSectionData(SectionData sectionData, IParticipant leftParticipant, IParticipant rightParticipant)
+        private SectionData ParticipantsToSectionData(Section section, SectionData sectionData, IParticipant leftParticipant, IParticipant rightParticipant)
         {
             if (!this.CanPlaceParticipants(sectionData, leftParticipant, rightParticipant))
             {
@@ -284,21 +284,21 @@ namespace Controller
 
             int defaultDistance = Race.StartDistanceOfParticipant;
 
-            return new SectionData(leftParticipant, defaultDistance, rightParticipant, defaultDistance);
+            return new SectionData(section, leftParticipant, defaultDistance, rightParticipant, defaultDistance);
         }
 
-        private SectionData ParticipantToSectionData(SectionData sectionData, IParticipant participant)
+        private SectionData ParticipantToSectionData(Section section, SectionData sectionData, IParticipant participant)
         {
             int defaultDistance = Race.StartDistanceOfParticipant;
 
             if (this.CanPlaceLeftParticipant(sectionData))
             {
-                return new SectionData(participant, defaultDistance, sectionData.Right, defaultDistance);
+                return new SectionData(section, participant, defaultDistance, sectionData.Right, defaultDistance);
             }
 
             if (this.CanPlaceRightParticipant(sectionData))
             {
-                return new SectionData(sectionData.Left, defaultDistance, participant, defaultDistance);
+                return new SectionData(section, sectionData.Left, defaultDistance, participant, defaultDistance);
             }
 
             return null;

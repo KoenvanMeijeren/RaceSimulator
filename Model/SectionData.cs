@@ -9,6 +9,8 @@ namespace Model
     public class SectionData
     {
 
+        public Section Section { get; private set; }
+        
         public IParticipant Left { get; private set; }
         public int DistanceLeft { get; private set; }
 
@@ -20,8 +22,9 @@ namespace Model
 
         }
 
-        public SectionData(IParticipant left, int distanceLeft, IParticipant right, int distanceRight)
+        public SectionData(Section section, IParticipant left, int distanceLeft, IParticipant right, int distanceRight)
         {
+            this.Section = section;
             this.Left = left;
             this.DistanceLeft = distanceLeft;
 

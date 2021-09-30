@@ -21,12 +21,13 @@ namespace ModelTests
             Driver driverLeft = new Driver("Klaas", 100, car, TeamColors.Blue);
             Driver driverRight = new Driver("Jan", 100, car, TeamColors.Blue);
 
-            this._sectionData = new SectionData(driverLeft, 10, driverRight, 20);
+            this._sectionData = new SectionData(new Section(SectionTypes.StartGrid), driverLeft, 10, driverRight, 20);
         }
         
         [Test]
         public void SectionData_CanCreate()
         {
+            Assert.AreEqual(SectionTypes.StartGrid, this._sectionData.Section.SectionType);
             Assert.AreEqual("Klaas", this._sectionData.Left.Name);
             Assert.AreEqual("Jan", this._sectionData.Right.Name);
             Assert.AreEqual(10, this._sectionData.DistanceLeft);

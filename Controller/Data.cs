@@ -49,8 +49,8 @@ namespace Controller
 
         private static void AddTestParticipants()
         {
-            IEquipment defaultCar = new Car(quality: 100, performance: 3, speed: 50);
-            IEquipment toyota = new Car(quality: 65, performance: 2, speed: 100);
+            IEquipment defaultCar = new Car(quality: 100, performance: 1, speed: 50);
+            IEquipment toyota = new Car(quality: 65, performance: 1, speed: 50);
 
             Data.AddParticipant(new Driver(name: "Koen van Meijeren", points: 200, equipment: defaultCar, teamColor: TeamColors.Red));
             Data.AddParticipant(new Driver(name: "Henk van Meijeren", points: 190, equipment: toyota, teamColor: TeamColors.Blue));
@@ -91,7 +91,7 @@ namespace Controller
 
             Data.AddTrack(new Track(name: "Circuit Zwolle", sections: routeElburg, Track.StartPositionUndefined, 4));
             Data.AddTrack(new Track(name: "TT Assen", sections: routeZwolle));
-            Data.AddTrack(new Track(name: "Monaco", sections: routeAmsterdam));
+            Data.AddTrack(new Track(name: "Monaco", sections: routeAmsterdam, Track.StartPositionUndefined, 4));
         }
 
         public static void AddTrack(Track track)
