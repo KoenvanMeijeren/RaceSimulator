@@ -18,7 +18,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature/moving-around" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -43,7 +43,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.23672806" />
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.2366621" />
     <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
@@ -89,7 +89,8 @@
       <workItem from="1632931234330" duration="488000" />
       <workItem from="1632982441721" duration="28412000" />
       <workItem from="1633022639355" duration="236000" />
-      <workItem from="1633024391669" duration="630000" />
+      <workItem from="1633024391669" duration="1125000" />
+      <workItem from="1633029602967" duration="1269000" />
     </task>
     <task id="LOCAL-00001" summary="Debug tests">
       <created>1632833224665</created>
@@ -406,7 +407,21 @@
       <option name="project" value="LOCAL" />
       <updated>1633022702650</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="Update .idea">
+      <created>1633025138664</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1633025138664</updated>
+    </task>
+    <task id="LOCAL-00047" summary="Implement ending a race and starting a new race">
+      <created>1633025187548</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1633025187548</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -445,7 +460,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Merge initials into symbols based on direction" />
     <MESSAGE value="Debug placing participants on section" />
     <MESSAGE value="Debug redrawing a track" />
     <MESSAGE value="Simplify placing the participants" />
@@ -470,7 +484,8 @@
     <MESSAGE value="Only update the section data if necessary" />
     <MESSAGE value="Update tests" />
     <MESSAGE value="Update .idea" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update .idea" />
+    <MESSAGE value="Implement ending a race and starting a new race" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implement ending a race and starting a new race" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
