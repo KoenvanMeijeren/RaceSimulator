@@ -192,7 +192,7 @@ namespace Controller
             }
         }
         
-        private SectionData RemoveParticipantsOnTrackCompletion(SectionData sectionData, IParticipant participant, int rounds)
+        public SectionData RemoveParticipantsOnTrackCompletion(SectionData sectionData, IParticipant participant, int rounds)
         {
             if (rounds >= Race.MaxRounds)
             {
