@@ -318,35 +318,38 @@ namespace RaceSimulator
 
             if (sectionData.Left != null && sectionData.Right != null)
             {
-                if (CVisualization.DirectionIsVertical())
-                {
-                    return CVisualization.PlaceParticipantsOnVerticalSection(
-                        symbols.ToArray(), 
-                        sectionData.Left, sectionData.DistanceLeft, 
-                        sectionData.Right, sectionData.DistanceRight
-                    );
-                }
-                
-                return CVisualization.PlaceParticipantsOnHorizontalSection(
+                return CVisualization.PlaceParticipantsOnSection(
                     symbols.ToArray(), 
                     sectionData.Left, sectionData.DistanceLeft, 
                     sectionData.Right, sectionData.DistanceRight
                 );
             }
-            
+
+            return CVisualization.PlaceParticipantOnSection(
+                symbols.ToArray(), sectionData.Left ?? sectionData.Right, 
+                sectionData.Left != null ? sectionData.DistanceLeft : sectionData.DistanceRight,
+                sectionData.Left != null
+            );
+        }
+
+        private static string[] PlaceParticipantsOnSection(string[] symbols, IParticipant participantOne, int distanceOne, IParticipant participantTwo, int distanceTwo)
+        {
             if (CVisualization.DirectionIsVertical())
             {
-                return CVisualization.PlaceParticipantOnVerticalSection(
-                    symbols.ToArray(), sectionData.Left ?? sectionData.Right, 
-                    sectionData.Left != null ? sectionData.DistanceLeft : sectionData.DistanceRight,
-                    sectionData.Left != null
-                );
+                return CVisualization.PlaceParticipantsOnVerticalSection(symbols, participantOne, distanceOne, participantTwo, distanceTwo);
             }
-                
-            return CVisualization.PlaceParticipantOnHorizontalSection(
-                symbols.ToArray(), sectionData.Left ?? sectionData.Right, 
-                sectionData.Left != null ? sectionData.DistanceLeft : sectionData.DistanceRight
-            );
+            
+            return CVisualization.PlaceParticipantsOnHorizontalSection(symbols, participantOne, distanceOne, participantTwo, distanceTwo);
+        }
+        
+        private static string[] PlaceParticipantOnSection(string[] symbols, IParticipant participant, int distance, bool left)
+        {
+            if (CVisualization.DirectionIsVertical())
+            {
+                return CVisualization.PlaceParticipantOnVerticalSection(symbols, participant, distance, left);
+            }
+            
+            return CVisualization.PlaceParticipantOnHorizontalSection(symbols, participant, distance);
         }
 
         private static string[] PlaceParticipantsOnVerticalSection(string[] symbols, IParticipant participantOne, int distanceOne, IParticipant participantTwo, int distanceTwo)
@@ -439,7 +442,7 @@ namespace RaceSimulator
 
         private static int ConvertDistanceToSymbolIndex(int distance)
         {
-            if (distance >= 0 && distance <= CVisualization.SymbolSpaces)
+            if (distance is >= 0 and <= CVisualization.SymbolSpaces)
             {
                 return distance;
             }
