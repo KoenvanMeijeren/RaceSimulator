@@ -112,33 +112,9 @@ namespace Controller
             this.MoveParticipantsToNextSectionIfNecessary();
         }
 
-        // @todo find out why this method causes a stack overflow when participants are going to overtake their positions.
         private void MoveParticipantsToNextSectionIfNecessary()
         {
             Section[] sections = this.Track.Sections.ToArray();
-            
-            // Determine how many participants should move to the next section. Than move them, if they can move, and
-            // re-trigger this method. We do this because it is not always possible to move the participants to the next
-            // section. For example if there are participants on the last 2 sections, and they both should move, then we 
-            // cannot move them both, because the second last one cannot move to the next section because those
-            // participants weren't move to the next section yet. After the first loop all non-blocking participants
-            // were moved to the next section. Now we can move all blocking participants to next section. We repeat this
-            // until there are no more participants who should move.
-            int sectionsWhichShouldMove = 0;
-            foreach (Section section in sections)
-            {
-                SectionData sectionData = this.GetSectionData(section);
-                if (this.ShouldMoveParticipantToNextSection(sectionData))
-                {
-                    sectionsWhichShouldMove++;
-                }
-            }
-
-            if (sectionsWhichShouldMove <= 0)
-            {
-                return;
-            }
-            
             for (int delta = 0; delta < sections.Length; delta++)
             {
                 int nextSectionDelta = (delta + 1) >= sections.Length ? 0 : delta + 1;
@@ -171,8 +147,6 @@ namespace Controller
                     this.UpdateSectionData(section, sectionData);
                 }
             }
-
-            this.MoveParticipantsToNextSectionIfNecessary();
         }
 
         private bool CanMoveParticipant(int distance)
