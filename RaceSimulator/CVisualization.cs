@@ -354,8 +354,18 @@ namespace RaceSimulator
 
         private static string[] PlaceParticipantsOnVerticalSection(string[] symbols, IParticipant participantOne, int distanceOne, IParticipant participantTwo, int distanceTwo)
         {
-            int indexOne = Race.ConvertRange(0, Race.SectionLength, 0, CVisualization.SymbolSpaces - 1, distanceOne);
-            int indexTwo = Race.ConvertRange(0, Race.SectionLength, 0, CVisualization.SymbolSpaces - 1, distanceTwo);
+            int indexOne = Race.ConvertRange(0, Race.SectionLength, 0, CVisualization.SymbolSpaces, distanceOne);
+            int indexTwo = Race.ConvertRange(0, Race.SectionLength, 0, CVisualization.SymbolSpaces, distanceTwo);
+            if (indexOne > 3)
+            {
+                indexOne = 3;
+            }
+
+            if (indexTwo > 3)
+            {
+                indexTwo = 3;
+            }
+            
             string
                 initialsStartOne = participantOne.GetInitials(CVisualization.MaxInitialsLength),
                 initialsStartTwo = participantTwo.GetInitials(CVisualization.MaxInitialsLength),
@@ -386,7 +396,12 @@ namespace RaceSimulator
         
         private static string[] PlaceParticipantOnVerticalSection(string[] symbols, IParticipant participant, int distance, bool left)
         {
-            int index = Race.ConvertRange(0, Race.SectionLength, 0, CVisualization.SymbolSpaces - 1, distance);
+            int index = Race.ConvertRange(0, Race.SectionLength, 0, CVisualization.SymbolSpaces, distance);
+            if (index > 3)
+            {
+                index = 3;
+            }
+
             string initials = participant.GetInitials(CVisualization.MaxInitialsLength);
             
             symbols[index] = CVisualization.MergeInitialsIntoSymbol(symbols[index], initials, left ? 1 : 2);
