@@ -135,15 +135,16 @@ namespace Controller
                 if (sectionData.Left != null && this.CanMoveParticipant(sectionData.DistanceLeft))
                 {
                     sectionData.MoveLeft();
+                    this.UpdateSectionData(section, sectionData);
                 }
 
                 if (sectionData.Right != null && this.CanMoveParticipant(sectionData.DistanceRight))
                 {
                     sectionData.MoveRight();
+                    this.UpdateSectionData(section, sectionData);
                 }
                 
                 this.MoveParticipantsToNextSectionIfNecessary(section, sectionData, nextSection, nextSectionData);
-                this.UpdateSectionData(section, sectionData);
             }
         }
 
