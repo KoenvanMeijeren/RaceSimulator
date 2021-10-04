@@ -9,9 +9,11 @@
   <component name="ChangeListManager">
     <list default="true" id="8a783f09-19f2-47c7-9340-0fa8907541ee" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controller/Data.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controller/Data.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Controller/Race.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controller/Race.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ControllerTests/Controller_RaceShould.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ControllerTests/Controller_RaceShould.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ModelTests/Model_Competition_ParticipantsShould.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ModelTests/Model_Competition_ParticipantsShould.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Model/Car.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Model/Car.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Model/IEquipment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Model/IEquipment.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Model/SectionData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Model/SectionData.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +52,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.2366621" />
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.23672806" />
     <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
@@ -105,14 +107,7 @@
       <workItem from="1633073389377" duration="188000" />
       <workItem from="1633100495204" duration="206000" />
       <workItem from="1633101831221" duration="113000" />
-      <workItem from="1633329085360" duration="1301000" />
-    </task>
-    <task id="LOCAL-00005" summary="Fix coding standards">
-      <created>1632897651544</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1632897651544</updated>
+      <workItem from="1633329085360" duration="8432000" />
     </task>
     <task id="LOCAL-00006" summary="Add clear section data method">
       <created>1632897673222</created>
@@ -450,7 +445,14 @@
       <option name="project" value="LOCAL" />
       <updated>1633329974559</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="Update tests">
+      <created>1633330476494</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1633330476495</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -460,30 +462,30 @@
     <option name="coveragePercentColumnWidth" value="114" />
     <option name="sortOrder" value="DESCENDING" />
     <option name="sortedColumn" value="1" />
-    <option name="symbolColumnWidth" value="312" />
+    <option name="symbolColumnWidth" value="307" />
     <coverage-tree-state>
       <expand>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 62% 543/1422" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 56% 669/1523" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 62% 543/1422" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Model 99% 2/177" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 56% 669/1523" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 74% 93/353" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 62% 543/1422" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Model 99% 2/177" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Model 99% 2/177" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 56% 669/1523" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 74% 93/353" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 74% 93/353" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 62% 543/1422" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Model 99% 2/177" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Model 99% 2/177" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Driver 94% 2/35" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 56% 669/1523" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 74% 93/353" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 74% 93/353" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Race 70% 87/292" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
       </expand>
       <select />
@@ -525,14 +527,14 @@
     <MESSAGE value="Implement finishing a race" />
     <MESSAGE value="Increase the rounds start value" />
     <MESSAGE value="Only update the section data if necessary" />
-    <MESSAGE value="Update tests" />
     <MESSAGE value="Implement ending a race and starting a new race" />
     <MESSAGE value="Fix coding standards" />
     <MESSAGE value="Add is broken check" />
     <MESSAGE value="Implement driver is broken visualization" />
     <MESSAGE value="Update .idea" />
     <MESSAGE value="Remove randomize equipment method" />
-    <option name="LAST_COMMIT_MESSAGE" value="Remove randomize equipment method" />
+    <MESSAGE value="Update tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update tests" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

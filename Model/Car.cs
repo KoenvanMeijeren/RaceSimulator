@@ -31,7 +31,7 @@ namespace Model
             {
                 if (value < IEquipment.MinimumPerformance || value > IEquipment.MaximumPerformance)
                 {
-                    throw new ArgumentOutOfRangeException("Performance", value, $"The value must be equal to or higher then: {IEquipment.MinimumQuality} and lower then or equal to {IEquipment.MaximumQuality}.");
+                    throw new ArgumentOutOfRangeException("Performance", value, $"The value must be equal to or higher then: {IEquipment.MinimumPerformance} and lower then or equal to {IEquipment.MaximumPerformance}.");
                 }
 
                 this._performance = value;
@@ -46,7 +46,7 @@ namespace Model
             {
                 if (value < IEquipment.MinimumSpeed || value > IEquipment.MaximumSpeed)
                 {
-                    throw new ArgumentOutOfRangeException("Speed", value, $"The value must be equal to or higher then: {IEquipment.MinimumQuality} and lower then or equal to {IEquipment.MaximumQuality}.");
+                    throw new ArgumentOutOfRangeException("Speed", value, $"The value must be equal to or higher then: {IEquipment.MinimumSpeed} and lower then or equal to {IEquipment.MaximumSpeed}.");
                 }
 
                 this._speed = value;
@@ -81,6 +81,29 @@ namespace Model
         public void SetRandomPerformance()
         {
             this.Performance = this._randominizer.Next(IEquipment.MinimumPerformance, IEquipment.MaximumPerformance);
+        }
+
+        public void DecreasePerformance()
+        {
+            if (IEquipment.MinimumPerformance >= this._performance)
+            {
+                this._performance = IEquipment.MinimumPerformance;
+                return;
+            }
+
+            this._performance--;
+        }
+        
+        public void DecreaseSpeed()
+        {
+           int number = this._randominizer.Next(10, 20);
+           if (IEquipment.MinimumSpeed >= (number - this._speed))
+           {
+               this._speed = IEquipment.MinimumSpeed;
+               return;
+           }
+
+           this._speed -= number;
         }
 
     }

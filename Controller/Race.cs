@@ -43,8 +43,6 @@ namespace Controller
 
         private static Race _raceReference;
 
-        private static bool _changedDrivers;
-
         public Race(Track track, List<IParticipant> participants)
         {
             this.Track = track;
@@ -89,13 +87,7 @@ namespace Controller
             }
             
             Race._raceReference.MoveParticipants();
-            if (!Race._changedDrivers)
-            {
-                return;
-            }
-
             Race.DriversChanged?.Invoke(source, new DriversChangedEventArgs(Race._raceReference));
-            Race._changedDrivers = false;
         }
 
         public bool AllParticipantsFinished()
@@ -122,7 +114,6 @@ namespace Controller
             }
 
             this._positions[section] = sectionData;
-            Race._changedDrivers = true;
             return true;
         }
         
@@ -165,17 +156,75 @@ namespace Controller
                 if (sectionData.Left != null && this.CanMoveParticipant(sectionData.DistanceLeft))
                 {
                     sectionData.MoveLeft();
+                    switch (sectionData.Left.Equipment.IsBroken)
+                    {
+                        case false when this.ShouldBreakParticipantEquipment():
+                            sectionData.BreakEquipmentLeft();
+                            this.UpdateSectionData(section, sectionData);
+                            continue;
+                        case true when this.ShouldFixParticipantEquipment():
+                            sectionData.FixEquipmentLeft();
+                            break;
+                    }
+
                     this.UpdateSectionData(section, sectionData);
                 }
 
                 if (sectionData.Right != null && this.CanMoveParticipant(sectionData.DistanceRight))
                 {
                     sectionData.MoveRight();
+                    switch (sectionData.Right.Equipment.IsBroken)
+                    {
+                        case false when this.ShouldBreakParticipantEquipment():
+                            sectionData.BreakEquipmentRight();
+                            this.UpdateSectionData(section, sectionData);
+                            continue;
+                        case true when this.ShouldFixParticipantEquipment():
+                            sectionData.FixEquipmentRight();
+                            break;
+                    }
+
                     this.UpdateSectionData(section, sectionData);
                 }
                 
                 this.MoveParticipantsToNextSectionIfNecessary(section, sectionData, nextSection, nextSectionData);
             }
+        }
+        
+        public bool ShouldBreakParticipantEquipment()
+        {
+            int yes = 0;
+            const int iterations = 500;
+            for (int delta = 0; delta < iterations; delta++)
+            {
+                if (this._random.Next(1, 101) <= 25)
+                {
+                    yes++;
+                }
+            }
+
+            double result = (double) yes / iterations;
+            result *= 100;
+
+            return result > 30;
+        }
+        
+        public bool ShouldFixParticipantEquipment()
+        {
+            int yes = 0;
+            const int iterations = 500;
+            for (int delta = 0; delta < iterations; delta++)
+            {
+                if (this._random.Next(1, 101) <= 30)
+                {
+                    yes++;
+                }
+            }
+
+            double result = (double) yes / iterations;
+            result *= 100;
+
+            return result > 32;
         }
 
         private void MoveParticipantsToNextSectionIfNecessary(Section section, SectionData sectionData, Section nextSection, SectionData nextSectionData)
@@ -269,10 +318,15 @@ namespace Controller
                 return nextSectionData;
             }
             
-            nextSectionData = this.ParticipantToSectionData(nextSection, nextSectionData, participant);
+            SectionData updatedSectionData = this.ParticipantToSectionData(nextSection, nextSectionData, participant);
+            if (updatedSectionData == null)
+            {
+                return nextSectionData;
+            }
+            
             sectionData.Clear(participant);
+            return updatedSectionData;
 
-            return nextSectionData;
         }
 
         private SectionData MoveParticipantsToNextSection(SectionData sectionData, Section nextSection, SectionData nextSectionData, IParticipant participantLeft, IParticipant participantRight)
@@ -282,10 +336,15 @@ namespace Controller
                 return nextSectionData;
             }
             
-            nextSectionData = this.ParticipantsToSectionData(nextSection, nextSectionData, participantLeft, participantRight);
+            SectionData updatedSectionData = this.ParticipantsToSectionData(nextSection, nextSectionData, participantLeft, participantRight);
+            if (updatedSectionData == null)
+            {
+                return nextSectionData;
+            }
+            
             sectionData.Clear(participantLeft, participantRight);
+            return updatedSectionData;
 
-            return nextSectionData;
         }
 
         private void PlaceParticipantsOnStartPositions()
@@ -309,16 +368,17 @@ namespace Controller
                     canPlaceBoth = this.CanPlaceParticipants(sectionData, participantOne, participantTwo),
                     canPlaceOne = this.CanPlaceParticipant(sectionData, participantOne);
 
-                if (!canPlaceBoth && canPlaceOne)
+                switch (canPlaceBoth)
                 {
-                    sectionData = this.ParticipantToSectionData(section, sectionData, participantOne);
-                    participants.RemoveAt(0);
-                }
-                else if (canPlaceBoth)
-                {
-                    sectionData = this.ParticipantsToSectionData(section, sectionData, participantOne, participantTwo);
-                    participants.RemoveAt(0);
-                    participants.RemoveAt(0);
+                    case false when canPlaceOne:
+                        sectionData = this.ParticipantToSectionData(section, sectionData, participantOne);
+                        participants.RemoveAt(0);
+                        break;
+                    case true:
+                        sectionData = this.ParticipantsToSectionData(section, sectionData, participantOne, participantTwo);
+                        participants.RemoveAt(0);
+                        participants.RemoveAt(0);
+                        break;
                 }
 
                 this.UpdateSectionData(section, sectionData);
@@ -352,12 +412,12 @@ namespace Controller
 
         private bool CanPlaceLeftParticipant(SectionData sectionData)
         {
-            return sectionData.Left == null && (sectionData.Right != null || sectionData.Right == null);
+            return sectionData.Left == null;
         }
 
         private bool CanPlaceRightParticipant(SectionData sectionData)
         {
-            return sectionData.Right == null && (sectionData.Left != null || sectionData.Left == null);
+            return sectionData.Right == null;
         }
 
         private SectionData ParticipantsToSectionData(Section section, SectionData sectionData, IParticipant leftParticipant, IParticipant rightParticipant)
