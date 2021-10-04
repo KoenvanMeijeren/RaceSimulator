@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControllerTests", "Controll
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModelTests", "ModelTests\ModelTests.csproj", "{D51D7A74-62AF-4DAF-9488-FE25864E5C99}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFRaceSimulator", "WPFRaceSimulator\WPFRaceSimulator.csproj", "{7459D8CA-CFFB-4BD0-B7D3-B3A42D3CF865}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{D51D7A74-62AF-4DAF-9488-FE25864E5C99}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D51D7A74-62AF-4DAF-9488-FE25864E5C99}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D51D7A74-62AF-4DAF-9488-FE25864E5C99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7459D8CA-CFFB-4BD0-B7D3-B3A42D3CF865}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7459D8CA-CFFB-4BD0-B7D3-B3A42D3CF865}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7459D8CA-CFFB-4BD0-B7D3-B3A42D3CF865}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7459D8CA-CFFB-4BD0-B7D3-B3A42D3CF865}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
