@@ -86,7 +86,7 @@ namespace Model
         
         public void DecreaseSpeed()
         {
-           int number = this._randominizer.Next(10, 20);
+           int number = this._randominizer.Next(20, 30);
            if (IEquipment.MinimumSpeed >= (number - this._speed))
            {
                this._speed = IEquipment.MinimumSpeed;
