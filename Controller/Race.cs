@@ -388,16 +388,6 @@ namespace Controller
             return null;
         }
 
-        private void RandomizeEquipment()
-        {
-            foreach (IParticipant participant in this.Participants)
-            {
-                IEquipment equipment = participant.Equipment;
-                equipment.SetRandomPerformance();
-                equipment.SetRandomQuality();
-            }
-        }
-
         public static int ConvertRange(int originalStart, int originalEnd, int newStart, int newEnd, int value)
         {
             double scale = (double)(newEnd - newStart) / (originalEnd - originalStart);
