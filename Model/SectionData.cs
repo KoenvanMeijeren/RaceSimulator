@@ -34,7 +34,7 @@ namespace Model
 
         public void MoveLeft()
         {
-            if (this.Left == null)
+            if (this.Left == null || this.Left.Equipment.IsBroken)
             {
                 return;
             }
@@ -44,7 +44,7 @@ namespace Model
 
         public void MoveRight()
         {
-            if (this.Right == null)
+            if (this.Right == null || this.Right.Equipment.IsBroken)
             {
                 return;
             }
