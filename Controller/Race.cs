@@ -144,7 +144,7 @@ namespace Controller
 
         private void MoveParticipantsToNextSectionIfNecessary(Section section, SectionData sectionData, Section nextSection, SectionData nextSectionData)
         {
-            if (this.ShouldMoveParticipantsToNextSection(sectionData))
+            if (this.ShouldMoveParticipantsToNextSection(sectionData) && this.CanPlaceParticipants(nextSectionData, sectionData.Left, sectionData.Right))
             {
                 nextSectionData = this.MoveParticipantsToNextSection(
                     sectionData, nextSection, nextSectionData, sectionData.Left, sectionData.Right
@@ -165,7 +165,7 @@ namespace Controller
                 this.UpdateSectionData(nextSection, nextSectionData);
                 this.UpdateSectionData(section, sectionData);
             }
-            else if (this.ShouldMoveParticipantToNextSection(sectionData))
+            else if (this.ShouldMoveParticipantToNextSection(sectionData) && this.CanPlaceParticipant(nextSectionData, this.GetParticipantWhoShouldMoveToNextSection(sectionData)))
             {
                 IParticipant participant = this.GetParticipantWhoShouldMoveToNextSection(sectionData);
                 
