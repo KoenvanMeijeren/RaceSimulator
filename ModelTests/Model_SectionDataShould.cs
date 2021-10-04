@@ -93,6 +93,56 @@ namespace ModelTests
             sectionData.MoveRight();
             Assert.AreEqual(previousDistance, sectionData.DistanceRight);
         }
+
+        [Test]
+        public void Participants_CanBreakLeftEquipment()
+        {
+            Assert.IsFalse(this._sectionData.Left.Equipment.IsBroken);
+            this._sectionData.BreakEquipmentLeft();
+            Assert.IsTrue(this._sectionData.Left.Equipment.IsBroken);
+        }
+        
+        [Test]
+        public void Participants_CanBreakRightEquipment()
+        {
+            Assert.IsFalse(this._sectionData.Right.Equipment.IsBroken);
+            this._sectionData.BreakEquipmentRight();
+            Assert.IsTrue(this._sectionData.Right.Equipment.IsBroken);
+        }
+        
+        [Test]
+        public void Participants_CannotBreakEquipment()
+        {
+            SectionData sectionData = new SectionData();
+            sectionData.BreakEquipmentLeft();
+            sectionData.BreakEquipmentRight();
+        }
+        
+        [Test]
+        public void Participants_CanFixLeftEquipment()
+        {
+            this._sectionData.BreakEquipmentLeft();
+            Assert.IsTrue(this._sectionData.Left.Equipment.IsBroken);
+            this._sectionData.FixEquipmentLeft();
+            Assert.IsFalse(this._sectionData.Left.Equipment.IsBroken);
+        }
+        
+        [Test]
+        public void Participants_CanFixRightEquipment()
+        {
+            this._sectionData.BreakEquipmentRight();
+            Assert.IsTrue(this._sectionData.Right.Equipment.IsBroken);
+            this._sectionData.FixEquipmentRight();
+            Assert.IsFalse(this._sectionData.Right.Equipment.IsBroken);
+        }
+        
+        [Test]
+        public void Participants_CannotFixEquipment()
+        {
+            SectionData sectionData = new SectionData();
+            sectionData.FixEquipmentLeft();
+            sectionData.FixEquipmentRight();
+        }
         
     }
 }

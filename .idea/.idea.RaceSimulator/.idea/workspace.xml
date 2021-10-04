@@ -9,7 +9,26 @@
   <component name="ChangeListManager">
     <list default="true" id="8a783f09-19f2-47c7-9340-0fa8907541ee" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ControllerTests/Controller_RaceShould.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ControllerTests/Controller_RaceShould.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Coverage.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Coverage/css/dotcover.report.gen.css" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/css/dotcover.report.gen.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Coverage/images/metadata-icons.svg" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/images/metadata-icons.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Coverage/src/1.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/1.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Coverage/src/10.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/10.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Coverage/src/13.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/13.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Coverage/src/16.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/16.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Coverage/src/17.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/17.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Coverage/src/19.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/19.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Coverage/src/20.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/20.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Coverage/src/21.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/21.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Coverage/src/26.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/26.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Coverage/src/28.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/28.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Coverage/src/3.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/3.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Coverage/src/31.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/31.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Coverage/src/4.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/4.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Coverage/src/9.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/9.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ModelTests/Model_CarShould.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ModelTests/Model_CarShould.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ModelTests/Model_SectionDataShould.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ModelTests/Model_SectionDataShould.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +53,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/bc3d7024e97f4f818de53bc3c23872b48f5790/37/Object.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/Model/Car.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Race.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/C#/RaceSimulator/Model/SectionData.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/C#/RaceSimulator/Model/SectionData.cs" root0="SKIP_HIGHLIGHTING" />
@@ -41,6 +61,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8c5d964499a04c04b2b151bbd137532725590/4/Console.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Race.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/84f06ea1ac414f7f82c8570fa35e8d9fab590/E/Timer.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/Model/Car.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="1ylipXz4TwR0b6Wso2y4JUpH2hN" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -63,7 +84,7 @@
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Project.RaceSimulator">
+  <component name="RunManager">
     <configuration name="RaceSimulator" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/RaceSimulator/bin/Debug/net5.0/RaceSimulator.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -105,13 +126,6 @@
       <workItem from="1633100495204" duration="206000" />
       <workItem from="1633101831221" duration="113000" />
       <workItem from="1633329085360" duration="10153000" />
-    </task>
-    <task id="LOCAL-00012" summary="Remove race simulator tests project">
-      <created>1632900661084</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1632900661084</updated>
     </task>
     <task id="LOCAL-00013" summary="Implement real speed usage for moving the participants">
       <created>1632902765398</created>
@@ -449,7 +463,14 @@
       <option name="project" value="LOCAL" />
       <updated>1633339873653</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="Debug decreasing the speed">
+      <created>1633340433600</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1633340433600</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -459,30 +480,12 @@
     <option name="coveragePercentColumnWidth" value="114" />
     <option name="sortOrder" value="DESCENDING" />
     <option name="sortedColumn" value="1" />
-    <option name="symbolColumnWidth" value="307" />
+    <option name="symbolColumnWidth" value="338" />
     <coverage-tree-state>
       <expand>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 54% 701/1523" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-        </path>
-        <path>
-          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 54% 701/1523" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Controller 71% 103/353" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-        </path>
-        <path>
-          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 54% 701/1523" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Controller 71% 103/353" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Controller 71% 103/353" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-        </path>
-        <path>
-          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 54% 701/1523" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Controller 71% 103/353" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Controller 71% 103/353" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Race 67% 97/292" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 64% 563/1562" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
       </expand>
       <select />
@@ -506,7 +509,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Update constructors" />
     <MESSAGE value="Update test" />
     <MESSAGE value="Implement placing participants on corners" />
     <MESSAGE value="Update data" />
@@ -531,7 +533,8 @@
     <MESSAGE value="Fix coding standards" />
     <MESSAGE value="Debug incorrect finish on not able to move to next section" />
     <MESSAGE value="Enable test drivers" />
-    <option name="LAST_COMMIT_MESSAGE" value="Enable test drivers" />
+    <MESSAGE value="Debug decreasing the speed" />
+    <option name="LAST_COMMIT_MESSAGE" value="Debug decreasing the speed" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

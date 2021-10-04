@@ -22,21 +22,43 @@ namespace RaceSimulator
         {
             Data.Initialize();
 
-            CVisualization.Initialize();
-            CVisualization.DrawTrack(Data.CurrentRace);
-            Data.CurrentRace.Start();
+            Program.StartRace();
+            
+            Race.RaceEnded += Program.OnRaceEnded;
 
             for (;;)
             {
                 Thread.Sleep(100);
             }
         }
+
+        private static void OnRaceEnded(object source, DriversChangedEventArgs eventArgs)
+        {
+            Data.NextRace();
+            if (Data.CurrentRace == null)
+            {
+                Race.DestructAllEvents();
+                Console.SetCursorPosition(5, 5);
+                Console.WriteLine(&quot;De races zijn afgelopen.&quot;);
+                return;
+            }
+            
+            Program.StartRace();
+        }
+
+        private static void StartRace()
+        {
+            CVisualization.Initialize();
+            CVisualization.DrawTrack(Data.CurrentRace);
+            Data.CurrentRace.Start();
+        }
+        
     }
 }
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[12,9,12,10,0],[13,13,13,31,0],[15,13,15,41,0],[16,13,16,56,0],[17,13,17,38,0],[20,13,20,14,0],[21,17,21,35,0],[22,13,22,14,0]]);
+      highlightRanges([[12,9,12,10,0],[13,13,13,31,0],[15,13,15,33,0],[17,13,17,51,0],[20,13,20,14,0],[21,17,21,35,0],[22,13,22,14,0],[26,9,26,10,0],[27,13,27,29,0],[28,13,28,42,0],[29,13,29,14,0],[30,17,30,42,0],[31,17,31,49,0],[32,17,32,63,0],[33,17,33,24,0],[36,13,36,33,0],[37,9,37,10,0],[40,9,40,10,0],[41,13,41,41,0],[42,13,42,56,0],[43,13,43,38,0],[44,9,44,10,0]]);
     </script>
   </body>
 </html>
