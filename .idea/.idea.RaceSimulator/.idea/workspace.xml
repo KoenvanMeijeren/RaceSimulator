@@ -6,8 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="8a783f09-19f2-47c7-9340-0fa8907541ee" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Controller/Race.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controller/Race.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Model/SectionData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Model/SectionData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controller/Data.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controller/Data.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Model/Car.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Model/Car.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Model/Driver.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Model/Driver.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Model/IEquipment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Model/IEquipment.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Model/IParticipant.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Model/IParticipant.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +35,9 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/bc3d7024e97f4f818de53bc3c23872b48f5790/37/Object.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Race.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/Model/SectionData.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/Model/SectionData.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8c5d964499a04c04b2b151bbd137532725590/4/Console.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/84f06ea1ac414f7f82c8570fa35e8d9fab590/E/Timer.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -93,14 +99,7 @@
       <workItem from="1633073389377" duration="188000" />
       <workItem from="1633100495204" duration="206000" />
       <workItem from="1633101831221" duration="113000" />
-      <workItem from="1633329085360" duration="459000" />
-    </task>
-    <task id="LOCAL-00001" summary="Debug tests">
-      <created>1632833224665</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1632833224666</updated>
+      <workItem from="1633329085360" duration="777000" />
     </task>
     <task id="LOCAL-00002" summary="Add .idea">
       <created>1632833276346</created>
@@ -424,7 +423,28 @@
       <option name="project" value="LOCAL" />
       <updated>1633025187548</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="Update .idea">
+      <created>1633329627986</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1633329627986</updated>
+    </task>
+    <task id="LOCAL-00049" summary="Fix coding standards">
+      <created>1633329701358</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1633329701358</updated>
+    </task>
+    <task id="LOCAL-00050" summary="Add is broken check">
+      <created>1633329721811</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1633329721812</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -481,8 +501,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Debug placing participants on section" />
-    <MESSAGE value="Debug redrawing a track" />
     <MESSAGE value="Simplify placing the participants" />
     <MESSAGE value="Debug placing the participants on vertical sections" />
     <MESSAGE value="Decrease the speed for better visualization" />
@@ -504,9 +522,11 @@
     <MESSAGE value="Increase the rounds start value" />
     <MESSAGE value="Only update the section data if necessary" />
     <MESSAGE value="Update tests" />
-    <MESSAGE value="Update .idea" />
     <MESSAGE value="Implement ending a race and starting a new race" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implement ending a race and starting a new race" />
+    <MESSAGE value="Update .idea" />
+    <MESSAGE value="Fix coding standards" />
+    <MESSAGE value="Add is broken check" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add is broken check" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
