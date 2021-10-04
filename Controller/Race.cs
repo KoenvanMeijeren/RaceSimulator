@@ -20,7 +20,7 @@ namespace Controller
         
         public const int SectionLength = IEquipment.MaximumPerformance * IEquipment.MaximumSpeed;
 
-        public int FinishedParticipants { get; private set; } = 0;
+        private int _finishedParticipants = 0;
 
         public Track Track { get; private set; }
 
@@ -70,6 +70,7 @@ namespace Controller
             this._timer.Close();
             this._timer.Enabled = false;
             Race.DriversChanged = null;
+            Race._raceReference = null;
         }
 
         public static void DestructAllEvents()
@@ -99,7 +100,7 @@ namespace Controller
 
         public bool AllParticipantsFinished()
         {
-            return this.FinishedParticipants >= this.Participants.Count;
+            return this._finishedParticipants >= this.Participants.Count;
         }
         
         public SectionData GetSectionData(Section section)
@@ -228,7 +229,7 @@ namespace Controller
                 return sectionData;
             }
             
-            this.FinishedParticipants++;
+            this._finishedParticipants++;
             sectionData.Clear(participant);
 
             return sectionData;

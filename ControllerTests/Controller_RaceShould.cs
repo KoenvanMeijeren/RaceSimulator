@@ -142,6 +142,12 @@ namespace ControllerTests
             
             Assert.IsFalse(this._race.UpdateRounds(participant, 2));
         }
+
+        [Test]
+        public void Race_CanDestructAllEvents()
+        {
+            Assert.DoesNotThrow(Race.DestructAllEvents);
+        }
         
     }
 }
