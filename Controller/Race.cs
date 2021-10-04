@@ -404,8 +404,8 @@ namespace Controller
 
         private bool ShouldMoveParticipantsToNextSection(SectionData sectionData)
         {
-            return sectionData.DistanceLeft >= Race.SectionLength && sectionData.Left != null
-                                                                  && sectionData.DistanceRight >= Race.SectionLength && sectionData.Right != null;
+            return sectionData.DistanceLeft >= Race.SectionLength && sectionData.Left != null 
+                    && sectionData.DistanceRight >= Race.SectionLength && sectionData.Right != null;
         }
 
         private IParticipant GetParticipantWhoShouldMoveToNextSection(SectionData sectionData)
