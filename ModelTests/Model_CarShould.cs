@@ -80,11 +80,11 @@ namespace ModelTests
         [Test]
         public void Car_CanRead_RealSpeed()
         {
-            Car car = new Car(100, 2, 10);
+            Car car = new Car(100, 2, 25);
             
-            Assert.AreEqual(20, car.GetRealSpeed());
+            Assert.AreEqual(50, car.GetRealSpeed());
             Assert.AreNotEqual(2, car.GetRealSpeed());
-            Assert.AreNotEqual(10, car.GetRealSpeed());
+            Assert.AreNotEqual(25, car.GetRealSpeed());
         } 
 
     }

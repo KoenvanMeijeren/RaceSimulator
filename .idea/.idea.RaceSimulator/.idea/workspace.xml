@@ -9,7 +9,7 @@
   <component name="ChangeListManager">
     <list default="true" id="8a783f09-19f2-47c7-9340-0fa8907541ee" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Controller/Race.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controller/Race.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ModelTests/Model_CarShould.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ModelTests/Model_CarShould.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,14 +103,7 @@
       <workItem from="1633073389377" duration="188000" />
       <workItem from="1633100495204" duration="206000" />
       <workItem from="1633101831221" duration="113000" />
-      <workItem from="1633329085360" duration="8749000" />
-    </task>
-    <task id="LOCAL-00007" summary="Move the participants on timed event">
-      <created>1632898027101</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1632898027101</updated>
+      <workItem from="1633329085360" duration="8845000" />
     </task>
     <task id="LOCAL-00008" summary="Rename move participants method">
       <created>1632898255683</created>
@@ -448,7 +441,14 @@
       <option name="project" value="LOCAL" />
       <updated>1633338218671</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="Update methods order">
+      <created>1633338482878</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1633338482878</updated>
+    </task>
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -463,25 +463,25 @@
       <expand>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 56% 669/1523" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 56% 677/1523" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 56% 669/1523" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Controller 74% 93/353" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 56% 677/1523" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 71% 101/353" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 56% 669/1523" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Controller 74% 93/353" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Controller 74% 93/353" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 56% 677/1523" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 71% 101/353" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 71% 101/353" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 56% 669/1523" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Controller 74% 93/353" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Controller 74% 93/353" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Race 70% 87/292" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 56% 677/1523" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 71% 101/353" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 71% 101/353" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Race 67% 95/292" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
       </expand>
       <select />
@@ -505,7 +505,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Debug merging the initials westward sections" />
     <MESSAGE value="Save section to section data" />
     <MESSAGE value="Debug race tests" />
     <MESSAGE value="Update constructors" />
@@ -530,7 +529,8 @@
     <MESSAGE value="Remove randomize equipment method" />
     <MESSAGE value="Update tests" />
     <MESSAGE value="Implement failing equipment" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implement failing equipment" />
+    <MESSAGE value="Update methods order" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update methods order" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
