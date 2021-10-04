@@ -61,7 +61,41 @@ namespace ModelTests
             Assert.AreEqual(50, car.GetRealSpeed());
             Assert.AreNotEqual(2, car.GetRealSpeed());
             Assert.AreNotEqual(25, car.GetRealSpeed());
-        } 
+        }
 
+        [Test]
+        public void Car_CanUpdate_Speed()
+        {
+            Car car = new Car(100, 2, 25);
+
+            Assert.AreEqual(25, car.Speed);
+            car.DecreaseSpeed();
+            Assert.AreEqual(25, car.Speed);
+            
+            car = new Car(100, 2, 80);
+            Assert.AreEqual(80, car.Speed);
+            car.DecreaseSpeed();
+            Assert.AreNotEqual(80, car.Speed);
+            Assert.AreNotEqual(25, car.Speed);
+            car.DecreaseSpeed();
+            car.DecreaseSpeed();
+            Assert.AreNotEqual(60, car.Speed);
+            Assert.AreEqual(25, car.Speed);
+        }
+
+        [Test]
+        public void Car_CanUpdate_Performance()
+        {
+            Car car = new Car(100, 2, 25);
+            
+            Assert.AreEqual(2, car.Performance);
+            car.DecreasePerformance();
+            Assert.AreNotEqual(2, car.Performance);
+            Assert.AreEqual(1, car.Performance);
+            car.DecreasePerformance();
+            Assert.AreNotEqual(2, car.Performance);
+            Assert.AreEqual(1, car.Performance);
+        }
+        
     }
 }

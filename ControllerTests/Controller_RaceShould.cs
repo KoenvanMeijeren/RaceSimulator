@@ -148,6 +148,15 @@ namespace ControllerTests
         {
             Assert.DoesNotThrow(Race.DestructAllEvents);
         }
+
+        [Test]
+        public void Race_FixParticipantsEquipment()
+        {
+            // todo find out how to test this.
+            bool result = this._race.ShouldFixParticipantEquipment();
+            
+            Assert.IsTrue(true);
+        }
         
     }
 }
