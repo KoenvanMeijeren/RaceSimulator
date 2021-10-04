@@ -9,11 +9,7 @@
   <component name="ChangeListManager">
     <list default="true" id="8a783f09-19f2-47c7-9340-0fa8907541ee" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Controller/Data.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controller/Data.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Controller/Race.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controller/Race.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Model/Car.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Model/Car.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Model/IEquipment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Model/IEquipment.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Model/SectionData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Model/SectionData.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,14 +103,7 @@
       <workItem from="1633073389377" duration="188000" />
       <workItem from="1633100495204" duration="206000" />
       <workItem from="1633101831221" duration="113000" />
-      <workItem from="1633329085360" duration="8432000" />
-    </task>
-    <task id="LOCAL-00006" summary="Add clear section data method">
-      <created>1632897673222</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1632897673222</updated>
+      <workItem from="1633329085360" duration="8749000" />
     </task>
     <task id="LOCAL-00007" summary="Move the participants on timed event">
       <created>1632898027101</created>
@@ -452,7 +441,14 @@
       <option name="project" value="LOCAL" />
       <updated>1633330476495</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="Implement failing equipment">
+      <created>1633338218671</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1633338218671</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -509,7 +505,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Decrease the speed for better visualization" />
     <MESSAGE value="Debug merging the initials westward sections" />
     <MESSAGE value="Save section to section data" />
     <MESSAGE value="Debug race tests" />
@@ -534,7 +529,8 @@
     <MESSAGE value="Update .idea" />
     <MESSAGE value="Remove randomize equipment method" />
     <MESSAGE value="Update tests" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update tests" />
+    <MESSAGE value="Implement failing equipment" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implement failing equipment" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
