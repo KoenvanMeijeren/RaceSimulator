@@ -82,5 +82,19 @@ namespace ControllerTests
             Assert.AreEqual("Kl", this._participants.ElementAt(1).GetInitials());
         }
 
+        [Test]
+        public void CanReadBrokenParticipantsInitials()
+        {
+            IEquipment defaultCar = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
+            defaultCar.IsBroken = true;
+            
+            IParticipant testParticipant = new Driver(name: "K", points: 200, equipment: defaultCar,
+                teamColor: TeamColors.Red);
+            
+            Assert.IsTrue(defaultCar.IsBroken);
+            Assert.AreNotSame("K", testParticipant.GetInitials());
+            Assert.AreSame(IParticipant.BrokenInitials, testParticipant.GetInitials());
+        }
+        
     }
 }

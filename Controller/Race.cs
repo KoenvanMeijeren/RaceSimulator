@@ -20,7 +20,7 @@ namespace Controller
         
         public const int SectionLength = IEquipment.MaximumPerformance * IEquipment.MaximumSpeed;
 
-        public int FinishedParticipants { get; private set; } = 0;
+        private int _finishedParticipants = 0;
 
         public Track Track { get; private set; }
 
@@ -42,8 +42,6 @@ namespace Controller
         public static event EventHandler<DriversChangedEventArgs> RaceEnded;
 
         private static Race _raceReference;
-
-        private static bool _changedDrivers;
 
         public Race(Track track, List<IParticipant> participants)
         {
@@ -70,6 +68,7 @@ namespace Controller
             this._timer.Close();
             this._timer.Enabled = false;
             Race.DriversChanged = null;
+            Race._raceReference = null;
         }
 
         public static void DestructAllEvents()
@@ -88,63 +87,7 @@ namespace Controller
             }
             
             Race._raceReference.MoveParticipants();
-            if (!Race._changedDrivers)
-            {
-                return;
-            }
-
             Race.DriversChanged?.Invoke(source, new DriversChangedEventArgs(Race._raceReference));
-            Race._changedDrivers = false;
-        }
-
-        public bool AllParticipantsFinished()
-        {
-            return this.FinishedParticipants >= this.Participants.Count;
-        }
-        
-        public SectionData GetSectionData(Section section)
-        {
-            if (!this._positions.Any() || !this._positions.TryGetValue(section, out var foundSectionData))
-            {
-                foundSectionData = new SectionData();
-                this._positions.Add(section, foundSectionData);
-            }
-
-            return foundSectionData;
-        }
-
-        public bool UpdateSectionData(Section section, SectionData sectionData)
-        {
-            if (!this._positions.ContainsKey(section))
-            {
-                return false;
-            }
-
-            this._positions[section] = sectionData;
-            Race._changedDrivers = true;
-            return true;
-        }
-        
-        public int GetRounds(IParticipant participant)
-        {
-            if (!this.Rounds.Any() || !this.Rounds.TryGetValue(participant, out var rounds))
-            {
-                rounds = Race.RoundsStartValue;
-                this.Rounds.Add(participant, rounds);
-            }
-
-            return rounds;
-        }
-
-        public bool UpdateRounds(IParticipant participant, int rounds)
-        {
-            if (!this.Rounds.ContainsKey(participant))
-            {
-                return false;
-            }
-
-            this.Rounds[participant] = rounds;
-            return true;
         }
 
         private void MoveParticipants()
@@ -164,12 +107,34 @@ namespace Controller
                 if (sectionData.Left != null && this.CanMoveParticipant(sectionData.DistanceLeft))
                 {
                     sectionData.MoveLeft();
+                    switch (sectionData.Left.Equipment.IsBroken)
+                    {
+                        case false when this.ShouldBreakParticipantEquipment():
+                            sectionData.BreakEquipmentLeft();
+                            this.UpdateSectionData(section, sectionData);
+                            continue;
+                        case true when this.ShouldFixParticipantEquipment():
+                            sectionData.FixEquipmentLeft();
+                            break;
+                    }
+
                     this.UpdateSectionData(section, sectionData);
                 }
 
                 if (sectionData.Right != null && this.CanMoveParticipant(sectionData.DistanceRight))
                 {
                     sectionData.MoveRight();
+                    switch (sectionData.Right.Equipment.IsBroken)
+                    {
+                        case false when this.ShouldBreakParticipantEquipment():
+                            sectionData.BreakEquipmentRight();
+                            this.UpdateSectionData(section, sectionData);
+                            continue;
+                        case true when this.ShouldFixParticipantEquipment():
+                            sectionData.FixEquipmentRight();
+                            break;
+                    }
+
                     this.UpdateSectionData(section, sectionData);
                 }
                 
@@ -179,7 +144,7 @@ namespace Controller
 
         private void MoveParticipantsToNextSectionIfNecessary(Section section, SectionData sectionData, Section nextSection, SectionData nextSectionData)
         {
-            if (this.ShouldMoveParticipantsToNextSection(sectionData))
+            if (this.ShouldMoveParticipantsToNextSection(sectionData) && this.CanPlaceParticipants(nextSectionData, sectionData.Left, sectionData.Right))
             {
                 nextSectionData = this.MoveParticipantsToNextSection(
                     sectionData, nextSection, nextSectionData, sectionData.Left, sectionData.Right
@@ -200,7 +165,7 @@ namespace Controller
                 this.UpdateSectionData(nextSection, nextSectionData);
                 this.UpdateSectionData(section, sectionData);
             }
-            else if (this.ShouldMoveParticipantToNextSection(sectionData))
+            else if (this.ShouldMoveParticipantToNextSection(sectionData) && this.CanPlaceParticipant(nextSectionData, this.GetParticipantWhoShouldMoveToNextSection(sectionData)))
             {
                 IParticipant participant = this.GetParticipantWhoShouldMoveToNextSection(sectionData);
                 
@@ -220,44 +185,6 @@ namespace Controller
                 this.UpdateSectionData(section, sectionData);
             }
         }
-        
-        public SectionData RemoveParticipantsOnTrackCompletion(SectionData sectionData, IParticipant participant, int rounds)
-        {
-            if (rounds >= Race.MaxRounds)
-            {
-                this.FinishedParticipants++;
-                sectionData.Clear(participant);
-            }
-            
-            return sectionData;
-        }
-
-        private bool CanMoveParticipant(int distance)
-        {
-            return distance < Race.SectionLength;
-        }
-        
-        private bool ShouldMoveParticipantToNextSection(SectionData sectionData)
-        {
-            return (sectionData.DistanceLeft >= Race.SectionLength && sectionData.Left != null) 
-                   || (sectionData.DistanceRight >= Race.SectionLength && sectionData.Right != null);
-        }
-
-        private bool ShouldMoveParticipantsToNextSection(SectionData sectionData)
-        {
-            return sectionData.DistanceLeft >= Race.SectionLength && sectionData.Left != null
-                   && sectionData.DistanceRight >= Race.SectionLength && sectionData.Right != null;
-        }
-
-        private IParticipant GetParticipantWhoShouldMoveToNextSection(SectionData sectionData)
-        {
-            if (!this.ShouldMoveParticipantToNextSection(sectionData))
-            {
-                return null;
-            }
-
-            return sectionData.DistanceLeft >= Race.SectionLength ? sectionData.Left : sectionData.Right;
-        }
 
         private SectionData MoveParticipantToNextSection(SectionData sectionData, Section nextSection, SectionData nextSectionData, IParticipant participant)
         {
@@ -266,10 +193,15 @@ namespace Controller
                 return nextSectionData;
             }
             
-            nextSectionData = this.ParticipantToSectionData(nextSection, nextSectionData, participant);
+            SectionData updatedSectionData = this.ParticipantToSectionData(nextSection, nextSectionData, participant);
+            if (updatedSectionData == null)
+            {
+                return nextSectionData;
+            }
+            
             sectionData.Clear(participant);
+            return updatedSectionData;
 
-            return nextSectionData;
         }
 
         private SectionData MoveParticipantsToNextSection(SectionData sectionData, Section nextSection, SectionData nextSectionData, IParticipant participantLeft, IParticipant participantRight)
@@ -279,10 +211,15 @@ namespace Controller
                 return nextSectionData;
             }
             
-            nextSectionData = this.ParticipantsToSectionData(nextSection, nextSectionData, participantLeft, participantRight);
+            SectionData updatedSectionData = this.ParticipantsToSectionData(nextSection, nextSectionData, participantLeft, participantRight);
+            if (updatedSectionData == null)
+            {
+                return nextSectionData;
+            }
+            
             sectionData.Clear(participantLeft, participantRight);
+            return updatedSectionData;
 
-            return nextSectionData;
         }
 
         private void PlaceParticipantsOnStartPositions()
@@ -306,55 +243,21 @@ namespace Controller
                     canPlaceBoth = this.CanPlaceParticipants(sectionData, participantOne, participantTwo),
                     canPlaceOne = this.CanPlaceParticipant(sectionData, participantOne);
 
-                if (!canPlaceBoth && canPlaceOne)
+                switch (canPlaceBoth)
                 {
-                    sectionData = this.ParticipantToSectionData(section, sectionData, participantOne);
-                    participants.RemoveAt(0);
-                }
-                else if (canPlaceBoth)
-                {
-                    sectionData = this.ParticipantsToSectionData(section, sectionData, participantOne, participantTwo);
-                    participants.RemoveAt(0);
-                    participants.RemoveAt(0);
+                    case false when canPlaceOne:
+                        sectionData = this.ParticipantToSectionData(section, sectionData, participantOne);
+                        participants.RemoveAt(0);
+                        break;
+                    case true:
+                        sectionData = this.ParticipantsToSectionData(section, sectionData, participantOne, participantTwo);
+                        participants.RemoveAt(0);
+                        participants.RemoveAt(0);
+                        break;
                 }
 
                 this.UpdateSectionData(section, sectionData);
             }
-        }
-
-        private bool CanPlaceParticipantsOnStartPosition(SectionTypes sectionType)
-        {
-            return sectionType == SectionTypes.StartGrid;
-        }
-
-        private bool CanPlaceParticipants(SectionData sectionData, IParticipant leftParticipant, IParticipant rightParticipant)
-        {
-            if (leftParticipant == null || rightParticipant == null)
-            {
-                return false;
-            }
-
-            return sectionData.Left == null && sectionData.Right == null;
-        }
-
-        private bool CanPlaceParticipant(SectionData sectionData, IParticipant participant)
-        {
-            if (participant == null)
-            {
-                return false;
-            }
-
-            return this.CanPlaceLeftParticipant(sectionData) || this.CanPlaceRightParticipant(sectionData);
-        }
-
-        private bool CanPlaceLeftParticipant(SectionData sectionData)
-        {
-            return sectionData.Left == null && (sectionData.Right != null || sectionData.Right == null);
-        }
-
-        private bool CanPlaceRightParticipant(SectionData sectionData)
-        {
-            return sectionData.Right == null && (sectionData.Left != null || sectionData.Left == null);
         }
 
         private SectionData ParticipantsToSectionData(Section section, SectionData sectionData, IParticipant leftParticipant, IParticipant rightParticipant)
@@ -385,15 +288,169 @@ namespace Controller
 
             return null;
         }
-
-        private void RandomizeEquipment()
+        
+        public bool ShouldBreakParticipantEquipment()
         {
-            foreach (IParticipant participant in this.Participants)
+            int yes = 0;
+            const int iterations = 500;
+            for (int delta = 0; delta < iterations; delta++)
             {
-                IEquipment equipment = participant.Equipment;
-                equipment.SetRandomPerformance();
-                equipment.SetRandomQuality();
+                if (this._random.Next(1, 101) <= 25)
+                {
+                    yes++;
+                }
             }
+
+            double result = (double) yes / iterations;
+            result *= 100;
+
+            return result > 30;
+        }
+        
+        public bool ShouldFixParticipantEquipment()
+        {
+            int yes = 0;
+            const int iterations = 500;
+            for (int delta = 0; delta < iterations; delta++)
+            {
+                if (this._random.Next(1, 101) <= 30)
+                {
+                    yes++;
+                }
+            }
+
+            double result = (double) yes / iterations;
+            result *= 100;
+
+            return result > 32;
+        }
+        
+        public SectionData RemoveParticipantsOnTrackCompletion(SectionData sectionData, IParticipant participant, int rounds)
+        {
+            if (rounds < Race.MaxRounds)
+            {
+                return sectionData;
+            }
+            
+            this._finishedParticipants++;
+            sectionData.Clear(participant);
+
+            return sectionData;
+        }
+        
+        public bool AllParticipantsFinished()
+        {
+            return this._finishedParticipants >= this.Participants.Count;
+        }
+        
+        public SectionData GetSectionData(Section section)
+        {
+            if (this._positions.TryGetValue(section, out var foundSectionData))
+            {
+                return foundSectionData;
+            }
+            
+            foundSectionData = new SectionData();
+            this._positions.Add(section, foundSectionData);
+
+            return foundSectionData;
+        }
+
+        public bool UpdateSectionData(Section section, SectionData sectionData)
+        {
+            if (!this._positions.ContainsKey(section))
+            {
+                return false;
+            }
+
+            this._positions[section] = sectionData;
+            return true;
+        }
+        
+        public int GetRounds(IParticipant participant)
+        {
+            if (this.Rounds.TryGetValue(participant, out var rounds))
+            {
+                return rounds;
+            }
+            
+            rounds = Race.RoundsStartValue;
+            this.Rounds.Add(participant, rounds);
+
+            return rounds;
+        }
+
+        public bool UpdateRounds(IParticipant participant, int rounds)
+        {
+            if (!this.Rounds.ContainsKey(participant))
+            {
+                return false;
+            }
+
+            this.Rounds[participant] = rounds;
+            return true;
+        }
+        
+        private bool CanMoveParticipant(int distance)
+        {
+            return distance < Race.SectionLength;
+        }
+        
+        private bool ShouldMoveParticipantToNextSection(SectionData sectionData)
+        {
+            return (sectionData.DistanceLeft >= Race.SectionLength && sectionData.Left != null) 
+                   || (sectionData.DistanceRight >= Race.SectionLength && sectionData.Right != null);
+        }
+
+        private bool ShouldMoveParticipantsToNextSection(SectionData sectionData)
+        {
+            return sectionData.DistanceLeft >= Race.SectionLength && sectionData.Left != null 
+                    && sectionData.DistanceRight >= Race.SectionLength && sectionData.Right != null;
+        }
+
+        private IParticipant GetParticipantWhoShouldMoveToNextSection(SectionData sectionData)
+        {
+            if (!this.ShouldMoveParticipantToNextSection(sectionData))
+            {
+                return null;
+            }
+
+            return sectionData.DistanceLeft >= Race.SectionLength ? sectionData.Left : sectionData.Right;
+        }
+        
+        private bool CanPlaceParticipantsOnStartPosition(SectionTypes sectionType)
+        {
+            return sectionType == SectionTypes.StartGrid;
+        }
+
+        private bool CanPlaceParticipants(SectionData sectionData, IParticipant leftParticipant, IParticipant rightParticipant)
+        {
+            if (leftParticipant == null || rightParticipant == null)
+            {
+                return false;
+            }
+
+            return sectionData.Left == null && sectionData.Right == null;
+        }
+
+        private bool CanPlaceParticipant(SectionData sectionData, IParticipant participant)
+        {
+            if (participant == null)
+            {
+                return false;
+            }
+
+            return this.CanPlaceLeftParticipant(sectionData) || this.CanPlaceRightParticipant(sectionData);
+        }
+
+        private bool CanPlaceLeftParticipant(SectionData sectionData)
+        {
+            return sectionData.Left == null;
+        }
+
+        private bool CanPlaceRightParticipant(SectionData sectionData)
+        {
+            return sectionData.Right == null;
         }
 
         public static int ConvertRange(int originalStart, int originalEnd, int newStart, int newEnd, int value)

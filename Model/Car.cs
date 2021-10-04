@@ -31,7 +31,7 @@ namespace Model
             {
                 if (value < IEquipment.MinimumPerformance || value > IEquipment.MaximumPerformance)
                 {
-                    throw new ArgumentOutOfRangeException("Performance", value, $"The value must be equal to or higher then: {IEquipment.MinimumQuality} and lower then or equal to {IEquipment.MaximumQuality}.");
+                    throw new ArgumentOutOfRangeException("Performance", value, $"The value must be equal to or higher then: {IEquipment.MinimumPerformance} and lower then or equal to {IEquipment.MaximumPerformance}.");
                 }
 
                 this._performance = value;
@@ -46,14 +46,14 @@ namespace Model
             {
                 if (value < IEquipment.MinimumSpeed || value > IEquipment.MaximumSpeed)
                 {
-                    throw new ArgumentOutOfRangeException("Speed", value, $"The value must be equal to or higher then: {IEquipment.MinimumQuality} and lower then or equal to {IEquipment.MaximumQuality}.");
+                    throw new ArgumentOutOfRangeException("Speed", value, $"The value must be equal to or higher then: {IEquipment.MinimumSpeed} and lower then or equal to {IEquipment.MaximumSpeed}.");
                 }
 
                 this._speed = value;
             }
         }
 
-        public bool IsBroken { get; }
+        public bool IsBroken { get; set; }
 
         private Random _randominizer;
 
@@ -73,14 +73,27 @@ namespace Model
             return this.Performance * this.Speed;
         }
 
-        public void SetRandomQuality()
+        public void DecreasePerformance()
         {
-            this.Quality = this._randominizer.Next(IEquipment.MinimumQuality, IEquipment.MaximumQuality);
-        }
+            if (IEquipment.MinimumPerformance >= this._performance)
+            {
+                this._performance = IEquipment.MinimumPerformance;
+                return;
+            }
 
-        public void SetRandomPerformance()
+            this._performance--;
+        }
+        
+        public void DecreaseSpeed()
         {
-            this.Performance = this._randominizer.Next(IEquipment.MinimumPerformance, IEquipment.MaximumPerformance);
+           int number = this._randominizer.Next(20, 30);
+           if (IEquipment.MinimumSpeed >= (number - this._speed))
+           {
+               this._speed = IEquipment.MinimumSpeed;
+               return;
+           }
+
+           this._speed -= number;
         }
 
     }
