@@ -6,9 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="8a783f09-19f2-47c7-9340-0fa8907541ee" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Controller/Data.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controller/Data.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Controller/Race.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controller/Race.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RaceSimulator/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RaceSimulator/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Model/SectionData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Model/SectionData.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,6 +90,10 @@
       <workItem from="1633022639355" duration="236000" />
       <workItem from="1633024391669" duration="1125000" />
       <workItem from="1633029602967" duration="1269000" />
+      <workItem from="1633073389377" duration="188000" />
+      <workItem from="1633100495204" duration="206000" />
+      <workItem from="1633101831221" duration="113000" />
+      <workItem from="1633329085360" duration="459000" />
     </task>
     <task id="LOCAL-00001" summary="Debug tests">
       <created>1632833224665</created>
@@ -428,15 +431,33 @@
     <option name="version" value="3" />
   </component>
   <component name="UnitTestsCoverage.Settings">
-    <option name="coveragePercentColumnWidth" value="132" />
+    <option name="coveragePercentColumnWidth" value="114" />
     <option name="sortOrder" value="DESCENDING" />
     <option name="sortedColumn" value="1" />
-    <option name="symbolColumnWidth" value="299" />
+    <option name="symbolColumnWidth" value="256" />
     <coverage-tree-state>
       <expand>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 47% 734/1388" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 61% 558/1427" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+        </path>
+        <path>
+          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
+          <item name="Total 61% 558/1427" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 89% 34/322" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+        </path>
+        <path>
+          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
+          <item name="Total 61% 558/1427" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 89% 34/322" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 89% 34/322" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+        </path>
+        <path>
+          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
+          <item name="Total 61% 558/1427" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 89% 34/322" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 89% 34/322" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Race 87% 34/259" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
       </expand>
       <select />
