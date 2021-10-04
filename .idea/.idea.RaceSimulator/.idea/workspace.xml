@@ -9,7 +9,7 @@
   <component name="ChangeListManager">
     <list default="true" id="8a783f09-19f2-47c7-9340-0fa8907541ee" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Controller/Data.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controller/Data.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ModelTests/Model_CarShould.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ModelTests/Model_CarShould.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,14 +104,7 @@
       <workItem from="1633073389377" duration="188000" />
       <workItem from="1633100495204" duration="206000" />
       <workItem from="1633101831221" duration="113000" />
-      <workItem from="1633329085360" duration="10117000" />
-    </task>
-    <task id="LOCAL-00011" summary="Update tests">
-      <created>1632900533680</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1632900533680</updated>
+      <workItem from="1633329085360" duration="10153000" />
     </task>
     <task id="LOCAL-00012" summary="Remove race simulator tests project">
       <created>1632900661084</created>
@@ -449,7 +442,14 @@
       <option name="project" value="LOCAL" />
       <updated>1633339234669</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="Enable test drivers">
+      <created>1633339873653</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1633339873653</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -464,22 +464,22 @@
       <expand>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 55% 679/1523" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 54% 701/1523" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 55% 679/1523" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 54% 701/1523" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
           <item name="Controller 71% 103/353" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 55% 679/1523" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 54% 701/1523" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
           <item name="Controller 71% 103/353" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
           <item name="Controller 71% 103/353" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 55% 679/1523" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 54% 701/1523" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
           <item name="Controller 71% 103/353" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
           <item name="Controller 71% 103/353" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
           <item name="Race 67% 97/292" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
@@ -506,7 +506,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Debug race tests" />
     <MESSAGE value="Update constructors" />
     <MESSAGE value="Update test" />
     <MESSAGE value="Implement placing participants on corners" />
@@ -531,7 +530,8 @@
     <MESSAGE value="Update tests" />
     <MESSAGE value="Fix coding standards" />
     <MESSAGE value="Debug incorrect finish on not able to move to next section" />
-    <option name="LAST_COMMIT_MESSAGE" value="Debug incorrect finish on not able to move to next section" />
+    <MESSAGE value="Enable test drivers" />
+    <option name="LAST_COMMIT_MESSAGE" value="Enable test drivers" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

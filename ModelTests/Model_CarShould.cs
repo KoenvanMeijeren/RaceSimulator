@@ -54,30 +54,6 @@ namespace ModelTests
         }
 
         [Test]
-        public void Car_CanCreate_CanSetRandomQuality()
-        {
-            Car car = new Car(IEquipment.MaximumQuality, IEquipment.MaximumPerformance, IEquipment.MaximumSpeed);
-
-            int previousQuality = car.Quality;
-            car.SetRandomQuality();
-            Assert.AreNotSame(car.Quality, previousQuality);
-            Assert.IsTrue(car.Quality >= IEquipment.MinimumQuality);
-            Assert.IsTrue(car.Quality <= IEquipment.MaximumQuality);
-        }
-
-        [Test]
-        public void Car_CanCreate_CanSetRandomPerformance()
-        {
-            Car car = new Car(IEquipment.MaximumQuality, IEquipment.MaximumPerformance, IEquipment.MaximumSpeed);
-
-            int previousPerformance = car.Performance;
-            car.SetRandomPerformance();
-            Assert.AreNotSame(car.Performance, previousPerformance);
-            Assert.IsTrue(car.Performance >= IEquipment.MinimumPerformance);
-            Assert.IsTrue(car.Performance <= IEquipment.MaximumPerformance);
-        }
-
-        [Test]
         public void Car_CanRead_RealSpeed()
         {
             Car car = new Car(100, 2, 25);

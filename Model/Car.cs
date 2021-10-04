@@ -73,16 +73,6 @@ namespace Model
             return this.Performance * this.Speed;
         }
 
-        public void SetRandomQuality()
-        {
-            this.Quality = this._randominizer.Next(IEquipment.MinimumQuality, IEquipment.MaximumQuality);
-        }
-
-        public void SetRandomPerformance()
-        {
-            this.Performance = this._randominizer.Next(IEquipment.MinimumPerformance, IEquipment.MaximumPerformance);
-        }
-
         public void DecreasePerformance()
         {
             if (IEquipment.MinimumPerformance >= this._performance)
