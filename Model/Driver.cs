@@ -27,6 +27,11 @@ namespace Model
 
         public string GetInitials(int initialsLength = 1)
         {
+            if (this.Equipment.IsBroken)
+            {
+                return IParticipant.BrokenInitials;
+            }
+            
             char[] chars = this.Name.ToCharArray();
 
             StringBuilder initials = new StringBuilder(initialsLength);

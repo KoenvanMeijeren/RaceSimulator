@@ -53,7 +53,7 @@ namespace Model
             }
         }
 
-        public bool IsBroken { get; }
+        public bool IsBroken { get; set; }
 
         private Random _randominizer;
 

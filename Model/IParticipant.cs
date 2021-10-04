@@ -8,6 +8,8 @@ namespace Model
 {
     public interface IParticipant
     {
+        
+        public const string BrokenInitials = "x";
 
         public string Name { get; }
 

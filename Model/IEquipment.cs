@@ -22,7 +22,7 @@ namespace Model
         public int Performance { get; }
         public int Speed { get; }
         
-        public bool IsBroken { get; }
+        public bool IsBroken { get; set; }
 
         public int GetRealSpeed();
         
