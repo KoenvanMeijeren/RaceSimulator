@@ -11,23 +11,22 @@
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ControllerTests/Controller_RaceShould.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ControllerTests/Controller_RaceShould.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Coverage.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Coverage/css/dotcover.report.gen.css" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/css/dotcover.report.gen.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Coverage/images/metadata-icons.svg" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/images/metadata-icons.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Coverage/src/1.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/1.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Coverage/src/10.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/10.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Coverage/src/13.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/13.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Coverage/src/12.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/12.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Coverage/src/16.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/16.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Coverage/src/17.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/17.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Coverage/src/19.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/19.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Coverage/src/20.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/20.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Coverage/src/21.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/21.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Coverage/src/24.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/24.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Coverage/src/25.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/25.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Coverage/src/26.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/26.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Coverage/src/27.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/27.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Coverage/src/28.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/28.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Coverage/src/3.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/3.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Coverage/src/31.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/31.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Coverage/src/4.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/4.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Coverage/src/9.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/9.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ModelTests/Model_CarShould.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ModelTests/Model_CarShould.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Coverage/src/5.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/5.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Coverage/src/6.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/6.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ModelTests/Model_SectionDataShould.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ModelTests/Model_SectionDataShould.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -53,15 +52,8 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/bc3d7024e97f4f818de53bc3c23872b48f5790/37/Object.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/Model/Car.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Race.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/Model/SectionData.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/Model/SectionData.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Race.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8c5d964499a04c04b2b151bbd137532725590/4/Console.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Race.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/84f06ea1ac414f7f82c8570fa35e8d9fab590/E/Timer.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/Model/Car.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="1ylipXz4TwR0b6Wso2y4JUpH2hN" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -84,7 +76,7 @@
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected=".NET Project.RaceSimulator">
     <configuration name="RaceSimulator" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/RaceSimulator/bin/Debug/net5.0/RaceSimulator.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -126,13 +118,9 @@
       <workItem from="1633100495204" duration="206000" />
       <workItem from="1633101831221" duration="113000" />
       <workItem from="1633329085360" duration="10153000" />
-    </task>
-    <task id="LOCAL-00013" summary="Implement real speed usage for moving the participants">
-      <created>1632902765398</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1632902765398</updated>
+      <workItem from="1633347072144" duration="230000" />
+      <workItem from="1633349740932" duration="970000" />
+      <workItem from="1633350975104" duration="2220000" />
     </task>
     <task id="LOCAL-00014" summary="Update tests">
       <created>1632903462007</created>
@@ -470,22 +458,29 @@
       <option name="project" value="LOCAL" />
       <updated>1633340433600</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="Update tests">
+      <created>1633341093242</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1633341093242</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="UnitTestsCoverage.Settings">
-    <option name="coveragePercentColumnWidth" value="114" />
+    <option name="coveragePercentColumnWidth" value="95" />
     <option name="sortOrder" value="DESCENDING" />
     <option name="sortedColumn" value="1" />
-    <option name="symbolColumnWidth" value="338" />
+    <option name="symbolColumnWidth" value="332" />
     <coverage-tree-state>
       <expand>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 64% 563/1562" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 66% 550/1604" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
       </expand>
       <select />
@@ -529,12 +524,12 @@
     <MESSAGE value="Remove randomize equipment method" />
     <MESSAGE value="Implement failing equipment" />
     <MESSAGE value="Update methods order" />
-    <MESSAGE value="Update tests" />
     <MESSAGE value="Fix coding standards" />
     <MESSAGE value="Debug incorrect finish on not able to move to next section" />
     <MESSAGE value="Enable test drivers" />
     <MESSAGE value="Debug decreasing the speed" />
-    <option name="LAST_COMMIT_MESSAGE" value="Debug decreasing the speed" />
+    <MESSAGE value="Update tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update tests" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

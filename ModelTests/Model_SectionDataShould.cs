@@ -121,19 +121,53 @@ namespace ModelTests
         [Test]
         public void Participants_CanFixLeftEquipment()
         {
+            int currentPerformance = this._sectionData.Left.Equipment.Performance;
+            int currentSpeed = this._sectionData.Left.Equipment.Speed;
+            
             this._sectionData.BreakEquipmentLeft();
             Assert.IsTrue(this._sectionData.Left.Equipment.IsBroken);
             this._sectionData.FixEquipmentLeft();
             Assert.IsFalse(this._sectionData.Left.Equipment.IsBroken);
+
+            do
+            {
+                this._sectionData.FixEquipmentLeft();
+            } while (currentSpeed == this._sectionData.Left.Equipment.Speed);
+            
+            Assert.AreNotEqual(currentSpeed, this._sectionData.Left.Equipment.Speed);
+
+            do
+            {
+                this._sectionData.FixEquipmentLeft();
+            } while (currentPerformance == this._sectionData.Left.Equipment.Performance);
+
+            Assert.AreNotEqual(currentPerformance, this._sectionData.Left.Equipment.Performance);
         }
         
         [Test]
         public void Participants_CanFixRightEquipment()
         {
+            int currentPerformance = this._sectionData.Right.Equipment.Performance;
+            int currentSpeed = this._sectionData.Right.Equipment.Speed;
+            
             this._sectionData.BreakEquipmentRight();
             Assert.IsTrue(this._sectionData.Right.Equipment.IsBroken);
             this._sectionData.FixEquipmentRight();
             Assert.IsFalse(this._sectionData.Right.Equipment.IsBroken);
+
+            do
+            {
+                this._sectionData.FixEquipmentRight();
+            } while (currentSpeed == this._sectionData.Right.Equipment.Speed);
+            
+            Assert.AreNotEqual(currentSpeed, this._sectionData.Right.Equipment.Speed);
+
+            do
+            {
+                this._sectionData.FixEquipmentRight();
+            } while (currentPerformance == this._sectionData.Right.Equipment.Performance);
+            
+            Assert.AreNotEqual(currentPerformance, this._sectionData.Right.Equipment.Performance);
         }
         
         [Test]
