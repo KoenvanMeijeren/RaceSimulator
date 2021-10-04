@@ -223,12 +223,14 @@ namespace Controller
         
         public SectionData RemoveParticipantsOnTrackCompletion(SectionData sectionData, IParticipant participant, int rounds)
         {
-            if (rounds >= Race.MaxRounds)
+            if (rounds < Race.MaxRounds)
             {
-                this.FinishedParticipants++;
-                sectionData.Clear(participant);
+                return sectionData;
             }
             
+            this.FinishedParticipants++;
+            sectionData.Clear(participant);
+
             return sectionData;
         }
 
