@@ -11,9 +11,4 @@
       <None Remove="IMG_20211001_164031.jpg" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Resource Include="IMG_20211001_163920.jpg" />
-      <Resource Include="IMG_20211001_164031.jpg" />
-    </ItemGroup>
-
 </Project>
