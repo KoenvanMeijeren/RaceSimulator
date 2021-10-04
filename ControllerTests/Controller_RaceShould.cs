@@ -152,10 +152,39 @@ namespace ControllerTests
         [Test]
         public void Race_FixParticipantsEquipment()
         {
-            // todo find out how to test this.
-            bool result = this._race.ShouldFixParticipantEquipment();
+            while (!this._race.ShouldFixParticipantEquipment())
+            {
+                continue;
+            }
             
             Assert.IsTrue(true);
+        }
+
+        [Test]
+        public void Race_CanRemoveParticipantsOnTrackCompletion()
+        {
+            IEquipment defaultCar = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
+            IParticipant participant = new Driver(name: "Koen van Meijeren", points: 200, equipment: defaultCar,
+                teamColor: TeamColors.Red);
+            
+            SectionData sectionData = new SectionData(new Section(SectionTypes.Finish), participant, 0, null, 0);
+            Assert.IsNotNull(sectionData.Left);
+            
+            sectionData = this._race.RemoveParticipantsOnTrackCompletion(sectionData, participant, 3);
+            Assert.IsNull(sectionData.Left);
+        }
+
+        [Test]
+        public void Race_CanGetRounds()
+        {
+            IEquipment defaultCar = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
+            IParticipant participant = new Driver(name: "Koen van Meijeren", points: 200, equipment: defaultCar,
+                teamColor: TeamColors.Red);
+
+            int rounds = this._race.GetRounds(participant);
+            Assert.AreEqual(0, rounds);
+            this._race.UpdateRounds(participant, 2);
+            Assert.AreEqual(2, this._race.GetRounds(participant));
         }
         
     }

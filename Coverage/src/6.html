@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>E:\Development\C#\RaceSimulator\ModelTests\Model_TrackShould.cs</title>
+    <title>E:\Development\C#\RaceSimulator\Controller\Race.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
@@ -13,87 +13,469 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using Model;
-using NUnit.Framework;
 
-namespace ModelTests
+namespace Controller
 {
-    [TestFixture]
-    class Model_TrackShould
+
+    public class Race
     {
 
-        private Track _track;
+        private const int
+            StartDistanceOfParticipant = 0,
+            TimerInterval = 500,
+            RoundsStartValue = 0,
+            MaxRounds = 2;
+        
+        public const int SectionLength = IEquipment.MaximumPerformance * IEquipment.MaximumSpeed;
 
-        [SetUp]
-        public void Setup()
+        private int _finishedParticipants = 0;
+
+        public Track Track { get; private set; }
+
+        public List&lt;IParticipant&gt; Participants { get; private set; }
+
+        public DateTime StartTime { get; private set; }
+
+        private Random _random;
+
+        // Only 2 participants per section are allowed.
+        private Dictionary&lt;Section, SectionData&gt; _positions;
+
+        public Dictionary&lt;IParticipant, int&gt; Rounds { get; private set; }
+
+        private readonly Timer _timer;
+
+        public static event EventHandler&lt;DriversChangedEventArgs&gt; DriversChanged;
+        
+        public static event EventHandler&lt;DriversChangedEventArgs&gt; RaceEnded;
+
+        private static Race _raceReference;
+
+        public Race(Track track, List&lt;IParticipant&gt; participants)
         {
-            SectionTypes[] route = {
-                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.Finish,
-                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.StartGrid
-            };
-
-            this._track = new Track(&quot;Test Track&quot;, route);
+            this.Track = track;
+            this.Participants = participants;
+            this._random = new Random(DateTime.Now.Millisecond);
+            this._positions = new Dictionary&lt;Section, SectionData&gt;();
+            this.Rounds = new Dictionary&lt;IParticipant, int&gt;(participants.Capacity);
+            this._timer = new Timer(Race.TimerInterval);
+            this._timer.Elapsed += Race.OnTimedEvent;
+            
+            this.PlaceParticipantsOnStartPositions();
         }
 
-        [Test]
-        public void Track_CanCreate()
+        public void Start()
         {
-            SectionTypes[] route = {
-                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.Finish,
-                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.StartGrid
-            };
-
-            Track track = new Track(&quot;Test Track 2&quot;, route);
-
-            Assert.AreEqual(&quot;Test Track 2&quot;, track.Name);
-            Assert.AreEqual(-1, track.EastStartPosition);
-            Assert.AreEqual(-1, track.NorthStartPosition);
+            this.StartTime = DateTime.Now;
+            this._timer.Enabled = true;
+            Race._raceReference = this;
         }
 
-        [Test]
-        public void Track_CanRead_Sections()
+        public void End()
         {
-            Assert.AreEqual(8, this._track.Sections.Count);
-            Assert.AreEqual(SectionTypes.LeftCorner, this._track.Sections.First.Value.SectionType);
-            Assert.AreEqual(SectionTypes.StartGrid, this._track.Sections.ElementAt(1).SectionType);
-            Assert.AreEqual(SectionTypes.LeftCorner, this._track.Sections.ElementAt(2).SectionType);
-            Assert.AreEqual(SectionTypes.Finish, this._track.Sections.ElementAt(3).SectionType);
+            this._timer.Close();
+            this._timer.Enabled = false;
+            Race.DriversChanged = null;
+            Race._raceReference = null;
+        }
 
-            Assert.AreEqual(SectionTypes.LeftCorner, this._track.Sections.ElementAt(4).SectionType);
-            Assert.AreEqual(SectionTypes.StartGrid, this._track.Sections.ElementAt(5).SectionType);
-            Assert.AreEqual(SectionTypes.LeftCorner, this._track.Sections.ElementAt(6).SectionType);
-            Assert.AreEqual(SectionTypes.StartGrid, this._track.Sections.ElementAt(7).SectionType);
+        public static void DestructAllEvents()
+        {
+            Race.DriversChanged = null;
+            Race.RaceEnded = null;
+        }
+
+        public static void OnTimedEvent(Object source, ElapsedEventArgs e)
+        {
+            if (Race._raceReference.AllParticipantsFinished())
+            {
+                Race._raceReference.End();
+                Race.RaceEnded?.Invoke(source, new DriversChangedEventArgs(Race._raceReference));
+                return;
+            }
+            
+            Race._raceReference.MoveParticipants();
+            Race.DriversChanged?.Invoke(source, new DriversChangedEventArgs(Race._raceReference));
+        }
+
+        private void MoveParticipants()
+        {
+            Section[] sections = this.Track.Sections.ToArray();
+            for (int delta = 0; delta &lt; sections.Length; delta++)
+            {
+                int nextSectionDelta = (delta + 1) &gt;= sections.Length ? 0 : delta + 1;
+
+                Section
+                    section = sections[delta],
+                    nextSection = sections[nextSectionDelta];
+                SectionData
+                    sectionData = this.GetSectionData(section),
+                    nextSectionData = this.GetSectionData(nextSection);
+                
+                if (sectionData.Left != null &amp;&amp; this.CanMoveParticipant(sectionData.DistanceLeft))
+                {
+                    sectionData.MoveLeft();
+                    switch (sectionData.Left.Equipment.IsBroken)
+                    {
+                        case false when this.ShouldBreakParticipantEquipment():
+                            sectionData.BreakEquipmentLeft();
+                            this.UpdateSectionData(section, sectionData);
+                            continue;
+                        case true when this.ShouldFixParticipantEquipment():
+                            sectionData.FixEquipmentLeft();
+                            break;
+                    }
+
+                    this.UpdateSectionData(section, sectionData);
+                }
+
+                if (sectionData.Right != null &amp;&amp; this.CanMoveParticipant(sectionData.DistanceRight))
+                {
+                    sectionData.MoveRight();
+                    switch (sectionData.Right.Equipment.IsBroken)
+                    {
+                        case false when this.ShouldBreakParticipantEquipment():
+                            sectionData.BreakEquipmentRight();
+                            this.UpdateSectionData(section, sectionData);
+                            continue;
+                        case true when this.ShouldFixParticipantEquipment():
+                            sectionData.FixEquipmentRight();
+                            break;
+                    }
+
+                    this.UpdateSectionData(section, sectionData);
+                }
+                
+                this.MoveParticipantsToNextSectionIfNecessary(section, sectionData, nextSection, nextSectionData);
+            }
+        }
+
+        private void MoveParticipantsToNextSectionIfNecessary(Section section, SectionData sectionData, Section nextSection, SectionData nextSectionData)
+        {
+            if (this.ShouldMoveParticipantsToNextSection(sectionData) &amp;&amp; this.CanPlaceParticipants(nextSectionData, sectionData.Left, sectionData.Right))
+            {
+                nextSectionData = this.MoveParticipantsToNextSection(
+                    sectionData, nextSection, nextSectionData, sectionData.Left, sectionData.Right
+                );
+
+                if (section.SectionType == SectionTypes.Finish)
+                {
+                    int roundsLeft = this.GetRounds(nextSectionData.Left);
+                    this.UpdateRounds(nextSectionData.Left, roundsLeft + 1);
+                
+                    int roundsRight = this.GetRounds(nextSectionData.Right);
+                    this.UpdateRounds(nextSectionData.Right, roundsRight + 1);
+
+                    nextSectionData = this.RemoveParticipantsOnTrackCompletion(nextSectionData, nextSectionData.Left, roundsLeft);
+                    nextSectionData = this.RemoveParticipantsOnTrackCompletion(nextSectionData, nextSectionData.Right, roundsRight);
+                }
+
+                this.UpdateSectionData(nextSection, nextSectionData);
+                this.UpdateSectionData(section, sectionData);
+            }
+            else if (this.ShouldMoveParticipantToNextSection(sectionData) &amp;&amp; this.CanPlaceParticipant(nextSectionData, this.GetParticipantWhoShouldMoveToNextSection(sectionData)))
+            {
+                IParticipant participant = this.GetParticipantWhoShouldMoveToNextSection(sectionData);
+                
+                nextSectionData = this.MoveParticipantToNextSection(
+                    sectionData, nextSection, nextSectionData, participant
+                );
+
+                if (section.SectionType == SectionTypes.Finish)
+                {
+                    int rounds = this.GetRounds(participant);
+                    this.UpdateRounds(participant, rounds + 1);
+                    
+                    nextSectionData = this.RemoveParticipantsOnTrackCompletion(nextSectionData, participant, rounds);
+                }
+
+                this.UpdateSectionData(nextSection, nextSectionData);
+                this.UpdateSectionData(section, sectionData);
+            }
+        }
+
+        private SectionData MoveParticipantToNextSection(SectionData sectionData, Section nextSection, SectionData nextSectionData, IParticipant participant)
+        {
+            if (!this.CanPlaceParticipant(nextSectionData, participant))
+            {
+                return nextSectionData;
+            }
+            
+            SectionData updatedSectionData = this.ParticipantToSectionData(nextSection, nextSectionData, participant);
+            if (updatedSectionData == null)
+            {
+                return nextSectionData;
+            }
+            
+            sectionData.Clear(participant);
+            return updatedSectionData;
 
         }
 
-        [Test]
-        public void Track_CanCreate_WithDifferentStartPosition()
+        private SectionData MoveParticipantsToNextSection(SectionData sectionData, Section nextSection, SectionData nextSectionData, IParticipant participantLeft, IParticipant participantRight)
         {
-            SectionTypes[] route = {
-                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.Finish,
-                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.StartGrid
-            };
+            if (!this.CanPlaceParticipants(nextSectionData, participantLeft, participantRight))
+            {
+                return nextSectionData;
+            }
+            
+            SectionData updatedSectionData = this.ParticipantsToSectionData(nextSection, nextSectionData, participantLeft, participantRight);
+            if (updatedSectionData == null)
+            {
+                return nextSectionData;
+            }
+            
+            sectionData.Clear(participantLeft, participantRight);
+            return updatedSectionData;
 
-            Track track = new Track(&quot;Test Track 2&quot;, route, 25, 10);
-
-            Assert.AreEqual(&quot;Test Track 2&quot;, track.Name);
-            Assert.AreEqual(25, track.EastStartPosition);
-            Assert.AreEqual(10, track.NorthStartPosition);
-            Assert.AreEqual(-1, Track.StartPositionUndefined);
-
-            Track trackTwo = new Track(&quot;Test Track 3&quot;, route, Track.StartPositionUndefined, 40);
-            Assert.AreEqual(&quot;Test Track 3&quot;, trackTwo.Name);
-            Assert.AreEqual(-1, trackTwo.EastStartPosition);
-            Assert.AreEqual(40, trackTwo.NorthStartPosition);
-            Assert.AreEqual(-1, Track.StartPositionUndefined);
         }
 
+        private void PlaceParticipantsOnStartPositions()
+        {
+            List&lt;IParticipant&gt; participants = this.Participants.ToList();
+            Section[] sections = this.Track.Sections.ToArray();
+
+            for (int delta = 0; delta &lt; sections.Length; delta++)
+            {
+                Section section = sections[delta];
+                SectionData sectionData = this.GetSectionData(section);
+
+                if (!this.CanPlaceParticipantsOnStartPosition(section.SectionType))
+                {
+                    continue;
+                }
+
+                IParticipant participantOne = participants.ElementAtOrDefault(0);
+                IParticipant participantTwo = participants.ElementAtOrDefault(1);
+                bool 
+                    canPlaceBoth = this.CanPlaceParticipants(sectionData, participantOne, participantTwo),
+                    canPlaceOne = this.CanPlaceParticipant(sectionData, participantOne);
+
+                switch (canPlaceBoth)
+                {
+                    case false when canPlaceOne:
+                        sectionData = this.ParticipantToSectionData(section, sectionData, participantOne);
+                        participants.RemoveAt(0);
+                        break;
+                    case true:
+                        sectionData = this.ParticipantsToSectionData(section, sectionData, participantOne, participantTwo);
+                        participants.RemoveAt(0);
+                        participants.RemoveAt(0);
+                        break;
+                }
+
+                this.UpdateSectionData(section, sectionData);
+            }
+        }
+
+        private SectionData ParticipantsToSectionData(Section section, SectionData sectionData, IParticipant leftParticipant, IParticipant rightParticipant)
+        {
+            if (!this.CanPlaceParticipants(sectionData, leftParticipant, rightParticipant))
+            {
+                return null;
+            }
+
+            int defaultDistance = Race.StartDistanceOfParticipant;
+
+            return new SectionData(section, leftParticipant, defaultDistance, rightParticipant, defaultDistance);
+        }
+
+        private SectionData ParticipantToSectionData(Section section, SectionData sectionData, IParticipant participant)
+        {
+            int defaultDistance = Race.StartDistanceOfParticipant;
+
+            if (this.CanPlaceLeftParticipant(sectionData))
+            {
+                return new SectionData(section, participant, defaultDistance, sectionData.Right, defaultDistance);
+            }
+
+            if (this.CanPlaceRightParticipant(sectionData))
+            {
+                return new SectionData(section, sectionData.Left, defaultDistance, participant, defaultDistance);
+            }
+
+            return null;
+        }
+        
+        public bool ShouldBreakParticipantEquipment()
+        {
+            int yes = 0;
+            const int iterations = 500;
+            for (int delta = 0; delta &lt; iterations; delta++)
+            {
+                if (this._random.Next(1, 101) &lt;= 25)
+                {
+                    yes++;
+                }
+            }
+
+            double result = (double) yes / iterations;
+            result *= 100;
+
+            return result &gt; 30;
+        }
+        
+        public bool ShouldFixParticipantEquipment()
+        {
+            int yes = 0;
+            const int iterations = 500;
+            for (int delta = 0; delta &lt; iterations; delta++)
+            {
+                if (this._random.Next(1, 101) &lt;= 30)
+                {
+                    yes++;
+                }
+            }
+
+            double result = (double) yes / iterations;
+            result *= 100;
+
+            return result &gt; 32;
+        }
+        
+        public SectionData RemoveParticipantsOnTrackCompletion(SectionData sectionData, IParticipant participant, int rounds)
+        {
+            if (rounds &lt; Race.MaxRounds)
+            {
+                return sectionData;
+            }
+            
+            this._finishedParticipants++;
+            sectionData.Clear(participant);
+
+            return sectionData;
+        }
+        
+        public bool AllParticipantsFinished()
+        {
+            return this._finishedParticipants &gt;= this.Participants.Count;
+        }
+        
+        public SectionData GetSectionData(Section section)
+        {
+            if (this._positions.TryGetValue(section, out var foundSectionData))
+            {
+                return foundSectionData;
+            }
+            
+            foundSectionData = new SectionData();
+            this._positions.Add(section, foundSectionData);
+
+            return foundSectionData;
+        }
+
+        public bool UpdateSectionData(Section section, SectionData sectionData)
+        {
+            if (!this._positions.ContainsKey(section))
+            {
+                return false;
+            }
+
+            this._positions[section] = sectionData;
+            return true;
+        }
+        
+        public int GetRounds(IParticipant participant)
+        {
+            if (this.Rounds.TryGetValue(participant, out var rounds))
+            {
+                return rounds;
+            }
+            
+            rounds = Race.RoundsStartValue;
+            this.Rounds.Add(participant, rounds);
+
+            return rounds;
+        }
+
+        public bool UpdateRounds(IParticipant participant, int rounds)
+        {
+            if (!this.Rounds.ContainsKey(participant))
+            {
+                return false;
+            }
+
+            this.Rounds[participant] = rounds;
+            return true;
+        }
+        
+        private bool CanMoveParticipant(int distance)
+        {
+            return distance &lt; Race.SectionLength;
+        }
+        
+        private bool ShouldMoveParticipantToNextSection(SectionData sectionData)
+        {
+            return (sectionData.DistanceLeft &gt;= Race.SectionLength &amp;&amp; sectionData.Left != null) 
+                   || (sectionData.DistanceRight &gt;= Race.SectionLength &amp;&amp; sectionData.Right != null);
+        }
+
+        private bool ShouldMoveParticipantsToNextSection(SectionData sectionData)
+        {
+            return sectionData.DistanceLeft &gt;= Race.SectionLength &amp;&amp; sectionData.Left != null 
+                    &amp;&amp; sectionData.DistanceRight &gt;= Race.SectionLength &amp;&amp; sectionData.Right != null;
+        }
+
+        private IParticipant GetParticipantWhoShouldMoveToNextSection(SectionData sectionData)
+        {
+            if (!this.ShouldMoveParticipantToNextSection(sectionData))
+            {
+                return null;
+            }
+
+            return sectionData.DistanceLeft &gt;= Race.SectionLength ? sectionData.Left : sectionData.Right;
+        }
+        
+        private bool CanPlaceParticipantsOnStartPosition(SectionTypes sectionType)
+        {
+            return sectionType == SectionTypes.StartGrid;
+        }
+
+        private bool CanPlaceParticipants(SectionData sectionData, IParticipant leftParticipant, IParticipant rightParticipant)
+        {
+            if (leftParticipant == null || rightParticipant == null)
+            {
+                return false;
+            }
+
+            return sectionData.Left == null &amp;&amp; sectionData.Right == null;
+        }
+
+        private bool CanPlaceParticipant(SectionData sectionData, IParticipant participant)
+        {
+            if (participant == null)
+            {
+                return false;
+            }
+
+            return this.CanPlaceLeftParticipant(sectionData) || this.CanPlaceRightParticipant(sectionData);
+        }
+
+        private bool CanPlaceLeftParticipant(SectionData sectionData)
+        {
+            return sectionData.Left == null;
+        }
+
+        private bool CanPlaceRightParticipant(SectionData sectionData)
+        {
+            return sectionData.Right == null;
+        }
+
+        public static int ConvertRange(int originalStart, int originalEnd, int newStart, int newEnd, int value)
+        {
+            double scale = (double)(newEnd - newStart) / (originalEnd - originalStart);
+            
+            return (int)(newStart + ((value - originalStart) * scale));
+        }
+        
     }
 }
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[19,9,19,10,1],[20,13,23,15,1],[25,13,25,58,1],[26,9,26,10,1],[30,9,30,10,1],[31,13,34,15,1],[36,13,36,60,1],[38,13,38,57,1],[39,13,39,58,1],[40,13,40,59,1],[41,9,41,10,1],[45,9,45,10,1],[46,13,46,60,1],[47,13,47,100,1],[48,13,48,100,1],[49,13,49,101,1],[50,13,50,97,1],[52,13,52,101,1],[53,13,53,100,1],[54,13,54,101,1],[55,13,55,100,1],[57,9,57,10,1],[61,9,61,10,1],[62,13,65,15,1],[67,13,67,68,1],[69,13,69,57,1],[70,13,70,58,1],[71,13,71,59,1],[72,13,72,63,1],[74,13,74,97,1],[75,13,75,60,1],[76,13,76,61,1],[77,13,77,62,1],[78,13,78,63,1],[79,9,79,10,1]]);
+      highlightRanges([[23,9,23,47,1],[25,30,25,34,1],[25,35,25,47,1],[27,50,27,54,1],[27,55,27,67,1],[29,37,29,41,1],[29,42,29,54,1],[36,55,36,59,1],[36,60,36,72,1],[46,9,46,66,1],[47,9,47,10,1],[48,13,48,32,1],[49,13,49,46,1],[50,13,50,65,1],[51,13,51,70,1],[52,13,52,84,1],[53,13,53,57,1],[54,13,54,54,1],[56,13,56,54,1],[57,9,57,10,1],[60,9,60,10,1],[61,13,61,43,1],[62,13,62,40,1],[63,13,63,40,1],[64,9,64,10,1],[67,9,67,10,1],[68,13,68,33,1],[69,13,69,41,1],[70,13,70,40,1],[71,13,71,40,1],[72,9,72,10,1],[75,9,75,10,1],[76,13,76,40,1],[77,13,77,35,1],[78,9,78,10,1],[81,9,81,10,1],[82,13,82,63,1],[83,13,83,14,0],[84,17,84,43,0],[85,17,85,98,0],[86,17,86,24,0],[89,13,89,52,1],[90,13,90,99,1],[91,9,91,10,1],[94,9,94,10,1],[95,13,95,64,1],[96,18,96,31,1],[96,33,96,56,1],[96,58,96,65,1],[97,13,97,14,1],[98,17,98,87,1],[100,17,101,46,1],[102,21,102,61,1],[103,17,104,63,1],[105,21,105,71,1],[107,17,107,99,1],[108,17,108,18,1],[109,21,109,44,1],[110,21,110,65,1],[112,36,112,79,1],[113,29,113,62,1],[114,29,114,74,1],[115,29,115,38,1],[116,35,116,76,0],[117,29,117,60,0],[118,29,118,35,0],[121,21,121,66,1],[122,17,122,18,1],[124,17,124,101,1],[125,17,125,18,1],[126,21,126,45,1],[127,21,127,66,1],[129,36,129,79,1],[130,29,130,63,0],[131,29,131,74,0],[132,29,132,38,0],[133,35,133,76,0],[134,29,134,61,0],[135,29,135,35,0],[138,21,138,66,1],[139,17,139,18,1],[141,17,141,115,1],[142,13,142,14,1],[143,9,143,10,1],[146,9,146,10,1],[147,13,147,154,1],[148,13,148,14,1],[149,17,151,19,1],[153,17,153,64,1],[154,17,154,18,1],[155,21,155,75,1],[156,21,156,77,1],[158,21,158,77,1],[159,21,159,79,1],[161,21,161,131,1],[162,21,162,133,1],[163,17,163,18,1],[165,17,165,70,1],[166,17,166,62,1],[167,13,167,14,1],[168,18,168,180,1],[169,13,169,14,1],[170,17,170,103,1],[172,17,174,19,1],[176,17,176,64,1],[177,17,177,18,1],[178,21,178,62,1],[179,21,179,64,1],[181,21,181,118,1],[182,17,182,18,1],[184,17,184,70,1],[185,17,185,62,1],[186,13,186,14,1],[187,9,187,10,1],[190,9,190,10,1],[191,13,191,73,1],[192,13,192,14,0],[193,17,193,40,0],[196,13,196,119,1],[197,13,197,44,1],[198,13,198,14,0],[199,17,199,40,0],[202,13,202,44,1],[203,13,203,39,1],[205,9,205,10,1],[208,9,208,10,1],[209,13,209,96,1],[210,13,210,14,0],[211,17,211,40,0],[214,13,214,142,1],[215,13,215,44,1],[216,13,216,14,0],[217,17,217,40,0],[220,13,220,66,1],[221,13,221,39,1],[223,9,223,10,1],[226,9,226,10,1],[227,13,227,74,1],[228,13,228,64,1],[230,18,230,31,1],[230,33,230,56,1],[230,58,230,65,1],[231,13,231,14,1],[232,17,232,51,1],[233,17,233,72,1],[235,17,235,84,1],[236,17,236,18,1],[237,21,237,30,1],[240,17,240,82,1],[241,17,241,82,1],[242,17,243,106,1],[244,21,244,88,1],[246,17,246,38,1],[248,32,248,48,1],[249,25,249,107,1],[250,25,250,50,1],[251,25,251,31,1],[253,25,253,124,1],[254,25,254,50,1],[255,25,255,50,1],[256,25,256,31,1],[259,17,259,62,1],[260,13,260,14,1],[261,9,261,10,1],[264,9,264,10,1],[265,13,265,92,1],[266,13,266,14,0],[267,17,267,29,0],[270,13,270,67,1],[272,13,272,114,1],[273,9,273,10,1],[276,9,276,10,1],[277,13,277,67,1],[279,13,279,59,1],[280,13,280,14,1],[281,17,281,115,1],[284,13,284,60,1],[285,13,285,14,1],[286,17,286,114,1],[289,13,289,25,0],[290,9,290,10,1],[293,9,293,10,1],[294,13,294,25,1],[296,18,296,31,1],[296,33,296,51,1],[296,53,296,60,1],[297,13,297,14,1],[298,17,298,53,1],[299,17,299,18,1],[300,21,300,27,1],[301,17,301,18,1],[302,13,302,14,1],[304,13,304,55,1],[305,13,305,27,1],[307,13,307,32,1],[308,9,308,10,1],[311,9,311,10,1],[312,13,312,25,1],[314,18,314,31,1],[314,33,314,51,1],[314,53,314,60,1],[315,13,315,14,1],[316,17,316,53,1],[317,17,317,18,1],[318,21,318,27,1],[319,17,319,18,1],[320,13,320,14,1],[322,13,322,55,1],[323,13,323,27,1],[325,13,325,32,1],[326,9,326,10,1],[329,9,329,10,1],[330,13,330,41,1],[331,13,331,14,1],[332,17,332,36,1],[335,13,335,42,1],[336,13,336,44,1],[338,13,338,32,1],[339,9,339,10,1],[342,9,342,10,1],[343,13,343,74,1],[344,9,344,10,1],[347,9,347,10,1],[348,13,348,80,1],[349,13,349,14,1],[350,17,350,41,1],[353,13,353,50,1],[354,13,354,60,1],[356,13,356,37,1],[357,9,357,10,1],[360,9,360,10,1],[361,13,361,55,1],[362,13,362,14,1],[363,17,363,30,1],[366,13,366,52,1],[367,13,367,25,1],[368,9,368,10,1],[371,9,371,10,1],[372,13,372,70,1],[373,13,373,14,1],[374,17,374,31,1],[377,13,377,44,1],[378,13,378,50,1],[380,13,380,27,1],[381,9,381,10,1],[384,9,384,10,1],[385,13,385,55,1],[386,13,386,14,1],[387,17,387,30,1],[390,13,390,47,1],[391,13,391,25,1],[392,9,392,10,1],[395,9,395,10,1],[396,13,396,50,1],[397,9,397,10,1],[400,9,400,10,1],[401,13,402,102,1],[403,9,403,10,1],[406,9,406,10,1],[407,13,408,101,1],[409,9,409,10,1],[412,9,412,10,1],[413,13,413,71,1],[414,13,414,14,0],[415,17,415,29,0],[418,13,418,106,1],[419,9,419,10,1],[422,9,422,10,1],[423,13,423,58,1],[424,9,424,10,1],[427,9,427,10,1],[428,13,428,69,1],[429,13,429,14,1],[430,17,430,30,1],[433,13,433,74,1],[434,9,434,10,1],[437,9,437,10,1],[438,13,438,37,1],[439,13,439,14,1],[440,17,440,30,1],[443,13,443,108,1],[444,9,444,10,1],[447,9,447,10,1],[448,13,448,45,1],[449,9,449,10,1],[452,9,452,10,1],[453,13,453,46,1],[454,9,454,10,1],[457,9,457,10,1],[458,13,458,88,1],[460,13,460,72,1],[461,9,461,10,1]]);
     </script>
   </body>
 </html>

@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>E:\Development\C#\RaceSimulator\ModelTests\Model_SectionDataShould.cs</title>
+    <title>E:\Development\C#\RaceSimulator\Controller\Data.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
@@ -14,152 +14,112 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Model;
-using NUnit.Framework;
 
-namespace ModelTests
+namespace Controller
 {
-    [TestFixture]
-    public class Model_SectionDataShould
+    public static class Data
     {
 
-        private SectionData _sectionData;
+        private static Competition _competition;
+        public static Race CurrentRace { get; private set; }
 
-        [SetUp]
-        public void Setup()
-        {
-            Car car = new Car(IEquipment.MaximumQuality, IEquipment.MaximumPerformance, IEquipment.MaximumSpeed);
-            Driver driverLeft = new Driver(&quot;Klaas&quot;, 100, car, TeamColors.Blue);
-            Driver driverRight = new Driver(&quot;Jan&quot;, 100, car, TeamColors.Blue);
+        public static List&lt;IParticipant&gt; Participants { get; private set; }
+        public static Queue&lt;Track&gt; Tracks { get; private set; }
 
-            this._sectionData = new SectionData(new Section(SectionTypes.StartGrid), driverLeft, 10, driverRight, 20);
-        }
-        
-        [Test]
-        public void SectionData_CanCreate()
+        public static void Initialize()
         {
-            Assert.AreEqual(SectionTypes.StartGrid, this._sectionData.Section.SectionType);
-            Assert.AreEqual(&quot;Klaas&quot;, this._sectionData.Left.Name);
-            Assert.AreEqual(&quot;Jan&quot;, this._sectionData.Right.Name);
-            Assert.AreEqual(10, this._sectionData.DistanceLeft);
-            Assert.AreEqual(20, this._sectionData.DistanceRight);
-        }
+            // resets the data in order to prevent data errors.
+            Data._competition = null;
+            Data.CurrentRace = null;
+            Data.Participants = new List&lt;IParticipant&gt;();
+            Data.Tracks = new Queue&lt;Track&gt;();
 
-        [Test]
-        public void SectionData_CanRead_CanCompare()
-        {
-            Car car = new Car(IEquipment.MaximumQuality, IEquipment.MaximumPerformance, IEquipment.MaximumSpeed);
-            Driver driverLeft = new Driver(&quot;Klaas&quot;, 100, car, TeamColors.Blue);
-            Driver driverRight = new Driver(&quot;Jan&quot;, 100, car, TeamColors.Blue);
-            
-            Assert.IsFalse(this._sectionData.Left.Equals(this._sectionData.Right));
-            Assert.IsFalse(this._sectionData.Left.Equals(driverRight));
-            Assert.IsFalse(this._sectionData.Left.Equals(null));
-            Assert.IsFalse(this._sectionData.Left.Equals(car));
-            
-            Assert.IsTrue(this._sectionData.Left.Equals(driverLeft));
-            Assert.IsTrue(this._sectionData.Left.Equals(new Driver(&quot;Klaas&quot;, 100, car, TeamColors.Blue)));
+            Data.AddTestParticipants();
+            Data.AddTestTracks();
+
+            Data._competition = new Competition(Data.Participants, Data.Tracks);
+
+            if (Data.CurrentRace == null)
+            {
+                Data.NextRace();
+            }
         }
 
-        [Test]
-        public void SectionData_CanClear_BothParticipants()
+        public static void NextRace()
         {
-            this._sectionData.Clear(this._sectionData.Left, this._sectionData.Right);
-            
-            Assert.IsNull(this._sectionData.Left);
-            Assert.IsNull(this._sectionData.Right);
-            Assert.AreEqual(0, this._sectionData.DistanceLeft);
-            Assert.AreEqual(0, this._sectionData.DistanceRight);
-        }
-        
-        [Test]
-        public void SectionData_CanClear_OneParticipants()
-        {
-            this._sectionData.Clear(null);
-            this._sectionData.Clear(this._sectionData.Left);
-            
-            Assert.IsNull(this._sectionData.Left);
-            Assert.IsNotNull(this._sectionData.Right);
-            Assert.AreEqual(0, this._sectionData.DistanceLeft);
-            Assert.AreNotEqual(0, this._sectionData.DistanceRight);
+            if (Data.CurrentRace != null)
+            {
+                Data.CurrentRace.End();
+            }
+
+            Track currentTrack = Data._competition.NextTrack();
+            if (currentTrack == null)
+            {
+                Data.CurrentRace = null;
+                return;
+            }
+
+            Data.CurrentRace = new Race(track: currentTrack, participants: Data.Participants);
         }
 
-        [Test]
-        public void SectionData_CanMoveParticipants()
+        private static void AddTestParticipants()
         {
-            int previousDistance = this._sectionData.DistanceLeft;
-            this._sectionData.MoveLeft();
-            Assert.AreNotEqual(previousDistance, this._sectionData.DistanceLeft);
-            
-            previousDistance = this._sectionData.DistanceRight;
-            this._sectionData.MoveRight();
-            Assert.AreNotEqual(previousDistance, this._sectionData.DistanceRight);
-
-            SectionData sectionData = new SectionData();
-            previousDistance = sectionData.DistanceLeft;
-            sectionData.MoveLeft();
-            Assert.AreEqual(previousDistance, sectionData.DistanceLeft);
-            
-            previousDistance = sectionData.DistanceRight;
-            sectionData.MoveRight();
-            Assert.AreEqual(previousDistance, sectionData.DistanceRight);
+            Data.AddParticipant(new Driver(name: &quot;Koen&quot;, points: 200, equipment: new Car(quality: 100, performance: 1, speed: 50), teamColor: TeamColors.Red));
+            Data.AddParticipant(new Driver(name: &quot;Henk&quot;, points: 190, equipment: new Car(quality: 65, performance: 1, speed: 25), teamColor: TeamColors.Blue));
+            Data.AddParticipant(new Driver(name: &quot;Jan&quot;, points: 195, equipment: new Car(quality: 65, performance: 2, speed: 30), teamColor: TeamColors.Green));
+            Data.AddParticipant(new Driver(name: &quot;Piet&quot;, points: 192, equipment: new Car(quality: 65, performance: 2, speed: 50), teamColor: TeamColors.Grey));
+            Data.AddParticipant(new Driver(name: &quot;Stan&quot;, points: 197, equipment: new Car(quality: 65, performance: 2, speed: 25), teamColor: TeamColors.Yellow));
+            Data.AddParticipant(new Driver(name: &quot;Boris&quot;, points: 197, equipment: new Car(quality: 65, performance: 2, speed: 25), teamColor: TeamColors.Yellow));
         }
 
-        [Test]
-        public void Participants_CanBreakLeftEquipment()
+        public static void AddParticipant(Driver driver)
         {
-            Assert.IsFalse(this._sectionData.Left.Equipment.IsBroken);
-            this._sectionData.BreakEquipmentLeft();
-            Assert.IsTrue(this._sectionData.Left.Equipment.IsBroken);
+            Data.Participants ??= new List&lt;IParticipant&gt;();
+
+            Data.Participants.Add(driver);
         }
-        
-        [Test]
-        public void Participants_CanBreakRightEquipment()
+
+        private static void AddTestTracks()
         {
-            Assert.IsFalse(this._sectionData.Right.Equipment.IsBroken);
-            this._sectionData.BreakEquipmentRight();
-            Assert.IsTrue(this._sectionData.Right.Equipment.IsBroken);
+            SectionTypes[] routeZwolle = {
+                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.Finish,
+                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.StartGrid
+            };
+
+            SectionTypes[] routeElburg = {
+                SectionTypes.StartGrid, SectionTypes.Finish, SectionTypes.RightCorner, SectionTypes.Straight,
+                SectionTypes.LeftCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.RightCorner,
+                SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.LeftCorner,
+                SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.LeftCorner, SectionTypes.RightCorner,
+                SectionTypes.RightCorner, SectionTypes.LeftCorner, SectionTypes.Straight, SectionTypes.RightCorner,
+                SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.RightCorner,
+                SectionTypes.StartGrid, SectionTypes.StartGrid
+            };
+
+            SectionTypes[] routeAmsterdam =
+            {
+                SectionTypes.RightCorner, SectionTypes.StartGrid, SectionTypes.RightCorner, SectionTypes.Finish, SectionTypes.RightCorner,
+                SectionTypes.StartGrid, SectionTypes.RightCorner, SectionTypes.StartGrid
+            };
+
+            Data.AddTrack(new Track(name: &quot;Circuit Zwolle&quot;, sections: routeElburg, Track.StartPositionUndefined, 4));
+            Data.AddTrack(new Track(name: &quot;TT Assen&quot;, sections: routeZwolle));
+            Data.AddTrack(new Track(name: &quot;Monaco&quot;, sections: routeAmsterdam, Track.StartPositionUndefined, 4));
         }
-        
-        [Test]
-        public void Participants_CannotBreakEquipment()
+
+        public static void AddTrack(Track track)
         {
-            SectionData sectionData = new SectionData();
-            sectionData.BreakEquipmentLeft();
-            sectionData.BreakEquipmentRight();
+            Data.Tracks ??= new Queue&lt;Track&gt;();
+
+            Data.Tracks.Enqueue(track);
         }
-        
-        [Test]
-        public void Participants_CanFixLeftEquipment()
-        {
-            this._sectionData.BreakEquipmentLeft();
-            Assert.IsTrue(this._sectionData.Left.Equipment.IsBroken);
-            this._sectionData.FixEquipmentLeft();
-            Assert.IsFalse(this._sectionData.Left.Equipment.IsBroken);
-        }
-        
-        [Test]
-        public void Participants_CanFixRightEquipment()
-        {
-            this._sectionData.BreakEquipmentRight();
-            Assert.IsTrue(this._sectionData.Right.Equipment.IsBroken);
-            this._sectionData.FixEquipmentRight();
-            Assert.IsFalse(this._sectionData.Right.Equipment.IsBroken);
-        }
-        
-        [Test]
-        public void Participants_CannotFixEquipment()
-        {
-            SectionData sectionData = new SectionData();
-            sectionData.FixEquipmentLeft();
-            sectionData.FixEquipmentRight();
-        }
-        
+
     }
 }
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[19,9,19,10,1],[20,13,20,114,1],[21,13,21,80,1],[22,13,22,79,1],[24,13,24,119,1],[25,9,25,10,1],[29,9,29,10,1],[30,13,30,92,1],[31,13,31,67,1],[32,13,32,66,1],[33,13,33,65,1],[34,13,34,66,1],[35,9,35,10,1],[39,9,39,10,1],[40,13,40,114,1],[41,13,41,80,1],[42,13,42,79,1],[44,13,44,84,1],[45,13,45,72,1],[46,13,46,65,1],[47,13,47,64,1],[49,13,49,70,1],[50,13,50,106,1],[51,9,51,10,1],[55,9,55,10,1],[56,13,56,86,1],[58,13,58,51,1],[59,13,59,52,1],[60,13,60,64,1],[61,13,61,65,1],[62,9,62,10,1],[66,9,66,10,1],[67,13,67,43,1],[68,13,68,61,1],[70,13,70,51,1],[71,13,71,55,1],[72,13,72,64,1],[73,13,73,68,1],[74,9,74,10,1],[78,9,78,10,1],[79,13,79,67,1],[80,13,80,42,1],[81,13,81,82,1],[83,13,83,64,1],[84,13,84,43,1],[85,13,85,83,1],[87,13,87,57,1],[88,13,88,57,1],[89,13,89,36,1],[90,13,90,73,1],[92,13,92,58,1],[93,13,93,37,1],[94,13,94,74,1],[95,9,95,10,1],[99,9,99,10,1],[100,13,100,71,1],[101,13,101,52,1],[102,13,102,70,1],[103,9,103,10,1],[107,9,107,10,1],[108,13,108,72,1],[109,13,109,53,1],[110,13,110,71,1],[111,9,111,10,1],[115,9,115,10,1],[116,13,116,57,1],[117,13,117,46,1],[118,13,118,47,1],[119,9,119,10,1],[123,9,123,10,1],[124,13,124,52,1],[125,13,125,70,1],[126,13,126,50,1],[127,13,127,71,1],[128,9,128,10,1],[132,9,132,10,1],[133,13,133,53,1],[134,13,134,71,1],[135,13,135,51,1],[136,13,136,72,1],[137,9,137,10,1],[141,9,141,10,1],[142,13,142,57,1],[143,13,143,44,1],[144,13,144,45,1],[145,9,145,10,1]]);
+      highlightRanges([[14,42,14,46,1],[14,47,14,59,1],[16,57,16,61,1],[16,62,16,74,1],[17,45,17,49,1],[17,50,17,62,1],[20,9,20,10,1],[22,13,22,38,1],[23,13,23,37,1],[24,13,24,58,1],[25,13,25,46,1],[27,13,27,40,1],[28,13,28,34,1],[30,13,30,81,1],[32,13,32,42,1],[33,13,33,14,1],[34,17,34,33,1],[35,13,35,14,1],[36,9,36,10,1],[39,9,39,10,1],[40,13,40,42,1],[41,13,41,14,1],[42,17,42,40,1],[43,13,43,14,1],[45,13,45,64,1],[46,13,46,38,1],[47,13,47,14,1],[48,17,48,41,1],[49,17,49,24,1],[52,13,52,95,1],[53,9,53,10,1],[56,9,56,10,1],[57,13,57,160,1],[58,13,58,160,1],[59,13,59,160,1],[60,13,60,160,1],[61,13,61,162,1],[62,13,62,163,1],[63,9,63,10,1],[66,9,66,10,1],[67,13,67,60,1],[69,13,69,43,1],[70,9,70,10,1],[73,9,73,10,1],[74,13,77,15,1],[79,13,87,15,1],[89,13,93,15,1],[95,13,95,118,1],[96,13,96,79,1],[97,13,97,113,1],[98,9,98,10,1],[101,9,101,10,1],[102,13,102,48,1],[104,13,104,40,1],[105,9,105,10,1]]);
     </script>
   </body>
 </html>

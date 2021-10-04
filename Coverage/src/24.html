@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>E:\Development\C#\RaceSimulator\Controller\Data.cs</title>
+    <title>E:\Development\C#\RaceSimulator\ModelTests\Model_CarShould.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
@@ -14,112 +14,105 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Model;
+using NUnit.Framework;
 
-namespace Controller
+namespace ModelTests
 {
-    public static class Data
+    [TestFixture]
+    class Model_CarShould
     {
 
-        private static Competition _competition;
-        public static Race CurrentRace { get; private set; }
-
-        public static List&lt;IParticipant&gt; Participants { get; private set; }
-        public static Queue&lt;Track&gt; Tracks { get; private set; }
-
-        public static void Initialize()
+        [Test]
+        public void Car_CanCreate()
         {
-            // resets the data in order to prevent data errors.
-            Data._competition = null;
-            Data.CurrentRace = null;
-            Data.Participants = new List&lt;IParticipant&gt;();
-            Data.Tracks = new Queue&lt;Track&gt;();
+            Car car = new Car(IEquipment.MaximumQuality, IEquipment.MaximumPerformance, IEquipment.MaximumSpeed);
 
-            Data.AddTestParticipants();
-            Data.AddTestTracks();
-
-            Data._competition = new Competition(Data.Participants, Data.Tracks);
-
-            if (Data.CurrentRace == null)
-            {
-                Data.NextRace();
-            }
+            Assert.AreEqual(IEquipment.MaximumQuality, car.Quality);
+            Assert.AreEqual(IEquipment.MaximumPerformance, car.Performance);
+            Assert.AreEqual(IEquipment.MaximumSpeed, car.Speed);
+            Assert.IsFalse(car.IsBroken);
+        }
+        
+        [Test]
+        public void Car_CannotCreate_QualityValueOutOfRange()
+        {
+            Assert.Throws&lt;ArgumentOutOfRangeException&gt;(() =&gt; new Car(IEquipment.MaximumQuality + 1, IEquipment.MaximumPerformance, IEquipment.MaximumSpeed));
+            Assert.Throws&lt;ArgumentOutOfRangeException&gt;(() =&gt; new Car(IEquipment.MinimumQuality - 1, IEquipment.MaximumPerformance, IEquipment.MaximumSpeed));
+            Assert.DoesNotThrow(() =&gt; new Car(IEquipment.MaximumQuality, IEquipment.MaximumPerformance, IEquipment.MinimumSpeed));
+            Assert.DoesNotThrow(() =&gt; new Car(IEquipment.MaximumQuality, IEquipment.MaximumPerformance, IEquipment.MaximumSpeed));
+            Assert.DoesNotThrow(() =&gt; new Car(IEquipment.MaximumQuality - 40, IEquipment.MaximumPerformance, IEquipment.MaximumSpeed));
         }
 
-        public static void NextRace()
+        [Test]
+        public void Car_CannotCreate_PerformanceValueOutOfRange()
         {
-            Track currentTrack = Data._competition.NextTrack();
-            if (currentTrack == null)
-            {
-                Data.CurrentRace = null;
-                return;
-            }
-
-            Data.CurrentRace = new Race(track: currentTrack, participants: Data.Participants);
+            Assert.Throws&lt;ArgumentOutOfRangeException&gt;(() =&gt; new Car(IEquipment.MaximumQuality, IEquipment.MaximumPerformance + 1, IEquipment.MaximumSpeed));
+            Assert.Throws&lt;ArgumentOutOfRangeException&gt;(() =&gt; new Car(IEquipment.MaximumQuality, IEquipment.MinimumPerformance - 1, IEquipment.MinimumSpeed));
+            Assert.DoesNotThrow(() =&gt; new Car(IEquipment.MaximumQuality, IEquipment.MaximumPerformance, IEquipment.MinimumSpeed));
+            Assert.DoesNotThrow(() =&gt; new Car(IEquipment.MaximumQuality, IEquipment.MaximumPerformance, IEquipment.MaximumSpeed));
+            Assert.DoesNotThrow(() =&gt; new Car(IEquipment.MaximumQuality, IEquipment.MaximumPerformance - 1, IEquipment.MaximumSpeed));
         }
 
-        private static void AddTestParticipants()
+        [Test]
+        public void Car_CannotCreate_SpeedValueOutOfRange()
         {
-            // The real speed of the car (performance * speed) must be dividable by the number of symbol spaces (4).
+            Assert.Throws&lt;ArgumentOutOfRangeException&gt;(() =&gt; new Car(IEquipment.MaximumQuality, IEquipment.MaximumPerformance, IEquipment.MaximumSpeed + 1));
+            Assert.Throws&lt;ArgumentOutOfRangeException&gt;(() =&gt; new Car(IEquipment.MaximumQuality, IEquipment.MaximumPerformance, IEquipment.MinimumSpeed - 1));
+            Assert.DoesNotThrow(() =&gt; new Car(IEquipment.MaximumQuality, IEquipment.MaximumPerformance, IEquipment.MinimumSpeed));
+            Assert.DoesNotThrow(() =&gt; new Car(IEquipment.MaximumQuality, IEquipment.MaximumPerformance, IEquipment.MaximumSpeed));
+            Assert.DoesNotThrow(() =&gt; new Car(IEquipment.MaximumQuality, IEquipment.MaximumPerformance, IEquipment.MaximumSpeed - 40));
+        }
+
+        [Test]
+        public void Car_CanRead_RealSpeed()
+        {
+            Car car = new Car(100, 2, 25);
             
-            // @todo find out why 3 * 12 causes a stack overflow error.
-            IEquipment defaultCar = new Car(quality: 100, performance: 3, speed: 10);
-            IEquipment toyota = new Car(quality: 65, performance: 2, speed: 25);
-
-            Data.AddParticipant(new Driver(name: &quot;Koen van Meijeren&quot;, points: 200, equipment: defaultCar, teamColor: TeamColors.Red));
-            Data.AddParticipant(new Driver(name: &quot;Henk van Meijeren&quot;, points: 190, equipment: toyota, teamColor: TeamColors.Blue));
-            Data.AddParticipant(new Driver(name: &quot;Jan van Meijeren&quot;, points: 195, equipment: defaultCar, teamColor: TeamColors.Green));
-            Data.AddParticipant(new Driver(name: &quot;Piet van Meijeren&quot;, points: 192, equipment: toyota, teamColor: TeamColors.Grey));
-            Data.AddParticipant(new Driver(name: &quot;Stan van Meijeren&quot;, points: 197, equipment: defaultCar, teamColor: TeamColors.Yellow));
+            Assert.AreEqual(50, car.GetRealSpeed());
+            Assert.AreNotEqual(2, car.GetRealSpeed());
+            Assert.AreNotEqual(25, car.GetRealSpeed());
         }
 
-        public static void AddParticipant(Driver driver)
+        [Test]
+        public void Car_CanUpdate_Speed()
         {
-            Data.Participants ??= new List&lt;IParticipant&gt;();
+            Car car = new Car(100, 2, 25);
 
-            Data.Participants.Add(driver);
+            Assert.AreEqual(25, car.Speed);
+            car.DecreaseSpeed();
+            Assert.AreEqual(25, car.Speed);
+            
+            car = new Car(100, 2, 80);
+            Assert.AreEqual(80, car.Speed);
+            car.DecreaseSpeed();
+            Assert.AreNotEqual(80, car.Speed);
+            Assert.AreNotEqual(25, car.Speed);
+            car.DecreaseSpeed();
+            car.DecreaseSpeed();
+            Assert.AreNotEqual(60, car.Speed);
+            Assert.AreEqual(25, car.Speed);
         }
 
-        private static void AddTestTracks()
+        [Test]
+        public void Car_CanUpdate_Performance()
         {
-            SectionTypes[] routeZwolle = {
-                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.Finish,
-                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.StartGrid
-            };
-
-            SectionTypes[] routeElburg = {
-                SectionTypes.StartGrid, SectionTypes.Finish, SectionTypes.RightCorner, SectionTypes.Straight,
-                SectionTypes.LeftCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.RightCorner,
-                SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.LeftCorner,
-                SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.LeftCorner, SectionTypes.RightCorner,
-                SectionTypes.RightCorner, SectionTypes.LeftCorner, SectionTypes.Straight, SectionTypes.RightCorner,
-                SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.RightCorner,
-                SectionTypes.StartGrid, SectionTypes.StartGrid
-            };
-
-            SectionTypes[] routeAmsterdam =
-            {
-                SectionTypes.RightCorner, SectionTypes.StartGrid, SectionTypes.RightCorner, SectionTypes.Finish, SectionTypes.RightCorner,
-                SectionTypes.StartGrid, SectionTypes.RightCorner, SectionTypes.StartGrid
-            };
-
-            Data.AddTrack(new Track(name: &quot;Circuit Zwolle&quot;, sections: routeElburg, Track.StartPositionUndefined, 4));
-            Data.AddTrack(new Track(name: &quot;TT Assen&quot;, sections: routeZwolle));
-            Data.AddTrack(new Track(name: &quot;Monaco&quot;, sections: routeAmsterdam));
+            Car car = new Car(100, 2, 25);
+            
+            Assert.AreEqual(2, car.Performance);
+            car.DecreasePerformance();
+            Assert.AreNotEqual(2, car.Performance);
+            Assert.AreEqual(1, car.Performance);
+            car.DecreasePerformance();
+            Assert.AreNotEqual(2, car.Performance);
+            Assert.AreEqual(1, car.Performance);
         }
-
-        public static void AddTrack(Track track)
-        {
-            Data.Tracks ??= new Queue&lt;Track&gt;();
-
-            Data.Tracks.Enqueue(track);
-        }
-
+        
     }
 }
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[14,42,14,46,1],[14,47,14,59,1],[16,57,16,61,1],[16,62,16,74,1],[17,45,17,49,1],[17,50,17,62,1],[20,9,20,10,1],[22,13,22,38,1],[23,13,23,37,1],[24,13,24,58,1],[25,13,25,46,1],[27,13,27,40,1],[28,13,28,34,1],[30,13,30,81,1],[32,13,32,42,1],[33,13,33,14,1],[34,17,34,33,1],[35,13,35,14,1],[36,9,36,10,1],[39,9,39,10,1],[40,13,40,64,1],[41,13,41,38,1],[42,13,42,14,1],[43,17,43,41,1],[44,17,44,24,1],[47,13,47,95,1],[48,9,48,10,1],[51,9,51,10,1],[55,13,55,86,1],[56,13,56,81,1],[58,13,58,135,1],[59,13,59,132,1],[60,13,60,136,1],[61,13,61,132,1],[62,13,62,138,1],[63,9,63,10,1],[66,9,66,10,1],[67,13,67,60,1],[69,13,69,43,1],[70,9,70,10,1],[73,9,73,10,1],[74,13,77,15,1],[79,13,87,15,1],[89,13,93,15,1],[95,13,95,118,1],[96,13,96,79,1],[97,13,97,80,1],[98,9,98,10,1],[101,9,101,10,1],[102,13,102,48,1],[104,13,104,40,1],[105,9,105,10,1]]);
+      highlightRanges([[17,9,17,10,1],[18,13,18,114,1],[20,13,20,69,1],[21,13,21,77,1],[22,13,22,65,1],[23,13,23,42,1],[24,9,24,10,1],[28,9,28,10,1],[29,13,29,62,1],[29,62,29,156,1],[29,156,29,158,1],[30,13,30,62,1],[30,62,30,156,1],[30,156,30,158,1],[31,13,31,39,1],[31,39,31,129,1],[31,129,31,131,1],[32,13,32,39,1],[32,39,32,129,1],[32,129,32,131,1],[33,13,33,39,1],[33,39,33,134,1],[33,134,33,136,1],[34,9,34,10,1],[38,9,38,10,1],[39,13,39,62,1],[39,62,39,156,1],[39,156,39,158,1],[40,13,40,62,1],[40,62,40,156,1],[40,156,40,158,1],[41,13,41,39,1],[41,39,41,129,1],[41,129,41,131,1],[42,13,42,39,1],[42,39,42,129,1],[42,129,42,131,1],[43,13,43,39,1],[43,39,43,133,1],[43,133,43,135,1],[44,9,44,10,1],[48,9,48,10,1],[49,13,49,62,1],[49,62,49,156,1],[49,156,49,158,1],[50,13,50,62,1],[50,62,50,156,1],[50,156,50,158,1],[51,13,51,39,1],[51,39,51,129,1],[51,129,51,131,1],[52,13,52,39,1],[52,39,52,129,1],[52,129,52,131,1],[53,13,53,39,1],[53,39,53,134,1],[53,134,53,136,1],[54,9,54,10,1],[58,9,58,10,1],[59,13,59,43,1],[61,13,61,53,1],[62,13,62,55,1],[63,13,63,56,1],[64,9,64,10,1],[68,9,68,10,1],[69,13,69,43,1],[71,13,71,44,1],[72,13,72,33,1],[73,13,73,44,1],[75,13,75,39,1],[76,13,76,44,1],[77,13,77,33,1],[78,13,78,47,1],[79,13,79,47,1],[80,13,80,33,1],[81,13,81,33,1],[82,13,82,47,1],[83,13,83,44,1],[84,9,84,10,1],[88,9,88,10,1],[89,13,89,43,1],[91,13,91,49,1],[92,13,92,39,1],[93,13,93,52,1],[94,13,94,49,1],[95,13,95,39,1],[96,13,96,52,1],[97,13,97,49,1],[98,9,98,10,1]]);
     </script>
   </body>
 </html>
