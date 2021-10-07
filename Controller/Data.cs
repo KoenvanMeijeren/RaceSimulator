@@ -92,8 +92,19 @@ namespace Controller
                 SectionTypes.StartGrid, SectionTypes.RightCorner, SectionTypes.StartGrid
             };
 
-            Data.AddTrack(new Track(name: "Circuit Zwolle", sections: routeElburg, Track.StartPositionUndefined, 4));
+            SectionTypes[] routeHarderwijk =
+            {
+                SectionTypes.StartGrid, SectionTypes.Finish, SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.RightCorner, 
+                SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, 
+                SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.LeftCorner, 
+                SectionTypes.Straight, SectionTypes.LeftCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, 
+                SectionTypes.Straight, SectionTypes.LeftCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, 
+                SectionTypes.RightCorner, SectionTypes.StartGrid, SectionTypes.StartGrid,
+            };
+            
             Data.AddTrack(new Track(name: "TT Assen", sections: routeZwolle));
+            Data.AddTrack(new Track(name: "Circuit Zwolle", sections: routeElburg, Track.StartPositionUndefined, 4));
+            Data.AddTrack(new Track(name: "Circuit Harderwijk", sections: routeHarderwijk, Track.StartPositionUndefined, 4));
             Data.AddTrack(new Track(name: "Monaco", sections: routeAmsterdam, Track.StartPositionUndefined, 4));
         }
 
