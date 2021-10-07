@@ -16,7 +16,7 @@ namespace WPFRaceSimulator
 
         private const string MainBitmapKey = "empty";
         
-        private static Dictionary<string, Bitmap> CachedImages;
+        private static readonly Dictionary<string, Bitmap> CachedImages = new Dictionary<string, Bitmap>();
 
         public static Bitmap CreateBitmap(int width, int height)
         {
