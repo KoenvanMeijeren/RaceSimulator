@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>E:\Development\C#\RaceSimulator\WPFRaceSimulator\WPFImageBuilder.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+
+namespace WPFRaceSimulator
+{
+    /// &lt;summary&gt;
+    /// Provides a class for creating, loading and editing images. E.g. rotating or mirroring images.
+    /// &lt;/summary&gt;
+    public static class WPFImageBuilder
+    {
+
+        private static Dictionary&lt;string, Bitmap&gt; CachedImages;
+
+        public static BitmapSource CreateBitmapSourceFromGdiBitmap(Bitmap bitmap)
+        {
+            if (bitmap == null)
+            {
+                throw new ArgumentNullException(&quot;bitmap&quot;);
+            }
+
+            Rectangle rect = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
+            BitmapData bitmapData = bitmap.LockBits(rect, ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+            try
+            {
+                int size = (rect.Width * rect.Height) * 4;
+
+                return BitmapSource.Create(
+                    bitmap.Width,
+                    bitmap.Height,
+                    bitmap.HorizontalResolution,
+                    bitmap.VerticalResolution,
+                    PixelFormats.Bgra32,
+                    null,
+                    bitmapData.Scan0,
+                    size,
+                    bitmapData.Stride);
+            }
+            finally
+            {
+                bitmap.UnlockBits(bitmapData);
+            }
+        }
+        
+        public static void ClearCache()
+        {
+            WPFImageBuilder.CachedImages.Clear();
+        }
+        
+        public static Bitmap LoadImage(string url)
+        {
+            if (!WPFImageBuilder.CachedImages.ContainsKey(url))
+            {
+                WPFImageBuilder.CachedImages.Add(url, new Bitmap(Image.FromFile(url)));
+            }
+
+            return (Bitmap) WPFImageBuilder.CachedImages[url].Clone();
+        }
+
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[19,9,19,10,0],[20,13,20,32,0],[21,13,21,14,0],[22,17,22,59,0],[25,13,25,79,0],[26,13,26,136,0],[29,13,29,14,0],[30,17,30,59,0],[32,17,41,40,0],[44,13,44,14,0],[45,17,45,47,0],[46,13,46,14,0],[47,9,47,10,0],[50,9,50,10,0],[51,13,51,50,0],[52,9,52,10,0],[55,9,55,10,0],[56,13,56,64,0],[57,13,57,14,0],[58,17,58,88,0],[59,13,59,14,0],[61,13,61,71,0],[62,9,62,10,0]]);
+    </script>
+  </body>
+</html>
