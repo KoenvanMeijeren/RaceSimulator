@@ -43,7 +43,7 @@ namespace ControllerTests
         public void Race_CanRead_Track()
         {
             Assert.AreEqual(6, Data.CurrentRace.Participants.Count);
-            Assert.AreEqual("Circuit Zwolle", Data.CurrentRace.Track.Name);
+            Assert.AreEqual("TT Assen", Data.CurrentRace.Track.Name);
             Assert.AreEqual("Monaco", this._race.Track.Name);
             Assert.AreEqual("Test", this._emptyRace.Track.Name);
             Assert.AreEqual("1-1-0001 00:00:00", this._emptyRace.StartTime.ToString());

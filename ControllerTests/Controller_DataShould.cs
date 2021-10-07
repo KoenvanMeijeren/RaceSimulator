@@ -53,10 +53,10 @@ namespace ControllerTests
             Data.Initialize();
 
             Assert.IsNotEmpty(Data.Tracks);
-            Assert.AreEqual(2, Data.Tracks.Count);
-            Assert.AreNotEqual("Circuit Zwolle", Data.Tracks.Peek().Name);
-            Assert.AreEqual("TT Assen", Data.Tracks.Peek().Name);
-            Assert.AreEqual("Monaco", Data.Tracks.ToArray()[1].Name);
+            Assert.AreEqual(3, Data.Tracks.Count);
+            Assert.AreNotEqual("TT Assen", Data.Tracks.Peek().Name);
+            Assert.AreEqual("Circuit Zwolle", Data.Tracks.Peek().Name);
+            Assert.AreEqual("Circuit Harderwijk", Data.Tracks.ToArray()[1].Name);
         }
 
         [Test]
@@ -70,30 +70,32 @@ namespace ControllerTests
 
             Data.AddTrack(new Track("Test Route", routeAmsterdam));
             
-            Assert.AreEqual(3, Data.Tracks.Count);
-            Assert.AreEqual("Test Route", Data.Tracks.ToArray()[2].Name);
+            Assert.AreEqual(4, Data.Tracks.Count);
+            Assert.AreEqual("Test Route", Data.Tracks.ToArray()[3].Name);
         }
 
         [Test]
         public void Data_CurrentRace_CanRead()
         {
             Assert.AreEqual(6, Data.CurrentRace.Participants.Count);
-            Assert.AreEqual("Circuit Zwolle", Data.CurrentRace.Track.Name);
+            Assert.AreEqual("TT Assen", Data.CurrentRace.Track.Name);
         }
 
         [Test]
         public void Data_CurrentRace_NextRace()
         {
-            Assert.AreEqual("Circuit Zwolle", Data.CurrentRace.Track.Name);
-            Data.NextRace();
             Assert.AreEqual("TT Assen", Data.CurrentRace.Track.Name);
             Data.NextRace();
-            Assert.AreEqual("Monaco", Data.CurrentRace.Track.Name);
+            Assert.AreEqual("Circuit Zwolle", Data.CurrentRace.Track.Name);
+            Data.NextRace();
+            Assert.AreEqual("Circuit Harderwijk", Data.CurrentRace.Track.Name);
         }
 
         [Test]
         public void Data_CurrentRace_NextRace_ReturnsNull()
         {
+            Data.NextRace();
+            Assert.IsNotNull(Data.CurrentRace);
             Data.NextRace();
             Assert.IsNotNull(Data.CurrentRace);
             Data.NextRace();
