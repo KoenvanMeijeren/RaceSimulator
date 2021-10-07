@@ -9,14 +9,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8a783f09-19f2-47c7-9340-0fa8907541ee" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/WPFRaceSimulator/App.xaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WPFRaceSimulator/App.xaml.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WPFRaceSimulator/AssemblyInfo.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WPFRaceSimulator/MainWindow.xaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WPFRaceSimulator/MainWindow.xaml.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WPFRaceSimulator/WPFRaceSimulator.csproj" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WPFRaceSimulator/Graphics/CarBlue.PNG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WPFRaceSimulator/Graphics/CarBlueBroken.PNG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WPFRaceSimulator/Graphics/CarGreen.PNG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WPFRaceSimulator/Graphics/CarGreenBroken.PNG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WPFRaceSimulator/Graphics/CarGrey.PNG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WPFRaceSimulator/Graphics/CarGreyBroken.PNG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WPFRaceSimulator/Graphics/CarRed.PNG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WPFRaceSimulator/Graphics/CarRedBroken.PNG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WPFRaceSimulator/Graphics/CarYellow.PNG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WPFRaceSimulator/Graphics/CarYellowBroken.PNG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WPFRaceSimulator/Graphics/Corner.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WPFRaceSimulator/Graphics/Finish.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WPFRaceSimulator/Graphics/Startgrid.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WPFRaceSimulator/Graphics/Straight.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RaceSimulator.sln" beforeDir="false" afterPath="$PROJECT_DIR$/RaceSimulator.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WPFRaceSimulator/MainWindow.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/WPFRaceSimulator/MainWindow.xaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WPFRaceSimulator/WPFRaceSimulator.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/WPFRaceSimulator/WPFRaceSimulator.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,7 +35,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="feature/first-window" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -129,21 +138,12 @@
       <workItem from="1633347072144" duration="230000" />
       <workItem from="1633349740932" duration="970000" />
       <workItem from="1633350975104" duration="2220000" />
-      <workItem from="1633361101324" duration="1971000" />
-    </task>
-    <task id="LOCAL-00014" summary="Update tests">
-      <created>1632903462007</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1632903462007</updated>
-    </task>
-    <task id="LOCAL-00015" summary="Add todo">
-      <created>1632904153386</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1632904153386</updated>
+      <workItem from="1633361101324" duration="2103000" />
+      <workItem from="1633433327425" duration="326000" />
+      <workItem from="1633515690305" duration="1423000" />
+      <workItem from="1633517753254" duration="634000" />
+      <workItem from="1633589100807" duration="1301000" />
+      <workItem from="1633602277628" duration="2325000" />
     </task>
     <task id="LOCAL-00016" summary="Remove todo">
       <created>1632904444787</created>
@@ -474,7 +474,21 @@
       <option name="project" value="LOCAL" />
       <updated>1633341093242</updated>
     </task>
-    <option name="localTasksCounter" value="63" />
+    <task id="LOCAL-00063" summary="Add first window">
+      <created>1633366241145</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1633366241145</updated>
+    </task>
+    <task id="LOCAL-00064" summary="Update data">
+      <created>1633589800977</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1633589800978</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -513,9 +527,7 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Update test" />
     <MESSAGE value="Implement placing participants on corners" />
-    <MESSAGE value="Update data" />
     <MESSAGE value="Debug placing one participant in corner" />
     <MESSAGE value="Rename method" />
     <MESSAGE value="Debug tests" />
@@ -538,7 +550,9 @@
     <MESSAGE value="Enable test drivers" />
     <MESSAGE value="Debug decreasing the speed" />
     <MESSAGE value="Update tests" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update tests" />
+    <MESSAGE value="Add first window" />
+    <MESSAGE value="Update data" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update data" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
