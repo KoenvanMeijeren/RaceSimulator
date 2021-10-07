@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid Background="Blue">
-        <Image Margin="463,230,307,174" Panel.ZIndex="1">
+        <Image x:Name="Test_Picture" Margin="463,230,307,174" Panel.ZIndex="1" Source="/Graphics/CarBlue.PNG">
             <Image.OpacityMask>
                 <ImageBrush/>
             </Image.OpacityMask>

@@ -7,8 +7,37 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <None Remove="IMG_20211001_163920.jpg" />
-      <None Remove="IMG_20211001_164031.jpg" />
+      <None Remove="Graphics\CarBlue.PNG" />
+      <None Remove="Graphics\CarBlueBroken.PNG" />
+      <None Remove="Graphics\CarGreen.PNG" />
+      <None Remove="Graphics\CarGreenBroken.PNG" />
+      <None Remove="Graphics\CarGrey.PNG" />
+      <None Remove="Graphics\CarGreyBroken.PNG" />
+      <None Remove="Graphics\CarRed.PNG" />
+      <None Remove="Graphics\CarRedBroken.PNG" />
+      <None Remove="Graphics\CarYellow.PNG" />
+      <None Remove="Graphics\CarYellowBroken.PNG" />
+      <None Remove="Graphics\Corner.PNG" />
+      <None Remove="Graphics\Finish.PNG" />
+      <None Remove="Graphics\Startgrid.PNG" />
+      <None Remove="Graphics\Straight.PNG" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="Graphics\CarBlue.PNG" />
+      <Content Include="Graphics\CarBlueBroken.PNG" />
+      <Content Include="Graphics\CarGreen.PNG" />
+      <Content Include="Graphics\CarGreenBroken.PNG" />
+      <Content Include="Graphics\CarGrey.PNG" />
+      <Content Include="Graphics\CarGreyBroken.PNG" />
+      <Content Include="Graphics\CarRed.PNG" />
+      <Content Include="Graphics\CarRedBroken.PNG" />
+      <Content Include="Graphics\CarYellow.PNG" />
+      <Content Include="Graphics\CarYellowBroken.PNG" />
+      <Content Include="Graphics\Corner.PNG" />
+      <Content Include="Graphics\Finish.PNG" />
+      <Content Include="Graphics\Startgrid.PNG" />
+      <Content Include="Graphics\Straight.PNG" />
     </ItemGroup>
 
 </Project>
