@@ -10,21 +10,14 @@ using Model;
 
 namespace RaceSimulator
 {
-    internal enum Directions
-    {
-        North = 0,
-        East = 1,
-        South = 2,
-        West = 3
-    }
-
     public static class CVisualization
     {
 
-        private static readonly Directions _startDirection = Directions.East;
-        private static Directions _direction = CVisualization._startDirection;
+        private const Directions StartDirection = Directions.East;
+        private static Directions _direction = CVisualization.StartDirection;
 
         private const int
+            TrackPositionUndefined = -1,
             SymbolSpaces = 4,
 
             /*
@@ -49,6 +42,8 @@ namespace RaceSimulator
             CursorStartNorthPosition = Console.WindowHeight / 2;
 
         private static int
+            _trackEastPosition = TrackPositionUndefined,
+            _trackNorthPosition = TrackPositionUndefined,
             _cursorEastPosition = CursorStartEastPosition,
             _cursorNorthPosition = CursorStartNorthPosition;
 
@@ -90,31 +85,57 @@ namespace RaceSimulator
         public static void DrawTrack(Race race)
         {
             Track track = race.Track;
-
+            int northPosition = CVisualization.GetNorthPosition(track), eastPosition = CVisualization.GetEastPosition(track);
+            
             Console.BackgroundColor = ConsoleColor.Blue;
             Console.ForegroundColor = ConsoleColor.White;
             Console.Clear();
 
-            Console.SetCursorPosition(CenteredTextCursorStartPosition(track.Name), 1);
+            Console.SetCursorPosition(CenteredTextCursorStartPosition(track.Name),  northPosition < 20 ? CVisualization.CursorStartNorthPosition - 4 :  northPosition - 4);
             Console.WriteLine(track.Name);
-
-            CVisualization._direction = CVisualization._startDirection;
-            CVisualization._cursorEastPosition = CVisualization.CursorStartEastPosition;
-            if (track.EastStartPosition != Track.StartPositionUndefined)
-            {
-                CVisualization._cursorEastPosition = track.EastStartPosition;
-            }
-
-            CVisualization._cursorNorthPosition = CVisualization.CursorStartNorthPosition;
-            if (track.NorthStartPosition != Track.StartPositionUndefined)
-            {
-                CVisualization._cursorNorthPosition = track.NorthStartPosition;
-            }
+            
+            CVisualization._direction = CVisualization.StartDirection;
+            CVisualization._cursorEastPosition = eastPosition < 20 ? CVisualization.CursorStartEastPosition : eastPosition;
+            CVisualization._cursorNorthPosition = northPosition < 20 ? CVisualization.CursorStartNorthPosition :  northPosition;
 
             foreach (Section trackSection in track.Sections)
             {
                 CVisualization.DrawTrackSection(trackSection, race.GetSectionData(trackSection));
             }
+        }
+        
+        private static int GetEastPosition(Track track)
+        {
+            if (CVisualization._trackEastPosition != CVisualization.TrackPositionUndefined)
+            {
+                return CVisualization._trackEastPosition;
+            }
+            
+            int eastPosition = (track.GetWestwardSectionsCount() * CVisualization.SymbolSpaces) + CVisualization.SymbolSpaces;
+            
+            if (eastPosition == Track.SectionCountUndefined)
+            {
+                return CVisualization.CursorStartEastPosition;
+            }
+            
+            return eastPosition;
+        }
+
+        private static int GetNorthPosition(Track track)
+        {
+            if (CVisualization._trackNorthPosition != CVisualization.TrackPositionUndefined)
+            {
+                return CVisualization._trackNorthPosition;
+            }
+            
+            int northPosition = (track.GetNorthwardSectionsCount() * CVisualization.SymbolSpaces) - (track.GetSouthwardSectionsCount() * CVisualization.SymbolSpaces) + CVisualization.SymbolSpaces;
+            
+            if (northPosition == Track.SectionCountUndefined)
+            {
+                return CVisualization.CursorStartNorthPosition;
+            }
+            
+            return northPosition + CVisualization.SymbolSpaces;
         }
 
         private static void DrawTrackSection(Section section, SectionData sectionData)

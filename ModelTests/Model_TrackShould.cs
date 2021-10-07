@@ -36,8 +36,6 @@ namespace ModelTests
             Track track = new Track("Test Track 2", route);
 
             Assert.AreEqual("Test Track 2", track.Name);
-            Assert.AreEqual(-1, track.EastStartPosition);
-            Assert.AreEqual(-1, track.NorthStartPosition);
         }
 
         [Test]
@@ -57,25 +55,23 @@ namespace ModelTests
         }
 
         [Test]
-        public void Track_CanCreate_WithDifferentStartPosition()
+        public void Track_CanCount_Sections()
         {
             SectionTypes[] route = {
-                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.Finish,
-                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.StartGrid
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.RightCorner,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.LeftCorner,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
             };
-
-            Track track = new Track("Test Track 2", route, 25, 10);
-
-            Assert.AreEqual("Test Track 2", track.Name);
-            Assert.AreEqual(25, track.EastStartPosition);
-            Assert.AreEqual(10, track.NorthStartPosition);
-            Assert.AreEqual(-1, Track.StartPositionUndefined);
-
-            Track trackTwo = new Track("Test Track 3", route, Track.StartPositionUndefined, 40);
-            Assert.AreEqual("Test Track 3", trackTwo.Name);
-            Assert.AreEqual(-1, trackTwo.EastStartPosition);
-            Assert.AreEqual(40, trackTwo.NorthStartPosition);
-            Assert.AreEqual(-1, Track.StartPositionUndefined);
+            
+            Track track = new Track("Test Track 2", route);
+            
+            Assert.AreEqual(4, track.GetEastwardSectionsCount());
+            Assert.AreEqual(2, track.GetSouthwardSectionsCount());
         }
 
     }
