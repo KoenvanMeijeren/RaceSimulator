@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>E:\Development\C#\RaceSimulator\ModelTests\Model_SectionDataShould.cs</title>
+    <title>E:\Development\C#\RaceSimulator\Controller\DriversChangedEventArgs.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
@@ -13,187 +13,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Model;
-using NUnit.Framework;
 
-namespace ModelTests
+namespace Controller
 {
-    [TestFixture]
-    public class Model_SectionDataShould
+    public class DriversChangedEventArgs : EventArgs
     {
 
-        private SectionData _sectionData;
+        public Race Race { get; private set; }
 
-        [SetUp]
-        public void Setup()
+        public DriversChangedEventArgs(Race race)
         {
-            Car car = new Car(IEquipment.MaximumQuality, IEquipment.MaximumPerformance, IEquipment.MaximumSpeed);
-            Driver driverLeft = new Driver(&quot;Klaas&quot;, 100, car, TeamColors.Blue);
-            Driver driverRight = new Driver(&quot;Jan&quot;, 100, car, TeamColors.Blue);
-
-            this._sectionData = new SectionData(new Section(SectionTypes.StartGrid), driverLeft, 10, driverRight, 20);
-        }
-        
-        [Test]
-        public void SectionData_CanCreate()
-        {
-            Assert.AreEqual(SectionTypes.StartGrid, this._sectionData.Section.SectionType);
-            Assert.AreEqual(&quot;Klaas&quot;, this._sectionData.Left.Name);
-            Assert.AreEqual(&quot;Jan&quot;, this._sectionData.Right.Name);
-            Assert.AreEqual(10, this._sectionData.DistanceLeft);
-            Assert.AreEqual(20, this._sectionData.DistanceRight);
+            this.Race = race;
         }
 
-        [Test]
-        public void SectionData_CanRead_CanCompare()
-        {
-            Car car = new Car(IEquipment.MaximumQuality, IEquipment.MaximumPerformance, IEquipment.MaximumSpeed);
-            Driver driverLeft = new Driver(&quot;Klaas&quot;, 100, car, TeamColors.Blue);
-            Driver driverRight = new Driver(&quot;Jan&quot;, 100, car, TeamColors.Blue);
-            
-            Assert.IsFalse(this._sectionData.Left.Equals(this._sectionData.Right));
-            Assert.IsFalse(this._sectionData.Left.Equals(driverRight));
-            Assert.IsFalse(this._sectionData.Left.Equals(null));
-            Assert.IsFalse(this._sectionData.Left.Equals(car));
-            
-            Assert.IsTrue(this._sectionData.Left.Equals(driverLeft));
-            Assert.IsTrue(this._sectionData.Left.Equals(new Driver(&quot;Klaas&quot;, 100, car, TeamColors.Blue)));
-        }
-
-        [Test]
-        public void SectionData_CanClear_BothParticipants()
-        {
-            this._sectionData.Clear(this._sectionData.Left, this._sectionData.Right);
-            
-            Assert.IsNull(this._sectionData.Left);
-            Assert.IsNull(this._sectionData.Right);
-            Assert.AreEqual(0, this._sectionData.DistanceLeft);
-            Assert.AreEqual(0, this._sectionData.DistanceRight);
-        }
-        
-        [Test]
-        public void SectionData_CanClear_OneParticipants()
-        {
-            this._sectionData.Clear(null);
-            this._sectionData.Clear(this._sectionData.Left);
-            
-            Assert.IsNull(this._sectionData.Left);
-            Assert.IsNotNull(this._sectionData.Right);
-            Assert.AreEqual(0, this._sectionData.DistanceLeft);
-            Assert.AreNotEqual(0, this._sectionData.DistanceRight);
-        }
-
-        [Test]
-        public void SectionData_CanMoveParticipants()
-        {
-            int previousDistance = this._sectionData.DistanceLeft;
-            this._sectionData.MoveLeft();
-            Assert.AreNotEqual(previousDistance, this._sectionData.DistanceLeft);
-            
-            previousDistance = this._sectionData.DistanceRight;
-            this._sectionData.MoveRight();
-            Assert.AreNotEqual(previousDistance, this._sectionData.DistanceRight);
-
-            SectionData sectionData = new SectionData();
-            previousDistance = sectionData.DistanceLeft;
-            sectionData.MoveLeft();
-            Assert.AreEqual(previousDistance, sectionData.DistanceLeft);
-            
-            previousDistance = sectionData.DistanceRight;
-            sectionData.MoveRight();
-            Assert.AreEqual(previousDistance, sectionData.DistanceRight);
-        }
-
-        [Test]
-        public void Participants_CanBreakLeftEquipment()
-        {
-            Assert.IsFalse(this._sectionData.Left.Equipment.IsBroken);
-            this._sectionData.BreakEquipmentLeft();
-            Assert.IsTrue(this._sectionData.Left.Equipment.IsBroken);
-        }
-        
-        [Test]
-        public void Participants_CanBreakRightEquipment()
-        {
-            Assert.IsFalse(this._sectionData.Right.Equipment.IsBroken);
-            this._sectionData.BreakEquipmentRight();
-            Assert.IsTrue(this._sectionData.Right.Equipment.IsBroken);
-        }
-        
-        [Test]
-        public void Participants_CannotBreakEquipment()
-        {
-            SectionData sectionData = new SectionData();
-            sectionData.BreakEquipmentLeft();
-            sectionData.BreakEquipmentRight();
-        }
-        
-        [Test]
-        public void Participants_CanFixLeftEquipment()
-        {
-            int currentPerformance = this._sectionData.Left.Equipment.Performance;
-            int currentSpeed = this._sectionData.Left.Equipment.Speed;
-            
-            this._sectionData.BreakEquipmentLeft();
-            Assert.IsTrue(this._sectionData.Left.Equipment.IsBroken);
-            this._sectionData.FixEquipmentLeft();
-            Assert.IsFalse(this._sectionData.Left.Equipment.IsBroken);
-
-            do
-            {
-                this._sectionData.FixEquipmentLeft();
-            } while (currentSpeed == this._sectionData.Left.Equipment.Speed);
-            
-            Assert.AreNotEqual(currentSpeed, this._sectionData.Left.Equipment.Speed);
-
-            do
-            {
-                this._sectionData.FixEquipmentLeft();
-            } while (currentPerformance == this._sectionData.Left.Equipment.Performance);
-
-            Assert.AreNotEqual(currentPerformance, this._sectionData.Left.Equipment.Performance);
-        }
-        
-        [Test]
-        public void Participants_CanFixRightEquipment()
-        {
-            int currentPerformance = this._sectionData.Right.Equipment.Performance;
-            int currentSpeed = this._sectionData.Right.Equipment.Speed;
-            
-            this._sectionData.BreakEquipmentRight();
-            Assert.IsTrue(this._sectionData.Right.Equipment.IsBroken);
-            this._sectionData.FixEquipmentRight();
-            Assert.IsFalse(this._sectionData.Right.Equipment.IsBroken);
-
-            do
-            {
-                this._sectionData.FixEquipmentRight();
-            } while (currentSpeed == this._sectionData.Right.Equipment.Speed);
-            
-            Assert.AreNotEqual(currentSpeed, this._sectionData.Right.Equipment.Speed);
-
-            do
-            {
-                this._sectionData.FixEquipmentRight();
-            } while (currentPerformance == this._sectionData.Right.Equipment.Performance);
-            
-            Assert.AreNotEqual(currentPerformance, this._sectionData.Right.Equipment.Performance);
-        }
-        
-        [Test]
-        public void Participants_CannotFixEquipment()
-        {
-            SectionData sectionData = new SectionData();
-            sectionData.FixEquipmentLeft();
-            sectionData.FixEquipmentRight();
-        }
-        
     }
 }
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[19,9,19,10,1],[20,13,20,114,1],[21,13,21,80,1],[22,13,22,79,1],[24,13,24,119,1],[25,9,25,10,1],[29,9,29,10,1],[30,13,30,92,1],[31,13,31,67,1],[32,13,32,66,1],[33,13,33,65,1],[34,13,34,66,1],[35,9,35,10,1],[39,9,39,10,1],[40,13,40,114,1],[41,13,41,80,1],[42,13,42,79,1],[44,13,44,84,1],[45,13,45,72,1],[46,13,46,65,1],[47,13,47,64,1],[49,13,49,70,1],[50,13,50,106,1],[51,9,51,10,1],[55,9,55,10,1],[56,13,56,86,1],[58,13,58,51,1],[59,13,59,52,1],[60,13,60,64,1],[61,13,61,65,1],[62,9,62,10,1],[66,9,66,10,1],[67,13,67,43,1],[68,13,68,61,1],[70,13,70,51,1],[71,13,71,55,1],[72,13,72,64,1],[73,13,73,68,1],[74,9,74,10,1],[78,9,78,10,1],[79,13,79,67,1],[80,13,80,42,1],[81,13,81,82,1],[83,13,83,64,1],[84,13,84,43,1],[85,13,85,83,1],[87,13,87,57,1],[88,13,88,57,1],[89,13,89,36,1],[90,13,90,73,1],[92,13,92,58,1],[93,13,93,37,1],[94,13,94,74,1],[95,9,95,10,1],[99,9,99,10,1],[100,13,100,71,1],[101,13,101,52,1],[102,13,102,70,1],[103,9,103,10,1],[107,9,107,10,1],[108,13,108,72,1],[109,13,109,53,1],[110,13,110,71,1],[111,9,111,10,1],[115,9,115,10,1],[116,13,116,57,1],[117,13,117,46,1],[118,13,118,47,1],[119,9,119,10,1],[123,9,123,10,1],[124,13,124,83,1],[125,13,125,71,1],[127,13,127,52,1],[128,13,128,70,1],[129,13,129,50,1],[130,13,130,71,1],[133,13,133,14,1],[134,17,134,54,1],[135,13,135,14,1],[135,15,135,78,1],[137,13,137,86,1],[140,13,140,14,1],[141,17,141,54,1],[142,13,142,14,1],[142,15,142,90,1],[144,13,144,98,1],[145,9,145,10,1],[149,9,149,10,1],[150,13,150,84,1],[151,13,151,72,1],[153,13,153,53,1],[154,13,154,71,1],[155,13,155,51,1],[156,13,156,72,1],[159,13,159,14,1],[160,17,160,55,1],[161,13,161,14,1],[161,15,161,79,1],[163,13,163,87,1],[166,13,166,14,1],[167,17,167,55,1],[168,13,168,14,1],[168,15,168,91,1],[170,13,170,99,1],[171,9,171,10,1],[175,9,175,10,1],[176,13,176,57,1],[177,13,177,44,1],[178,13,178,45,1],[179,9,179,10,1]]);
+      highlightRanges([[12,28,12,32,1],[12,33,12,45,1],[14,9,14,50,1],[15,9,15,10,1],[16,13,16,30,1],[17,9,17,10,1]]);
     </script>
   </body>
 </html>

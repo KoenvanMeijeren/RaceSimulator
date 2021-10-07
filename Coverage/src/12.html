@@ -2,13 +2,12 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>E:\Development\C#\RaceSimulator\Model\Driver.cs</title>
+    <title>E:\Development\C#\RaceSimulator\Model\Track.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
-#nullable enable
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,57 +16,177 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public class Driver : IParticipant
+    public enum Directions
     {
+        North = 0,
+        East = 1,
+        South = 2,
+        West = 3
+    }
+
+    public class Track
+    {
+        private const Directions StartDirection = Directions.East;
+        private Directions _direction = Track.StartDirection;
+        
+        public const int SectionCountUndefined = -1;
         public string Name { get; private set; }
 
-        public int Points { get; private set; }
+        public LinkedList&lt;Section&gt; Sections { get; private set; }
 
-        public IEquipment Equipment { get; private set; }
+        private int EastwardSections = Track.SectionCountUndefined;
+        private int WestwardSections = Track.SectionCountUndefined;
+        private int NorthwardSections = Track.SectionCountUndefined;
+        private int SouthwardSections = Track.SectionCountUndefined;
 
-        public TeamColors TeamColor { get; private set; }
-
-        public Driver(string name, int points, IEquipment equipment, TeamColors teamColor)
+        public Track(string name, SectionTypes[] sections)
         {
             this.Name = name;
-            this.Points = points;
-            this.Equipment = equipment;
-            this.TeamColor = teamColor;
+            this.Sections = this.SectionTypeToSections(sections);
         }
 
-        public string GetInitials(int initialsLength = 1)
+        private LinkedList&lt;Section&gt; SectionTypeToSections(SectionTypes[] sectionTypes)
         {
-            if (this.Equipment.IsBroken)
+            LinkedList&lt;Section&gt; sections = new LinkedList&lt;Section&gt;();
+            foreach (SectionTypes sectionType in sectionTypes)
             {
-                return IParticipant.BrokenInitials;
+                sections.AddLast(new Section(sectionType));
+            }
+
+            return sections;
+        }
+
+        public int GetEastwardSectionsCount()
+        {
+            if (this.EastwardSections != -1)
+            {
+                return this.EastwardSections;
             }
             
-            char[] chars = this.Name.ToCharArray();
-
-            StringBuilder initials = new StringBuilder(initialsLength);
-            for (int delta = 0; delta &lt; chars.Length &amp;&amp; delta &lt; initialsLength; delta++)
-            {
-                initials.Append(chars.ElementAtOrDefault(delta).ToString());
-            }
-
-            return initials.ToString();
+            this.SimulateTrack();
+            return this.EastwardSections;
         }
-
-        public override bool Equals(object? obj)
+        
+        public int GetSouthwardSectionsCount()
         {
-            if (obj is IParticipant participant)
+            if (this.SouthwardSections != -1)
             {
-                return this.Name.Equals(participant.Name);
+                return this.SouthwardSections;
+            }
+            
+            this.SimulateTrack();
+            return this.SouthwardSections;
+        }
+
+        public int GetWestwardSectionsCount()
+        {
+            if (this.WestwardSections != -1)
+            {
+                return this.WestwardSections;
+            }
+            
+            this.SimulateTrack();
+            return this.WestwardSections;
+        }
+        
+        public int GetNorthwardSectionsCount()
+        {
+            if (this.NorthwardSections != -1)
+            {
+                return this.NorthwardSections;
+            }
+            
+            this.SimulateTrack();
+            return this.NorthwardSections;
+        }
+        
+        private void SimulateTrack()
+        {
+            foreach (Section section in Sections)
+            {
+                switch (section.SectionType)
+                {
+                    case SectionTypes.LeftCorner:
+                        DrawLeftCorner();
+                        break;
+                    case SectionTypes.RightCorner:
+                        DrawRightCorner();
+                        break;
+                }
+
+                switch (this._direction)
+                {
+                    case Directions.East:
+                        this.EastwardSections++;
+                        break;
+                    case Directions.South:
+                        this.SouthwardSections++;
+                        break;
+                    case Directions.West:
+                        this.WestwardSections++;
+                        break;
+                    case Directions.North:
+                        this.NorthwardSections++;
+                        break;
+                }
+            }
+        }
+ 
+        private void DrawLeftCorner()
+        {
+            if (this._direction == Directions.East)
+            {
+                this.EastwardSections++;
+                this._direction = Directions.North;
+            }
+            else if (this._direction == Directions.South)
+            {
+                this.SouthwardSections++;
+                this._direction = Directions.East;
+            }
+            else if (this._direction == Directions.West)
+            {
+                this.WestwardSections++;
+                this._direction = Directions.South;
+            }
+            else if (this._direction == Directions.North)
+            {
+                this.NorthwardSections++;
+                this._direction = Directions.West;
+            }
+        }
+                
+        private void DrawRightCorner()
+        {
+            if (this._direction == Directions.East)
+            {
+                this.EastwardSections++;
+                this._direction = Directions.South;
+            }
+            else if (this._direction == Directions.South)
+            {
+                this.SouthwardSections++;
+                this._direction = Directions.West;
+            }
+            else if (this._direction == Directions.West)
+            {
+                this.WestwardSections++;
+                this._direction = Directions.North;
+            }
+            else if (this._direction == Directions.North)
+            {
+                this.NorthwardSections++;
+                this._direction = Directions.East;
             }
 
-            return false;
         }
+        
     }
 }
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[12,30,12,34,1],[12,35,12,47,1],[14,29,14,33,1],[14,34,14,46,1],[16,39,16,43,1],[16,44,16,56,1],[18,39,18,43,1],[18,44,18,56,1],[20,9,20,91,1],[21,9,21,10,1],[22,13,22,30,1],[23,13,23,34,1],[24,13,24,40,1],[25,13,25,40,1],[26,9,26,10,1],[29,9,29,10,1],[30,13,30,41,1],[31,13,31,14,1],[32,17,32,52,1],[35,13,35,52,1],[37,13,37,72,1],[38,18,38,31,1],[38,33,38,79,1],[38,81,38,88,1],[39,13,39,14,1],[40,17,40,77,1],[41,13,41,14,1],[43,13,43,40,1],[44,9,44,10,1],[47,9,47,10,1],[48,13,48,49,1],[49,13,49,14,1],[50,17,50,59,1],[53,13,53,26,1],[54,9,54,10,1]]);
+      highlightRanges([[20,9,20,62,1],[23,30,23,34,1],[23,35,23,47,1],[25,47,25,51,1],[25,52,25,64,1],[27,9,27,68,1],[28,9,28,68,1],[29,9,29,69,1],[30,9,30,69,1],[32,9,32,59,1],[33,9,33,10,1],[34,13,34,30,1],[35,13,35,66,1],[36,9,36,10,1],[39,9,39,10,1],[40,13,40,70,1],[41,13,41,20,1],[41,22,41,46,1],[41,47,41,49,1],[41,50,41,62,1],[42,13,42,14,1],[43,17,43,60,1],[44,13,44,14,1],[46,13,46,29,1],[47,9,47,10,1],[50,9,50,10,1],[51,13,51,45,1],[52,13,52,14,1],[53,17,53,46,1],[56,13,56,34,1],[57,13,57,42,1],[58,9,58,10,1],[61,9,61,10,1],[62,13,62,46,1],[63,13,63,14,1],[64,17,64,47,1],[67,13,67,34,1],[68,13,68,43,1],[69,9,69,10,1],[72,9,72,10,1],[73,13,73,45,1],[74,13,74,14,1],[75,17,75,46,1],[78,13,78,34,1],[79,13,79,42,1],[80,9,80,10,1],[83,9,83,10,1],[84,13,84,46,1],[85,13,85,14,1],[86,17,86,47,1],[89,13,89,34,1],[90,13,90,43,1],[91,9,91,10,1],[94,9,94,10,1],[95,13,95,20,1],[95,22,95,37,1],[95,38,95,40,1],[95,41,95,49,1],[96,13,96,14,1],[97,17,97,45,1],[100,25,100,42,1],[101,25,101,31,1],[103,25,103,43,1],[104,25,104,31,1],[107,17,107,41,1],[110,25,110,49,1],[111,25,111,31,1],[113,25,113,50,1],[114,25,114,31,1],[116,25,116,49,1],[117,25,117,31,1],[119,25,119,50,1],[120,25,120,31,1],[122,13,122,14,1],[123,9,123,10,1],[126,9,126,10,1],[127,13,127,52,1],[128,13,128,14,1],[129,17,129,41,1],[130,17,130,52,1],[131,13,131,14,1],[132,18,132,58,1],[133,13,133,14,1],[134,17,134,42,1],[135,17,135,51,1],[136,13,136,14,1],[137,18,137,57,1],[138,13,138,14,1],[139,17,139,41,1],[140,17,140,52,1],[141,13,141,14,1],[142,18,142,58,1],[143,13,143,14,1],[144,17,144,42,1],[145,17,145,51,1],[146,13,146,14,1],[147,9,147,10,1],[150,9,150,10,1],[151,13,151,52,1],[152,13,152,14,1],[153,17,153,41,1],[154,17,154,52,1],[155,13,155,14,1],[156,18,156,58,1],[157,13,157,14,1],[158,17,158,42,1],[159,17,159,51,1],[160,13,160,14,1],[161,18,161,57,1],[162,13,162,14,1],[163,17,163,41,1],[164,17,164,52,1],[165,13,165,14,1],[166,18,166,58,1],[167,13,167,14,1],[168,17,168,42,1],[169,17,169,51,1],[170,13,170,14,1],[172,9,172,10,1]]);
     </script>
   </body>
 </html>

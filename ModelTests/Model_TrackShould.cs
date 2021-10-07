@@ -70,8 +70,48 @@ namespace ModelTests
             
             Track track = new Track("Test Track 2", route);
             
-            Assert.AreEqual(4, track.GetEastwardSectionsCount());
-            Assert.AreEqual(2, track.GetSouthwardSectionsCount());
+            Assert.AreEqual(5, track.GetEastwardSectionsCount());
+            Assert.AreEqual(3, track.GetSouthwardSectionsCount());
+            Assert.AreEqual(Track.SectionCountUndefined, track.GetNorthwardSectionsCount());
+            Assert.AreEqual(Track.SectionCountUndefined, track.GetWestwardSectionsCount());
+            
+            SectionTypes[] routeTest = {
+                SectionTypes.StartGrid, SectionTypes.Finish, SectionTypes.RightCorner, SectionTypes.Straight,
+                SectionTypes.LeftCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.RightCorner,
+                SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.LeftCorner,
+                SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.LeftCorner, SectionTypes.RightCorner,
+                SectionTypes.RightCorner, SectionTypes.LeftCorner, SectionTypes.Straight, SectionTypes.RightCorner,
+                SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.RightCorner,
+                SectionTypes.StartGrid, SectionTypes.StartGrid
+                
+            };
+            
+            Track trackTest = new Track("Test Track 2", routeTest);
+            
+            Assert.AreEqual(9, trackTest.GetEastwardSectionsCount());
+            Assert.AreEqual(9, trackTest.GetEastwardSectionsCount());
+            Assert.AreEqual(8, trackTest.GetSouthwardSectionsCount());
+            Assert.AreEqual(8, trackTest.GetSouthwardSectionsCount());
+            Assert.AreEqual(6, trackTest.GetNorthwardSectionsCount());
+            Assert.AreEqual(6, trackTest.GetNorthwardSectionsCount());
+            Assert.AreEqual(11, trackTest.GetWestwardSectionsCount());
+            Assert.AreEqual(11, trackTest.GetWestwardSectionsCount());
+
+            SectionTypes[] routeTestTwo =
+            {
+                SectionTypes.Straight,
+                SectionTypes.LeftCorner,
+                SectionTypes.Straight,
+                SectionTypes.RightCorner,
+                SectionTypes.RightCorner,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+            };
+
+            Track trackTestTwo = new Track("Test track 3", routeTestTwo);
+            
+            Assert.AreEqual(2, trackTestTwo.GetSouthwardSectionsCount());
+            Assert.AreEqual(3, trackTestTwo.GetEastwardSectionsCount());
         }
 
     }
