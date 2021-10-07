@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Color = System.Drawing.Color;
 
 namespace WPFRaceSimulator
 {
@@ -13,8 +14,28 @@ namespace WPFRaceSimulator
     public static class WPFImageBuilder
     {
 
+        private const string MainBitmapKey = "empty";
+        
         private static Dictionary<string, Bitmap> CachedImages;
 
+        public static Bitmap CreateBitmap(int width, int height)
+        {
+            if (WPFImageBuilder.CachedImages.TryGetValue(WPFImageBuilder.MainBitmapKey, out var bitmap))
+            {
+                return (Bitmap) bitmap.Clone();
+            }
+            
+            bitmap = new Bitmap(width, height);
+            Graphics graphics = Graphics.FromImage(bitmap);
+            SolidBrush solidBrush = new SolidBrush(Color.Red);
+            graphics.FillRectangle(solidBrush, 0, 0, width, height);
+            // graphics.Clear(Color.Red);
+            
+            WPFImageBuilder.CachedImages.Add(WPFImageBuilder.MainBitmapKey, bitmap);
+
+            return bitmap;
+        }
+        
         public static BitmapSource CreateBitmapSourceFromGdiBitmap(Bitmap bitmap)
         {
             if (bitmap == null)
@@ -38,7 +59,8 @@ namespace WPFRaceSimulator
                     null,
                     bitmapData.Scan0,
                     size,
-                    bitmapData.Stride);
+                    bitmapData.Stride
+                );
             }
             finally
             {
@@ -53,12 +75,15 @@ namespace WPFRaceSimulator
         
         public static Bitmap LoadImage(string url)
         {
-            if (!WPFImageBuilder.CachedImages.ContainsKey(url))
+            if (WPFImageBuilder.CachedImages.TryGetValue(url, out var bitmap))
             {
-                WPFImageBuilder.CachedImages.Add(url, new Bitmap(Image.FromFile(url)));
+                return (Bitmap) bitmap.Clone();
             }
+            
+            bitmap = new Bitmap(Image.FromFile(url));
+            WPFImageBuilder.CachedImages.Add(url, bitmap);
 
-            return (Bitmap) WPFImageBuilder.CachedImages[url].Clone();
+            return (Bitmap) bitmap.Clone();
         }
 
     }

@@ -8,7 +8,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8a783f09-19f2-47c7-9340-0fa8907541ee" name="Changes" comment="" />
+    <list default="true" id="8a783f09-19f2-47c7-9340-0fa8907541ee" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WPFRaceSimulator/WPFImageBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WPFRaceSimulator/WPFImageBuilder.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -33,6 +36,7 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/bc3d7024e97f4f818de53bc3c23872b48f5790/37/Object.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/C#/RaceSimulator/WPFRaceSimulator/WPFImageBuilder.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/5c01ff2afbe140a3835861628ccbb7582b470/7/System.Drawing.Common.notsupported.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/578643b7d10a415b979d299b20801ef0f55f78/ba/cfa4d97f/Window.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Data.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8c5d964499a04c04b2b151bbd137532725590/4/Console.cs" root0="SKIP_HIGHLIGHTING" />
@@ -129,14 +133,7 @@
       <workItem from="1633517753254" duration="634000" />
       <workItem from="1633589100807" duration="1301000" />
       <workItem from="1633602277628" duration="5345000" />
-      <workItem from="1633614083649" duration="6065000" />
-    </task>
-    <task id="LOCAL-00021" summary="Debug placing participants on section">
-      <created>1632993788590</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1632993788591</updated>
+      <workItem from="1633614083649" duration="7972000" />
     </task>
     <task id="LOCAL-00022" summary="Debug redrawing a track">
       <created>1632995072137</created>
@@ -474,7 +471,14 @@
       <option name="project" value="LOCAL" />
       <updated>1633620214074</updated>
     </task>
-    <option name="localTasksCounter" value="70" />
+    <task id="LOCAL-00070" summary="Update tests">
+      <created>1633620488615</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1633620488615</updated>
+    </task>
+    <option name="localTasksCounter" value="71" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
