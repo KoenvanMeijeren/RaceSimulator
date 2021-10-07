@@ -40,4 +40,8 @@
       <Content Include="Graphics\Straight.PNG" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="System.Drawing.Common" Version="6.0.0-rc.1.21451.13" />
+    </ItemGroup>
+
 </Project>
