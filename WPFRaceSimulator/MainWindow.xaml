@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid Background="Lime">
-        <Image x:Name="TrackImage" Margin="244,109,244,109"/>
+        <Image x:Name="TrackImage" Margin="17,18,17,18"/>
 
     </Grid>
 </Window>
