@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 using Model;
 
@@ -77,7 +75,7 @@ namespace Controller
             Race.RaceEnded = null;
         }
 
-        public static void OnTimedEvent(Object source, ElapsedEventArgs e)
+        public static void OnTimedEvent(object source, ElapsedEventArgs e)
         {
             if (Race._raceReference.AllParticipantsFinished())
             {
@@ -227,9 +225,8 @@ namespace Controller
             List<IParticipant> participants = this.Participants.ToList();
             Section[] sections = this.Track.Sections.ToArray();
 
-            for (int delta = 0; delta < sections.Length; delta++)
+            foreach (var section in sections)
             {
-                Section section = sections[delta];
                 SectionData sectionData = this.GetSectionData(section);
 
                 if (!this.CanPlaceParticipantsOnStartPosition(section.SectionType))

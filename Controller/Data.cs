@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Model;
 
 namespace Controller
@@ -49,7 +45,7 @@ namespace Controller
                 return;
             }
 
-            Data.CurrentRace = new Race(track: currentTrack, participants: Data.Participants);
+            Data.CurrentRace = new Race(currentTrack, Data.Participants);
         }
 
         private static void AddTestParticipants()

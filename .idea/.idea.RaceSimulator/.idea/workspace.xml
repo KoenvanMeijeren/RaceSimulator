@@ -10,8 +10,7 @@
   <component name="ChangeListManager">
     <list default="true" id="8a783f09-19f2-47c7-9340-0fa8907541ee" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RaceSimulator/CVisualization.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RaceSimulator/CVisualization.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WPFRaceSimulator/WPFVisualization.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WPFRaceSimulator/WPFVisualization.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controller/DriversChangedEventArgs.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controller/DriversChangedEventArgs.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,14 +132,7 @@
       <workItem from="1633589100807" duration="1301000" />
       <workItem from="1633602277628" duration="5345000" />
       <workItem from="1633614083649" duration="8365000" />
-      <workItem from="1633674550160" duration="1382000" />
-    </task>
-    <task id="LOCAL-00025" summary="Decrease the speed for better visualization">
-      <created>1632996205710</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1632996205710</updated>
+      <workItem from="1633674550160" duration="1716000" />
     </task>
     <task id="LOCAL-00026" summary="Debug merging the initials westward sections">
       <created>1633000447924</created>
@@ -478,7 +470,14 @@
       <option name="project" value="LOCAL" />
       <updated>1633674981203</updated>
     </task>
-    <option name="localTasksCounter" value="74" />
+    <task id="LOCAL-00074" summary="Implement correct calculating of the track width and height">
+      <created>1633675999349</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1633675999350</updated>
+    </task>
+    <option name="localTasksCounter" value="75" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -543,7 +542,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Update test coverage" />
     <MESSAGE value="Add performance optimalizations" />
     <MESSAGE value="Implement finishing a race" />
     <MESSAGE value="Increase the rounds start value" />
@@ -568,7 +566,8 @@
     <MESSAGE value="Create main bitmap" />
     <MESSAGE value="Debug using the cached images property" />
     <MESSAGE value="Fix coding standards" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix coding standards" />
+    <MESSAGE value="Implement correct calculating of the track width and height" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implement correct calculating of the track width and height" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
