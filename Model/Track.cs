@@ -103,8 +103,6 @@ namespace Model
                     case SectionTypes.StartGrid:
                     case SectionTypes.Finish:
                         break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
                 }
 
                 switch (this._direction)
@@ -121,8 +119,6 @@ namespace Model
                     case Directions.North:
                         this._northwardSections++;
                         break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
                 }
             }
         }
@@ -147,8 +143,6 @@ namespace Model
                     this._northwardSections++;
                     this._direction = Directions.West;
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
         }
                 
@@ -172,8 +166,6 @@ namespace Model
                     this._northwardSections++;
                     this._direction = Directions.East;
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
         }
         
