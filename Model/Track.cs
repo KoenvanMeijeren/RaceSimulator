@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Model
 {
@@ -24,10 +20,10 @@ namespace Model
 
         public LinkedList<Section> Sections { get; private set; }
 
-        private int EastwardSections = Track.SectionCountUndefined;
-        private int WestwardSections = Track.SectionCountUndefined;
-        private int NorthwardSections = Track.SectionCountUndefined;
-        private int SouthwardSections = Track.SectionCountUndefined;
+        private int _eastwardSections = Track.SectionCountUndefined;
+        private int _westwardSections = Track.SectionCountUndefined;
+        private int _northwardSections = Track.SectionCountUndefined;
+        private int _southwardSections = Track.SectionCountUndefined;
 
         public Track(string name, SectionTypes[] sections)
         {
@@ -48,46 +44,46 @@ namespace Model
 
         public int GetEastwardSectionsCount()
         {
-            if (this.EastwardSections != -1)
+            if (this._eastwardSections != -1)
             {
-                return this.EastwardSections;
+                return this._eastwardSections;
             }
             
             this.SimulateTrack();
-            return this.EastwardSections;
+            return this._eastwardSections;
         }
         
         public int GetSouthwardSectionsCount()
         {
-            if (this.SouthwardSections != -1)
+            if (this._southwardSections != -1)
             {
-                return this.SouthwardSections;
+                return this._southwardSections;
             }
             
             this.SimulateTrack();
-            return this.SouthwardSections;
+            return this._southwardSections;
         }
 
         public int GetWestwardSectionsCount()
         {
-            if (this.WestwardSections != -1)
+            if (this._westwardSections != -1)
             {
-                return this.WestwardSections;
+                return this._westwardSections;
             }
             
             this.SimulateTrack();
-            return this.WestwardSections;
+            return this._westwardSections;
         }
         
         public int GetNorthwardSectionsCount()
         {
-            if (this.NorthwardSections != -1)
+            if (this._northwardSections != -1)
             {
-                return this.NorthwardSections;
+                return this._northwardSections;
             }
             
             this.SimulateTrack();
-            return this.NorthwardSections;
+            return this._northwardSections;
         }
         
         private void SimulateTrack()
@@ -107,16 +103,16 @@ namespace Model
                 switch (this._direction)
                 {
                     case Directions.East:
-                        this.EastwardSections++;
+                        this._eastwardSections++;
                         break;
                     case Directions.South:
-                        this.SouthwardSections++;
+                        this._southwardSections++;
                         break;
                     case Directions.West:
-                        this.WestwardSections++;
+                        this._westwardSections++;
                         break;
                     case Directions.North:
-                        this.NorthwardSections++;
+                        this._northwardSections++;
                         break;
                 }
             }
@@ -124,51 +120,48 @@ namespace Model
  
         private void DrawLeftCorner()
         {
-            if (this._direction == Directions.East)
+            switch (this._direction)
             {
-                this.EastwardSections++;
-                this._direction = Directions.North;
-            }
-            else if (this._direction == Directions.South)
-            {
-                this.SouthwardSections++;
-                this._direction = Directions.East;
-            }
-            else if (this._direction == Directions.West)
-            {
-                this.WestwardSections++;
-                this._direction = Directions.South;
-            }
-            else if (this._direction == Directions.North)
-            {
-                this.NorthwardSections++;
-                this._direction = Directions.West;
+                case Directions.East:
+                    this._eastwardSections++;
+                    this._direction = Directions.North;
+                    break;
+                case Directions.South:
+                    this._southwardSections++;
+                    this._direction = Directions.East;
+                    break;
+                case Directions.West:
+                    this._westwardSections++;
+                    this._direction = Directions.South;
+                    break;
+                case Directions.North:
+                    this._northwardSections++;
+                    this._direction = Directions.West;
+                    break;
             }
         }
                 
         private void DrawRightCorner()
         {
-            if (this._direction == Directions.East)
+            switch (this._direction)
             {
-                this.EastwardSections++;
-                this._direction = Directions.South;
+                case Directions.East:
+                    this._eastwardSections++;
+                    this._direction = Directions.South;
+                    break;
+                case Directions.South:
+                    this._southwardSections++;
+                    this._direction = Directions.West;
+                    break;
+                case Directions.West:
+                    this._westwardSections++;
+                    this._direction = Directions.North;
+                    break;
+                case Directions.North:
+                    this._northwardSections++;
+                    this._direction = Directions.East;
+                    break;
             }
-            else if (this._direction == Directions.South)
-            {
-                this.SouthwardSections++;
-                this._direction = Directions.West;
-            }
-            else if (this._direction == Directions.West)
-            {
-                this.WestwardSections++;
-                this._direction = Directions.North;
-            }
-            else if (this._direction == Directions.North)
-            {
-                this.NorthwardSections++;
-                this._direction = Directions.East;
-            }
-
         }
         
     }

@@ -85,18 +85,20 @@ namespace RaceSimulator
         public static void DrawTrack(Race race)
         {
             Track track = race.Track;
-            int northPosition = CVisualization.GetNorthPosition(track), eastPosition = CVisualization.GetEastPosition(track);
+            int 
+                northPosition = CVisualization.GetNorthPosition(track), 
+                eastPosition = CVisualization.GetEastPosition(track);
             
             Console.BackgroundColor = ConsoleColor.Blue;
             Console.ForegroundColor = ConsoleColor.White;
             Console.Clear();
 
-            Console.SetCursorPosition(CenteredTextCursorStartPosition(track.Name),  northPosition < 20 ? CVisualization.CursorStartNorthPosition - 4 :  northPosition - 4);
+            Console.SetCursorPosition(CenteredTextCursorStartPosition(track.Name),  northPosition < 5 ? 1 :  northPosition - 4);
             Console.WriteLine(track.Name);
             
             CVisualization._direction = CVisualization.StartDirection;
             CVisualization._cursorEastPosition = eastPosition < 20 ? CVisualization.CursorStartEastPosition : eastPosition;
-            CVisualization._cursorNorthPosition = northPosition < 20 ? CVisualization.CursorStartNorthPosition :  northPosition;
+            CVisualization._cursorNorthPosition = northPosition < 10 ? northPosition + 10 : northPosition;
 
             foreach (Section trackSection in track.Sections)
             {
@@ -110,15 +112,19 @@ namespace RaceSimulator
             {
                 return CVisualization._trackEastPosition;
             }
+
+            int
+                westwardSections = track.GetWestwardSectionsCount() * SymbolSpaces,
+                eastwardSections = track.GetWestwardSectionsCount() * SymbolSpaces;
             
-            int eastPosition = (track.GetWestwardSectionsCount() * CVisualization.SymbolSpaces) + CVisualization.SymbolSpaces;
-            
-            if (eastPosition == Track.SectionCountUndefined)
+            if (eastwardSections == Track.SectionCountUndefined || westwardSections == Track.SectionCountUndefined)
             {
                 return CVisualization.CursorStartEastPosition;
             }
             
-            return eastPosition;
+            CVisualization._trackEastPosition = eastwardSections + (westwardSections - eastwardSections);
+            
+            return CVisualization._trackEastPosition;
         }
 
         private static int GetNorthPosition(Track track)
@@ -127,15 +133,19 @@ namespace RaceSimulator
             {
                 return CVisualization._trackNorthPosition;
             }
+
+            int
+                southwardSections = track.GetSouthwardSectionsCount() * SymbolSpaces,
+                northwardSections = track.GetNorthwardSectionsCount() * SymbolSpaces;
             
-            int northPosition = (track.GetNorthwardSectionsCount() * CVisualization.SymbolSpaces) - (track.GetSouthwardSectionsCount() * CVisualization.SymbolSpaces) + CVisualization.SymbolSpaces;
-            
-            if (northPosition == Track.SectionCountUndefined)
+            if (northwardSections == Track.SectionCountUndefined || southwardSections == Track.SectionCountUndefined)
             {
                 return CVisualization.CursorStartNorthPosition;
             }
             
-            return northPosition + CVisualization.SymbolSpaces;
+            CVisualization._trackNorthPosition = southwardSections + (northwardSections - southwardSections);
+
+            return CVisualization._trackNorthPosition;
         }
 
         private static void DrawTrackSection(Section section, SectionData sectionData)
