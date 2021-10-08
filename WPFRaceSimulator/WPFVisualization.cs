@@ -1,4 +1,6 @@
-﻿using Controller;
+﻿using System.Drawing;
+using System.Windows.Media.Imaging;
+using Controller;
 using Model;
 
 namespace WPFRaceSimulator
@@ -20,7 +22,24 @@ namespace WPFRaceSimulator
             _trackWidth = TrackPositionUndefined,
             _trackHeight = TrackPositionUndefined;
 
-        public static int GetTrackWidth(Race race)
+        public static void Initialize()
+        {
+            
+        }
+
+        public static BitmapSource DrawTrack(Race race)
+        {
+            Track track = race.Track;
+            int
+                trackWidth = WPFVisualization.GetTrackWidth(track),
+                trackHeight = WPFVisualization.GetTrackHeight(track);
+
+            Bitmap bitmap = WPFImageBuilder.CreateBitmap(trackWidth, trackHeight);
+
+            return WPFImageBuilder.CreateBitmapSourceFromGdiBitmap(bitmap);
+        }
+
+        public static int GetTrackWidth(Track track)
         {
             if (WPFVisualization._trackWidth != TrackPositionUndefined)
             {
@@ -28,15 +47,15 @@ namespace WPFRaceSimulator
             }
 
             int
-                eastwardSections = race.Track.GetEastwardSectionsCount() * SectionWidth,
-                westwardSections = race.Track.GetWestwardSectionsCount() * SectionWidth;
+                eastwardSections = track.GetEastwardSectionsCount() * SectionWidth,
+                westwardSections = track.GetWestwardSectionsCount() * SectionWidth;
             
             WPFVisualization._trackWidth = eastwardSections + (westwardSections - eastwardSections);
             
             return WPFVisualization._trackWidth;
         }
 
-        public static int GetTrackHeight(Race race)
+        public static int GetTrackHeight(Track track)
         {
             if (WPFVisualization._trackHeight != TrackPositionUndefined)
             {
@@ -44,8 +63,8 @@ namespace WPFRaceSimulator
             }
 
             int 
-                northwardSections = race.Track.GetNorthwardSectionsCount() * SectionHeight,
-                southwardSections = race.Track.GetSouthwardSectionsCount() * SectionHeight;
+                northwardSections = track.GetNorthwardSectionsCount() * SectionHeight,
+                southwardSections = track.GetSouthwardSectionsCount() * SectionHeight;
             
             WPFVisualization._trackHeight = southwardSections + (northwardSections - southwardSections);
 

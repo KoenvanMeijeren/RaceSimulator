@@ -6,12 +6,8 @@
         xmlns:local="clr-namespace:WPFRaceSimulator"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid Background="Blue">
-        <Image x:Name="Test_Picture" Margin="463,230,307,174" Panel.ZIndex="1" Source="/Graphics/CarBlue.PNG">
-            <Image.OpacityMask>
-                <ImageBrush/>
-            </Image.OpacityMask>
-        </Image>
+    <Grid Background="Lime">
+        <Image x:Name="TrackImage" Margin="244,109,244,109"/>
 
     </Grid>
 </Window>
