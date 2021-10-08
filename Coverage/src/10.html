@@ -24,7 +24,7 @@ namespace Model
 
             private set
             {
-                if (value &lt; IEquipment.MinimumQuality || value &gt; IEquipment.MaximumQuality)
+                if (value is &lt; IEquipment.MinimumQuality or &gt; IEquipment.MaximumQuality)
                 {
                     throw new ArgumentOutOfRangeException(&quot;Quality&quot;, value, $&quot;The value must be equal to or higher then: {IEquipment.MinimumQuality} and lower then or equal to {IEquipment.MaximumQuality}.&quot;);
                 }
@@ -39,7 +39,7 @@ namespace Model
 
             private set
             {
-                if (value &lt; IEquipment.MinimumPerformance || value &gt; IEquipment.MaximumPerformance)
+                if (value is &lt; IEquipment.MinimumPerformance or &gt; IEquipment.MaximumPerformance)
                 {
                     throw new ArgumentOutOfRangeException(&quot;Performance&quot;, value, $&quot;The value must be equal to or higher then: {IEquipment.MinimumPerformance} and lower then or equal to {IEquipment.MaximumPerformance}.&quot;);
                 }
@@ -54,7 +54,7 @@ namespace Model
 
             private set
             {
-                if (value &lt; IEquipment.MinimumSpeed || value &gt; IEquipment.MaximumSpeed)
+                if (value is &lt; IEquipment.MinimumSpeed or &gt; IEquipment.MaximumSpeed)
                 {
                     throw new ArgumentOutOfRangeException(&quot;Speed&quot;, value, $&quot;The value must be equal to or higher then: {IEquipment.MinimumSpeed} and lower then or equal to {IEquipment.MaximumSpeed}.&quot;);
                 }
@@ -65,7 +65,7 @@ namespace Model
 
         public bool IsBroken { get; set; }
 
-        private Random _randominizer;
+        private readonly Random _randomizer;
 
 
         public Car(int quality, int performance, int speed)
@@ -75,7 +75,7 @@ namespace Model
             this.Speed = speed;
             this.IsBroken = false;
 
-            this._randominizer = new Random(DateTime.Now.Millisecond);
+            this._randomizer = new Random(DateTime.Now.Millisecond);
         }
 
         public int GetRealSpeed()
@@ -96,7 +96,7 @@ namespace Model
         
         public void DecreaseSpeed()
         {
-           int number = this._randominizer.Next(20, 30);
+           int number = this._randomizer.Next(20, 30);
            if (IEquipment.MinimumSpeed &gt;= (this._speed - number))
            {
                this._speed = IEquipment.MinimumSpeed;
@@ -111,7 +111,7 @@ namespace Model
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[13,20,13,33,1],[16,13,16,14,1],[17,17,17,92,1],[18,17,18,18,1],[19,21,19,208,1],[22,17,22,39,1],[23,13,23,14,1],[28,20,28,37,1],[31,13,31,14,1],[32,17,32,100,1],[33,17,33,18,1],[34,21,34,220,1],[37,17,37,43,1],[38,13,38,14,1],[43,20,43,31,1],[46,13,46,14,1],[47,17,47,88,1],[48,17,48,18,1],[49,21,49,202,1],[52,17,52,37,1],[53,13,53,14,1],[56,32,56,36,1],[56,37,56,41,1],[61,9,61,60,1],[62,9,62,10,1],[63,13,63,36,1],[64,13,64,44,1],[65,13,65,32,1],[66,13,66,35,1],[68,13,68,71,1],[69,9,69,10,1],[72,9,72,10,1],[73,13,73,50,1],[74,9,74,10,1],[77,9,77,10,1],[78,13,78,68,1],[79,13,79,14,1],[80,17,80,67,1],[81,17,81,24,1],[84,13,84,33,1],[85,9,85,10,1],[88,9,88,10,1],[89,12,89,57,1],[90,12,90,66,1],[91,12,91,13,1],[92,16,92,54,1],[93,16,93,23,1],[96,12,96,34,1],[97,9,97,10,1]]);
+      highlightRanges([[13,20,13,33,1],[16,13,16,14,1],[17,17,17,89,1],[18,17,18,18,1],[19,21,19,208,1],[22,17,22,39,1],[23,13,23,14,1],[28,20,28,37,1],[31,13,31,14,1],[32,17,32,97,1],[33,17,33,18,1],[34,21,34,220,1],[37,17,37,43,1],[38,13,38,14,1],[43,20,43,31,1],[46,13,46,14,1],[47,17,47,85,1],[48,17,48,18,1],[49,21,49,202,1],[52,17,52,37,1],[53,13,53,14,1],[56,32,56,36,1],[56,37,56,41,1],[61,9,61,60,1],[62,9,62,10,1],[63,13,63,36,1],[64,13,64,44,1],[65,13,65,32,1],[66,13,66,35,1],[68,13,68,69,1],[69,9,69,10,1],[72,9,72,10,1],[73,13,73,50,1],[74,9,74,10,1],[77,9,77,10,1],[78,13,78,68,1],[79,13,79,14,1],[80,17,80,67,1],[81,17,81,24,1],[84,13,84,33,1],[85,9,85,10,1],[88,9,88,10,1],[89,12,89,55,1],[90,12,90,66,1],[91,12,91,13,1],[92,16,92,54,1],[93,16,93,23,1],[96,12,96,34,1],[97,9,97,10,1]]);
     </script>
   </body>
 </html>
