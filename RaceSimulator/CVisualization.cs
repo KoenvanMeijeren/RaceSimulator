@@ -627,18 +627,14 @@ namespace RaceSimulator
                 0 => CVisualization._direction switch
                 {
                     Directions.East => right ? 2 : 1,
-                    Directions.South => 0,
-                    Directions.North => 0,
                     Directions.West => right ? 1 : 2,
-                    _ => 2
+                    _ => 0
                 },
                 1 => CVisualization._direction switch
                 {
                     Directions.East => right ? 2 : 1,
-                    Directions.South => 1,
-                    Directions.North => 1,
                     Directions.West => right ? 1 : 2,
-                    _ => 2
+                    _ => 1
                 },
                 2 => CVisualization._direction switch
                 {
