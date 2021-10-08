@@ -10,7 +10,14 @@
   <component name="ChangeListManager">
     <list default="true" id="8a783f09-19f2-47c7-9340-0fa8907541ee" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controller/Race.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controller/Race.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Model/Car.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Model/Car.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Model/Driver.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Model/Driver.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Model/Section.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Model/Section.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Model/SectionData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Model/SectionData.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Model/Track.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Model/Track.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RaceSimulator/CVisualization.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RaceSimulator/CVisualization.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RaceSimulator/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RaceSimulator/Program.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,7 +27,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature/loading-and-caching" />
+        <entry key="$PROJECT_DIR$" value="feature/empty-track" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -136,14 +143,7 @@
       <workItem from="1633589100807" duration="1301000" />
       <workItem from="1633602277628" duration="5345000" />
       <workItem from="1633614083649" duration="8365000" />
-      <workItem from="1633674550160" duration="2784000" />
-    </task>
-    <task id="LOCAL-00027" summary="Save section to section data">
-      <created>1633001725780</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1633001725780</updated>
+      <workItem from="1633674550160" duration="6171000" />
     </task>
     <task id="LOCAL-00028" summary="Debug race tests">
       <created>1633001871076</created>
@@ -481,7 +481,14 @@
       <option name="project" value="LOCAL" />
       <updated>1633676582070</updated>
     </task>
-    <option name="localTasksCounter" value="76" />
+    <task id="LOCAL-00076" summary="Fix coding standards">
+      <created>1633683976262</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1633683976262</updated>
+    </task>
+    <option name="localTasksCounter" value="77" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -491,40 +498,9 @@
     <option name="coveragePercentColumnWidth" value="95" />
     <option name="sortOrder" value="DESCENDING" />
     <option name="sortedColumn" value="1" />
-    <option name="symbolColumnWidth" value="360" />
+    <option name="symbolColumnWidth" value="374" />
     <coverage-tree-state>
-      <expand>
-        <path>
-          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 66% 595/1747" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-        </path>
-        <path>
-          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 66% 595/1747" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Model 100% 0/311" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-        </path>
-        <path>
-          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 66% 595/1747" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Model 100% 0/311" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="(1.0.0.0, net5.0) 100% 0/311" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-        </path>
-        <path>
-          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 66% 595/1747" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Model 100% 0/311" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="(1.0.0.0, net5.0) 100% 0/311" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Model 100% 0/311" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-        </path>
-        <path>
-          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 66% 595/1747" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Model 100% 0/311" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="(1.0.0.0, net5.0) 100% 0/311" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Model 100% 0/311" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Track 100% 0/119" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-        </path>
-      </expand>
+      <expand />
       <select />
     </coverage-tree-state>
   </component>

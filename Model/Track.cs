@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Model
 {
@@ -25,13 +26,13 @@ namespace Model
         private int _northwardSections = Track.SectionCountUndefined;
         private int _southwardSections = Track.SectionCountUndefined;
 
-        public Track(string name, SectionTypes[] sections)
+        public Track(string name, IEnumerable<SectionTypes> sections)
         {
             this.Name = name;
             this.Sections = this.SectionTypeToSections(sections);
         }
 
-        private LinkedList<Section> SectionTypeToSections(SectionTypes[] sectionTypes)
+        private LinkedList<Section> SectionTypeToSections(IEnumerable<SectionTypes> sectionTypes)
         {
             LinkedList<Section> sections = new LinkedList<Section>();
             foreach (SectionTypes sectionType in sectionTypes)
@@ -98,6 +99,12 @@ namespace Model
                     case SectionTypes.RightCorner:
                         DrawRightCorner();
                         break;
+                    case SectionTypes.Straight:
+                    case SectionTypes.StartGrid:
+                    case SectionTypes.Finish:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
 
                 switch (this._direction)
@@ -114,6 +121,8 @@ namespace Model
                     case Directions.North:
                         this._northwardSections++;
                         break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
             }
         }
@@ -138,6 +147,8 @@ namespace Model
                     this._northwardSections++;
                     this._direction = Directions.West;
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
                 
@@ -161,6 +172,8 @@ namespace Model
                     this._northwardSections++;
                     this._direction = Directions.East;
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
         

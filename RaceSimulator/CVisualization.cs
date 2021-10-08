@@ -179,25 +179,26 @@ namespace RaceSimulator
 
         private static void DrawLeftCorner(SectionData sectionData = null)
         {
-            if (CVisualization._direction == Directions.East)
+            switch (CVisualization._direction)
             {
-                DrawDownwards(CVisualization.EastCornerToLeft, sectionData);
-                CVisualization._direction = Directions.North;
-            }
-            else if (CVisualization._direction == Directions.South)
-            {
-                DrawDownwards(CVisualization.SouthCornerToLeft, sectionData);
-                CVisualization._direction = Directions.East;
-            }
-            else if (CVisualization._direction == Directions.West)
-            {
-                DrawDownwards(CVisualization.WestCornerToLeft, sectionData);
-                CVisualization._direction = Directions.South;
-            }
-            else if (CVisualization._direction == Directions.North)
-            {
-                DrawUpwards(CVisualization.NorthCornerToLeft, sectionData);
-                CVisualization._direction = Directions.West;
+                case Directions.East:
+                    DrawDownwards(CVisualization.EastCornerToLeft, sectionData);
+                    CVisualization._direction = Directions.North;
+                    break;
+                case Directions.South:
+                    DrawDownwards(CVisualization.SouthCornerToLeft, sectionData);
+                    CVisualization._direction = Directions.East;
+                    break;
+                case Directions.West:
+                    DrawDownwards(CVisualization.WestCornerToLeft, sectionData);
+                    CVisualization._direction = Directions.South;
+                    break;
+                case Directions.North:
+                    DrawUpwards(CVisualization.NorthCornerToLeft, sectionData);
+                    CVisualization._direction = Directions.West;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("_direction");
             }
 
             switch (CVisualization._direction)
@@ -221,25 +222,26 @@ namespace RaceSimulator
 
         private static void DrawRightCorner(SectionData sectionData = null)
         {
-            if (CVisualization._direction == Directions.East)
+            switch (CVisualization._direction)
             {
-                DrawDownwards(CVisualization.EastCornerToRight, sectionData);
-                CVisualization._direction = Directions.South;
-            }
-            else if (CVisualization._direction == Directions.South)
-            {
-                DrawDownwards(CVisualization.SouthCornerToRight, sectionData);
-                CVisualization._direction = Directions.West;
-            }
-            else if (CVisualization._direction == Directions.West)
-            {
-                DrawDownwards(CVisualization.WestCornerToRight, sectionData);
-                CVisualization._direction = Directions.North;
-            }
-            else if (CVisualization._direction == Directions.North)
-            {
-                DrawUpwards(CVisualization.NorthCornerToRight, sectionData);
-                CVisualization._direction = Directions.East;
+                case Directions.East:
+                    DrawDownwards(CVisualization.EastCornerToRight, sectionData);
+                    CVisualization._direction = Directions.South;
+                    break;
+                case Directions.South:
+                    DrawDownwards(CVisualization.SouthCornerToRight, sectionData);
+                    CVisualization._direction = Directions.West;
+                    break;
+                case Directions.West:
+                    DrawDownwards(CVisualization.WestCornerToRight, sectionData);
+                    CVisualization._direction = Directions.North;
+                    break;
+                case Directions.North:
+                    DrawUpwards(CVisualization.NorthCornerToRight, sectionData);
+                    CVisualization._direction = Directions.East;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("_direction");
             }
 
             switch (CVisualization._direction)
@@ -614,271 +616,151 @@ namespace RaceSimulator
 
         private static bool SectionIsCorner(SectionTypes sectionType)
         {
-            return sectionType == SectionTypes.LeftCorner || sectionType == SectionTypes.RightCorner;
+            return sectionType is SectionTypes.LeftCorner or SectionTypes.RightCorner;
         }
         
         private static int ConvertIndexForRightCorner(int distance, bool right)
         {
             int newDistance = Race.ConvertRange(0, Race.SectionLength, 0, CVisualization.SymbolSpaces, distance);
-            switch (newDistance)
+            return newDistance switch
             {
-                case 0:
-                    if (CVisualization._direction == Directions.East)
-                    {
-                        return right ? 2 : 1;
-                    }
-
-                    if (CVisualization._direction == Directions.South || CVisualization._direction == Directions.North)
-                    {
-                        return 0;
-                    }
-
-                    if (CVisualization._direction == Directions.West)
-                    {
-                        return right ? 1 : 2;
-                    }
-
-                    return 2;
-                case 1:
-                    if (CVisualization._direction == Directions.East)
-                    {
-                        return right ? 2 : 1;
-                    }
-
-                    if (CVisualization._direction == Directions.South || CVisualization._direction == Directions.North)
-                    {
-                        return 1;
-                    }
-
-                    if (CVisualization._direction == Directions.West)
-                    {
-                        return right ? 1 : 2;
-                    }
-                    
-                    return 2;
-                case 2:
-                    if (CVisualization._direction == Directions.South || CVisualization._direction == Directions.North)
-                    {
-                        return right ? 1 : 2;
-                    }
-                    
-                    if (CVisualization._direction == Directions.West)
-                    {
-                        return 1;
-                    }
-                    
-                    return 2;
-                default:
-                    if (CVisualization._direction == Directions.South || CVisualization._direction == Directions.North)
-                    {
-                        return right ? 1 : 2;
-                    }
-                    
-                    if (CVisualization._direction == Directions.West)
-                    {
-                        return 0;
-                    }
-
-                    return 3;
-            }
+                0 => CVisualization._direction switch
+                {
+                    Directions.East => right ? 2 : 1,
+                    Directions.South => 0,
+                    Directions.North => 0,
+                    Directions.West => right ? 1 : 2,
+                    _ => 2
+                },
+                1 => CVisualization._direction switch
+                {
+                    Directions.East => right ? 2 : 1,
+                    Directions.South => 1,
+                    Directions.North => 1,
+                    Directions.West => right ? 1 : 2,
+                    _ => 2
+                },
+                2 => CVisualization._direction switch
+                {
+                    Directions.South => right ? 1 : 2,
+                    Directions.North => right ? 1 : 2,
+                    Directions.West => 1,
+                    _ => 2
+                },
+                _ => CVisualization._direction switch
+                {
+                    Directions.South => right ? 1 : 2,
+                    Directions.North => right ? 1 : 2,
+                    Directions.West => 0,
+                    _ => 3
+                }
+            };
         }
         
         private static int ConvertDistanceForRightCorner(int distance, bool right)
         {
             int newDistance = Race.ConvertRange(0, Race.SectionLength, 0, CVisualization.SymbolSpaces, distance);
-            switch (newDistance)
+            return newDistance switch
             {
-                case 0:
-                    if (CVisualization._direction == Directions.East)
-                    {
-                        return 0;
-                    }
-
-                    if (CVisualization._direction == Directions.South || CVisualization._direction == Directions.North)
-                    {
-                        return right ? 2 : 1;
-                    }
-
-                    return 1;
-                case 1:
-                    if (CVisualization._direction == Directions.East)
-                    {
-                        return 1;
-                    }
-                    
-                    if (CVisualization._direction == Directions.South || CVisualization._direction == Directions.North)
-                    {
-                        return right ? 2 : 1;
-                    }
-
-                    return 2;
-                case 2:
-                    if (CVisualization._direction == Directions.East)
-                    {
-                        return right ? 1 : 2;
-                    }
-                    
-                    if (CVisualization._direction == Directions.South)
-                    {
-                        return 1;
-                    }
-                    
-                    if (CVisualization._direction == Directions.West)
-                    {
-                        return right ? 2 : 3;
-                    }
-
-                    return 2;
-                default:
-                    if (CVisualization._direction == Directions.East)
-                    {
-                        return right ? 1 : 2;
-                    }
-                    
-                    if (CVisualization._direction == Directions.South)
-                    {
-                        return 0;
-                    }
-
-                    if (CVisualization._direction == Directions.West)
-                    {
-                        return right ? 2 : 3;
-                    }
-
-                    return 3;
-            }
+                0 => CVisualization._direction switch
+                {
+                    Directions.East => 0,
+                    Directions.South => right ? 2 : 1,
+                    Directions.North => right ? 2 : 1,
+                    _ => 1
+                },
+                1 => CVisualization._direction switch
+                {
+                    Directions.East => 1,
+                    Directions.South => right ? 2 : 1,
+                    Directions.North => right ? 2 : 1,
+                    _ => 2
+                },
+                2 => CVisualization._direction switch
+                {
+                    Directions.East => right ? 1 : 2,
+                    Directions.South => 1,
+                    Directions.West => right ? 2 : 3,
+                    _ => 2
+                },
+                _ => CVisualization._direction switch
+                {
+                    Directions.East => right ? 1 : 2,
+                    Directions.South => 0,
+                    Directions.West => right ? 2 : 3,
+                    _ => 3
+                }
+            };
         }
 
         private static int ConvertIndexForLeftCorner(int distance, bool left)
         {
             int newDistance = Race.ConvertRange(0, Race.SectionLength, 0, CVisualization.SymbolSpaces, distance);
-            switch (newDistance)
+            return newDistance switch
             {
-                case 0:
-                    if (CVisualization._direction == Directions.East)
-                    {
-                        return left ? 1 : 2;
-                    }
-
-                    if (CVisualization._direction == Directions.West)
-                    {
-                        return left ? 2 : 1;
-                    }
-
-                    return 0;
-                case 1:
-                    if (CVisualization._direction == Directions.East)
-                    {
-                        return left ? 1 : 2;
-                    }
-
-                    if (CVisualization._direction == Directions.West)
-                    {
-                        return left ? 2 : 1;
-                    }
-                    
-                    return 1;
-                case 2:
-                    if (CVisualization._direction == Directions.East)
-                    {
-                        return 1;
-                    }
-
-                    if (CVisualization._direction == Directions.South)
-                    {
-                        return left ? 1 : 2;
-                    }
-
-                    if (CVisualization._direction == Directions.North)
-                    {
-                        return left ? 2 : 1;
-                    }
-                    
-                    return 2;
-                default:
-                    if (CVisualization._direction == Directions.East)
-                    {
-                        return 0;
-                    }
-                    
-                    if (CVisualization._direction == Directions.South)
-                    {
-                        return left ? 1 : 2;
-                    }
-
-                    if (CVisualization._direction == Directions.North)
-                    {
-                        return left ? 2 : 1;
-                    }
-
-                    return 3;
-            }
+                0 => CVisualization._direction switch
+                {
+                    Directions.East => left ? 1 : 2,
+                    Directions.West => left ? 2 : 1,
+                    _ => 0
+                },
+                1 => CVisualization._direction switch
+                {
+                    Directions.East => left ? 1 : 2,
+                    Directions.West => left ? 2 : 1,
+                    _ => 1
+                },
+                2 => CVisualization._direction switch
+                {
+                    Directions.East => 1,
+                    Directions.South => left ? 1 : 2,
+                    Directions.North => left ? 2 : 1,
+                    _ => 2
+                },
+                _ => CVisualization._direction switch
+                {
+                    Directions.East => 0,
+                    Directions.South => left ? 1 : 2,
+                    Directions.North => left ? 2 : 1,
+                    _ => 3
+                }
+            };
         }
         
         private static int ConvertDistanceForLeftCorner(int distance, bool left)
         {
             int newDistance = Race.ConvertRange(0, Race.SectionLength, 0, CVisualization.SymbolSpaces, distance);
-            switch (newDistance)
+            return newDistance switch
             {
-                case 0:
-                    if (CVisualization._direction == Directions.East)
-                    {
-                        return 0;
-                    }
-
-                    if (CVisualization._direction == Directions.South || CVisualization._direction == Directions.North)
-                    {
-                        return left ? 2 : 1;
-                    }
-
-                    return 1;
-                case 1:
-                    if (CVisualization._direction == Directions.East)
-                    {
-                        return 1;
-                    }
-                    
-                    if (CVisualization._direction == Directions.South || CVisualization._direction == Directions.North)
-                    {
-                        return left ? 2 : 1;
-                    }
-
-                    return 2;
-                case 2:
-                    if (CVisualization._direction == Directions.East)
-                    {
-                        return left ? 1 : 2;
-                    }
-
-                    if (CVisualization._direction == Directions.West)
-                    {
-                        return left ? 2 : 3;
-                    }
-
-                    if (CVisualization._direction == Directions.North)
-                    {
-                        return 1;
-                    }
-                    
-                    return 2;
-                default:
-                    if (CVisualization._direction == Directions.East)
-                    {
-                        return left ? 1 : 2;
-                    }
-
-                    if (CVisualization._direction == Directions.West)
-                    {
-                        return left ? 2 : 3;
-                    }
-
-                    if (CVisualization._direction == Directions.North)
-                    {
-                        return 0;
-                    }
-                    
-                    return 3;
-            }
+                0 => CVisualization._direction switch
+                {
+                    Directions.East => 0,
+                    Directions.South => left ? 2 : 1,
+                    Directions.North => left ? 2 : 1,
+                    _ => 1
+                },
+                1 => CVisualization._direction switch
+                {
+                    Directions.East => 1,
+                    Directions.South => left ? 2 : 1,
+                    Directions.North => left ? 2 : 1,
+                    _ => 2
+                },
+                2 => CVisualization._direction switch
+                {
+                    Directions.East => left ? 1 : 2,
+                    Directions.West => left ? 2 : 3,
+                    Directions.North => 1,
+                    _ => 2
+                },
+                _ => CVisualization._direction switch
+                {
+                    Directions.East => left ? 1 : 2,
+                    Directions.West => left ? 2 : 3,
+                    Directions.North => 0,
+                    _ => 3
+                }
+            };
         }
         
     }

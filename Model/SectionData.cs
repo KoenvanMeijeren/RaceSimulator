@@ -17,7 +17,7 @@ namespace Model
         public IParticipant Right { get; private set; }
         public int DistanceRight { get; private set; }
 
-        private Random _random;
+        private readonly Random _random;
         
         public SectionData()
         {
