@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>E:\Development\C#\RaceSimulator\WPFRaceSimulator\WPFVisualization.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Controller;
+using Model;
+
+namespace WPFRaceSimulator
+{
+    public static class WPFVisualization
+    {
+        
+        private static readonly Directions _startDirection = Directions.East;
+        private static Directions _direction = WPFVisualization._startDirection;
+
+        private const int
+            TrackPositionUndefined = -1,
+            CarWidth = 62,
+            CarHeight = 40,
+            SectionWidth = 150,
+            SectionHeight = 150;
+
+        private static int
+            _trackWidth = TrackPositionUndefined,
+            _trackHeight = TrackPositionUndefined;
+
+        public static int GetTrackWidth(Race race)
+        {
+            if (WPFVisualization._trackWidth != TrackPositionUndefined)
+            {
+                return WPFVisualization._trackWidth;
+            }
+
+            int
+                eastwardSections = race.Track.GetEastwardSectionsCount() * SectionWidth,
+                westwardSections = race.Track.GetWestwardSectionsCount() * SectionWidth;
+            
+            WPFVisualization._trackWidth = eastwardSections + (westwardSections - eastwardSections);
+            
+            return WPFVisualization._trackWidth;
+        }
+
+        public static int GetTrackHeight(Race race)
+        {
+            if (WPFVisualization._trackHeight != TrackPositionUndefined)
+            {
+                return WPFVisualization._trackHeight;
+            }
+
+            int 
+                northwardSections = race.Track.GetNorthwardSectionsCount() * SectionHeight,
+                southwardSections = race.Track.GetSouthwardSectionsCount() * SectionHeight;
+            
+            WPFVisualization._trackHeight = southwardSections + (northwardSections - southwardSections);
+
+            return WPFVisualization._trackHeight;
+        }
+
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[9,9,9,78,0],[10,9,10,81,0],[19,9,20,49,0],[21,13,21,50,0],[24,9,24,10,0],[25,13,25,72,0],[26,13,26,14,0],[27,17,27,53,0],[30,13,31,88,0],[32,17,32,88,0],[34,13,34,101,0],[36,13,36,49,0],[37,9,37,10,0],[40,9,40,10,0],[41,13,41,73,0],[42,13,42,14,0],[43,17,43,54,0],[46,13,47,91,0],[48,17,48,91,0],[50,13,50,105,0],[52,13,52,50,0],[53,9,53,10,0]]);
+    </script>
+  </body>
+</html>

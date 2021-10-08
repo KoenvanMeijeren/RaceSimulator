@@ -14,7 +14,7 @@ namespace Model
 
             private set
             {
-                if (value < IEquipment.MinimumQuality || value > IEquipment.MaximumQuality)
+                if (value is < IEquipment.MinimumQuality or > IEquipment.MaximumQuality)
                 {
                     throw new ArgumentOutOfRangeException("Quality", value, $"The value must be equal to or higher then: {IEquipment.MinimumQuality} and lower then or equal to {IEquipment.MaximumQuality}.");
                 }
@@ -29,7 +29,7 @@ namespace Model
 
             private set
             {
-                if (value < IEquipment.MinimumPerformance || value > IEquipment.MaximumPerformance)
+                if (value is < IEquipment.MinimumPerformance or > IEquipment.MaximumPerformance)
                 {
                     throw new ArgumentOutOfRangeException("Performance", value, $"The value must be equal to or higher then: {IEquipment.MinimumPerformance} and lower then or equal to {IEquipment.MaximumPerformance}.");
                 }
@@ -44,7 +44,7 @@ namespace Model
 
             private set
             {
-                if (value < IEquipment.MinimumSpeed || value > IEquipment.MaximumSpeed)
+                if (value is < IEquipment.MinimumSpeed or > IEquipment.MaximumSpeed)
                 {
                     throw new ArgumentOutOfRangeException("Speed", value, $"The value must be equal to or higher then: {IEquipment.MinimumSpeed} and lower then or equal to {IEquipment.MaximumSpeed}.");
                 }
@@ -55,7 +55,7 @@ namespace Model
 
         public bool IsBroken { get; set; }
 
-        private Random _randominizer;
+        private readonly Random _randomizer;
 
 
         public Car(int quality, int performance, int speed)
@@ -65,7 +65,7 @@ namespace Model
             this.Speed = speed;
             this.IsBroken = false;
 
-            this._randominizer = new Random(DateTime.Now.Millisecond);
+            this._randomizer = new Random(DateTime.Now.Millisecond);
         }
 
         public int GetRealSpeed()
@@ -86,7 +86,7 @@ namespace Model
         
         public void DecreaseSpeed()
         {
-           int number = this._randominizer.Next(20, 30);
+           int number = this._randomizer.Next(20, 30);
            if (IEquipment.MinimumSpeed >= (this._speed - number))
            {
                this._speed = IEquipment.MinimumSpeed;

@@ -26,12 +26,12 @@ namespace Controller
 
         public DateTime StartTime { get; private set; }
 
-        private Random _random;
+        private readonly Random _random;
 
         // Only 2 participants per section are allowed.
-        private Dictionary<Section, SectionData> _positions;
+        private readonly Dictionary<Section, SectionData> _positions;
 
-        public Dictionary<IParticipant, int> Rounds { get; private set; }
+        private readonly Dictionary<IParticipant, int> _rounds;
 
         private readonly Timer _timer;
 
@@ -47,7 +47,7 @@ namespace Controller
             this.Participants = participants;
             this._random = new Random(DateTime.Now.Millisecond);
             this._positions = new Dictionary<Section, SectionData>();
-            this.Rounds = new Dictionary<IParticipant, int>(participants.Capacity);
+            this._rounds = new Dictionary<IParticipant, int>(participants.Capacity);
             this._timer = new Timer(Race.TimerInterval);
             this._timer.Elapsed += Race.OnTimedEvent;
             
@@ -286,7 +286,7 @@ namespace Controller
             return null;
         }
         
-        public bool ShouldBreakParticipantEquipment()
+        private bool ShouldBreakParticipantEquipment()
         {
             int yes = 0;
             const int iterations = 500;
@@ -335,7 +335,7 @@ namespace Controller
             return sectionData;
         }
         
-        public bool AllParticipantsFinished()
+        private bool AllParticipantsFinished()
         {
             return this._finishedParticipants >= this.Participants.Count;
         }
@@ -366,25 +366,25 @@ namespace Controller
         
         public int GetRounds(IParticipant participant)
         {
-            if (this.Rounds.TryGetValue(participant, out var rounds))
+            if (this._rounds.TryGetValue(participant, out var rounds))
             {
                 return rounds;
             }
             
             rounds = Race.RoundsStartValue;
-            this.Rounds.Add(participant, rounds);
+            this._rounds.Add(participant, rounds);
 
             return rounds;
         }
 
         public bool UpdateRounds(IParticipant participant, int rounds)
         {
-            if (!this.Rounds.ContainsKey(participant))
+            if (!this._rounds.ContainsKey(participant))
             {
                 return false;
             }
 
-            this.Rounds[participant] = rounds;
+            this._rounds[participant] = rounds;
             return true;
         }
         

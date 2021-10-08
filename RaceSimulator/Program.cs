@@ -6,9 +6,9 @@ using Model;
 
 namespace RaceSimulator
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             Data.Initialize();
 

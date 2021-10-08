@@ -37,7 +37,7 @@ namespace Model
             StringBuilder initials = new StringBuilder(initialsLength);
             for (int delta = 0; delta < chars.Length && delta < initialsLength; delta++)
             {
-                initials.Append(chars.ElementAtOrDefault(delta).ToString());
+                initials.Append(chars.ElementAtOrDefault(delta));
             }
 
             return initials.ToString();

@@ -14,6 +14,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Color = System.Drawing.Color;
 
 namespace WPFRaceSimulator
 {
@@ -23,8 +24,28 @@ namespace WPFRaceSimulator
     public static class WPFImageBuilder
     {
 
-        private static Dictionary&lt;string, Bitmap&gt; CachedImages;
+        private const string MainBitmapKey = &quot;empty&quot;;
+        
+        private static readonly Dictionary&lt;string, Bitmap&gt; CachedImages = new Dictionary&lt;string, Bitmap&gt;();
 
+        public static Bitmap CreateBitmap(int width, int height)
+        {
+            if (WPFImageBuilder.CachedImages.TryGetValue(WPFImageBuilder.MainBitmapKey, out var bitmap))
+            {
+                return (Bitmap) bitmap.Clone();
+            }
+            
+            bitmap = new Bitmap(width, height);
+            Graphics graphics = Graphics.FromImage(bitmap);
+            SolidBrush solidBrush = new SolidBrush(Color.Red);
+            graphics.FillRectangle(solidBrush, 0, 0, width, height);
+            // graphics.Clear(Color.Red);
+            
+            WPFImageBuilder.CachedImages.Add(WPFImageBuilder.MainBitmapKey, bitmap);
+
+            return bitmap;
+        }
+        
         public static BitmapSource CreateBitmapSourceFromGdiBitmap(Bitmap bitmap)
         {
             if (bitmap == null)
@@ -48,7 +69,8 @@ namespace WPFRaceSimulator
                     null,
                     bitmapData.Scan0,
                     size,
-                    bitmapData.Stride);
+                    bitmapData.Stride
+                );
             }
             finally
             {
@@ -63,19 +85,22 @@ namespace WPFRaceSimulator
         
         public static Bitmap LoadImage(string url)
         {
-            if (!WPFImageBuilder.CachedImages.ContainsKey(url))
+            if (WPFImageBuilder.CachedImages.TryGetValue(url, out var bitmap))
             {
-                WPFImageBuilder.CachedImages.Add(url, new Bitmap(Image.FromFile(url)));
+                return (Bitmap) bitmap.Clone();
             }
+            
+            bitmap = new Bitmap(Image.FromFile(url));
+            WPFImageBuilder.CachedImages.Add(url, bitmap);
 
-            return (Bitmap) WPFImageBuilder.CachedImages[url].Clone();
+            return (Bitmap) bitmap.Clone();
         }
 
     }
 }
     </pre>
     <script type="text/javascript">
-      highlightRanges([[19,9,19,10,0],[20,13,20,32,0],[21,13,21,14,0],[22,17,22,59,0],[25,13,25,79,0],[26,13,26,136,0],[29,13,29,14,0],[30,17,30,59,0],[32,17,41,40,0],[44,13,44,14,0],[45,17,45,47,0],[46,13,46,14,0],[47,9,47,10,0],[50,9,50,10,0],[51,13,51,50,0],[52,9,52,10,0],[55,9,55,10,0],[56,13,56,64,0],[57,13,57,14,0],[58,17,58,88,0],[59,13,59,14,0],[61,13,61,71,0],[62,9,62,10,0]]);
+      highlightRanges([[19,9,19,108,0],[22,9,22,10,0],[23,13,23,105,0],[24,13,24,14,0],[25,17,25,48,0],[28,13,28,48,0],[29,13,29,60,0],[30,13,30,63,0],[31,13,31,69,0],[34,13,34,85,0],[36,13,36,27,0],[37,9,37,10,0],[40,9,40,10,0],[41,13,41,32,0],[42,13,42,14,0],[43,17,43,59,0],[46,13,46,79,0],[47,13,47,136,0],[50,13,50,14,0],[51,17,51,59,0],[53,17,63,19,0],[66,13,66,14,0],[67,17,67,47,0],[68,13,68,14,0],[69,9,69,10,0],[72,9,72,10,0],[73,13,73,50,0],[74,9,74,10,0],[77,9,77,10,0],[78,13,78,79,0],[79,13,79,14,0],[80,17,80,48,0],[83,13,83,54,0],[84,13,84,59,0],[86,13,86,44,0],[87,9,87,10,0]]);
     </script>
   </body>
 </html>

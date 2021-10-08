@@ -95,18 +95,20 @@ namespace RaceSimulator
         public static void DrawTrack(Race race)
         {
             Track track = race.Track;
-            int northPosition = CVisualization.GetNorthPosition(track), eastPosition = CVisualization.GetEastPosition(track);
+            int 
+                northPosition = CVisualization.GetNorthPosition(track), 
+                eastPosition = CVisualization.GetEastPosition(track);
             
             Console.BackgroundColor = ConsoleColor.Blue;
             Console.ForegroundColor = ConsoleColor.White;
             Console.Clear();
 
-            Console.SetCursorPosition(CenteredTextCursorStartPosition(track.Name),  northPosition &lt; 20 ? CVisualization.CursorStartNorthPosition - 4 :  northPosition - 4);
+            Console.SetCursorPosition(CenteredTextCursorStartPosition(track.Name),  northPosition &lt; 5 ? 1 :  northPosition - 4);
             Console.WriteLine(track.Name);
             
             CVisualization._direction = CVisualization.StartDirection;
             CVisualization._cursorEastPosition = eastPosition &lt; 20 ? CVisualization.CursorStartEastPosition : eastPosition;
-            CVisualization._cursorNorthPosition = northPosition &lt; 20 ? CVisualization.CursorStartNorthPosition :  northPosition;
+            CVisualization._cursorNorthPosition = northPosition &lt; 10 ? northPosition + 10 : northPosition;
 
             foreach (Section trackSection in track.Sections)
             {
@@ -120,15 +122,19 @@ namespace RaceSimulator
             {
                 return CVisualization._trackEastPosition;
             }
+
+            int
+                westwardSections = track.GetWestwardSectionsCount() * SymbolSpaces,
+                eastwardSections = track.GetWestwardSectionsCount() * SymbolSpaces;
             
-            int eastPosition = (track.GetWestwardSectionsCount() * CVisualization.SymbolSpaces) + CVisualization.SymbolSpaces;
-            
-            if (eastPosition == Track.SectionCountUndefined)
+            if (eastwardSections == Track.SectionCountUndefined || westwardSections == Track.SectionCountUndefined)
             {
                 return CVisualization.CursorStartEastPosition;
             }
             
-            return eastPosition;
+            CVisualization._trackEastPosition = eastwardSections + (westwardSections - eastwardSections);
+            
+            return CVisualization._trackEastPosition;
         }
 
         private static int GetNorthPosition(Track track)
@@ -137,15 +143,19 @@ namespace RaceSimulator
             {
                 return CVisualization._trackNorthPosition;
             }
+
+            int
+                southwardSections = track.GetSouthwardSectionsCount() * SymbolSpaces,
+                northwardSections = track.GetNorthwardSectionsCount() * SymbolSpaces;
             
-            int northPosition = (track.GetNorthwardSectionsCount() * CVisualization.SymbolSpaces) - (track.GetSouthwardSectionsCount() * CVisualization.SymbolSpaces) + CVisualization.SymbolSpaces;
-            
-            if (northPosition == Track.SectionCountUndefined)
+            if (northwardSections == Track.SectionCountUndefined || southwardSections == Track.SectionCountUndefined)
             {
                 return CVisualization.CursorStartNorthPosition;
             }
             
-            return northPosition + CVisualization.SymbolSpaces;
+            CVisualization._trackNorthPosition = southwardSections + (northwardSections - southwardSections);
+
+            return CVisualization._trackNorthPosition;
         }
 
         private static void DrawTrackSection(Section section, SectionData sectionData)
@@ -179,25 +189,26 @@ namespace RaceSimulator
 
         private static void DrawLeftCorner(SectionData sectionData = null)
         {
-            if (CVisualization._direction == Directions.East)
+            switch (CVisualization._direction)
             {
-                DrawDownwards(CVisualization.EastCornerToLeft, sectionData);
-                CVisualization._direction = Directions.North;
-            }
-            else if (CVisualization._direction == Directions.South)
-            {
-                DrawDownwards(CVisualization.SouthCornerToLeft, sectionData);
-                CVisualization._direction = Directions.East;
-            }
-            else if (CVisualization._direction == Directions.West)
-            {
-                DrawDownwards(CVisualization.WestCornerToLeft, sectionData);
-                CVisualization._direction = Directions.South;
-            }
-            else if (CVisualization._direction == Directions.North)
-            {
-                DrawUpwards(CVisualization.NorthCornerToLeft, sectionData);
-                CVisualization._direction = Directions.West;
+                case Directions.East:
+                    DrawDownwards(CVisualization.EastCornerToLeft, sectionData);
+                    CVisualization._direction = Directions.North;
+                    break;
+                case Directions.South:
+                    DrawDownwards(CVisualization.SouthCornerToLeft, sectionData);
+                    CVisualization._direction = Directions.East;
+                    break;
+                case Directions.West:
+                    DrawDownwards(CVisualization.WestCornerToLeft, sectionData);
+                    CVisualization._direction = Directions.South;
+                    break;
+                case Directions.North:
+                    DrawUpwards(CVisualization.NorthCornerToLeft, sectionData);
+                    CVisualization._direction = Directions.West;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(&quot;_direction&quot;);
             }
 
             switch (CVisualization._direction)
@@ -221,25 +232,26 @@ namespace RaceSimulator
 
         private static void DrawRightCorner(SectionData sectionData = null)
         {
-            if (CVisualization._direction == Directions.East)
+            switch (CVisualization._direction)
             {
-                DrawDownwards(CVisualization.EastCornerToRight, sectionData);
-                CVisualization._direction = Directions.South;
-            }
-            else if (CVisualization._direction == Directions.South)
-            {
-                DrawDownwards(CVisualization.SouthCornerToRight, sectionData);
-                CVisualization._direction = Directions.West;
-            }
-            else if (CVisualization._direction == Directions.West)
-            {
-                DrawDownwards(CVisualization.WestCornerToRight, sectionData);
-                CVisualization._direction = Directions.North;
-            }
-            else if (CVisualization._direction == Directions.North)
-            {
-                DrawUpwards(CVisualization.NorthCornerToRight, sectionData);
-                CVisualization._direction = Directions.East;
+                case Directions.East:
+                    DrawDownwards(CVisualization.EastCornerToRight, sectionData);
+                    CVisualization._direction = Directions.South;
+                    break;
+                case Directions.South:
+                    DrawDownwards(CVisualization.SouthCornerToRight, sectionData);
+                    CVisualization._direction = Directions.West;
+                    break;
+                case Directions.West:
+                    DrawDownwards(CVisualization.WestCornerToRight, sectionData);
+                    CVisualization._direction = Directions.North;
+                    break;
+                case Directions.North:
+                    DrawUpwards(CVisualization.NorthCornerToRight, sectionData);
+                    CVisualization._direction = Directions.East;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(&quot;_direction&quot;);
             }
 
             switch (CVisualization._direction)
@@ -614,271 +626,151 @@ namespace RaceSimulator
 
         private static bool SectionIsCorner(SectionTypes sectionType)
         {
-            return sectionType == SectionTypes.LeftCorner || sectionType == SectionTypes.RightCorner;
+            return sectionType is SectionTypes.LeftCorner or SectionTypes.RightCorner;
         }
         
         private static int ConvertIndexForRightCorner(int distance, bool right)
         {
             int newDistance = Race.ConvertRange(0, Race.SectionLength, 0, CVisualization.SymbolSpaces, distance);
-            switch (newDistance)
+            return newDistance switch
             {
-                case 0:
-                    if (CVisualization._direction == Directions.East)
-                    {
-                        return right ? 2 : 1;
-                    }
-
-                    if (CVisualization._direction == Directions.South || CVisualization._direction == Directions.North)
-                    {
-                        return 0;
-                    }
-
-                    if (CVisualization._direction == Directions.West)
-                    {
-                        return right ? 1 : 2;
-                    }
-
-                    return 2;
-                case 1:
-                    if (CVisualization._direction == Directions.East)
-                    {
-                        return right ? 2 : 1;
-                    }
-
-                    if (CVisualization._direction == Directions.South || CVisualization._direction == Directions.North)
-                    {
-                        return 1;
-                    }
-
-                    if (CVisualization._direction == Directions.West)
-                    {
-                        return right ? 1 : 2;
-                    }
-                    
-                    return 2;
-                case 2:
-                    if (CVisualization._direction == Directions.South || CVisualization._direction == Directions.North)
-                    {
-                        return right ? 1 : 2;
-                    }
-                    
-                    if (CVisualization._direction == Directions.West)
-                    {
-                        return 1;
-                    }
-                    
-                    return 2;
-                default:
-                    if (CVisualization._direction == Directions.South || CVisualization._direction == Directions.North)
-                    {
-                        return right ? 1 : 2;
-                    }
-                    
-                    if (CVisualization._direction == Directions.West)
-                    {
-                        return 0;
-                    }
-
-                    return 3;
-            }
+                0 =&gt; CVisualization._direction switch
+                {
+                    Directions.East =&gt; right ? 2 : 1,
+                    Directions.South =&gt; 0,
+                    Directions.North =&gt; 0,
+                    Directions.West =&gt; right ? 1 : 2,
+                    _ =&gt; 2
+                },
+                1 =&gt; CVisualization._direction switch
+                {
+                    Directions.East =&gt; right ? 2 : 1,
+                    Directions.South =&gt; 1,
+                    Directions.North =&gt; 1,
+                    Directions.West =&gt; right ? 1 : 2,
+                    _ =&gt; 2
+                },
+                2 =&gt; CVisualization._direction switch
+                {
+                    Directions.South =&gt; right ? 1 : 2,
+                    Directions.North =&gt; right ? 1 : 2,
+                    Directions.West =&gt; 1,
+                    _ =&gt; 2
+                },
+                _ =&gt; CVisualization._direction switch
+                {
+                    Directions.South =&gt; right ? 1 : 2,
+                    Directions.North =&gt; right ? 1 : 2,
+                    Directions.West =&gt; 0,
+                    _ =&gt; 3
+                }
+            };
         }
         
         private static int ConvertDistanceForRightCorner(int distance, bool right)
         {
             int newDistance = Race.ConvertRange(0, Race.SectionLength, 0, CVisualization.SymbolSpaces, distance);
-            switch (newDistance)
+            return newDistance switch
             {
-                case 0:
-                    if (CVisualization._direction == Directions.East)
-                    {
-                        return 0;
-                    }
-
-                    if (CVisualization._direction == Directions.South || CVisualization._direction == Directions.North)
-                    {
-                        return right ? 2 : 1;
-                    }
-
-                    return 1;
-                case 1:
-                    if (CVisualization._direction == Directions.East)
-                    {
-                        return 1;
-                    }
-                    
-                    if (CVisualization._direction == Directions.South || CVisualization._direction == Directions.North)
-                    {
-                        return right ? 2 : 1;
-                    }
-
-                    return 2;
-                case 2:
-                    if (CVisualization._direction == Directions.East)
-                    {
-                        return right ? 1 : 2;
-                    }
-                    
-                    if (CVisualization._direction == Directions.South)
-                    {
-                        return 1;
-                    }
-                    
-                    if (CVisualization._direction == Directions.West)
-                    {
-                        return right ? 2 : 3;
-                    }
-
-                    return 2;
-                default:
-                    if (CVisualization._direction == Directions.East)
-                    {
-                        return right ? 1 : 2;
-                    }
-                    
-                    if (CVisualization._direction == Directions.South)
-                    {
-                        return 0;
-                    }
-
-                    if (CVisualization._direction == Directions.West)
-                    {
-                        return right ? 2 : 3;
-                    }
-
-                    return 3;
-            }
+                0 =&gt; CVisualization._direction switch
+                {
+                    Directions.East =&gt; 0,
+                    Directions.South =&gt; right ? 2 : 1,
+                    Directions.North =&gt; right ? 2 : 1,
+                    _ =&gt; 1
+                },
+                1 =&gt; CVisualization._direction switch
+                {
+                    Directions.East =&gt; 1,
+                    Directions.South =&gt; right ? 2 : 1,
+                    Directions.North =&gt; right ? 2 : 1,
+                    _ =&gt; 2
+                },
+                2 =&gt; CVisualization._direction switch
+                {
+                    Directions.East =&gt; right ? 1 : 2,
+                    Directions.South =&gt; 1,
+                    Directions.West =&gt; right ? 2 : 3,
+                    _ =&gt; 2
+                },
+                _ =&gt; CVisualization._direction switch
+                {
+                    Directions.East =&gt; right ? 1 : 2,
+                    Directions.South =&gt; 0,
+                    Directions.West =&gt; right ? 2 : 3,
+                    _ =&gt; 3
+                }
+            };
         }
 
         private static int ConvertIndexForLeftCorner(int distance, bool left)
         {
             int newDistance = Race.ConvertRange(0, Race.SectionLength, 0, CVisualization.SymbolSpaces, distance);
-            switch (newDistance)
+            return newDistance switch
             {
-                case 0:
-                    if (CVisualization._direction == Directions.East)
-                    {
-                        return left ? 1 : 2;
-                    }
-
-                    if (CVisualization._direction == Directions.West)
-                    {
-                        return left ? 2 : 1;
-                    }
-
-                    return 0;
-                case 1:
-                    if (CVisualization._direction == Directions.East)
-                    {
-                        return left ? 1 : 2;
-                    }
-
-                    if (CVisualization._direction == Directions.West)
-                    {
-                        return left ? 2 : 1;
-                    }
-                    
-                    return 1;
-                case 2:
-                    if (CVisualization._direction == Directions.East)
-                    {
-                        return 1;
-                    }
-
-                    if (CVisualization._direction == Directions.South)
-                    {
-                        return left ? 1 : 2;
-                    }
-
-                    if (CVisualization._direction == Directions.North)
-                    {
-                        return left ? 2 : 1;
-                    }
-                    
-                    return 2;
-                default:
-                    if (CVisualization._direction == Directions.East)
-                    {
-                        return 0;
-                    }
-                    
-                    if (CVisualization._direction == Directions.South)
-                    {
-                        return left ? 1 : 2;
-                    }
-
-                    if (CVisualization._direction == Directions.North)
-                    {
-                        return left ? 2 : 1;
-                    }
-
-                    return 3;
-            }
+                0 =&gt; CVisualization._direction switch
+                {
+                    Directions.East =&gt; left ? 1 : 2,
+                    Directions.West =&gt; left ? 2 : 1,
+                    _ =&gt; 0
+                },
+                1 =&gt; CVisualization._direction switch
+                {
+                    Directions.East =&gt; left ? 1 : 2,
+                    Directions.West =&gt; left ? 2 : 1,
+                    _ =&gt; 1
+                },
+                2 =&gt; CVisualization._direction switch
+                {
+                    Directions.East =&gt; 1,
+                    Directions.South =&gt; left ? 1 : 2,
+                    Directions.North =&gt; left ? 2 : 1,
+                    _ =&gt; 2
+                },
+                _ =&gt; CVisualization._direction switch
+                {
+                    Directions.East =&gt; 0,
+                    Directions.South =&gt; left ? 1 : 2,
+                    Directions.North =&gt; left ? 2 : 1,
+                    _ =&gt; 3
+                }
+            };
         }
         
         private static int ConvertDistanceForLeftCorner(int distance, bool left)
         {
             int newDistance = Race.ConvertRange(0, Race.SectionLength, 0, CVisualization.SymbolSpaces, distance);
-            switch (newDistance)
+            return newDistance switch
             {
-                case 0:
-                    if (CVisualization._direction == Directions.East)
-                    {
-                        return 0;
-                    }
-
-                    if (CVisualization._direction == Directions.South || CVisualization._direction == Directions.North)
-                    {
-                        return left ? 2 : 1;
-                    }
-
-                    return 1;
-                case 1:
-                    if (CVisualization._direction == Directions.East)
-                    {
-                        return 1;
-                    }
-                    
-                    if (CVisualization._direction == Directions.South || CVisualization._direction == Directions.North)
-                    {
-                        return left ? 2 : 1;
-                    }
-
-                    return 2;
-                case 2:
-                    if (CVisualization._direction == Directions.East)
-                    {
-                        return left ? 1 : 2;
-                    }
-
-                    if (CVisualization._direction == Directions.West)
-                    {
-                        return left ? 2 : 3;
-                    }
-
-                    if (CVisualization._direction == Directions.North)
-                    {
-                        return 1;
-                    }
-                    
-                    return 2;
-                default:
-                    if (CVisualization._direction == Directions.East)
-                    {
-                        return left ? 1 : 2;
-                    }
-
-                    if (CVisualization._direction == Directions.West)
-                    {
-                        return left ? 2 : 3;
-                    }
-
-                    if (CVisualization._direction == Directions.North)
-                    {
-                        return 0;
-                    }
-                    
-                    return 3;
-            }
+                0 =&gt; CVisualization._direction switch
+                {
+                    Directions.East =&gt; 0,
+                    Directions.South =&gt; left ? 2 : 1,
+                    Directions.North =&gt; left ? 2 : 1,
+                    _ =&gt; 1
+                },
+                1 =&gt; CVisualization._direction switch
+                {
+                    Directions.East =&gt; 1,
+                    Directions.South =&gt; left ? 2 : 1,
+                    Directions.North =&gt; left ? 2 : 1,
+                    _ =&gt; 2
+                },
+                2 =&gt; CVisualization._direction switch
+                {
+                    Directions.East =&gt; left ? 1 : 2,
+                    Directions.West =&gt; left ? 2 : 3,
+                    Directions.North =&gt; 1,
+                    _ =&gt; 2
+                },
+                _ =&gt; CVisualization._direction switch
+                {
+                    Directions.East =&gt; left ? 1 : 2,
+                    Directions.West =&gt; left ? 2 : 3,
+                    Directions.North =&gt; 0,
+                    _ =&gt; 3
+                }
+            };
         }
         
     }
@@ -886,7 +778,7 @@ namespace RaceSimulator
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[17,9,17,78,0],[40,9,41,62,0],[42,13,42,64,0],[44,9,45,56,0],[46,13,46,57,0],[47,13,47,58,0],[48,13,48,60,0],[52,9,53,64,0],[54,13,54,62,0],[56,13,56,67,0],[57,13,57,65,0],[59,13,59,66,0],[60,13,60,64,0],[62,13,62,66,0],[63,13,63,68,0],[65,13,65,68,0],[66,13,66,64,0],[68,13,68,65,0],[69,13,69,68,0],[71,13,71,65,0],[72,13,72,64,0],[76,9,76,10,0],[77,13,77,68,0],[78,9,78,10,0],[81,9,81,10,0],[82,13,82,54,0],[83,9,83,10,0],[86,9,86,10,0],[87,13,87,38,0],[88,13,88,71,0],[88,73,88,125,0],[90,13,90,57,0],[91,13,91,58,0],[92,13,92,29,0],[94,13,94,172,0],[95,13,95,43,0],[97,13,97,71,0],[98,13,98,124,0],[99,13,99,129,0],[101,13,101,20,0],[101,22,101,42,0],[101,43,101,45,0],[101,46,101,60,0],[102,13,102,14,0],[103,17,103,98,0],[104,13,104,14,0],[105,9,105,10,0],[108,9,108,10,0],[109,13,109,92,0],[110,13,110,14,0],[111,17,111,58,0],[114,13,114,127,0],[116,13,116,61,0],[117,13,117,14,0],[118,17,118,63,0],[121,13,121,33,0],[122,9,122,10,0],[125,9,125,10,0],[126,13,126,93,0],[127,13,127,14,0],[128,17,128,59,0],[131,13,131,197,0],[133,13,133,62,0],[134,13,134,14,0],[135,17,135,64,0],[138,13,138,64,0],[139,9,139,10,0],[142,9,142,10,0],[143,13,143,41,0],[146,21,146,48,0],[147,21,147,27,0],[149,21,149,47,0],[150,21,150,27,0],[152,21,152,49,0],[153,21,153,27,0],[155,21,155,50,0],[156,21,156,27,0],[158,21,158,45,0],[159,21,159,27,0],[161,21,161,90,0],[163,9,163,10,0],[166,9,166,10,0],[167,13,167,86,0],[168,9,168,10,0],[171,9,171,10,0],[172,13,172,62,0],[173,13,173,14,0],[174,17,174,77,0],[175,17,175,62,0],[176,13,176,14,0],[177,18,177,68,0],[178,13,178,14,0],[179,17,179,78,0],[180,17,180,61,0],[181,13,181,14,0],[182,18,182,67,0],[183,13,183,14,0],[184,17,184,77,0],[185,17,185,62,0],[186,13,186,14,0],[187,18,187,68,0],[188,13,188,14,0],[189,17,189,76,0],[190,17,190,61,0],[191,13,191,14,0],[193,13,193,47,0],[196,21,196,88,0],[197,21,197,87,0],[198,21,198,27,0],[200,21,200,62,0],[201,21,201,87,0],[202,21,202,27,0],[204,21,204,92,0],[205,21,205,27,0],[208,21,208,27,0],[210,9,210,10,0],[213,9,213,10,0],[214,13,214,62,0],[215,13,215,14,0],[216,17,216,78,0],[217,17,217,62,0],[218,13,218,14,0],[219,18,219,68,0],[220,13,220,14,0],[221,17,221,79,0],[222,17,222,61,0],[223,13,223,14,0],[224,18,224,67,0],[225,13,225,14,0],[226,17,226,78,0],[227,17,227,62,0],[228,13,228,14,0],[229,18,229,68,0],[230,13,230,14,0],[231,17,231,77,0],[232,17,232,61,0],[233,13,233,14,0],[235,13,235,47,0],[238,21,238,62,0],[239,21,239,87,0],[240,21,240,27,0],[242,21,242,88,0],[243,21,243,87,0],[244,21,244,27,0],[246,21,246,92,0],[247,21,247,27,0],[250,21,250,27,0],[252,9,252,10,0],[255,9,255,10,0],[256,13,256,54,0],[257,13,257,14,0],[258,17,258,83,0],[259,17,259,24,0],[262,13,262,81,0],[263,9,263,10,0],[266,9,266,10,0],[267,13,267,54,0],[268,13,268,14,0],[269,17,269,84,0],[270,17,270,24,0],[273,13,273,82,0],[274,9,274,10,0],[277,9,277,10,0],[278,13,278,54,0],[279,13,279,14,0],[280,17,280,81,0],[281,17,281,24,0],[284,13,284,79,0],[285,9,285,10,0],[288,9,288,10,0],[289,13,289,101,0],[290,13,290,14,0],[291,17,291,53,0],[292,13,292,14,0],[294,13,294,14,0],[295,17,295,51,0],[296,13,296,14,0],[298,13,298,47,0],[301,21,301,88,0],[302,21,302,87,0],[303,21,303,27,0],[305,21,305,88,0],[306,21,306,87,0],[307,21,307,27,0],[309,9,309,10,0],[312,9,312,10,0],[313,13,313,95,0],[315,13,315,20,0],[315,22,315,35,0],[315,36,315,38,0],[315,39,315,51,0],[316,13,316,14,0],[317,17,317,50,0],[318,17,318,54,0],[319,13,319,14,0],[320,9,320,10,0],[323,9,323,10,0],[324,13,324,95,0],[326,13,326,20,0],[326,22,326,35,0],[326,36,326,38,0],[326,39,326,51,0],[327,13,327,14,0],[328,17,328,50,0],[329,17,329,52,0],[330,13,330,14,0],[331,9,331,10,0],[334,9,334,10,0],[335,13,335,96,0],[336,13,336,14,0],[337,17,337,32,0],[340,13,340,81,0],[341,13,341,14,0],[342,17,342,87,0],[345,13,345,71,0],[346,13,346,14,0],[347,17,351,19,0],[354,13,358,15,0],[359,9,359,10,0],[362,9,362,10,0],[363,13,363,71,0],[364,13,364,14,0],[365,17,365,81,0],[366,17,366,18,0],[367,21,371,23,0],[374,17,378,19,0],[381,13,381,77,0],[382,13,382,14,0],[383,17,386,19,0],[389,13,392,15,0],[393,9,393,10,0],[396,9,396,10,0],[397,13,398,128,0],[399,17,399,129,0],[400,17,400,134,0],[401,17,401,135,0],[403,13,404,92,0],[405,17,405,93,0],[407,13,407,124,0],[408,13,408,124,0],[410,13,410,28,0],[411,9,411,10,0],[414,9,414,10,0],[415,13,416,129,0],[417,17,417,130,0],[418,17,418,135,0],[419,17,419,136,0],[421,13,422,92,0],[423,17,423,93,0],[425,13,425,124,0],[426,13,426,124,0],[428,13,428,28,0],[429,9,429,10,0],[432,9,432,10,0],[433,13,433,121,0],[434,17,434,130,0],[436,13,438,15,0],[440,13,440,28,0],[441,9,441,10,0],[444,9,444,10,0],[445,13,445,122,0],[446,17,446,131,0],[448,13,450,15,0],[452,13,452,28,0],[453,9,453,10,0],[456,9,456,10,0],[457,13,457,54,0],[458,13,458,14,0],[459,17,459,141,0],[462,13,462,139,0],[463,9,463,10,0],[466,9,466,10,0],[467,13,467,54,0],[468,13,468,14,0],[469,17,469,111,0],[472,13,472,103,0],[473,9,473,10,0],[476,9,476,10,0],[477,13,477,114,0],[478,13,478,114,0],[479,13,479,30,0],[480,13,480,14,0],[481,17,481,30,0],[482,13,482,14,0],[484,13,484,30,0],[485,13,485,14,0],[486,17,486,30,0],[487,13,487,14,0],[489,13,490,96,0],[491,17,491,96,0],[492,17,492,47,0],[493,17,493,47,0],[495,13,495,114,0],[496,13,496,114,0],[498,13,498,28,0],[499,9,499,10,0],[502,9,502,10,0],[503,13,503,96,0],[504,17,504,96,0],[505,13,506,96,0],[507,17,507,96,0],[508,17,508,47,0],[509,17,509,47,0],[511,13,511,117,0],[512,13,512,117,0],[514,13,514,28,0],[515,9,515,10,0],[518,9,518,10,0],[519,13,519,108,0],[520,13,520,27,0],[521,13,521,14,0],[522,17,522,27,0],[523,13,523,14,0],[525,13,525,89,0],[527,13,527,116,0],[529,13,529,28,0],[530,9,530,10,0],[533,9,533,10,0],[534,13,534,94,0],[536,13,538,15,0],[540,13,540,28,0],[541,9,541,10,0],[544,9,544,10,0],[545,13,545,51,0],[546,9,546,10,0],[549,9,549,10,0],[550,13,550,51,0],[551,9,551,10,0],[554,9,554,10,0],[555,13,555,112,0],[556,13,556,39,0],[557,9,557,10,0],[560,9,560,10,0],[561,13,561,92,0],[563,13,563,104,0],[564,9,564,10,0],[567,9,567,10,0],[568,13,568,141,0],[569,13,569,79,0],[571,13,571,58,0],[572,13,572,68,0],[573,13,573,14,0],[574,17,574,92,0],[575,13,575,14,0],[577,13,577,71,0],[578,13,578,14,0],[579,17,579,31,0],[582,13,582,101,0],[583,9,583,10,0],[586,9,586,10,0],[587,13,587,103,0],[588,9,588,10,0],[591,9,591,10,0],[592,13,592,62,0],[593,13,593,14,0],[594,17,594,120,0],[595,13,595,14,0],[597,13,597,29,0],[598,9,598,10,0],[601,9,601,10,0],[602,13,602,66,0],[603,9,603,10,0],[606,9,606,10,0],[607,13,607,102,0],[608,9,608,10,0],[611,9,611,10,0],[612,13,612,114,0],[613,13,613,33,0],[616,21,616,70,0],[617,21,617,22,0],[618,25,618,46,0],[621,21,621,120,0],[622,21,622,22,0],[623,25,623,34,0],[626,21,626,70,0],[627,21,627,22,0],[628,25,628,46,0],[631,21,631,30,0],[633,21,633,70,0],[634,21,634,22,0],[635,25,635,46,0],[638,21,638,120,0],[639,21,639,22,0],[640,25,640,34,0],[643,21,643,70,0],[644,21,644,22,0],[645,25,645,46,0],[648,21,648,30,0],[650,21,650,120,0],[651,21,651,22,0],[652,25,652,46,0],[655,21,655,70,0],[656,21,656,22,0],[657,25,657,34,0],[660,21,660,30,0],[662,21,662,120,0],[663,21,663,22,0],[664,25,664,46,0],[667,21,667,70,0],[668,21,668,22,0],[669,25,669,34,0],[672,21,672,30,0],[674,9,674,10,0],[677,9,677,10,0],[678,13,678,114,0],[679,13,679,33,0],[682,21,682,70,0],[683,21,683,22,0],[684,25,684,34,0],[687,21,687,120,0],[688,21,688,22,0],[689,25,689,46,0],[692,21,692,30,0],[694,21,694,70,0],[695,21,695,22,0],[696,25,696,34,0],[699,21,699,120,0],[700,21,700,22,0],[701,25,701,46,0],[704,21,704,30,0],[706,21,706,70,0],[707,21,707,22,0],[708,25,708,46,0],[711,21,711,71,0],[712,21,712,22,0],[713,25,713,34,0],[716,21,716,70,0],[717,21,717,22,0],[718,25,718,46,0],[721,21,721,30,0],[723,21,723,70,0],[724,21,724,22,0],[725,25,725,46,0],[728,21,728,71,0],[729,21,729,22,0],[730,25,730,34,0],[733,21,733,70,0],[734,21,734,22,0],[735,25,735,46,0],[738,21,738,30,0],[740,9,740,10,0],[743,9,743,10,0],[744,13,744,114,0],[745,13,745,33,0],[748,21,748,70,0],[749,21,749,22,0],[750,25,750,45,0],[753,21,753,70,0],[754,21,754,22,0],[755,25,755,45,0],[758,21,758,30,0],[760,21,760,70,0],[761,21,761,22,0],[762,25,762,45,0],[765,21,765,70,0],[766,21,766,22,0],[767,25,767,45,0],[770,21,770,30,0],[772,21,772,70,0],[773,21,773,22,0],[774,25,774,34,0],[777,21,777,71,0],[778,21,778,22,0],[779,25,779,45,0],[782,21,782,71,0],[783,21,783,22,0],[784,25,784,45,0],[787,21,787,30,0],[789,21,789,70,0],[790,21,790,22,0],[791,25,791,34,0],[794,21,794,71,0],[795,21,795,22,0],[796,25,796,45,0],[799,21,799,71,0],[800,21,800,22,0],[801,25,801,45,0],[804,21,804,30,0],[806,9,806,10,0],[809,9,809,10,0],[810,13,810,114,0],[811,13,811,33,0],[814,21,814,70,0],[815,21,815,22,0],[816,25,816,34,0],[819,21,819,120,0],[820,21,820,22,0],[821,25,821,45,0],[824,21,824,30,0],[826,21,826,70,0],[827,21,827,22,0],[828,25,828,34,0],[831,21,831,120,0],[832,21,832,22,0],[833,25,833,45,0],[836,21,836,30,0],[838,21,838,70,0],[839,21,839,22,0],[840,25,840,45,0],[843,21,843,70,0],[844,21,844,22,0],[845,25,845,45,0],[848,21,848,71,0],[849,21,849,22,0],[850,25,850,34,0],[853,21,853,30,0],[855,21,855,70,0],[856,21,856,22,0],[857,25,857,45,0],[860,21,860,70,0],[861,21,861,22,0],[862,25,862,45,0],[865,21,865,71,0],[866,21,866,22,0],[867,25,867,34,0],[870,21,870,30,0],[872,9,872,10,0]]);
+      highlightRanges([[17,9,17,78,0],[40,9,41,62,0],[42,13,42,64,0],[44,9,45,56,0],[46,13,46,57,0],[47,13,47,58,0],[48,13,48,60,0],[52,9,53,64,0],[54,13,54,62,0],[56,13,56,67,0],[57,13,57,65,0],[59,13,59,66,0],[60,13,60,64,0],[62,13,62,66,0],[63,13,63,68,0],[65,13,65,68,0],[66,13,66,64,0],[68,13,68,65,0],[69,13,69,68,0],[71,13,71,65,0],[72,13,72,64,0],[76,9,76,10,0],[77,13,77,68,0],[78,9,78,10,0],[81,9,81,10,0],[82,13,82,54,0],[83,9,83,10,0],[86,9,86,10,0],[87,13,87,38,0],[88,13,89,71,0],[90,17,90,69,0],[92,13,92,57,0],[93,13,93,58,0],[94,13,94,29,0],[96,13,96,129,0],[97,13,97,43,0],[99,13,99,71,0],[100,13,100,124,0],[101,13,101,107,0],[103,13,103,20,0],[103,22,103,42,0],[103,43,103,45,0],[103,46,103,60,0],[104,13,104,14,0],[105,17,105,98,0],[106,13,106,14,0],[107,9,107,10,0],[110,9,110,10,0],[111,13,111,92,0],[112,13,112,14,0],[113,17,113,58,0],[116,13,117,83,0],[118,17,118,83,0],[120,13,120,116,0],[121,13,121,14,0],[122,17,122,63,0],[125,13,125,106,0],[127,13,127,54,0],[128,9,128,10,0],[131,9,131,10,0],[132,13,132,93,0],[133,13,133,14,0],[134,17,134,59,0],[137,13,138,85,0],[139,17,139,85,0],[141,13,141,118,0],[142,13,142,14,0],[143,17,143,64,0],[146,13,146,110,0],[148,13,148,55,0],[149,9,149,10,0],[152,9,152,10,0],[153,13,153,41,0],[156,21,156,48,0],[157,21,157,27,0],[159,21,159,47,0],[160,21,160,27,0],[162,21,162,49,0],[163,21,163,27,0],[165,21,165,50,0],[166,21,166,27,0],[168,21,168,45,0],[169,21,169,27,0],[171,21,171,90,0],[173,9,173,10,0],[176,9,176,10,0],[177,13,177,86,0],[178,9,178,10,0],[181,9,181,10,0],[182,13,182,47,0],[185,21,185,81,0],[186,21,186,66,0],[187,21,187,27,0],[189,21,189,82,0],[190,21,190,65,0],[191,21,191,27,0],[193,21,193,81,0],[194,21,194,66,0],[195,21,195,27,0],[197,21,197,80,0],[198,21,198,65,0],[199,21,199,27,0],[201,21,201,73,0],[204,13,204,47,0],[207,21,207,88,0],[208,21,208,87,0],[209,21,209,27,0],[211,21,211,62,0],[212,21,212,87,0],[213,21,213,27,0],[215,21,215,92,0],[216,21,216,27,0],[219,21,219,27,0],[221,9,221,10,0],[224,9,224,10,0],[225,13,225,47,0],[228,21,228,82,0],[229,21,229,66,0],[230,21,230,27,0],[232,21,232,83,0],[233,21,233,65,0],[234,21,234,27,0],[236,21,236,82,0],[237,21,237,66,0],[238,21,238,27,0],[240,21,240,81,0],[241,21,241,65,0],[242,21,242,27,0],[244,21,244,73,0],[247,13,247,47,0],[250,21,250,62,0],[251,21,251,87,0],[252,21,252,27,0],[254,21,254,88,0],[255,21,255,87,0],[256,21,256,27,0],[258,21,258,92,0],[259,21,259,27,0],[262,21,262,27,0],[264,9,264,10,0],[267,9,267,10,0],[268,13,268,54,0],[269,13,269,14,0],[270,17,270,83,0],[271,17,271,24,0],[274,13,274,81,0],[275,9,275,10,0],[278,9,278,10,0],[279,13,279,54,0],[280,13,280,14,0],[281,17,281,84,0],[282,17,282,24,0],[285,13,285,82,0],[286,9,286,10,0],[289,9,289,10,0],[290,13,290,54,0],[291,13,291,14,0],[292,17,292,81,0],[293,17,293,24,0],[296,13,296,79,0],[297,9,297,10,0],[300,9,300,10,0],[301,13,301,101,0],[302,13,302,14,0],[303,17,303,53,0],[304,13,304,14,0],[306,13,306,14,0],[307,17,307,51,0],[308,13,308,14,0],[310,13,310,47,0],[313,21,313,88,0],[314,21,314,87,0],[315,21,315,27,0],[317,21,317,88,0],[318,21,318,87,0],[319,21,319,27,0],[321,9,321,10,0],[324,9,324,10,0],[325,13,325,95,0],[327,13,327,20,0],[327,22,327,35,0],[327,36,327,38,0],[327,39,327,51,0],[328,13,328,14,0],[329,17,329,50,0],[330,17,330,54,0],[331,13,331,14,0],[332,9,332,10,0],[335,9,335,10,0],[336,13,336,95,0],[338,13,338,20,0],[338,22,338,35,0],[338,36,338,38,0],[338,39,338,51,0],[339,13,339,14,0],[340,17,340,50,0],[341,17,341,52,0],[342,13,342,14,0],[343,9,343,10,0],[346,9,346,10,0],[347,13,347,96,0],[348,13,348,14,0],[349,17,349,32,0],[352,13,352,81,0],[353,13,353,14,0],[354,17,354,87,0],[357,13,357,71,0],[358,13,358,14,0],[359,17,363,19,0],[366,13,370,15,0],[371,9,371,10,0],[374,9,374,10,0],[375,13,375,71,0],[376,13,376,14,0],[377,17,377,81,0],[378,17,378,18,0],[379,21,383,23,0],[386,17,390,19,0],[393,13,393,77,0],[394,13,394,14,0],[395,17,398,19,0],[401,13,404,15,0],[405,9,405,10,0],[408,9,408,10,0],[409,13,410,128,0],[411,17,411,129,0],[412,17,412,134,0],[413,17,413,135,0],[415,13,416,92,0],[417,17,417,93,0],[419,13,419,124,0],[420,13,420,124,0],[422,13,422,28,0],[423,9,423,10,0],[426,9,426,10,0],[427,13,428,129,0],[429,17,429,130,0],[430,17,430,135,0],[431,17,431,136,0],[433,13,434,92,0],[435,17,435,93,0],[437,13,437,124,0],[438,13,438,124,0],[440,13,440,28,0],[441,9,441,10,0],[444,9,444,10,0],[445,13,445,121,0],[446,17,446,130,0],[448,13,450,15,0],[452,13,452,28,0],[453,9,453,10,0],[456,9,456,10,0],[457,13,457,122,0],[458,17,458,131,0],[460,13,462,15,0],[464,13,464,28,0],[465,9,465,10,0],[468,9,468,10,0],[469,13,469,54,0],[470,13,470,14,0],[471,17,471,141,0],[474,13,474,139,0],[475,9,475,10,0],[478,9,478,10,0],[479,13,479,54,0],[480,13,480,14,0],[481,17,481,111,0],[484,13,484,103,0],[485,9,485,10,0],[488,9,488,10,0],[489,13,489,114,0],[490,13,490,114,0],[491,13,491,30,0],[492,13,492,14,0],[493,17,493,30,0],[494,13,494,14,0],[496,13,496,30,0],[497,13,497,14,0],[498,17,498,30,0],[499,13,499,14,0],[501,13,502,96,0],[503,17,503,96,0],[504,17,504,47,0],[505,17,505,47,0],[507,13,507,114,0],[508,13,508,114,0],[510,13,510,28,0],[511,9,511,10,0],[514,9,514,10,0],[515,13,515,96,0],[516,17,516,96,0],[517,13,518,96,0],[519,17,519,96,0],[520,17,520,47,0],[521,17,521,47,0],[523,13,523,117,0],[524,13,524,117,0],[526,13,526,28,0],[527,9,527,10,0],[530,9,530,10,0],[531,13,531,108,0],[532,13,532,27,0],[533,13,533,14,0],[534,17,534,27,0],[535,13,535,14,0],[537,13,537,89,0],[539,13,539,116,0],[541,13,541,28,0],[542,9,542,10,0],[545,9,545,10,0],[546,13,546,94,0],[548,13,550,15,0],[552,13,552,28,0],[553,9,553,10,0],[556,9,556,10,0],[557,13,557,51,0],[558,9,558,10,0],[561,9,561,10,0],[562,13,562,51,0],[563,9,563,10,0],[566,9,566,10,0],[567,13,567,112,0],[568,13,568,39,0],[569,9,569,10,0],[572,9,572,10,0],[573,13,573,92,0],[575,13,575,104,0],[576,9,576,10,0],[579,9,579,10,0],[580,13,580,141,0],[581,13,581,79,0],[583,13,583,58,0],[584,13,584,68,0],[585,13,585,14,0],[586,17,586,92,0],[587,13,587,14,0],[589,13,589,71,0],[590,13,590,14,0],[591,17,591,31,0],[594,13,594,101,0],[595,9,595,10,0],[598,9,598,10,0],[599,13,599,103,0],[600,9,600,10,0],[603,9,603,10,0],[604,13,604,62,0],[605,13,605,14,0],[606,17,606,120,0],[607,13,607,14,0],[609,13,609,29,0],[610,9,610,10,0],[613,9,613,10,0],[614,13,614,66,0],[615,9,615,10,0],[618,9,618,10,0],[619,13,619,87,0],[620,9,620,10,0],[623,9,623,10,0],[624,13,624,114,0],[625,13,627,22,0],[627,22,629,40,0],[629,40,629,53,0],[629,53,630,41,0],[630,41,630,42,0],[630,42,631,41,0],[631,41,631,42,0],[631,42,632,40,0],[632,40,632,53,0],[632,53,633,26,0],[633,26,633,27,0],[633,27,634,18,0],[634,18,635,22,0],[635,22,637,40,0],[637,40,637,53,0],[637,53,638,41,0],[638,41,638,42,0],[638,42,639,41,0],[639,41,639,42,0],[639,42,640,40,0],[640,40,640,53,0],[640,53,641,26,0],[641,26,641,27,0],[641,27,642,18,0],[642,18,643,22,0],[643,22,645,41,0],[645,41,645,54,0],[645,54,646,41,0],[646,41,646,54,0],[646,54,647,40,0],[647,40,647,41,0],[647,41,648,26,0],[648,26,648,27,0],[648,27,649,18,0],[649,18,650,22,0],[650,22,652,41,0],[652,41,652,54,0],[652,54,653,41,0],[653,41,653,54,0],[653,54,654,40,0],[654,40,654,41,0],[654,41,655,26,0],[655,26,655,27,0],[655,27,656,18,0],[656,18,657,15,0],[658,9,658,10,0],[661,9,661,10,0],[662,13,662,114,0],[663,13,665,22,0],[665,22,667,40,0],[667,40,667,41,0],[667,41,668,41,0],[668,41,668,54,0],[668,54,669,41,0],[669,41,669,54,0],[669,54,670,26,0],[670,26,670,27,0],[670,27,671,18,0],[671,18,672,22,0],[672,22,674,40,0],[674,40,674,41,0],[674,41,675,41,0],[675,41,675,54,0],[675,54,676,41,0],[676,41,676,54,0],[676,54,677,26,0],[677,26,677,27,0],[677,27,678,18,0],[678,18,679,22,0],[679,22,681,40,0],[681,40,681,53,0],[681,53,682,41,0],[682,41,682,42,0],[682,42,683,40,0],[683,40,683,53,0],[683,53,684,26,0],[684,26,684,27,0],[684,27,685,18,0],[685,18,686,22,0],[686,22,688,40,0],[688,40,688,53,0],[688,53,689,41,0],[689,41,689,42,0],[689,42,690,40,0],[690,40,690,53,0],[690,53,691,26,0],[691,26,691,27,0],[691,27,692,18,0],[692,18,693,15,0],[694,9,694,10,0],[697,9,697,10,0],[698,13,698,114,0],[699,13,701,22,0],[701,22,703,40,0],[703,40,703,52,0],[703,52,704,40,0],[704,40,704,52,0],[704,52,705,26,0],[705,26,705,27,0],[705,27,706,18,0],[706,18,707,22,0],[707,22,709,40,0],[709,40,709,52,0],[709,52,710,40,0],[710,40,710,52,0],[710,52,711,26,0],[711,26,711,27,0],[711,27,712,18,0],[712,18,713,22,0],[713,22,715,40,0],[715,40,715,41,0],[715,41,716,41,0],[716,41,716,53,0],[716,53,717,41,0],[717,41,717,53,0],[717,53,718,26,0],[718,26,718,27,0],[718,27,719,18,0],[719,18,720,22,0],[720,22,722,40,0],[722,40,722,41,0],[722,41,723,41,0],[723,41,723,53,0],[723,53,724,41,0],[724,41,724,53,0],[724,53,725,26,0],[725,26,725,27,0],[725,27,726,18,0],[726,18,727,15,0],[728,9,728,10,0],[731,9,731,10,0],[732,13,732,114,0],[733,13,735,22,0],[735,22,737,40,0],[737,40,737,41,0],[737,41,738,41,0],[738,41,738,53,0],[738,53,739,41,0],[739,41,739,53,0],[739,53,740,26,0],[740,26,740,27,0],[740,27,741,18,0],[741,18,742,22,0],[742,22,744,40,0],[744,40,744,41,0],[744,41,745,41,0],[745,41,745,53,0],[745,53,746,41,0],[746,41,746,53,0],[746,53,747,26,0],[747,26,747,27,0],[747,27,748,18,0],[748,18,749,22,0],[749,22,751,40,0],[751,40,751,52,0],[751,52,752,40,0],[752,40,752,52,0],[752,52,753,41,0],[753,41,753,42,0],[753,42,754,26,0],[754,26,754,27,0],[754,27,755,18,0],[755,18,756,22,0],[756,22,758,40,0],[758,40,758,52,0],[758,52,759,40,0],[759,40,759,52,0],[759,52,760,41,0],[760,41,760,42,0],[760,42,761,26,0],[761,26,761,27,0],[761,27,762,18,0],[762,18,763,15,0],[764,9,764,10,0]]);
     </script>
   </body>
 </html>
