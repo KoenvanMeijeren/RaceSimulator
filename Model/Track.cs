@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Model
 {
@@ -124,49 +120,47 @@ namespace Model
  
         private void DrawLeftCorner()
         {
-            if (this._direction == Directions.East)
+            switch (this._direction)
             {
-                this._eastwardSections++;
-                this._direction = Directions.North;
-            }
-            else if (this._direction == Directions.South)
-            {
-                this._southwardSections++;
-                this._direction = Directions.East;
-            }
-            else if (this._direction == Directions.West)
-            {
-                this._westwardSections++;
-                this._direction = Directions.South;
-            }
-            else if (this._direction == Directions.North)
-            {
-                this._northwardSections++;
-                this._direction = Directions.West;
+                case Directions.East:
+                    this._eastwardSections++;
+                    this._direction = Directions.North;
+                    break;
+                case Directions.South:
+                    this._southwardSections++;
+                    this._direction = Directions.East;
+                    break;
+                case Directions.West:
+                    this._westwardSections++;
+                    this._direction = Directions.South;
+                    break;
+                case Directions.North:
+                    this._northwardSections++;
+                    this._direction = Directions.West;
+                    break;
             }
         }
                 
         private void DrawRightCorner()
         {
-            if (this._direction == Directions.East)
+            switch (this._direction)
             {
-                this._eastwardSections++;
-                this._direction = Directions.South;
-            }
-            else if (this._direction == Directions.South)
-            {
-                this._southwardSections++;
-                this._direction = Directions.West;
-            }
-            else if (this._direction == Directions.West)
-            {
-                this._westwardSections++;
-                this._direction = Directions.North;
-            }
-            else if (this._direction == Directions.North)
-            {
-                this._northwardSections++;
-                this._direction = Directions.East;
+                case Directions.East:
+                    this._eastwardSections++;
+                    this._direction = Directions.South;
+                    break;
+                case Directions.South:
+                    this._southwardSections++;
+                    this._direction = Directions.West;
+                    break;
+                case Directions.West:
+                    this._westwardSections++;
+                    this._direction = Directions.North;
+                    break;
+                case Directions.North:
+                    this._northwardSections++;
+                    this._direction = Directions.East;
+                    break;
             }
         }
         
