@@ -13,6 +13,7 @@ namespace WPFRaceSimulator
     /// </summary>
     public static class WPFImageBuilder
     {
+        private const int ImageWidthUndefined = -1;
 
         private const string MainBitmapKey = "empty";
         
@@ -27,10 +28,8 @@ namespace WPFRaceSimulator
             
             bitmap = new Bitmap(width, height);
             Graphics graphics = Graphics.FromImage(bitmap);
-            SolidBrush solidBrush = new SolidBrush(Color.Red);
-            graphics.FillRectangle(solidBrush, 0, 0, width, height);
-            // graphics.Clear(Color.Red);
-            
+            graphics.Clear(Color.Red);
+
             WPFImageBuilder.CachedImages.Add(WPFImageBuilder.MainBitmapKey, bitmap);
 
             return bitmap;
@@ -72,18 +71,26 @@ namespace WPFRaceSimulator
         {
             WPFImageBuilder.CachedImages.Clear();
         }
-        
-        public static Bitmap LoadImage(string url)
+
+        public static Bitmap LoadImage(string url, int width = WPFImageBuilder.ImageWidthUndefined, int height = WPFImageBuilder.ImageWidthUndefined)
         {
             if (WPFImageBuilder.CachedImages.TryGetValue(url, out var bitmap))
             {
-                return (Bitmap) bitmap.Clone();
+                return (Bitmap)bitmap.Clone();
+            }
+
+            if (width != WPFImageBuilder.ImageWidthUndefined && height != WPFImageBuilder.ImageWidthUndefined)
+            {
+                bitmap = new Bitmap(Image.FromFile(url), width, height);
+            }
+            else
+            {
+                bitmap = new Bitmap(Image.FromFile(url));
             }
             
-            bitmap = new Bitmap(Image.FromFile(url));
             WPFImageBuilder.CachedImages.Add(url, bitmap);
 
-            return (Bitmap) bitmap.Clone();
+            return (Bitmap)bitmap.Clone();
         }
 
     }

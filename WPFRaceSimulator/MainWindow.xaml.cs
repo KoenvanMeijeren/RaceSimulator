@@ -27,11 +27,12 @@ namespace WPFRaceSimulator
             InitializeComponent();
 
             Data.Initialize();
-            // MainWindow.StartRace();
+            MainWindow.StartRace();
 
             Race.DriversChanged += MainWindow.OnDriversChanged;
             Race.RaceEnded += MainWindow.OnRaceEnded;
 
+            // @todo: Find out what this method does and what the event methods should do.
             this.TrackImage.Dispatcher.BeginInvoke(
                 DispatcherPriority.Render,
                 new Action(() =>
@@ -63,7 +64,6 @@ namespace WPFRaceSimulator
         private static void StartRace()
         {
             WPFVisualization.Initialize();
-            WPFVisualization.DrawTrack(Data.CurrentRace);
             Data.CurrentRace.Start();
         }
 

@@ -12,6 +12,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WPFRaceSimulator/MainWindow.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/WPFRaceSimulator/MainWindow.xaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WPFRaceSimulator/MainWindow.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WPFRaceSimulator/MainWindow.xaml.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WPFRaceSimulator/WPFImageBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WPFRaceSimulator/WPFImageBuilder.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WPFRaceSimulator/WPFVisualization.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WPFRaceSimulator/WPFVisualization.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -39,11 +40,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/bc3d7024e97f4f818de53bc3c23872b48f5790/37/Object.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/5c01ff2afbe140a3835861628ccbb7582b470/7/System.Drawing.Common.notsupported.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/bc3d7024e97f4f818de53bc3c23872b48f5790/81/EventArgs.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Race.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/578643b7d10a415b979d299b20801ef0f55f78/ba/cfa4d97f/Window.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Data.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/Model/Track.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/DriversChangedEventArgs.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8c5d964499a04c04b2b151bbd137532725590/4/Console.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/84f06ea1ac414f7f82c8570fa35e8d9fab590/E/Timer.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -68,7 +65,7 @@
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Project.RaceSimulator">
+  <component name="RunManager" selected=".NET Project.WPFRaceSimulator">
     <configuration name="RaceSimulator" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/RaceSimulator/bin/Debug/net5.0/RaceSimulator.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -139,6 +136,7 @@
       <workItem from="1633602277628" duration="5345000" />
       <workItem from="1633614083649" duration="8365000" />
       <workItem from="1633674550160" duration="6592000" />
+      <workItem from="1633705508467" duration="412000" />
     </task>
     <task id="LOCAL-00032" summary="Update data">
       <created>1633015156787</created>
