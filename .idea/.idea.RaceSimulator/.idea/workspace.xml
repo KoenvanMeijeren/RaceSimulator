@@ -9,7 +9,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8a783f09-19f2-47c7-9340-0fa8907541ee" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/RaceSimulator/CVisualization.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RaceSimulator/CVisualization.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WPFRaceSimulator/MainWindow.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/WPFRaceSimulator/MainWindow.xaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WPFRaceSimulator/MainWindow.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WPFRaceSimulator/MainWindow.xaml.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WPFRaceSimulator/WPFVisualization.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WPFRaceSimulator/WPFVisualization.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,7 +22,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature/empty-track" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -495,7 +498,7 @@
       <expand>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 67% 566/1703" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 67% 562/1699" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
       </expand>
       <select />

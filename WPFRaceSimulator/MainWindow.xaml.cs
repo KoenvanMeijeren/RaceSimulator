@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Controller;
+using DispatcherPriority = System.Windows.Threading.DispatcherPriority;
 
 namespace WPFRaceSimulator
 {
@@ -23,6 +25,47 @@ namespace WPFRaceSimulator
         public MainWindow()
         {
             InitializeComponent();
+
+            Data.Initialize();
+            // MainWindow.StartRace();
+
+            Race.DriversChanged += MainWindow.OnDriversChanged;
+            Race.RaceEnded += MainWindow.OnRaceEnded;
+
+            this.TrackImage.Dispatcher.BeginInvoke(
+                DispatcherPriority.Render,
+                new Action(() =>
+                {
+                    this.TrackImage.Source = null;
+                    this.TrackImage.Source = WPFVisualization.DrawTrack(Data.CurrentRace);
+                })
+            );
         }
+
+        private static void OnDriversChanged(object sender, DriversChangedEventArgs eventArgs)
+        {
+            WPFVisualization.DrawTrack(eventArgs.Race);
+        }
+
+        private static void OnRaceEnded(object source, DriversChangedEventArgs eventArgs)
+        {
+            Data.NextRace();
+            if (Data.CurrentRace == null)
+            {
+                Race.DestructAllEvents();
+                Console.WriteLine("De races zijn afgelopen.");
+                return;
+            }
+
+            MainWindow.StartRace();
+        }
+
+        private static void StartRace()
+        {
+            WPFVisualization.Initialize();
+            WPFVisualization.DrawTrack(Data.CurrentRace);
+            Data.CurrentRace.Start();
+        }
+
     }
 }
