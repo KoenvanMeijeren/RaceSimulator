@@ -67,16 +67,10 @@ namespace WPFRaceSimulator
                 trackWidth = WPFVisualization.GetTrackWidth(track),
                 trackHeight = WPFVisualization.GetTrackHeight(track);
 
-            // @todo: Optimize calculating the width and height of the bitmap and start positions of the cursor.
-            // width = 400;
-            // east = 150;
-            // west = 250;
-
             WPFVisualization._cursorEastPosition = WPFVisualization._trackCursorEastPosition;
             WPFVisualization._cursorNorthPosition = WPFVisualization._trackCursorNorthPosition;
 
             WPFVisualization._bitmap = WPFImageBuilder.CreateBitmap(trackWidth, trackHeight);
-
 
             foreach (Section trackSection in track.Sections)
             {

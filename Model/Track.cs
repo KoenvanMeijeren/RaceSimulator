@@ -17,7 +17,6 @@ namespace Model
         private Directions _direction = Track.StartDirection;
 
         private const int CursorUndefined = 0;
-        public const int SectionCountUndefined = 0;
         public string Name { get; private set; }
 
         public LinkedList<Section> Sections { get; private set; }
@@ -51,26 +50,6 @@ namespace Model
             return sections;
         }
 
-        public int GetEastwardSectionsCount()
-        {
-            return 0;
-        }
-        
-        public int GetSouthwardSectionsCount()
-        {
-            return 0;
-        }
-
-        public int GetWestwardSectionsCount()
-        {
-            return 0;
-        }
-        
-        public int GetNorthwardSectionsCount()
-        {
-            return 0;
-        }
-        
         private void SimulateTrack()
         {
             foreach (Section section in Sections)
