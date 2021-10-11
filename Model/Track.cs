@@ -15,21 +15,29 @@ namespace Model
     {
         private const Directions StartDirection = Directions.East;
         private Directions _direction = Track.StartDirection;
-        
-        public const int SectionCountUndefined = -1;
+
+        private const int CursorUndefined = 0;
+        public const int SectionCountUndefined = 0;
         public string Name { get; private set; }
 
         public LinkedList<Section> Sections { get; private set; }
 
-        private int _eastwardSections = Track.SectionCountUndefined;
-        private int _westwardSections = Track.SectionCountUndefined;
-        private int _northwardSections = Track.SectionCountUndefined;
-        private int _southwardSections = Track.SectionCountUndefined;
+        private int
+            _cursorEastPosition = Track.CursorUndefined,
+            _cursorNorthPosition = Track.CursorUndefined;
+
+        public int MinEastPosition { get; private set; }
+        public int MaxEastPosition { get; private set; }
+
+        public int MinNorthPosition { get; private set; }
+        public int MaxNorthPosition { get; private set; }
 
         public Track(string name, IEnumerable<SectionTypes> sections)
         {
             this.Name = name;
             this.Sections = this.SectionTypeToSections(sections);
+            
+            this.SimulateTrack();
         }
 
         private LinkedList<Section> SectionTypeToSections(IEnumerable<SectionTypes> sectionTypes)
@@ -45,46 +53,22 @@ namespace Model
 
         public int GetEastwardSectionsCount()
         {
-            if (this._eastwardSections != -1)
-            {
-                return this._eastwardSections;
-            }
-            
-            this.SimulateTrack();
-            return this._eastwardSections;
+            return 0;
         }
         
         public int GetSouthwardSectionsCount()
         {
-            if (this._southwardSections != -1)
-            {
-                return this._southwardSections;
-            }
-            
-            this.SimulateTrack();
-            return this._southwardSections;
+            return 0;
         }
 
         public int GetWestwardSectionsCount()
         {
-            if (this._westwardSections != -1)
-            {
-                return this._westwardSections;
-            }
-            
-            this.SimulateTrack();
-            return this._westwardSections;
+            return 0;
         }
         
         public int GetNorthwardSectionsCount()
         {
-            if (this._northwardSections != -1)
-            {
-                return this._northwardSections;
-            }
-            
-            this.SimulateTrack();
-            return this._northwardSections;
+            return 0;
         }
         
         private void SimulateTrack()
@@ -102,24 +86,48 @@ namespace Model
                     case SectionTypes.Straight:
                     case SectionTypes.StartGrid:
                     case SectionTypes.Finish:
+                        this.Draw();
                         break;
                 }
+            }
+        }
 
-                switch (this._direction)
-                {
-                    case Directions.East:
-                        this._eastwardSections++;
-                        break;
-                    case Directions.South:
-                        this._southwardSections++;
-                        break;
-                    case Directions.West:
-                        this._westwardSections++;
-                        break;
-                    case Directions.North:
-                        this._northwardSections++;
-                        break;
-                }
+        private void Draw()
+        {
+            switch (this._direction)
+            {
+                case Directions.East:
+                    this._cursorEastPosition++;
+                    if (this._cursorEastPosition > this.MaxEastPosition)
+                    {
+                        this.MaxEastPosition = this._cursorEastPosition;
+                    }
+                    
+                    break;
+                case Directions.South:
+                    this._cursorNorthPosition++;
+                    if (this._cursorNorthPosition > this.MaxNorthPosition)
+                    {
+                        this.MaxNorthPosition = this._cursorNorthPosition;
+                    }
+                    
+                    break;
+                case Directions.West:
+                    this._cursorEastPosition--;
+                    if (this._cursorEastPosition < this.MinEastPosition)
+                    {
+                        this.MinEastPosition = this._cursorEastPosition;
+                    }
+                    
+                    break;
+                case Directions.North:
+                    this._cursorNorthPosition--;
+                    if (this._cursorNorthPosition < this.MinNorthPosition)
+                    {
+                        this.MinNorthPosition = this._cursorNorthPosition;
+                    }
+                    
+                    break;
             }
         }
  
@@ -128,19 +136,39 @@ namespace Model
             switch (this._direction)
             {
                 case Directions.East:
-                    this._eastwardSections++;
+                    this._cursorEastPosition++;
+                    if (this._cursorEastPosition > this.MaxEastPosition)
+                    {
+                        this.MaxEastPosition = this._cursorEastPosition;
+                    }
+                    
                     this._direction = Directions.North;
                     break;
                 case Directions.South:
-                    this._southwardSections++;
+                    this._cursorNorthPosition++;
+                    if (this._cursorNorthPosition > this.MaxNorthPosition)
+                    {
+                        this.MaxNorthPosition = this._cursorNorthPosition;
+                    }
+                    
                     this._direction = Directions.East;
                     break;
                 case Directions.West:
-                    this._westwardSections++;
+                    this._cursorEastPosition--;
+                    if (this._cursorEastPosition < this.MinEastPosition)
+                    {
+                        this.MinEastPosition = this._cursorEastPosition;
+                    }
+                    
                     this._direction = Directions.South;
                     break;
                 case Directions.North:
-                    this._northwardSections++;
+                    this._cursorNorthPosition--;
+                    if (this._cursorNorthPosition < this.MinNorthPosition)
+                    {
+                        this.MinNorthPosition = this._cursorNorthPosition;
+                    }
+                    
                     this._direction = Directions.West;
                     break;
             }
@@ -151,19 +179,39 @@ namespace Model
             switch (this._direction)
             {
                 case Directions.East:
-                    this._eastwardSections++;
+                    this._cursorEastPosition++;
+                    if (this._cursorEastPosition > this.MaxEastPosition)
+                    {
+                        this.MaxEastPosition = this._cursorEastPosition;
+                    }
+                    
                     this._direction = Directions.South;
                     break;
                 case Directions.South:
-                    this._southwardSections++;
+                    this._cursorNorthPosition++;
+                    if (this._cursorNorthPosition > this.MaxNorthPosition)
+                    {
+                        this.MaxNorthPosition = this._cursorNorthPosition;
+                    }
+                    
                     this._direction = Directions.West;
                     break;
                 case Directions.West:
-                    this._westwardSections++;
+                    this._cursorEastPosition--;
+                    if (this._cursorEastPosition < this.MinEastPosition)
+                    {
+                        this.MinEastPosition = this._cursorEastPosition;
+                    }
+                    
                     this._direction = Directions.North;
                     break;
                 case Directions.North:
-                    this._northwardSections++;
+                    this._cursorNorthPosition--;
+                    if (this._cursorNorthPosition < this.MinNorthPosition)
+                    {
+                        this.MinNorthPosition = this._cursorNorthPosition;
+                    }
+                    
                     this._direction = Directions.East;
                     break;
             }

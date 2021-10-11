@@ -24,6 +24,8 @@ namespace WPFRaceSimulator
         private static int
             _trackWidth = TrackPositionUndefined,
             _trackHeight = TrackPositionUndefined,
+            _trackCursorEastPosition = TrackPositionUndefined,
+            _trackCursorNorthPosition = TrackPositionUndefined,
             _cursorEastPosition = CursorEastStartPosition,
             _cursorNorthPosition = CursorNorthStartPosition;
 
@@ -32,8 +34,7 @@ namespace WPFRaceSimulator
         #region Graphics
 
         private const string
-            // @todo find out how to load files the correct way and set the build actions for files.
-            BaseGraphicsPath = "..\\..\\..\\Graphics\\",
+            BaseGraphicsPath = ".\\Graphics\\",
 
             CarBlue = "CarBlue.PNG",
             CarBlueBroken = "CarBlueBroken.PNG",
@@ -67,10 +68,15 @@ namespace WPFRaceSimulator
                 trackHeight = WPFVisualization.GetTrackHeight(track);
 
             // @todo: Optimize calculating the width and height of the bitmap and start positions of the cursor.
-            WPFVisualization._cursorEastPosition = trackWidth;
-            WPFVisualization._cursorNorthPosition = trackHeight;
+            // width = 400;
+            // east = 150;
+            // west = 250;
 
-            WPFVisualization._bitmap = WPFImageBuilder.CreateBitmap(Convert.ToInt16(trackWidth * 1.6), Convert.ToInt16(trackHeight * 2.5));
+            WPFVisualization._cursorEastPosition = WPFVisualization._trackCursorEastPosition;
+            WPFVisualization._cursorNorthPosition = WPFVisualization._trackCursorNorthPosition;
+
+            WPFVisualization._bitmap = WPFImageBuilder.CreateBitmap(trackWidth, trackHeight);
+
 
             foreach (Section trackSection in track.Sections)
             {
@@ -237,12 +243,19 @@ namespace WPFRaceSimulator
                 return WPFVisualization._trackWidth;
             }
 
-            int
-                eastwardSections = track.GetEastwardSectionsCount() * SectionWidth,
-                westwardSections = track.GetWestwardSectionsCount() * SectionWidth;
+            int minEastPosition = track.MinEastPosition;
+            if (minEastPosition < 0)
+            {
+                minEastPosition *= -1;
+            }
+
+            minEastPosition += 1;
+
+            WPFVisualization._trackWidth = minEastPosition + track.MaxEastPosition;
+            WPFVisualization._trackWidth *= SectionWidth;
             
-            WPFVisualization._trackWidth = eastwardSections + (westwardSections - eastwardSections);
-            
+            WPFVisualization._trackCursorEastPosition = minEastPosition * SectionWidth;
+
             return WPFVisualization._trackWidth;
         }
 
@@ -253,11 +266,16 @@ namespace WPFRaceSimulator
                 return WPFVisualization._trackHeight;
             }
 
-            int 
-                northwardSections = track.GetNorthwardSectionsCount() * SectionHeight,
-                southwardSections = track.GetSouthwardSectionsCount() * SectionHeight;
+            int minNorthPosition = track.MinNorthPosition;
+            if (minNorthPosition < 0)
+            {
+                minNorthPosition *= -1;
+            }
             
-            WPFVisualization._trackHeight = southwardSections + (northwardSections - southwardSections);
+            WPFVisualization._trackHeight = minNorthPosition + track.MaxNorthPosition + 1;
+            WPFVisualization._trackHeight *= SectionHeight;
+            
+            WPFVisualization._trackCursorNorthPosition = minNorthPosition * SectionHeight;
 
             return WPFVisualization._trackHeight;
         }

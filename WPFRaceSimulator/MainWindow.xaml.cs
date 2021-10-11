@@ -32,7 +32,8 @@ namespace WPFRaceSimulator
             Race.DriversChanged += MainWindow.OnDriversChanged;
             Race.RaceEnded += MainWindow.OnRaceEnded;
 
-            // @todo: Find out what this method does and what the event methods should do.
+            // Dispatches an action for drawing the track until the program closes. When the current race changes, the
+            // drawn track will also change.
             this.TrackImage.Dispatcher.BeginInvoke(
                 DispatcherPriority.Render,
                 new Action(() =>

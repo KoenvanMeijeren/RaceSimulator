@@ -24,20 +24,48 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="Graphics\CarBlue.PNG" />
-      <Content Include="Graphics\CarBlueBroken.PNG" />
-      <Content Include="Graphics\CarGreen.PNG" />
-      <Content Include="Graphics\CarGreenBroken.PNG" />
-      <Content Include="Graphics\CarGrey.PNG" />
-      <Content Include="Graphics\CarGreyBroken.PNG" />
-      <Content Include="Graphics\CarRed.PNG" />
-      <Content Include="Graphics\CarRedBroken.PNG" />
-      <Content Include="Graphics\CarYellow.PNG" />
-      <Content Include="Graphics\CarYellowBroken.PNG" />
-      <Content Include="Graphics\Corner.PNG" />
-      <Content Include="Graphics\Finish.PNG" />
-      <Content Include="Graphics\Startgrid.PNG" />
-      <Content Include="Graphics\Straight.PNG" />
+      <Content Include="Graphics\CarBlue.PNG">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Graphics\CarBlueBroken.PNG">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Graphics\CarGreen.PNG">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Graphics\CarGreenBroken.PNG">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Graphics\CarGrey.PNG">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Graphics\CarGreyBroken.PNG">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Graphics\CarRed.PNG">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Graphics\CarRedBroken.PNG">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Graphics\CarYellow.PNG">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Graphics\CarYellowBroken.PNG">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Graphics\Corner.PNG">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Graphics\Finish.PNG">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Graphics\Startgrid.PNG">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Graphics\Straight.PNG">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
     <ItemGroup>

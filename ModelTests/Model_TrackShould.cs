@@ -72,8 +72,6 @@ namespace ModelTests
             
             Assert.AreEqual(5, track.GetEastwardSectionsCount());
             Assert.AreEqual(3, track.GetSouthwardSectionsCount());
-            Assert.AreEqual(Track.SectionCountUndefined, track.GetNorthwardSectionsCount());
-            Assert.AreEqual(Track.SectionCountUndefined, track.GetWestwardSectionsCount());
             
             SectionTypes[] routeTest = {
                 SectionTypes.StartGrid, SectionTypes.Finish, SectionTypes.RightCorner, SectionTypes.Straight,
