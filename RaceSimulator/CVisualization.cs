@@ -42,11 +42,11 @@ namespace RaceSimulator
             CursorStartNorthPosition = Console.WindowHeight / 2;
 
         private static int
-            _trackEastPosition = TrackPositionUndefined,
-            _trackNorthPosition = TrackPositionUndefined,
+            _trackCursorEastPosition = TrackPositionUndefined,
+            _trackCursorNorthPosition = TrackPositionUndefined,
             _cursorEastPosition = CursorStartEastPosition,
             _cursorNorthPosition = CursorStartNorthPosition;
-
+        
         #region graphics
 
         private static readonly string[]
@@ -85,20 +85,18 @@ namespace RaceSimulator
         public static void DrawTrack(Race race)
         {
             Track track = race.Track;
-            int 
-                northPosition = CVisualization.GetNorthPosition(track), 
-                eastPosition = CVisualization.GetEastPosition(track);
-            
+            CVisualization.InitializeCursorStartPosition(track);
+
             Console.BackgroundColor = ConsoleColor.Blue;
             Console.ForegroundColor = ConsoleColor.White;
             Console.Clear();
 
-            Console.SetCursorPosition(CenteredTextCursorStartPosition(track.Name),  northPosition < 5 ? 1 :  northPosition - 4);
+            Console.SetCursorPosition(CenteredTextCursorStartPosition(track.Name),  1);
             Console.WriteLine(track.Name);
             
             CVisualization._direction = CVisualization.StartDirection;
-            CVisualization._cursorEastPosition = eastPosition < 20 ? CVisualization.CursorStartEastPosition : eastPosition;
-            CVisualization._cursorNorthPosition = northPosition < 10 ? northPosition + 10 : northPosition;
+            CVisualization._cursorEastPosition = CVisualization._trackCursorEastPosition + 5;
+            CVisualization._cursorNorthPosition = CVisualization._trackCursorNorthPosition + 5;
 
             foreach (Section trackSection in track.Sections)
             {
@@ -106,48 +104,26 @@ namespace RaceSimulator
             }
         }
         
-        private static int GetEastPosition(Track track)
+        private static void InitializeCursorStartPosition(Track track)
         {
-            if (CVisualization._trackEastPosition != CVisualization.TrackPositionUndefined)
+            int minEastPosition = track.MinEastPosition;
+            if (minEastPosition < 0)
             {
-                return CVisualization._trackEastPosition;
+                minEastPosition *= -1;
             }
 
-            int
-                westwardSections = track.GetWestwardSectionsCount() * SymbolSpaces,
-                eastwardSections = track.GetWestwardSectionsCount() * SymbolSpaces;
+            minEastPosition += 1;
+            CVisualization._trackCursorEastPosition = minEastPosition * CVisualization.SymbolSpaces;
             
-            if (eastwardSections == Track.SectionCountUndefined || westwardSections == Track.SectionCountUndefined)
+            int minNorthPosition = track.MinNorthPosition;
+            if (minNorthPosition < 0)
             {
-                return CVisualization.CursorStartEastPosition;
+                minNorthPosition *= -1;
             }
             
-            CVisualization._trackEastPosition = eastwardSections + (westwardSections - eastwardSections);
-            
-            return CVisualization._trackEastPosition;
+            CVisualization._trackCursorNorthPosition = minNorthPosition * CVisualization.SymbolSpaces;
         }
-
-        private static int GetNorthPosition(Track track)
-        {
-            if (CVisualization._trackNorthPosition != CVisualization.TrackPositionUndefined)
-            {
-                return CVisualization._trackNorthPosition;
-            }
-
-            int
-                southwardSections = track.GetSouthwardSectionsCount() * SymbolSpaces,
-                northwardSections = track.GetNorthwardSectionsCount() * SymbolSpaces;
-            
-            if (northwardSections == Track.SectionCountUndefined || southwardSections == Track.SectionCountUndefined)
-            {
-                return CVisualization.CursorStartNorthPosition;
-            }
-            
-            CVisualization._trackNorthPosition = southwardSections + (northwardSections - southwardSections);
-
-            return CVisualization._trackNorthPosition;
-        }
-
+        
         private static void DrawTrackSection(Section section, SectionData sectionData)
         {
             switch (section.SectionType)

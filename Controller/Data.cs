@@ -98,8 +98,8 @@ namespace Controller
                 SectionTypes.RightCorner, SectionTypes.StartGrid, SectionTypes.StartGrid,
             };
             
-            Data.AddTrack(new Track(name: "TT Assen", sections: routeZwolle));
             Data.AddTrack(new Track(name: "Circuit Zwolle", sections: routeElburg));
+            Data.AddTrack(new Track(name: "TT Assen", sections: routeZwolle));
             Data.AddTrack(new Track(name: "Circuit Harderwijk", sections: routeHarderwijk));
             Data.AddTrack(new Track(name: "Monaco", sections: routeAmsterdam));
         }

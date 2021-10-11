@@ -10,9 +10,9 @@
   <component name="ChangeListManager">
     <list default="true" id="8a783f09-19f2-47c7-9340-0fa8907541ee" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WPFRaceSimulator/MainWindow.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/WPFRaceSimulator/MainWindow.xaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WPFRaceSimulator/MainWindow.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WPFRaceSimulator/MainWindow.xaml.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WPFRaceSimulator/WPFImageBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WPFRaceSimulator/WPFImageBuilder.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Model/Track.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Model/Track.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ModelTests/Model_TrackShould.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ModelTests/Model_TrackShould.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RaceSimulator/CVisualization.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RaceSimulator/CVisualization.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WPFRaceSimulator/WPFVisualization.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WPFRaceSimulator/WPFVisualization.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -41,6 +41,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/5c01ff2afbe140a3835861628ccbb7582b470/7/System.Drawing.Common.notsupported.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/bc3d7024e97f4f818de53bc3c23872b48f5790/81/EventArgs.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/578643b7d10a415b979d299b20801ef0f55f78/ba/cfa4d97f/Window.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/WPFRaceSimulator/WPFVisualization.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8c5d964499a04c04b2b151bbd137532725590/4/Console.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/84f06ea1ac414f7f82c8570fa35e8d9fab590/E/Timer.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -65,7 +66,7 @@
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Project.WPFRaceSimulator">
+  <component name="RunManager" selected=".NET Project.RaceSimulator">
     <configuration name="RaceSimulator" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/RaceSimulator/bin/Debug/net5.0/RaceSimulator.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -136,21 +137,11 @@
       <workItem from="1633602277628" duration="5345000" />
       <workItem from="1633614083649" duration="8365000" />
       <workItem from="1633674550160" duration="6592000" />
-      <workItem from="1633705508467" duration="412000" />
-    </task>
-    <task id="LOCAL-00032" summary="Update data">
-      <created>1633015156787</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1633015156787</updated>
-    </task>
-    <task id="LOCAL-00033" summary="Debug placing one participant in corner">
-      <created>1633015182057</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1633015182057</updated>
+      <workItem from="1633705508467" duration="958000" />
+      <workItem from="1633717412057" duration="800000" />
+      <workItem from="1633781007498" duration="111000" />
+      <workItem from="1633937735966" duration="5000" />
+      <workItem from="1633940668657" duration="19686000" />
     </task>
     <task id="LOCAL-00034" summary="Rename method">
       <created>1633015459277</created>
@@ -481,7 +472,21 @@
       <option name="project" value="LOCAL" />
       <updated>1633687614700</updated>
     </task>
-    <option name="localTasksCounter" value="81" />
+    <task id="LOCAL-00081" summary="Implement drawing a track">
+      <created>1633705960133</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1633705960133</updated>
+    </task>
+    <task id="LOCAL-00082" summary="Debug track drawing positions">
+      <created>1633971566304</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1633971566305</updated>
+    </task>
+    <option name="localTasksCounter" value="83" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -520,8 +525,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Implement finishing a race" />
-    <MESSAGE value="Increase the rounds start value" />
     <MESSAGE value="Only update the section data if necessary" />
     <MESSAGE value="Implement ending a race and starting a new race" />
     <MESSAGE value="Add is broken check" />
@@ -545,7 +548,9 @@
     <MESSAGE value="Implement correct calculating of the track width and height" />
     <MESSAGE value="Fix coding standards" />
     <MESSAGE value="Update coverage" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update coverage" />
+    <MESSAGE value="Implement drawing a track" />
+    <MESSAGE value="Debug track drawing positions" />
+    <option name="LAST_COMMIT_MESSAGE" value="Debug track drawing positions" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
