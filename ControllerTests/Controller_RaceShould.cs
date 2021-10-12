@@ -42,9 +42,9 @@ namespace ControllerTests
         [Test]
         public void Race_CanRead_Track()
         {
-            Assert.AreEqual(6, Data.CurrentRace.Participants.Count);
-            Assert.AreEqual("TT Assen", Data.CurrentRace.Track.Name);
-            Assert.AreEqual("Monaco", this._race.Track.Name);
+            Assert.AreEqual(5, Data.CurrentRace.Participants.Count);
+            Assert.AreSame("Circuit Zwolle", Data.CurrentRace.Track.Name);
+            Assert.AreSame("Monaco", this._race.Track.Name);
             Assert.AreEqual("Test", this._emptyRace.Track.Name);
             Assert.AreEqual("1-1-0001 00:00:00", this._emptyRace.StartTime.ToString());
             Assert.AreEqual("1-1-0001 00:00:00", this._race.StartTime.ToString());
@@ -179,6 +179,12 @@ namespace ControllerTests
             Assert.AreEqual(0, rounds);
             this._race.UpdateRounds(participant, 2);
             Assert.AreEqual(2, this._race.GetRounds(participant));
+        }
+
+        [Test]
+        public void Race_CanPlaceParticipants()
+        {
+            
         }
         
     }

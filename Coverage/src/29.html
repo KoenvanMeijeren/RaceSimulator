@@ -2,118 +2,116 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>E:\Development\C#\RaceSimulator\ControllerTests\Controller_DataShould.cs</title>
+    <title>E:\Development\C#\RaceSimulator\ModelTests\Model_Competition_NextTrackShould.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Controller;
 using Model;
-using NUnit.Framework;
 
 namespace ControllerTests
 {
 
     [TestFixture]
-    public class Controller_DataShould
+    public class Model_Competition_NextTrackShould
     {
+
+        private Competition _emptyCompetition;
+        private Competition _competition;
+
+        private Queue&lt;Track&gt; _tracks = new Queue&lt;Track&gt;();
 
         [SetUp]
         public void Setup()
         {
-            Data.Initialize();
-        }
+            SectionTypes[] routeZwolle = {
+                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.Finish,
+                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.StartGrid
+            };
 
-        [Test]
-        public void Data_Initialize_Participants_CanRead()
-        {
-            Data.Initialize();
+            SectionTypes[] routeElburg = {
+                SectionTypes.StartGrid, SectionTypes.Finish, SectionTypes.RightCorner, SectionTypes.Straight, 
+                SectionTypes.LeftCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.RightCorner, 
+                SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.LeftCorner, 
+                SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.LeftCorner, SectionTypes.RightCorner, 
+                SectionTypes.RightCorner, SectionTypes.LeftCorner, SectionTypes.Straight, SectionTypes.RightCorner, 
+                SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.RightCorner, 
+                SectionTypes.StartGrid, SectionTypes.StartGrid
+            };
 
-            Assert.IsNotEmpty(Data.Participants);
-            Assert.AreEqual(6, Data.Participants.Count);
-            Assert.AreEqual(&quot;Koen&quot;, Data.Participants.First().Name);
-            Assert.AreEqual(&quot;Henk&quot;, Data.Participants[1].Name);
-            Assert.AreEqual(&quot;Jan&quot;, Data.Participants[2].Name);
-            Assert.AreEqual(&quot;Piet&quot;, Data.Participants[3].Name);
-            Assert.AreEqual(&quot;Stan&quot;, Data.Participants[4].Name);
-        }
-
-        [Test]
-        public void Data_Participants_CanAdd()
-        {
-            IEquipment defaultCar = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
-
-            Data.AddParticipant(new Driver(&quot;Test Driver&quot;, 100, defaultCar, TeamColors.Green));
-
-            Assert.AreEqual(7, Data.Participants.Count);
-            Assert.AreEqual(&quot;Koen&quot;, Data.Participants.First().Name);
-            Assert.AreEqual(&quot;Stan&quot;, Data.Participants[4].Name);
-            Assert.AreEqual(&quot;Test Driver&quot;, Data.Participants[6].Name);
-        }
-
-        [Test]
-        public void Data_Initialize_Tracks_CanRead()
-        {
-            Data.Initialize();
-
-            Assert.IsNotEmpty(Data.Tracks);
-            Assert.AreEqual(3, Data.Tracks.Count);
-            Assert.AreNotEqual(&quot;TT Assen&quot;, Data.Tracks.Peek().Name);
-            Assert.AreEqual(&quot;Circuit Zwolle&quot;, Data.Tracks.Peek().Name);
-            Assert.AreEqual(&quot;Circuit Harderwijk&quot;, Data.Tracks.ToArray()[1].Name);
-        }
-
-        [Test]
-        public void Data_Tracks_CanAdd()
-        {
             SectionTypes[] routeAmsterdam =
             {
                 SectionTypes.RightCorner, SectionTypes.StartGrid, SectionTypes.RightCorner, SectionTypes.Finish, SectionTypes.RightCorner,
                 SectionTypes.StartGrid, SectionTypes.RightCorner, SectionTypes.StartGrid
             };
 
-            Data.AddTrack(new Track(&quot;Test Route&quot;, routeAmsterdam));
-            
-            Assert.AreEqual(4, Data.Tracks.Count);
-            Assert.AreEqual(&quot;Test Route&quot;, Data.Tracks.ToArray()[3].Name);
+            this._tracks = new Queue&lt;Track&gt;();
+            this._tracks.Enqueue(new Track(name: &quot;Circuit Zwolle&quot;, sections: routeZwolle));
+            this._tracks.Enqueue(new Track(name: &quot;TT Assen&quot;, sections: routeElburg));
+            this._tracks.Enqueue(new Track(name: &quot;Monaco&quot;, sections: routeAmsterdam));
+
+            this._emptyCompetition = new Competition(new List&lt;IParticipant&gt;(), new Queue&lt;Track&gt;());
+            this._competition = new Competition(new List&lt;IParticipant&gt;(), this._tracks);
         }
 
         [Test]
-        public void Data_CurrentRace_CanRead()
+        public void NextTrack_EmptyQueue_ReturnNull()
         {
-            Assert.AreEqual(6, Data.CurrentRace.Participants.Count);
-            Assert.AreEqual(&quot;TT Assen&quot;, Data.CurrentRace.Track.Name);
+            var result = this._emptyCompetition.NextTrack();
+            Assert.IsNull(result);
+            Assert.AreEqual(0, this._emptyCompetition.Tracks.Count);
         }
 
         [Test]
-        public void Data_CurrentRace_NextRace()
+        public void NextTrack_OneInQueue_ReturnTrack()
         {
-            Assert.AreEqual(&quot;TT Assen&quot;, Data.CurrentRace.Track.Name);
-            Data.NextRace();
-            Assert.AreEqual(&quot;Circuit Zwolle&quot;, Data.CurrentRace.Track.Name);
-            Data.NextRace();
-            Assert.AreEqual(&quot;Circuit Harderwijk&quot;, Data.CurrentRace.Track.Name);
+            var result = this._competition.NextTrack();
+            Assert.IsInstanceOf(typeof(Track), result);
         }
 
         [Test]
-        public void Data_CurrentRace_NextRace_ReturnsNull()
+        public void NextTrack_OneInQueue_RemoveTrackFromQueue()
         {
-            Data.NextRace();
-            Assert.IsNotNull(Data.CurrentRace);
-            Data.NextRace();
-            Assert.IsNotNull(Data.CurrentRace);
-            Data.NextRace();
-            Assert.IsNotNull(Data.CurrentRace);
-            Data.NextRace();
-            Assert.IsNull(Data.CurrentRace);
-            Data.NextRace();
-            Assert.IsNull(Data.CurrentRace);
+            SectionTypes[] routeZwolle = {
+                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.Finish,
+                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.StartGrid
+            };
+            Queue&lt;Track&gt; tracks = new Queue&lt;Track&gt;();
+            tracks.Enqueue(new Track(name: &quot;Circuit Zwolle&quot;, sections: routeZwolle));
+
+            Competition testCompetition = new Competition(new List&lt;IParticipant&gt;(), tracks);
+
+            Assert.AreEqual(&quot;Circuit Zwolle&quot;, testCompetition.NextTrack().Name);
+            Assert.IsNull(testCompetition.NextTrack());
+            Assert.IsNull(testCompetition.NextTrack());
+        }
+
+        [Test]
+        public void NextTrack_TracksInQueue_ReturnNextTrack()
+        {
+            Assert.AreEqual(3, this._competition.Tracks.Count);
+
+            Track currentTrack = this._competition.NextTrack();
+            Assert.IsInstanceOf(typeof(Track), currentTrack);
+            Assert.AreEqual(2, this._competition.Tracks.Count);
+            Assert.AreEqual(&quot;Circuit Zwolle&quot;, currentTrack.Name);
+
+            currentTrack = this._competition.NextTrack();
+            Assert.IsInstanceOf(typeof(Track), currentTrack);
+            Assert.AreEqual(1, this._competition.Tracks.Count);
+            Assert.AreEqual(&quot;TT Assen&quot;, currentTrack.Name);
+
+            currentTrack = this._competition.NextTrack();
+            Assert.IsInstanceOf(typeof(Track), currentTrack);
+            Assert.AreEqual(0, this._competition.Tracks.Count);
+            Assert.AreEqual(&quot;Monaco&quot;, currentTrack.Name);
         }
 
     }
@@ -121,7 +119,7 @@ namespace ControllerTests
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[19,9,19,10,1],[20,13,20,31,1],[21,9,21,10,1],[25,9,25,10,1],[26,13,26,31,1],[28,13,28,50,1],[29,13,29,57,1],[30,13,30,69,1],[31,13,31,64,1],[32,13,32,63,1],[33,13,33,64,1],[34,13,34,64,1],[35,9,35,10,1],[39,9,39,10,1],[40,13,40,157,1],[42,13,42,95,1],[44,13,44,57,1],[45,13,45,69,1],[46,13,46,64,1],[47,13,47,71,1],[48,9,48,10,1],[52,9,52,10,1],[53,13,53,31,1],[55,13,55,44,1],[56,13,56,51,1],[57,13,57,69,1],[58,13,58,72,1],[59,13,59,82,1],[60,9,60,10,1],[64,9,64,10,1],[65,13,69,15,1],[71,13,71,68,1],[73,13,73,51,1],[74,13,74,74,1],[75,9,75,10,1],[79,9,79,10,1],[80,13,80,69,1],[81,13,81,70,1],[82,9,82,10,1],[86,9,86,10,1],[87,13,87,70,1],[88,13,88,29,1],[89,13,89,76,1],[90,13,90,29,1],[91,13,91,80,1],[92,9,92,10,1],[96,9,96,10,1],[97,13,97,29,1],[98,13,98,48,1],[99,13,99,29,1],[100,13,100,48,1],[101,13,101,29,1],[102,13,102,48,1],[103,13,103,29,1],[104,13,104,45,1],[105,13,105,29,1],[106,13,106,45,1],[107,9,107,10,1]]);
+      highlightRanges([[19,9,19,59,1],[23,9,23,10,1],[24,13,27,15,1],[29,13,37,15,1],[39,13,43,15,1],[45,13,45,47,1],[46,13,46,92,1],[47,13,47,86,1],[48,13,48,87,1],[50,13,50,100,1],[51,13,51,89,1],[52,9,52,10,1],[56,9,56,10,1],[57,13,57,61,1],[58,13,58,35,1],[59,13,59,69,1],[60,9,60,10,1],[64,9,64,10,1],[65,13,65,56,1],[66,13,66,56,1],[67,9,67,10,1],[71,9,71,10,1],[72,13,75,15,1],[76,13,76,54,1],[77,13,77,86,1],[79,13,79,93,1],[81,13,81,81,1],[82,13,82,56,1],[83,13,83,56,1],[84,9,84,10,1],[88,9,88,10,1],[89,13,89,64,1],[91,13,91,64,1],[92,13,92,62,1],[93,13,93,64,1],[94,13,94,66,1],[96,13,96,58,1],[97,13,97,62,1],[98,13,98,64,1],[99,13,99,60,1],[101,13,101,58,1],[102,13,102,62,1],[103,13,103,64,1],[104,13,104,58,1],[105,9,105,10,1]]);
     </script>
   </body>
 </html>

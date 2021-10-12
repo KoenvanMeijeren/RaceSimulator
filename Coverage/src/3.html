@@ -2,116 +2,163 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>E:\Development\C#\RaceSimulator\ModelTests\Model_Competition_ParticipantsShould.cs</title>
+    <title>E:\Development\C#\RaceSimulator\Model\SectionData.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Model;
 
-namespace ControllerTests
+namespace Model
 {
-
-    [TestFixture]
-    public class Model_Competition_ParticipantsShould
+    public class SectionData
     {
 
-        private Competition _emptyCompetition;
-        private Competition _competition;
+        public Section Section { get; private set; }
+        
+        public IParticipant Left { get; private set; }
+        public int DistanceLeft { get; private set; }
 
-        private List&lt;IParticipant&gt; _participants = new List&lt;IParticipant&gt;();
+        public IParticipant Right { get; private set; }
+        public int DistanceRight { get; private set; }
 
-        [SetUp]
-        public void Setup()
+        private readonly Random _random;
+        
+        public SectionData()
         {
-            IEquipment defaultCar = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
-            IEquipment toyota = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
 
-            this._participants = new List&lt;IParticipant&gt;();
-            this._participants.Add(new Driver(name: &quot;Koen van Meijeren&quot;, points: 200, equipment: defaultCar, teamColor: TeamColors.Red));
-            this._participants.Add(new Driver(name: &quot;Klaas van Meijeren&quot;, points: 190, equipment: toyota, teamColor: TeamColors.Blue));
-            this._participants.Add(new Driver(name: &quot;Jan van Meijeren&quot;, points: 195, equipment: defaultCar, teamColor: TeamColors.Green));
-            this._participants.Add(new Driver(name: &quot;Piet van Meijeren&quot;, points: 192, equipment: toyota, teamColor: TeamColors.Grey));
-            this._participants.Add(new Driver(name: &quot;Stan van Meijeren&quot;, points: 197, equipment: defaultCar, teamColor: TeamColors.Yellow));
-
-            this._emptyCompetition = new Competition(new List&lt;IParticipant&gt;(), new Queue&lt;Track&gt;());
-            this._competition = new Competition(this._participants, new Queue&lt;Track&gt;());
         }
 
-        [Test]
-        public void EmptyParticipants()
+        public SectionData(Section section, IParticipant left, int distanceLeft, IParticipant right, int distanceRight)
         {
-            Assert.AreEqual(0, this._emptyCompetition.Participants.Count);
-        }
-
-        [Test]
-        public void NotEmptyParticipants()
-        {
-            Assert.AreEqual(5, this._competition.Participants.Count);
-
-            IParticipant participantOne = this._participants[0];
-            IParticipant participantTwo = this._participants[1];
-
-
-            Assert.AreEqual(&quot;Koen van Meijeren&quot;, participantOne.Name);
-            Assert.AreEqual(200, participantOne.Points);
-            Assert.AreEqual(TeamColors.Red, participantOne.TeamColor);
-            Assert.AreEqual(IEquipment.MaximumQuality, participantOne.Equipment.Quality);
-            Assert.AreEqual(IEquipment.MaximumPerformance, participantOne.Equipment.Performance);
-            Assert.AreEqual(IEquipment.MaximumSpeed, participantOne.Equipment.Speed);
-
-            Assert.AreEqual(&quot;Klaas van Meijeren&quot;, participantTwo.Name);
-            Assert.AreEqual(190, participantTwo.Points);
-            Assert.AreEqual(TeamColors.Blue, participantTwo.TeamColor);
-            Assert.AreEqual(IEquipment.MaximumQuality, participantTwo.Equipment.Quality);
-            Assert.AreEqual(IEquipment.MaximumPerformance, participantTwo.Equipment.Performance);
-            Assert.AreEqual(IEquipment.MaximumSpeed, participantTwo.Equipment.Speed);
-        }
-
-        [Test]
-        public void CanReadParticipantsInitials()
-        {
-            IEquipment defaultCar = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
-
-            IParticipant testParticipant = new Driver(name: &quot;K&quot;, points: 200, equipment: defaultCar,
-                teamColor: TeamColors.Red);
-
-            Assert.AreEqual(&quot;&quot;, testParticipant.GetInitials(0));
-            Assert.AreEqual(&quot;K&quot;, testParticipant.GetInitials());
-            Assert.AreEqual(&quot;K&quot;, testParticipant.GetInitials(4));
-
-            Assert.AreEqual(&quot;Ko&quot;, this._participants.ElementAt(0).GetInitials());
-            Assert.AreEqual(&quot;Koen&quot;, this._participants.ElementAt(0).GetInitials(4));
-            Assert.AreEqual(&quot;Kl&quot;, this._participants.ElementAt(1).GetInitials());
-        }
-
-        [Test]
-        public void CanReadBrokenParticipantsInitials()
-        {
-            IEquipment defaultCar = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
-            defaultCar.IsBroken = true;
+            this._random = new Random(DateTime.Now.Millisecond);
             
-            IParticipant testParticipant = new Driver(name: &quot;K&quot;, points: 200, equipment: defaultCar,
-                teamColor: TeamColors.Red);
+            this.Section = section;
+            this.Left = left;
+            this.DistanceLeft = distanceLeft;
+
+            this.Right = right;
+            this.DistanceRight = distanceRight;
+        }
+
+        public void MoveLeft()
+        {
+            if (this.Left == null || this.Left.Equipment.IsBroken)
+            {
+                return;
+            }
             
-            Assert.IsTrue(defaultCar.IsBroken);
-            Assert.AreNotSame(&quot;K&quot;, testParticipant.GetInitials());
-            Assert.AreSame(IParticipant.BrokenInitials, testParticipant.GetInitials());
+            this.DistanceLeft += this.Left.Equipment.GetRealSpeed();
+        }
+
+        public void BreakEquipmentLeft()
+        {
+            if (this.Left == null)
+            {
+                return;
+            }
+
+            this.Left.Equipment.IsBroken = true;
         }
         
+        public void FixEquipmentLeft()
+        {
+            if (this.Left == null)
+            {
+                return;
+            }
+
+            this.Left.Equipment.IsBroken = false;
+            
+            const double margin = 70.0 / 100.0; 
+
+            if (this._random.NextDouble() &lt;= margin)
+            {
+                this.Left.Equipment.DecreaseSpeed();
+                return;
+            }
+            
+            this.Left.Equipment.DecreasePerformance();
+        }
+
+        public void MoveRight()
+        {
+            if (this.Right == null || this.Right.Equipment.IsBroken)
+            {
+                return;
+            }
+            
+            this.DistanceRight += this.Right.Equipment.GetRealSpeed();
+        }
+        
+        public void BreakEquipmentRight()
+        {
+            if (this.Right == null)
+            {
+                return;
+            }
+
+            this.Right.Equipment.IsBroken = true;
+        }
+        
+        public void FixEquipmentRight()
+        {
+            if (this.Right == null)
+            {
+                return;
+            }
+
+            this.Right.Equipment.IsBroken = false;
+            
+            const double margin = 70.0 / 100.0; 
+
+            if (this._random.NextDouble() &lt;= margin)
+            {
+                this.Right.Equipment.DecreaseSpeed();
+                return;
+            }
+            
+            this.Right.Equipment.DecreasePerformance();
+        }
+
+        public SectionData Clear(IParticipant participant)
+        {
+            if (participant == null)
+            {
+                return this;
+            }
+
+            if (this.Left != null &amp;&amp; this.Left.Equals(participant))
+            {
+                this.Left = null;
+                this.DistanceLeft = 0;
+            }
+            else if (this.Right != null &amp;&amp; this.Right.Equals(participant))
+            {
+                this.Right = null;
+                this.DistanceRight = 0;
+            }
+
+            return this;
+        }
+
+        public void Clear(IParticipant left, IParticipant right)
+        {
+            this.Clear(left).Clear(right);
+
+        }
+
     }
 }
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[19,9,19,77,1],[23,9,23,10,1],[24,13,24,157,1],[25,13,25,153,1],[27,13,27,59,1],[28,13,28,138,1],[29,13,29,136,1],[30,13,30,139,1],[31,13,31,135,1],[32,13,32,141,1],[34,13,34,100,1],[35,13,35,89,1],[36,9,36,10,1],[40,9,40,10,1],[41,13,41,75,1],[42,9,42,10,1],[46,9,46,10,1],[47,13,47,70,1],[49,13,49,65,1],[50,13,50,65,1],[53,13,53,71,1],[54,13,54,57,1],[55,13,55,71,1],[56,13,56,90,1],[57,13,57,98,1],[58,13,58,86,1],[60,13,60,72,1],[61,13,61,57,1],[62,13,62,72,1],[63,13,63,90,1],[64,13,64,98,1],[65,13,65,86,1],[66,9,66,10,1],[70,9,70,10,1],[71,13,71,157,1],[73,13,74,44,1],[76,13,76,65,1],[77,13,77,65,1],[78,13,78,66,1],[80,13,80,82,1],[81,13,81,85,1],[82,13,82,82,1],[83,9,83,10,1],[87,9,87,10,1],[88,13,88,157,1],[89,13,89,40,1],[91,13,92,44,1],[94,13,94,48,1],[95,13,95,67,1],[96,13,96,88,1],[97,9,97,10,1]]);
+      highlightRanges([[12,34,12,38,1],[12,39,12,51,1],[14,36,14,40,1],[14,41,14,53,1],[15,35,15,39,1],[15,40,15,52,1],[17,37,17,41,1],[17,42,17,54,1],[18,36,18,40,1],[18,41,18,53,1],[22,9,22,29,1],[23,9,23,10,1],[25,9,25,10,1],[27,9,27,120,1],[28,9,28,10,1],[29,13,29,65,1],[31,13,31,36,1],[32,13,32,30,1],[33,13,33,46,1],[35,13,35,32,1],[36,13,36,48,1],[37,9,37,10,1],[40,9,40,10,1],[41,13,41,67,1],[42,13,42,14,1],[43,17,43,24,1],[46,13,46,69,1],[47,9,47,10,1],[50,9,50,10,1],[51,13,51,35,1],[52,13,52,14,1],[53,17,53,24,1],[56,13,56,49,1],[57,9,57,10,1],[60,9,60,10,1],[61,13,61,35,1],[62,13,62,14,1],[63,17,63,24,1],[66,13,66,50,1],[70,13,70,53,1],[71,13,71,14,1],[72,17,72,53,1],[73,17,73,24,1],[76,13,76,55,1],[77,9,77,10,1],[80,9,80,10,1],[81,13,81,69,1],[82,13,82,14,1],[83,17,83,24,1],[86,13,86,71,1],[87,9,87,10,1],[90,9,90,10,1],[91,13,91,36,1],[92,13,92,14,1],[93,17,93,24,1],[96,13,96,50,1],[97,9,97,10,1],[100,9,100,10,1],[101,13,101,36,1],[102,13,102,14,1],[103,17,103,24,1],[106,13,106,51,1],[110,13,110,53,1],[111,13,111,14,1],[112,17,112,54,1],[113,17,113,24,1],[116,13,116,56,1],[117,9,117,10,1],[120,9,120,10,1],[121,13,121,37,1],[122,13,122,14,1],[123,17,123,29,1],[126,13,126,68,1],[127,13,127,14,1],[128,17,128,34,1],[129,17,129,39,1],[130,13,130,14,1],[131,18,131,75,1],[132,13,132,14,1],[133,17,133,35,1],[134,17,134,40,1],[135,13,135,14,1],[137,13,137,25,1],[138,9,138,10,1],[141,9,141,10,1],[142,13,142,43,1],[144,9,144,10,1]]);
     </script>
   </body>
 </html>

@@ -2,54 +2,116 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>E:\Development\C#\RaceSimulator\ControllerTests\Controller_DriversChangedEventArgsShould.cs</title>
+    <title>E:\Development\C#\RaceSimulator\ModelTests\Model_Competition_ParticipantsShould.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Controller;
 using Model;
-using NUnit.Framework;
 
 namespace ControllerTests
 {
+
     [TestFixture]
-    public class Controller_DriversChangedEventArgsShould
+    public class Model_Competition_ParticipantsShould
     {
 
-        [Test]
-        public void DriversChangedEventArgs_CanCreate()
+        private Competition _emptyCompetition;
+        private Competition _competition;
+
+        private List&lt;IParticipant&gt; _participants = new List&lt;IParticipant&gt;();
+
+        [SetUp]
+        public void Setup()
         {
-            SectionTypes[] route =
-            {
-                SectionTypes.RightCorner, SectionTypes.StartGrid, SectionTypes.RightCorner, SectionTypes.Finish, SectionTypes.RightCorner,
-                SectionTypes.StartGrid, SectionTypes.RightCorner, SectionTypes.StartGrid
-            };
-            List&lt;IParticipant&gt; participants = new List&lt;IParticipant&gt;();
             IEquipment defaultCar = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
             IEquipment toyota = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
 
-            participants.Add(new Driver(name: &quot;Koen van Meijeren&quot;, points: 200, equipment: defaultCar, teamColor: TeamColors.Red));
-            participants.Add(new Driver(name: &quot;Klaas van Meijeren&quot;, points: 190, equipment: toyota, teamColor: TeamColors.Blue));
-            participants.Add(new Driver(name: &quot;Jan van Meijeren&quot;, points: 195, equipment: defaultCar, teamColor: TeamColors.Green));
+            this._participants = new List&lt;IParticipant&gt;();
+            this._participants.Add(new Driver(name: &quot;Koen van Meijeren&quot;, points: 200, equipment: defaultCar, teamColor: TeamColors.Red));
+            this._participants.Add(new Driver(name: &quot;Klaas van Meijeren&quot;, points: 190, equipment: toyota, teamColor: TeamColors.Blue));
+            this._participants.Add(new Driver(name: &quot;Jan van Meijeren&quot;, points: 195, equipment: defaultCar, teamColor: TeamColors.Green));
+            this._participants.Add(new Driver(name: &quot;Piet van Meijeren&quot;, points: 192, equipment: toyota, teamColor: TeamColors.Grey));
+            this._participants.Add(new Driver(name: &quot;Stan van Meijeren&quot;, points: 197, equipment: defaultCar, teamColor: TeamColors.Yellow));
 
-            DriversChangedEventArgs eventArgs = new DriversChangedEventArgs(new Race(new Track(name: &quot;Monaco&quot;, sections: route), participants));
-
-            Assert.AreEqual(&quot;Monaco&quot;, eventArgs.Race.Track.Name);
+            this._emptyCompetition = new Competition(new List&lt;IParticipant&gt;(), new Queue&lt;Track&gt;());
+            this._competition = new Competition(this._participants, new Queue&lt;Track&gt;());
         }
 
+        [Test]
+        public void EmptyParticipants()
+        {
+            Assert.AreEqual(0, this._emptyCompetition.Participants.Count);
+        }
+
+        [Test]
+        public void NotEmptyParticipants()
+        {
+            Assert.AreEqual(5, this._competition.Participants.Count);
+
+            IParticipant participantOne = this._participants[0];
+            IParticipant participantTwo = this._participants[1];
+
+
+            Assert.AreEqual(&quot;Koen van Meijeren&quot;, participantOne.Name);
+            Assert.AreEqual(200, participantOne.Points);
+            Assert.AreEqual(TeamColors.Red, participantOne.TeamColor);
+            Assert.AreEqual(IEquipment.MaximumQuality, participantOne.Equipment.Quality);
+            Assert.AreEqual(IEquipment.MaximumPerformance, participantOne.Equipment.Performance);
+            Assert.AreEqual(IEquipment.MaximumSpeed, participantOne.Equipment.Speed);
+
+            Assert.AreEqual(&quot;Klaas van Meijeren&quot;, participantTwo.Name);
+            Assert.AreEqual(190, participantTwo.Points);
+            Assert.AreEqual(TeamColors.Blue, participantTwo.TeamColor);
+            Assert.AreEqual(IEquipment.MaximumQuality, participantTwo.Equipment.Quality);
+            Assert.AreEqual(IEquipment.MaximumPerformance, participantTwo.Equipment.Performance);
+            Assert.AreEqual(IEquipment.MaximumSpeed, participantTwo.Equipment.Speed);
+        }
+
+        [Test]
+        public void CanReadParticipantsInitials()
+        {
+            IEquipment defaultCar = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
+
+            IParticipant testParticipant = new Driver(name: &quot;K&quot;, points: 200, equipment: defaultCar,
+                teamColor: TeamColors.Red);
+
+            Assert.AreEqual(&quot;&quot;, testParticipant.GetInitials(0));
+            Assert.AreEqual(&quot;K&quot;, testParticipant.GetInitials());
+            Assert.AreEqual(&quot;K&quot;, testParticipant.GetInitials(4));
+
+            Assert.AreEqual(&quot;Ko&quot;, this._participants.ElementAt(0).GetInitials());
+            Assert.AreEqual(&quot;Koen&quot;, this._participants.ElementAt(0).GetInitials(4));
+            Assert.AreEqual(&quot;Kl&quot;, this._participants.ElementAt(1).GetInitials());
+        }
+
+        [Test]
+        public void CanReadBrokenParticipantsInitials()
+        {
+            IEquipment defaultCar = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
+            defaultCar.IsBroken = true;
+            
+            IParticipant testParticipant = new Driver(name: &quot;K&quot;, points: 200, equipment: defaultCar,
+                teamColor: TeamColors.Red);
+            
+            Assert.IsTrue(defaultCar.IsBroken);
+            Assert.AreNotSame(&quot;K&quot;, testParticipant.GetInitials());
+            Assert.AreSame(IParticipant.BrokenInitials, testParticipant.GetInitials());
+        }
+        
     }
 }
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[18,9,18,10,1],[19,13,23,15,1],[24,13,24,72,1],[25,13,25,157,1],[26,13,26,153,1],[28,13,28,132,1],[29,13,29,130,1],[30,13,30,133,1],[32,13,32,145,1],[34,13,34,66,1],[35,9,35,10,1]]);
+      highlightRanges([[19,9,19,77,1],[23,9,23,10,1],[24,13,24,157,1],[25,13,25,153,1],[27,13,27,59,1],[28,13,28,138,1],[29,13,29,136,1],[30,13,30,139,1],[31,13,31,135,1],[32,13,32,141,1],[34,13,34,100,1],[35,13,35,89,1],[36,9,36,10,1],[40,9,40,10,1],[41,13,41,75,1],[42,9,42,10,1],[46,9,46,10,1],[47,13,47,70,1],[49,13,49,65,1],[50,13,50,65,1],[53,13,53,71,1],[54,13,54,57,1],[55,13,55,71,1],[56,13,56,90,1],[57,13,57,98,1],[58,13,58,86,1],[60,13,60,72,1],[61,13,61,57,1],[62,13,62,72,1],[63,13,63,90,1],[64,13,64,98,1],[65,13,65,86,1],[66,9,66,10,1],[70,9,70,10,1],[71,13,71,157,1],[73,13,74,44,1],[76,13,76,65,1],[77,13,77,65,1],[78,13,78,66,1],[80,13,80,82,1],[81,13,81,85,1],[82,13,82,82,1],[83,9,83,10,1],[87,9,87,10,1],[88,13,88,157,1],[89,13,89,40,1],[91,13,92,44,1],[94,13,94,48,1],[95,13,95,67,1],[96,13,96,88,1],[97,9,97,10,1]]);
     </script>
   </body>
 </html>
