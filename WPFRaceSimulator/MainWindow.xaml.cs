@@ -27,6 +27,8 @@ namespace WPFRaceSimulator
         private RaceStatistics _raceStatisticsWindow;
         private CompetitionStatistics _competitionStatisticsWindow;
 
+        public static event EventHandler<DriversChangedEventArgs> RaceChanged; 
+
         public MainWindow()
         {
             this.InitializeComponent();
@@ -68,6 +70,8 @@ namespace WPFRaceSimulator
 
             WPFVisualization.Initialize();
             Data.CurrentRace.Start();
+            
+            MainWindow.RaceChanged?.Invoke(this, new DriversChangedEventArgs(Data.CurrentRace));
         }
 
         private void MenuItem_RaceStatistics_Click(object sender, RoutedEventArgs e)

@@ -21,10 +21,10 @@ namespace WPFRaceSimulator
 
         public RaceDataContext()
         {
-            this.TrackName = "test";
+            MainWindow.RaceChanged += this.OnRaceChanged;
         }
 
-        private void OnDriversChanged(object sender, DriversChangedEventArgs eventArgs)
+        private void OnRaceChanged(object sender, DriversChangedEventArgs eventArgs)
         {
             this.TrackName = eventArgs.Race.Track.Name;
         }
