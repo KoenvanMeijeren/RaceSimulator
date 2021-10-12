@@ -276,6 +276,7 @@ namespace WPFRaceSimulator
             {
                 case Directions.East:
                     cursorNorthPosition += left ? 30 : 45 + CarHeight;
+                    
                     if (section?.SectionType is SectionTypes.LeftCorner or SectionTypes.RightCorner)
                     {
                         break;
@@ -291,6 +292,7 @@ namespace WPFRaceSimulator
                     break;
                 case Directions.South:
                     cursorEastPosition += left ? 20 + CarWidth : 25;
+                    
                     if (section?.SectionType is SectionTypes.LeftCorner or SectionTypes.RightCorner)
                     {
                         break;
@@ -325,6 +327,7 @@ namespace WPFRaceSimulator
                 case Directions.North:
                     cursorEastPosition += left ? 25 : 20 + CarWidth;
                     cursorNorthPosition += SectionHeight - CarHeight - 15;
+                    
                     if (section?.SectionType is SectionTypes.LeftCorner or SectionTypes.RightCorner)
                     {
                         break;
@@ -340,16 +343,39 @@ namespace WPFRaceSimulator
                     break;
             }
             
-            if (section?.SectionType is SectionTypes.LeftCorner or SectionTypes.RightCorner)
+            if (section?.SectionType == SectionTypes.LeftCorner)
             {
                 switch (WPFVisualization._direction)
                 {
                     case Directions.East:
-                    case Directions.West:
-                        cursorEastPosition += 50;
+                        cursorEastPosition += 30;
                         break;
-                    default:
-                        cursorNorthPosition += 50;
+                    case Directions.South:
+                        cursorNorthPosition += 30;
+                        break;
+                    case Directions.West:
+                        cursorEastPosition -= 30;
+                        break;
+                    case Directions.North:
+                        cursorNorthPosition -= 40;
+                        break;
+                }
+            }
+            else if (section?.SectionType == SectionTypes.RightCorner)
+            {
+                switch (WPFVisualization._direction)
+                {
+                    case Directions.East:
+                        cursorEastPosition += 30;
+                        break;
+                    case Directions.South:
+                        cursorNorthPosition += 30;
+                        break;
+                    case Directions.West:
+                        cursorEastPosition -= 30;
+                        break;
+                    case Directions.North:
+                        cursorNorthPosition -= 40;
                         break;
                 }
             }
