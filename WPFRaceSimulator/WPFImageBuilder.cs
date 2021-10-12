@@ -72,7 +72,7 @@ namespace WPFRaceSimulator
             WPFImageBuilder.CachedImages.Clear();
         }
 
-        public static Bitmap LoadImage(string url, int width = WPFImageBuilder.ImageWidthUndefined, int height = WPFImageBuilder.ImageWidthUndefined)
+        public static Bitmap LoadImageBitmap(string url, int width = WPFImageBuilder.ImageWidthUndefined, int height = WPFImageBuilder.ImageWidthUndefined)
         {
             if (WPFImageBuilder.CachedImages.TryGetValue(url, out var bitmap))
             {

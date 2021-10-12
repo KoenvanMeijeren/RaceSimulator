@@ -106,7 +106,7 @@ namespace WPFRaceSimulator
 
         private static void DrawLeftCorner(SectionData sectionData = null)
         {
-            Bitmap bitmap = WPFImageBuilder.LoadImage(BaseGraphicsPath + Corner, SectionWidth, SectionHeight);
+            Bitmap bitmap = WPFImageBuilder.LoadImageBitmap(BaseGraphicsPath + Corner, SectionWidth, SectionHeight);
 
             switch (WPFVisualization._direction)
             {
@@ -152,7 +152,7 @@ namespace WPFRaceSimulator
 
         private static void DrawRightCorner(SectionData sectionData = null)
         {
-            Bitmap bitmap = WPFImageBuilder.LoadImage(BaseGraphicsPath + Corner, SectionWidth, SectionHeight);
+            Bitmap bitmap = WPFImageBuilder.LoadImageBitmap(BaseGraphicsPath + Corner, SectionWidth, SectionHeight);
 
             switch (WPFVisualization._direction)
             {
@@ -198,7 +198,7 @@ namespace WPFRaceSimulator
 
         private static void DrawImage(string graphic, SectionData sectionData)
         {
-            Bitmap bitmap = WPFImageBuilder.LoadImage(BaseGraphicsPath + graphic, SectionWidth, SectionHeight);
+            Bitmap bitmap = WPFImageBuilder.LoadImageBitmap(BaseGraphicsPath + graphic, SectionWidth, SectionHeight);
 
             if (WPFVisualization.DirectionIsVertical())
             {
