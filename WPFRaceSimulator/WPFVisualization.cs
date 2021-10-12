@@ -343,39 +343,45 @@ namespace WPFRaceSimulator
                     break;
             }
             
-            if (section?.SectionType == SectionTypes.LeftCorner)
+            if (section?.SectionType is SectionTypes.RightCorner or SectionTypes.LeftCorner)
             {
                 switch (WPFVisualization._direction)
                 {
                     case Directions.East:
-                        cursorEastPosition += 30;
+                        cursorEastPosition += convertedDistance switch
+                        {
+                            0 => 30,
+                            1 => 50,
+                            2 => 70,
+                            _ => 90
+                        };
                         break;
                     case Directions.South:
-                        cursorNorthPosition += 30;
+                        cursorNorthPosition += convertedDistance switch
+                        {
+                            0 => 30,
+                            1 => 50,
+                            2 => 70,
+                            _ => 90
+                        };
                         break;
                     case Directions.West:
-                        cursorEastPosition -= 30;
+                        cursorEastPosition -= convertedDistance switch
+                        {
+                            0 => 30,
+                            1 => 50,
+                            2 => 70,
+                            _ => 90
+                        };
                         break;
                     case Directions.North:
-                        cursorNorthPosition -= 40;
-                        break;
-                }
-            }
-            else if (section?.SectionType == SectionTypes.RightCorner)
-            {
-                switch (WPFVisualization._direction)
-                {
-                    case Directions.East:
-                        cursorEastPosition += 30;
-                        break;
-                    case Directions.South:
-                        cursorNorthPosition += 30;
-                        break;
-                    case Directions.West:
-                        cursorEastPosition -= 30;
-                        break;
-                    case Directions.North:
-                        cursorNorthPosition -= 40;
+                        cursorNorthPosition -= convertedDistance switch
+                        {
+                            0 => 40,
+                            1 => 60,
+                            2 => 75,
+                            _ => 90
+                        };
                         break;
                 }
             }
