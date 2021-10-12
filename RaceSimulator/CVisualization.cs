@@ -13,8 +13,7 @@ namespace RaceSimulator
     public static class CVisualization
     {
 
-        private const Directions StartDirection = Directions.East;
-        private static Directions _direction = CVisualization.StartDirection;
+        private static Directions _direction = Track.StartDirection;
 
         private const int
             TrackPositionUndefined = -1,
@@ -72,9 +71,9 @@ namespace RaceSimulator
             WestCornerToLeft = {" /--", "/   ", "|   ", "|  /"};
         #endregion
 
-        public static void Initialize()
+        public static void Initialize(Race race)
         {
-            Race.DriversChanged += CVisualization.OnDriversChanged;
+            race.DriversChanged += CVisualization.OnDriversChanged;
         }
 
         private static void OnDriversChanged(object sender, DriversChangedEventArgs eventArgs)
@@ -94,7 +93,7 @@ namespace RaceSimulator
             Console.SetCursorPosition(CenteredTextCursorStartPosition(track.Name),  1);
             Console.WriteLine(track.Name);
             
-            CVisualization._direction = CVisualization.StartDirection;
+            CVisualization._direction = Track.StartDirection;
             CVisualization._cursorEastPosition = CVisualization._trackCursorEastPosition + 5;
             CVisualization._cursorNorthPosition = CVisualization._trackCursorNorthPosition + 5;
 

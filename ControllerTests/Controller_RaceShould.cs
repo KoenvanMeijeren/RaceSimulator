@@ -92,8 +92,8 @@ namespace ControllerTests
         public void Race_CanPerformActions_OnTimedEvent()
         {
             this._race.Start();
-            Race.OnTimedEvent(null, null);
-            Race.OnTimedEvent(null, null);
+            this._race.OnTimedEvent(null, null);
+            this._race.OnTimedEvent(null, null);
         }
 
         [Test]
@@ -141,12 +141,6 @@ namespace ControllerTests
                 teamColor: TeamColors.Red);
             
             Assert.IsFalse(this._race.UpdateRounds(participant, 2));
-        }
-
-        [Test]
-        public void Race_CanDestructAllEvents()
-        {
-            Assert.DoesNotThrow(Race.DestructAllEvents);
         }
 
         [Test]

@@ -11,10 +11,7 @@ namespace RaceSimulator
         private static void Main(string[] args)
         {
             Data.Initialize();
-
             Program.StartRace();
-            
-            Race.RaceEnded += Program.OnRaceEnded;
 
             for (;;)
             {
@@ -27,7 +24,6 @@ namespace RaceSimulator
             Data.NextRace();
             if (Data.CurrentRace == null)
             {
-                Race.DestructAllEvents();
                 Console.SetCursorPosition(5, 5);
                 Console.WriteLine("De races zijn afgelopen.");
                 return;
@@ -38,9 +34,11 @@ namespace RaceSimulator
 
         private static void StartRace()
         {
-            CVisualization.Initialize();
+            CVisualization.Initialize(Data.CurrentRace);
             CVisualization.DrawTrack(Data.CurrentRace);
             Data.CurrentRace.Start();
+            
+            Data.CurrentRace.RaceEnded += Program.OnRaceEnded;
         }
         
     }

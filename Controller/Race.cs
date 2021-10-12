@@ -35,11 +35,9 @@ namespace Controller
 
         private readonly Timer _timer;
 
-        public static event EventHandler<DriversChangedEventArgs> DriversChanged;
+        public event EventHandler<DriversChangedEventArgs> DriversChanged;
         
-        public static event EventHandler<DriversChangedEventArgs> RaceEnded;
-
-        private static Race _raceReference;
+        public event EventHandler<DriversChangedEventArgs> RaceEnded;
 
         public Race(Track track, List<IParticipant> participants)
         {
@@ -49,7 +47,7 @@ namespace Controller
             this._positions = new Dictionary<Section, SectionData>();
             this._rounds = new Dictionary<IParticipant, int>(participants.Capacity);
             this._timer = new Timer(Race.TimerInterval);
-            this._timer.Elapsed += Race.OnTimedEvent;
+            this._timer.Elapsed += this.OnTimedEvent;
             
             this.PlaceParticipantsOnStartPositions();
         }
@@ -58,34 +56,27 @@ namespace Controller
         {
             this.StartTime = DateTime.Now;
             this._timer.Enabled = true;
-            Race._raceReference = this;
         }
 
         public void End()
         {
             this._timer.Close();
             this._timer.Enabled = false;
-            Race.DriversChanged = null;
-            Race._raceReference = null;
+            this.DriversChanged = null;
+            this.RaceEnded = null;
         }
 
-        public static void DestructAllEvents()
+        public void OnTimedEvent(object source, ElapsedEventArgs e)
         {
-            Race.DriversChanged = null;
-            Race.RaceEnded = null;
-        }
-
-        public static void OnTimedEvent(object source, ElapsedEventArgs e)
-        {
-            if (Race._raceReference.AllParticipantsFinished())
+            if (this.AllParticipantsFinished())
             {
-                Race._raceReference.End();
-                Race.RaceEnded?.Invoke(source, new DriversChangedEventArgs(Race._raceReference));
+                this.RaceEnded?.Invoke(source, new DriversChangedEventArgs(this));
+                this.End();
                 return;
             }
             
-            Race._raceReference.MoveParticipants();
-            Race.DriversChanged?.Invoke(source, new DriversChangedEventArgs(Race._raceReference));
+            this.MoveParticipants();
+            this.DriversChanged?.Invoke(source, new DriversChangedEventArgs(this));
         }
 
         private void MoveParticipants()

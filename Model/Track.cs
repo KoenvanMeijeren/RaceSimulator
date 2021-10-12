@@ -13,7 +13,7 @@ namespace Model
 
     public class Track
     {
-        private const Directions StartDirection = Directions.East;
+        public const Directions StartDirection = Directions.East;
         private Directions _direction = Track.StartDirection;
 
         private const int CursorUndefined = 0;

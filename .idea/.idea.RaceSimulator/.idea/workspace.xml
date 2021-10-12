@@ -10,9 +10,7 @@
   <component name="ChangeListManager">
     <list default="true" id="8a783f09-19f2-47c7-9340-0fa8907541ee" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Model/Track.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Model/Track.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ModelTests/Model_TrackShould.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ModelTests/Model_TrackShould.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RaceSimulator/CVisualization.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RaceSimulator/CVisualization.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controller/Data.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controller/Data.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WPFRaceSimulator/WPFVisualization.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WPFRaceSimulator/WPFVisualization.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -37,13 +35,40 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/bc3d7024e97f4f818de53bc3c23872b48f5790/37/Object.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/ControllerTests/Controller_RaceShould.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/WPFRaceSimulator/WPFVisualization.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Race.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Data.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/WPFRaceSimulator/WPFImageBuilder.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/Model/Track.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/bc3d7024e97f4f818de53bc3c23872b48f5790/1B2/ExecutionContext.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/WPFRaceSimulator/WPFImageBuilder.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/3aa0b4f5b859439cb46e3d299e3e3154218578/56/DispatcherPriority.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/WPFRaceSimulator/WPFVisualization.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Data.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Race.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/WPFRaceSimulator/WPFVisualization.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/WPFRaceSimulator/MainWindow.xaml.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Data.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/5c01ff2afbe140a3835861628ccbb7582b470/7/System.Drawing.Common.notsupported.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Data.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Data.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/RaceSimulator/Program.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/84f06ea1ac414f7f82c8570fa35e8d9fab590/E/Timer.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/WPFRaceSimulator/WPFVisualization.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/bc3d7024e97f4f818de53bc3c23872b48f5790/37/Object.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1adc1bc383fa4cd79069d357fc19dec66ec80/6A/Gdiplus.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/bc3d7024e97f4f818de53bc3c23872b48f5790/81/EventArgs.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/578643b7d10a415b979d299b20801ef0f55f78/ba/cfa4d97f/Window.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/RaceSimulator/CVisualization.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/WPFRaceSimulator/WPFVisualization.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/RaceSimulator/Program.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Data.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/C#/RaceSimulator/WPFRaceSimulator/WPFVisualization.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8c5d964499a04c04b2b151bbd137532725590/4/Console.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/84f06ea1ac414f7f82c8570fa35e8d9fab590/E/Timer.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/WPFRaceSimulator/WPFVisualization.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/WPFRaceSimulator/MainWindow.xaml.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/WPFRaceSimulator/WPFVisualization.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="1ylipXz4TwR0b6Wso2y4JUpH2hN" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -66,7 +91,7 @@
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Project.RaceSimulator">
+  <component name="RunManager" selected=".NET Project.WPFRaceSimulator">
     <configuration name="RaceSimulator" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/RaceSimulator/bin/Debug/net5.0/RaceSimulator.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -141,91 +166,8 @@
       <workItem from="1633717412057" duration="800000" />
       <workItem from="1633781007498" duration="111000" />
       <workItem from="1633937735966" duration="5000" />
-      <workItem from="1633940668657" duration="19686000" />
-    </task>
-    <task id="LOCAL-00034" summary="Rename method">
-      <created>1633015459277</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1633015459277</updated>
-    </task>
-    <task id="LOCAL-00035" summary="Debug tests">
-      <created>1633015948936</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1633015948936</updated>
-    </task>
-    <task id="LOCAL-00036" summary="Reduce complexity">
-      <created>1633015961738</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1633015961738</updated>
-    </task>
-    <task id="LOCAL-00037" summary="Flip vertical index positions">
-      <created>1633019842106</created>
-      <option name="number" value="00037" />
-      <option name="presentableId" value="LOCAL-00037" />
-      <option name="project" value="LOCAL" />
-      <updated>1633019842106</updated>
-    </task>
-    <task id="LOCAL-00038" summary="Update test coverage">
-      <created>1633019857709</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1633019857709</updated>
-    </task>
-    <task id="LOCAL-00039" summary="Update test coverage">
-      <created>1633019890941</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1633019890941</updated>
-    </task>
-    <task id="LOCAL-00040" summary="Add performance optimalizations">
-      <created>1633021054494</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1633021054494</updated>
-    </task>
-    <task id="LOCAL-00041" summary="Implement finishing a race">
-      <created>1633021725225</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1633021725225</updated>
-    </task>
-    <task id="LOCAL-00042" summary="Increase the rounds start value">
-      <created>1633021943793</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1633021943793</updated>
-    </task>
-    <task id="LOCAL-00043" summary="Only update the section data if necessary">
-      <created>1633022070605</created>
-      <option name="number" value="00043" />
-      <option name="presentableId" value="LOCAL-00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1633022070605</updated>
-    </task>
-    <task id="LOCAL-00044" summary="Update tests">
-      <created>1633022455772</created>
-      <option name="number" value="00044" />
-      <option name="presentableId" value="LOCAL-00044" />
-      <option name="project" value="LOCAL" />
-      <updated>1633022455772</updated>
-    </task>
-    <task id="LOCAL-00045" summary="Update .idea">
-      <created>1633022702649</created>
-      <option name="number" value="00045" />
-      <option name="presentableId" value="LOCAL-00045" />
-      <option name="project" value="LOCAL" />
-      <updated>1633022702650</updated>
+      <workItem from="1633940668657" duration="27279000" />
+      <workItem from="1634020773329" duration="15575000" />
     </task>
     <task id="LOCAL-00046" summary="Update .idea">
       <created>1633025138664</created>
@@ -486,7 +428,91 @@
       <option name="project" value="LOCAL" />
       <updated>1633971566305</updated>
     </task>
-    <option name="localTasksCounter" value="83" />
+    <task id="LOCAL-00083" summary="Debug track drawing positions for console">
+      <created>1633972723374</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1633972723374</updated>
+    </task>
+    <task id="LOCAL-00084" summary="Refactor static events to non-static events">
+      <created>1633979913558</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1633979913559</updated>
+    </task>
+    <task id="LOCAL-00085" summary="Refactor responsibility for start direction to track">
+      <created>1634037470521</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1634037470531</updated>
+    </task>
+    <task id="LOCAL-00086" summary="Refactor race events, start and end">
+      <created>1634037822359</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1634037822359</updated>
+    </task>
+    <task id="LOCAL-00087" summary="Update .idea">
+      <created>1634037860823</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1634037860823</updated>
+    </task>
+    <task id="LOCAL-00088" summary="Rename load bitmap image method">
+      <created>1634037895659</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1634037895659</updated>
+    </task>
+    <task id="LOCAL-00089" summary="Implement track and participants movement visualization">
+      <created>1634037962548</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1634037962549</updated>
+    </task>
+    <task id="LOCAL-00090" summary="Implement participants movement for straight sections">
+      <created>1634039359932</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1634039359932</updated>
+    </task>
+    <task id="LOCAL-00091" summary="Debug visualization for participants movement">
+      <created>1634040122419</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1634040122419</updated>
+    </task>
+    <task id="LOCAL-00092" summary="Visualize start position for participants in corner">
+      <created>1634042272095</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1634042272095</updated>
+    </task>
+    <task id="LOCAL-00093" summary="Update participants">
+      <created>1634044409915</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
+      <option name="project" value="LOCAL" />
+      <updated>1634044409915</updated>
+    </task>
+    <task id="LOCAL-00094" summary="Implement participants movement in corners">
+      <created>1634044431975</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
+      <option name="project" value="LOCAL" />
+      <updated>1634044431975</updated>
+    </task>
+    <option name="localTasksCounter" value="95" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -525,18 +551,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Only update the section data if necessary" />
-    <MESSAGE value="Implement ending a race and starting a new race" />
-    <MESSAGE value="Add is broken check" />
-    <MESSAGE value="Implement driver is broken visualization" />
-    <MESSAGE value="Update .idea" />
-    <MESSAGE value="Remove randomize equipment method" />
-    <MESSAGE value="Implement failing equipment" />
-    <MESSAGE value="Update methods order" />
-    <MESSAGE value="Debug incorrect finish on not able to move to next section" />
-    <MESSAGE value="Enable test drivers" />
-    <MESSAGE value="Debug decreasing the speed" />
-    <MESSAGE value="Add first window" />
     <MESSAGE value="Update data" />
     <MESSAGE value="Add graphics" />
     <MESSAGE value="Implement loading images from cache" />
@@ -550,7 +564,19 @@
     <MESSAGE value="Update coverage" />
     <MESSAGE value="Implement drawing a track" />
     <MESSAGE value="Debug track drawing positions" />
-    <option name="LAST_COMMIT_MESSAGE" value="Debug track drawing positions" />
+    <MESSAGE value="Debug track drawing positions for console" />
+    <MESSAGE value="Refactor static events to non-static events" />
+    <MESSAGE value="Refactor responsibility for start direction to track" />
+    <MESSAGE value="Refactor race events, start and end" />
+    <MESSAGE value="Update .idea" />
+    <MESSAGE value="Rename load bitmap image method" />
+    <MESSAGE value="Implement track and participants movement visualization" />
+    <MESSAGE value="Implement participants movement for straight sections" />
+    <MESSAGE value="Debug visualization for participants movement" />
+    <MESSAGE value="Visualize start position for participants in corner" />
+    <MESSAGE value="Update participants" />
+    <MESSAGE value="Implement participants movement in corners" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implement participants movement in corners" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
