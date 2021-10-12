@@ -435,7 +435,7 @@ namespace WPFRaceSimulator
 
             minEastPosition += 1;
             
-            WPFVisualization._trackWidth = minEastPosition + 1 + track.MaxEastPosition;
+            WPFVisualization._trackWidth = minEastPosition + track.MaxEastPosition;
             WPFVisualization._trackWidth *= SectionWidth;
             
             WPFVisualization._trackCursorEastPosition = minEastPosition * SectionWidth;

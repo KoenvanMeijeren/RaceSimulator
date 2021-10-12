@@ -49,6 +49,7 @@
     <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Race.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/C#/RaceSimulator/WPFRaceSimulator/WPFVisualization.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/C#/RaceSimulator/WPFRaceSimulator/MainWindow.xaml.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Data.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/5c01ff2afbe140a3835861628ccbb7582b470/7/System.Drawing.Common.notsupported.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Data.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Data.cs" root0="SKIP_HIGHLIGHTING" />
@@ -60,6 +61,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/bc3d7024e97f4f818de53bc3c23872b48f5790/81/EventArgs.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/578643b7d10a415b979d299b20801ef0f55f78/ba/cfa4d97f/Window.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/C#/RaceSimulator/RaceSimulator/CVisualization.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/WPFRaceSimulator/WPFVisualization.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/C#/RaceSimulator/RaceSimulator/Program.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Data.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/C#/RaceSimulator/WPFRaceSimulator/WPFVisualization.cs" root0="SKIP_HIGHLIGHTING" />
@@ -165,21 +167,7 @@
       <workItem from="1633781007498" duration="111000" />
       <workItem from="1633937735966" duration="5000" />
       <workItem from="1633940668657" duration="27279000" />
-      <workItem from="1634020773329" duration="15374000" />
-    </task>
-    <task id="LOCAL-00044" summary="Update tests">
-      <created>1633022455772</created>
-      <option name="number" value="00044" />
-      <option name="presentableId" value="LOCAL-00044" />
-      <option name="project" value="LOCAL" />
-      <updated>1633022455772</updated>
-    </task>
-    <task id="LOCAL-00045" summary="Update .idea">
-      <created>1633022702649</created>
-      <option name="number" value="00045" />
-      <option name="presentableId" value="LOCAL-00045" />
-      <option name="project" value="LOCAL" />
-      <updated>1633022702650</updated>
+      <workItem from="1634020773329" duration="15575000" />
     </task>
     <task id="LOCAL-00046" summary="Update .idea">
       <created>1633025138664</created>
@@ -510,7 +498,21 @@
       <option name="project" value="LOCAL" />
       <updated>1634042272095</updated>
     </task>
-    <option name="localTasksCounter" value="93" />
+    <task id="LOCAL-00093" summary="Update participants">
+      <created>1634044409915</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
+      <option name="project" value="LOCAL" />
+      <updated>1634044409915</updated>
+    </task>
+    <task id="LOCAL-00094" summary="Implement participants movement in corners">
+      <created>1634044431975</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
+      <option name="project" value="LOCAL" />
+      <updated>1634044431975</updated>
+    </task>
+    <option name="localTasksCounter" value="95" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -549,8 +551,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Debug decreasing the speed" />
-    <MESSAGE value="Add first window" />
     <MESSAGE value="Update data" />
     <MESSAGE value="Add graphics" />
     <MESSAGE value="Implement loading images from cache" />
@@ -574,7 +574,9 @@
     <MESSAGE value="Implement participants movement for straight sections" />
     <MESSAGE value="Debug visualization for participants movement" />
     <MESSAGE value="Visualize start position for participants in corner" />
-    <option name="LAST_COMMIT_MESSAGE" value="Visualize start position for participants in corner" />
+    <MESSAGE value="Update participants" />
+    <MESSAGE value="Implement participants movement in corners" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implement participants movement in corners" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
