@@ -24,14 +24,14 @@ namespace WPFRaceSimulator
     {
         public MainWindow()
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
             Data.Initialize();
-            MainWindow.StartRace();
+            this.StartRace();
+        }
 
-            Race.DriversChanged += MainWindow.OnDriversChanged;
-            Race.RaceEnded += MainWindow.OnRaceEnded;
-
+        private void OnDriversChanged(object sender, DriversChangedEventArgs eventArgs)
+        {
             // Dispatches an action for drawing the track until the program closes. When the current race changes, the
             // drawn track will also change.
             this.TrackImage.Dispatcher.BeginInvoke(
@@ -44,26 +44,23 @@ namespace WPFRaceSimulator
             );
         }
 
-        private static void OnDriversChanged(object sender, DriversChangedEventArgs eventArgs)
-        {
-            WPFVisualization.DrawTrack(eventArgs.Race);
-        }
-
-        private static void OnRaceEnded(object source, DriversChangedEventArgs eventArgs)
+        private void OnRaceEnded(object source, DriversChangedEventArgs eventArgs)
         {
             Data.NextRace();
             if (Data.CurrentRace == null)
             {
-                Race.DestructAllEvents();
                 Console.WriteLine("De races zijn afgelopen.");
                 return;
             }
 
-            MainWindow.StartRace();
+            this.StartRace();
         }
 
-        private static void StartRace()
+        private void StartRace()
         {
+            Data.CurrentRace.DriversChanged += OnDriversChanged;
+            Data.CurrentRace.RaceEnded += OnRaceEnded;
+
             WPFVisualization.Initialize();
             Data.CurrentRace.Start();
         }

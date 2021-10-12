@@ -63,11 +63,6 @@ namespace Controller
             this._timer.Close();
             this._timer.Enabled = false;
             this.DriversChanged = null;
-        }
-
-        public void DestructAllEvents()
-        {
-            this.DriversChanged = null;
             this.RaceEnded = null;
         }
 
@@ -75,8 +70,8 @@ namespace Controller
         {
             if (this.AllParticipantsFinished())
             {
-                this.End();
                 this.RaceEnded?.Invoke(source, new DriversChangedEventArgs(this));
+                this.End();
                 return;
             }
             

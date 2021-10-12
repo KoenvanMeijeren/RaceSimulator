@@ -24,7 +24,6 @@ namespace RaceSimulator
             Data.NextRace();
             if (Data.CurrentRace == null)
             {
-                eventArgs.Race.DestructAllEvents();
                 Console.SetCursorPosition(5, 5);
                 Console.WriteLine("De races zijn afgelopen.");
                 return;

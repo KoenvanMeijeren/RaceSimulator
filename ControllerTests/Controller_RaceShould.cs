@@ -144,12 +144,6 @@ namespace ControllerTests
         }
 
         [Test]
-        public void Race_CanDestructAllEvents()
-        {
-            Assert.DoesNotThrow(this._race.DestructAllEvents);
-        }
-
-        [Test]
         public void Race_FixParticipantsEquipment()
         {
             while (!this._race.ShouldFixParticipantEquipment())
