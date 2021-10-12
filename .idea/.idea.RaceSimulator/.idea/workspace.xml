@@ -38,6 +38,7 @@
     <setting file="mock://E:/Development/C#/RaceSimulator/ControllerTests/Controller_RaceShould.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/C#/RaceSimulator/WPFRaceSimulator/WPFVisualization.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Race.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Data.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/C#/RaceSimulator/WPFRaceSimulator/WPFImageBuilder.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/C#/RaceSimulator/Model/Track.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/bc3d7024e97f4f818de53bc3c23872b48f5790/1B2/ExecutionContext.cs" root0="SKIP_HIGHLIGHTING" />
@@ -61,6 +62,7 @@
     <setting file="mock://E:/Development/C#/RaceSimulator/RaceSimulator/CVisualization.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/C#/RaceSimulator/RaceSimulator/Program.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Data.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/WPFRaceSimulator/WPFVisualization.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8c5d964499a04c04b2b151bbd137532725590/4/Console.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/C#/RaceSimulator/WPFRaceSimulator/WPFVisualization.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/C#/RaceSimulator/WPFRaceSimulator/MainWindow.xaml.cs" root0="SKIP_HIGHLIGHTING" />
@@ -163,14 +165,7 @@
       <workItem from="1633781007498" duration="111000" />
       <workItem from="1633937735966" duration="5000" />
       <workItem from="1633940668657" duration="27279000" />
-      <workItem from="1634020773329" duration="13418000" />
-    </task>
-    <task id="LOCAL-00043" summary="Only update the section data if necessary">
-      <created>1633022070605</created>
-      <option name="number" value="00043" />
-      <option name="presentableId" value="LOCAL-00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1633022070605</updated>
+      <workItem from="1634020773329" duration="15374000" />
     </task>
     <task id="LOCAL-00044" summary="Update tests">
       <created>1633022455772</created>
@@ -508,7 +503,14 @@
       <option name="project" value="LOCAL" />
       <updated>1634040122419</updated>
     </task>
-    <option name="localTasksCounter" value="92" />
+    <task id="LOCAL-00092" summary="Visualize start position for participants in corner">
+      <created>1634042272095</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1634042272095</updated>
+    </task>
+    <option name="localTasksCounter" value="93" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -547,7 +549,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Enable test drivers" />
     <MESSAGE value="Debug decreasing the speed" />
     <MESSAGE value="Add first window" />
     <MESSAGE value="Update data" />
@@ -572,7 +573,8 @@
     <MESSAGE value="Implement track and participants movement visualization" />
     <MESSAGE value="Implement participants movement for straight sections" />
     <MESSAGE value="Debug visualization for participants movement" />
-    <option name="LAST_COMMIT_MESSAGE" value="Debug visualization for participants movement" />
+    <MESSAGE value="Visualize start position for participants in corner" />
+    <option name="LAST_COMMIT_MESSAGE" value="Visualize start position for participants in corner" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

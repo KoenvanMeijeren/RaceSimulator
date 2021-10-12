@@ -55,7 +55,6 @@ namespace Controller
             Data.AddParticipant(new Driver(name: "Jan", points: 195, equipment: new Car(quality: 65, performance: 2, speed: 30), teamColor: TeamColors.Green));
             Data.AddParticipant(new Driver(name: "Piet", points: 192, equipment: new Car(quality: 65, performance: 2, speed: 50), teamColor: TeamColors.Grey));
             Data.AddParticipant(new Driver(name: "Stan", points: 197, equipment: new Car(quality: 65, performance: 2, speed: 25), teamColor: TeamColors.Yellow));
-            Data.AddParticipant(new Driver(name: "Boris", points: 197, equipment: new Car(quality: 65, performance: 2, speed: 25), teamColor: TeamColors.Yellow));
         }
 
         public static void AddParticipant(Driver driver)
