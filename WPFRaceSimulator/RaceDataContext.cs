@@ -21,7 +21,7 @@ namespace WPFRaceSimulator
 
         public RaceDataContext()
         {
-            Race.DriversChanged += this.OnDriversChanged;
+            this.TrackName = "test";
         }
 
         private void OnDriversChanged(object sender, DriversChangedEventArgs eventArgs)

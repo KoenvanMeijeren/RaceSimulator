@@ -73,7 +73,7 @@ namespace RaceSimulator
 
         public static void Initialize(Race race)
         {
-            Race.DriversChanged += CVisualization.OnDriversChanged;
+            race.DriversChanged += CVisualization.OnDriversChanged;
         }
 
         private static void OnDriversChanged(object sender, DriversChangedEventArgs eventArgs)

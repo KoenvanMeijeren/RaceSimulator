@@ -51,10 +51,10 @@ namespace Controller
         private static void AddTestParticipants()
         {
             Data.AddParticipant(new Driver(name: "Koen", points: 200, equipment: new Car(quality: 100, performance: 1, speed: 50), teamColor: TeamColors.Red));
-            Data.AddParticipant(new Driver(name: "Henk", points: 190, equipment: new Car(quality: 65, performance: 1, speed: 25), teamColor: TeamColors.Blue));
-            Data.AddParticipant(new Driver(name: "Jan", points: 195, equipment: new Car(quality: 65, performance: 2, speed: 30), teamColor: TeamColors.Green));
+            // Data.AddParticipant(new Driver(name: "Henk", points: 190, equipment: new Car(quality: 65, performance: 1, speed: 25), teamColor: TeamColors.Blue));
+            // Data.AddParticipant(new Driver(name: "Jan", points: 195, equipment: new Car(quality: 65, performance: 2, speed: 30), teamColor: TeamColors.Green));
             Data.AddParticipant(new Driver(name: "Piet", points: 192, equipment: new Car(quality: 65, performance: 2, speed: 50), teamColor: TeamColors.Grey));
-            Data.AddParticipant(new Driver(name: "Stan", points: 197, equipment: new Car(quality: 65, performance: 2, speed: 25), teamColor: TeamColors.Yellow));
+            // Data.AddParticipant(new Driver(name: "Stan", points: 197, equipment: new Car(quality: 65, performance: 2, speed: 25), teamColor: TeamColors.Yellow));
         }
 
         public static void AddParticipant(Driver driver)

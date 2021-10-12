@@ -14,7 +14,7 @@ namespace Controller
             StartDistanceOfParticipant = 0,
             TimerInterval = 500,
             RoundsStartValue = 0,
-            MaxRounds = 2;
+            MaxRounds = 0;
         
         public const int SectionLength = IEquipment.MaximumPerformance * IEquipment.MaximumSpeed;
 
@@ -35,7 +35,7 @@ namespace Controller
 
         private readonly Timer _timer;
 
-        public static event EventHandler<DriversChangedEventArgs> DriversChanged;
+        public event EventHandler<DriversChangedEventArgs> DriversChanged;
         
         public event EventHandler<DriversChangedEventArgs> RaceEnded;
 
@@ -62,7 +62,7 @@ namespace Controller
         {
             this._timer.Close();
             this._timer.Enabled = false;
-            Race.DriversChanged = null;
+            this.DriversChanged = null;
             this.RaceEnded = null;
         }
 
@@ -76,7 +76,7 @@ namespace Controller
             }
             
             this.MoveParticipants();
-            Race.DriversChanged?.Invoke(source, new DriversChangedEventArgs(this));
+            this.DriversChanged?.Invoke(source, new DriversChangedEventArgs(this));
         }
 
         private void MoveParticipants()

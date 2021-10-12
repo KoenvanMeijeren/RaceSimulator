@@ -63,7 +63,7 @@ namespace WPFRaceSimulator
 
         private void StartRace()
         {
-            Race.DriversChanged += OnDriversChanged;
+            Data.CurrentRace.DriversChanged += OnDriversChanged;
             Data.CurrentRace.RaceEnded += OnRaceEnded;
 
             WPFVisualization.Initialize();

@@ -9,16 +9,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8a783f09-19f2-47c7-9340-0fa8907541ee" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/WPFRaceSimulator/CompetitionStatistics.xaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WPFRaceSimulator/CompetitionStatistics.xaml.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WPFRaceSimulator/RaceDataContext.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WPFRaceSimulator/RaceStatistics.xaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WPFRaceSimulator/RaceStatistics.xaml.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controller/Data.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controller/Data.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Controller/Race.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controller/Race.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RaceSimulator/CVisualization.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RaceSimulator/CVisualization.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WPFRaceSimulator/MainWindow.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/WPFRaceSimulator/MainWindow.xaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RaceSimulator/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RaceSimulator/Program.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WPFRaceSimulator/MainWindow.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WPFRaceSimulator/MainWindow.xaml.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WPFRaceSimulator/RaceDataContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WPFRaceSimulator/RaceDataContext.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,9 +45,12 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/3aa0b4f5b859439cb46e3d299e3e3154218578/56/DispatcherPriority.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/bc3d7024e97f4f818de53bc3c23872b48f5790/81/EventArgs.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/578643b7d10a415b979d299b20801ef0f55f78/ba/cfa4d97f/Window.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Race.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8c5d964499a04c04b2b151bbd137532725590/4/Console.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/84f06ea1ac414f7f82c8570fa35e8d9fab590/E/Timer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/bc3d7024e97f4f818de53bc3c23872b48f5790/1B2/ExecutionContext.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/WPFRaceSimulator/MainWindow.xaml.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/RaceSimulator/CVisualization.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="1ylipXz4TwR0b6Wso2y4JUpH2hN" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
