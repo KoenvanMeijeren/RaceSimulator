@@ -56,6 +56,9 @@ namespace WPFRaceSimulator
         public static void Initialize()
         {
             WPFVisualization._bitmap = null;
+            WPFVisualization._trackWidth = WPFVisualization.TrackPositionUndefined;
+            WPFVisualization._trackHeight = WPFVisualization.TrackPositionUndefined;
+            
             WPFImageBuilder.ClearCache();
         }
 
@@ -200,9 +203,19 @@ namespace WPFRaceSimulator
         {
             Bitmap bitmap = WPFImageBuilder.LoadImageBitmap(BaseGraphicsPath + graphic, SectionWidth, SectionHeight);
 
-            if (WPFVisualization.DirectionIsVertical())
+            switch (WPFVisualization._direction)
             {
-                bitmap.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                case Directions.East:
+                    break;
+                case Directions.South:
+                    bitmap.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                    break;
+                case Directions.West:
+                    bitmap.RotateFlip(RotateFlipType.Rotate180FlipNone);
+                    break;
+                default:
+                    bitmap.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                    break;
             }
 
             WPFVisualization.Draw(bitmap, sectionData);
@@ -228,6 +241,118 @@ namespace WPFRaceSimulator
         {
             Graphics graphics = Graphics.FromImage(WPFVisualization._bitmap);
             graphics.DrawImage(bitmap, new PointF(WPFVisualization._cursorEastPosition, WPFVisualization._cursorNorthPosition));
+            
+            WPFVisualization.DrawCarForSection(graphics, sectionData);
+        }
+
+        private static void DrawCarForSection(Graphics graphics, SectionData sectionData)
+        {
+            if (sectionData.Left != null)
+            {
+                IParticipant driverLeft = sectionData.Left;
+
+                graphics.DrawImage(LoadCar(driverLeft.TeamColor, driverLeft.Equipment.IsBroken), WPFVisualization.LoadCoordinatesForSection(sectionData, true));
+            }
+            
+            if (sectionData.Right != null)
+            {
+                IParticipant driverRight = sectionData.Right;
+
+                graphics.DrawImage(LoadCar(driverRight.TeamColor, driverRight.Equipment.IsBroken), WPFVisualization.LoadCoordinatesForSection(sectionData, false));
+            }
+        }
+
+        private static PointF LoadCoordinatesForSection(SectionData sectionData, bool left)
+        {
+            int
+                distance = left ? sectionData.DistanceLeft : sectionData.DistanceRight,
+                cursorEastPosition = WPFVisualization._cursorEastPosition,
+                cursorNorthPosition = WPFVisualization._cursorNorthPosition;
+
+            Section section = sectionData.Section;
+            int convertedDistance = Race.ConvertRange(0, Race.SectionLength, 0, 4, distance);
+
+            switch (WPFVisualization._direction)
+            {
+                case Directions.East:
+                    cursorNorthPosition += left ? 30 : 45 + CarHeight;
+                    cursorEastPosition +=  convertedDistance switch
+                    {
+                        0 => 15,
+                        1 => 50,
+                        2 => 70,
+                        _ => 90
+                    };
+                    break;
+                case Directions.South:
+                    cursorEastPosition += left ? 20 + CarWidth : 25;
+                    break;
+                case Directions.West:
+                    cursorNorthPosition += left ? 45 + CarHeight : 30;
+                    if (section?.SectionType is SectionTypes.LeftCorner or SectionTypes.RightCorner)
+                    {
+                        break;
+                    }
+                    
+                    cursorEastPosition += SectionWidth - CarWidth;
+                    break;
+                case Directions.North:
+                    cursorEastPosition += left ? 25 : 20 + CarWidth;
+                    if (section?.SectionType is SectionTypes.LeftCorner or SectionTypes.RightCorner)
+                    {
+                        break;
+                    }
+
+                    cursorNorthPosition += SectionHeight - CarHeight - 15;
+                    break;
+            }
+            
+            if (section?.SectionType is SectionTypes.LeftCorner or SectionTypes.RightCorner)
+            {
+                switch (WPFVisualization._direction)
+                {
+                    case Directions.East:
+                    case Directions.West:
+                        cursorEastPosition += 50;
+                        break;
+                    default:
+                        cursorNorthPosition += 50;
+                        break;
+                }
+            }
+
+            return new PointF(cursorEastPosition, cursorNorthPosition);
+        }
+        
+        private static Bitmap LoadCar(TeamColors teamColors, bool broken = false)
+        {
+            string carPath = teamColors switch
+            {
+                TeamColors.Blue => broken ? CarBlueBroken : CarBlue,
+                TeamColors.Grey => broken ? CarGreyBroken : CarGrey,
+                TeamColors.Green => broken ? CarGreenBroken : CarGreen,
+                TeamColors.Yellow => broken ? CarYellowBroken : CarYellow,
+                TeamColors.Red => broken ? CarRedBroken : CarRed,
+                _ => throw new ArgumentOutOfRangeException(nameof(teamColors), teamColors, null)
+            };
+
+            Bitmap bitmap = WPFImageBuilder.LoadImageBitmap(BaseGraphicsPath + carPath, CarWidth, CarHeight);
+            switch (WPFVisualization._direction)
+            {
+                case Directions.East:
+                    break;
+                case Directions.South:
+                    bitmap.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                    break;
+                case Directions.West:
+                    bitmap.RotateFlip(RotateFlipType.Rotate180FlipNone);
+                    break;
+                case Directions.North:
+                    bitmap.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                    break;
+            }
+            
+            return bitmap;
         }
 
         private static int GetTrackWidth(Track track)
@@ -237,15 +362,19 @@ namespace WPFRaceSimulator
                 return WPFVisualization._trackWidth;
             }
 
-            int minEastPosition = track.MinEastPosition;
+            int minEastPosition = track.MinEastPosition, cursorEastPosition = track.MinEastPosition;
             if (minEastPosition < 0)
             {
                 minEastPosition *= -1;
+                cursorEastPosition = minEastPosition;
             }
 
-            minEastPosition += 1;
+            if (cursorEastPosition > 0)
+            {
+                cursorEastPosition--;
+            }
 
-            WPFVisualization._trackWidth = minEastPosition + track.MaxEastPosition;
+            WPFVisualization._trackWidth = minEastPosition + 1 + track.MaxEastPosition;
             WPFVisualization._trackWidth *= SectionWidth;
             
             WPFVisualization._trackCursorEastPosition = minEastPosition * SectionWidth;
@@ -266,17 +395,12 @@ namespace WPFRaceSimulator
                 minNorthPosition *= -1;
             }
             
-            WPFVisualization._trackHeight = minNorthPosition + track.MaxNorthPosition + 1;
+            WPFVisualization._trackHeight = minNorthPosition + 1 + track.MaxNorthPosition;
             WPFVisualization._trackHeight *= SectionHeight;
             
             WPFVisualization._trackCursorNorthPosition = minNorthPosition * SectionHeight;
 
             return WPFVisualization._trackHeight;
-        }
-
-        private static bool DirectionIsVertical()
-        {
-            return WPFVisualization._direction is Directions.South or Directions.North;
         }
 
     }
