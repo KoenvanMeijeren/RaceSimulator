@@ -22,6 +22,10 @@ namespace WPFRaceSimulator
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        private RaceStatistics _raceStatisticsWindow;
+        private CompetitionStatistics _competitionStatisticsWindow;
+
         public MainWindow()
         {
             this.InitializeComponent();
@@ -65,5 +69,21 @@ namespace WPFRaceSimulator
             Data.CurrentRace.Start();
         }
 
+        private void MenuItem_RaceStatistics_Click(object sender, RoutedEventArgs e)
+        {
+            this._raceStatisticsWindow = new RaceStatistics();
+            this._raceStatisticsWindow.Show();
+        }
+        private void MenuItem_CompetitionStatistics_Click(object sender, RoutedEventArgs e)
+        {
+            this._competitionStatisticsWindow = new CompetitionStatistics();
+            this._competitionStatisticsWindow.Show();
+        }
+
+        private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+            Application.Current.Shutdown();
+        }
     }
 }
