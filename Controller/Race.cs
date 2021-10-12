@@ -35,7 +35,7 @@ namespace Controller
 
         private readonly Timer _timer;
 
-        public event EventHandler<DriversChangedEventArgs> DriversChanged;
+        public static event EventHandler<DriversChangedEventArgs> DriversChanged;
         
         public event EventHandler<DriversChangedEventArgs> RaceEnded;
 
@@ -62,7 +62,7 @@ namespace Controller
         {
             this._timer.Close();
             this._timer.Enabled = false;
-            this.DriversChanged = null;
+            Race.DriversChanged = null;
             this.RaceEnded = null;
         }
 
@@ -76,7 +76,7 @@ namespace Controller
             }
             
             this.MoveParticipants();
-            this.DriversChanged?.Invoke(source, new DriversChangedEventArgs(this));
+            Race.DriversChanged?.Invoke(source, new DriversChangedEventArgs(this));
         }
 
         private void MoveParticipants()

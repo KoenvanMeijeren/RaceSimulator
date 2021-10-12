@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Controller;
+using Application = System.Windows.Application;
 using DispatcherPriority = System.Windows.Threading.DispatcherPriority;
 
 namespace WPFRaceSimulator
@@ -62,7 +63,7 @@ namespace WPFRaceSimulator
 
         private void StartRace()
         {
-            Data.CurrentRace.DriversChanged += OnDriversChanged;
+            Race.DriversChanged += OnDriversChanged;
             Data.CurrentRace.RaceEnded += OnRaceEnded;
 
             WPFVisualization.Initialize();
