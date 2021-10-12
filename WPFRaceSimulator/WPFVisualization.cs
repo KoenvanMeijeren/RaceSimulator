@@ -9,8 +9,7 @@ namespace WPFRaceSimulator
     public static class WPFVisualization
     {
         
-        private static readonly Directions _startDirection = Directions.East;
-        private static Directions _direction = WPFVisualization._startDirection;
+        private static Directions _direction = Track.StartDirection;
 
         private const int
             TrackPositionUndefined = -1,
@@ -67,6 +66,7 @@ namespace WPFRaceSimulator
                 trackWidth = WPFVisualization.GetTrackWidth(track),
                 trackHeight = WPFVisualization.GetTrackHeight(track);
 
+            WPFVisualization._direction = Track.StartDirection;
             WPFVisualization._cursorEastPosition = WPFVisualization._trackCursorEastPosition;
             WPFVisualization._cursorNorthPosition = WPFVisualization._trackCursorNorthPosition;
 
