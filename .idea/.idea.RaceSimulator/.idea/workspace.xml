@@ -62,6 +62,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8c5d964499a04c04b2b151bbd137532725590/4/Console.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/C#/RaceSimulator/WPFRaceSimulator/WPFVisualization.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/C#/RaceSimulator/WPFRaceSimulator/MainWindow.xaml.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/WPFRaceSimulator/WPFVisualization.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="1ylipXz4TwR0b6Wso2y4JUpH2hN" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -160,14 +161,7 @@
       <workItem from="1633781007498" duration="111000" />
       <workItem from="1633937735966" duration="5000" />
       <workItem from="1633940668657" duration="27279000" />
-      <workItem from="1634020773329" duration="10495000" />
-    </task>
-    <task id="LOCAL-00041" summary="Implement finishing a race">
-      <created>1633021725225</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1633021725225</updated>
+      <workItem from="1634020773329" duration="11314000" />
     </task>
     <task id="LOCAL-00042" summary="Increase the rounds start value">
       <created>1633021943793</created>
@@ -505,7 +499,14 @@
       <option name="project" value="LOCAL" />
       <updated>1634037962549</updated>
     </task>
-    <option name="localTasksCounter" value="90" />
+    <task id="LOCAL-00090" summary="Implement participants movement for straight sections">
+      <created>1634039359932</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1634039359932</updated>
+    </task>
+    <option name="localTasksCounter" value="91" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -544,7 +545,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Update methods order" />
     <MESSAGE value="Debug incorrect finish on not able to move to next section" />
     <MESSAGE value="Enable test drivers" />
     <MESSAGE value="Debug decreasing the speed" />
@@ -569,7 +569,8 @@
     <MESSAGE value="Update .idea" />
     <MESSAGE value="Rename load bitmap image method" />
     <MESSAGE value="Implement track and participants movement visualization" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implement track and participants movement visualization" />
+    <MESSAGE value="Implement participants movement for straight sections" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implement participants movement for straight sections" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -276,6 +276,11 @@ namespace WPFRaceSimulator
             {
                 case Directions.East:
                     cursorNorthPosition += left ? 30 : 45 + CarHeight;
+                    if (section?.SectionType is SectionTypes.LeftCorner or SectionTypes.RightCorner)
+                    {
+                        break;
+                    }
+                    
                     cursorEastPosition +=  convertedDistance switch
                     {
                         0 => 15,
@@ -286,6 +291,10 @@ namespace WPFRaceSimulator
                     break;
                 case Directions.South:
                     cursorEastPosition += left ? 20 + CarWidth : 25;
+                    if (section?.SectionType is SectionTypes.LeftCorner or SectionTypes.RightCorner)
+                    {
+                        break;
+                    }
                     
                     cursorNorthPosition +=  convertedDistance switch
                     {
@@ -297,13 +306,13 @@ namespace WPFRaceSimulator
                     break;
                 case Directions.West:
                     cursorNorthPosition += left ? 45 + CarHeight : 30;
+                    cursorEastPosition += SectionWidth - CarWidth;
+                    
                     if (section?.SectionType is SectionTypes.LeftCorner or SectionTypes.RightCorner)
                     {
                         break;
                     }
-                    
-                    cursorEastPosition += SectionWidth - CarWidth;
-                    
+
                     cursorEastPosition -=  convertedDistance switch
                     {
                         0 => 15,
@@ -315,13 +324,12 @@ namespace WPFRaceSimulator
                     break;
                 case Directions.North:
                     cursorEastPosition += left ? 25 : 20 + CarWidth;
+                    cursorNorthPosition += SectionHeight - CarHeight - 15;
                     if (section?.SectionType is SectionTypes.LeftCorner or SectionTypes.RightCorner)
                     {
                         break;
                     }
 
-                    cursorNorthPosition += SectionHeight - CarHeight - 15;
-                    
                     cursorNorthPosition -=  convertedDistance switch
                     {
                         0 => 15,
@@ -387,18 +395,14 @@ namespace WPFRaceSimulator
                 return WPFVisualization._trackWidth;
             }
 
-            int minEastPosition = track.MinEastPosition, cursorEastPosition = track.MinEastPosition;
+            int minEastPosition = track.MinEastPosition;
             if (minEastPosition < 0)
             {
                 minEastPosition *= -1;
-                cursorEastPosition = minEastPosition;
             }
 
-            if (cursorEastPosition > 0)
-            {
-                cursorEastPosition--;
-            }
-
+            minEastPosition += 1;
+            
             WPFVisualization._trackWidth = minEastPosition + 1 + track.MaxEastPosition;
             WPFVisualization._trackWidth *= SectionWidth;
             
