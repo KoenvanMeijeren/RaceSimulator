@@ -286,6 +286,14 @@ namespace WPFRaceSimulator
                     break;
                 case Directions.South:
                     cursorEastPosition += left ? 20 + CarWidth : 25;
+                    
+                    cursorNorthPosition +=  convertedDistance switch
+                    {
+                        0 => 15,
+                        1 => 50,
+                        2 => 70,
+                        _ => 90
+                    };
                     break;
                 case Directions.West:
                     cursorNorthPosition += left ? 45 + CarHeight : 30;
@@ -295,6 +303,15 @@ namespace WPFRaceSimulator
                     }
                     
                     cursorEastPosition += SectionWidth - CarWidth;
+                    
+                    cursorEastPosition -=  convertedDistance switch
+                    {
+                        0 => 15,
+                        1 => 50,
+                        2 => 70,
+                        _ => 90
+                    };
+                    
                     break;
                 case Directions.North:
                     cursorEastPosition += left ? 25 : 20 + CarWidth;
@@ -304,6 +321,14 @@ namespace WPFRaceSimulator
                     }
 
                     cursorNorthPosition += SectionHeight - CarHeight - 15;
+                    
+                    cursorNorthPosition -=  convertedDistance switch
+                    {
+                        0 => 15,
+                        1 => 50,
+                        2 => 70,
+                        _ => 90
+                    };
                     break;
             }
             
