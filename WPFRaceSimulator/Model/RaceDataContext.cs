@@ -63,8 +63,7 @@ namespace WPFRaceSimulator.Model
             }
 
             int finishedTracks = this.Races.Count - Data.Tracks.Count;
-            bool firstRace = this.Races.First() == Data.CurrentRace;
-            if (firstRace && !race.AllParticipantsFinished())
+            if (!race.AllParticipantsFinished())
             {
                 finishedTracks--;
             }

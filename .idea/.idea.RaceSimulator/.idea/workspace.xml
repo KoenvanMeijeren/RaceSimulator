@@ -10,6 +10,7 @@
   <component name="ChangeListManager">
     <list default="true" id="8a783f09-19f2-47c7-9340-0fa8907541ee" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controller/Race.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controller/Race.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WPFRaceSimulator/Model/RaceDataContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WPFRaceSimulator/Model/RaceDataContext.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -146,14 +147,7 @@
       <workItem from="1633937735966" duration="5000" />
       <workItem from="1633940668657" duration="27279000" />
       <workItem from="1634020773329" duration="15575000" />
-      <workItem from="1634139677538" duration="3320000" />
-    </task>
-    <task id="LOCAL-00061" summary="Debug decreasing the speed">
-      <created>1633340433600</created>
-      <option name="number" value="00061" />
-      <option name="presentableId" value="LOCAL-00061" />
-      <option name="project" value="LOCAL" />
-      <updated>1633340433600</updated>
+      <workItem from="1634139677538" duration="3415000" />
     </task>
     <task id="LOCAL-00062" summary="Update tests">
       <created>1633341093242</created>
@@ -491,7 +485,14 @@
       <option name="project" value="LOCAL" />
       <updated>1634145429456</updated>
     </task>
-    <option name="localTasksCounter" value="110" />
+    <task id="LOCAL-00110" summary="Debug finished tracks label">
+      <created>1634145540983</created>
+      <option name="number" value="00110" />
+      <option name="presentableId" value="LOCAL-00110" />
+      <option name="project" value="LOCAL" />
+      <updated>1634145540983</updated>
+    </task>
+    <option name="localTasksCounter" value="111" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -548,7 +549,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Debug track drawing positions for console" />
     <MESSAGE value="Refactor static events to non-static events" />
     <MESSAGE value="Refactor responsibility for start direction to track" />
     <MESSAGE value="Refactor race events, start and end" />
@@ -573,7 +573,8 @@
     <MESSAGE value="Debug showing more information" />
     <MESSAGE value="Update car blue" />
     <MESSAGE value="Move race data context to model folder" />
-    <option name="LAST_COMMIT_MESSAGE" value="Move race data context to model folder" />
+    <MESSAGE value="Debug finished tracks label" />
+    <option name="LAST_COMMIT_MESSAGE" value="Debug finished tracks label" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
