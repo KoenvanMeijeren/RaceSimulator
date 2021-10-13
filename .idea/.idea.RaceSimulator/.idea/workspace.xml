@@ -8,13 +8,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8a783f09-19f2-47c7-9340-0fa8907541ee" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Controller/Race.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controller/Race.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ControllerTests/Controller_DataShould.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ControllerTests/Controller_DataShould.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ControllerTests/Controller_DriversChangedEventArgsShould.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ControllerTests/Controller_DriversChangedEventArgsShould.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ControllerTests/Controller_RaceShould.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ControllerTests/Controller_RaceShould.cs" afterDir="false" />
-    </list>
+    <list default="true" id="8a783f09-19f2-47c7-9340-0fa8907541ee" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
