@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Windows.Documents;
 using Controller;
 using Model;
 using Section = Model.Section;
 
-namespace WPFRaceSimulator
+namespace WPFRaceSimulator.Model
 {
     public class RaceDataContext : INotifyPropertyChanged
     {
