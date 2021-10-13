@@ -23,6 +23,7 @@ namespace Controller
         public Track Track { get; private set; }
 
         public List<IParticipant> Participants { get; private set; }
+        public List<IParticipant> StartParticipants { get; private set; }
 
         public DateTime StartTime { get; private set; }
 
@@ -43,6 +44,7 @@ namespace Controller
         {
             this.Track = track;
             this.Participants = participants;
+            this.StartParticipants = participants.ToList();
             this._random = new Random(DateTime.Now.Millisecond);
             this._positions = new Dictionary<Section, SectionData>();
             this._rounds = new Dictionary<IParticipant, int>(participants.Capacity);
@@ -193,7 +195,7 @@ namespace Controller
 
         }
 
-        private SectionData MoveParticipantsToNextSection(SectionData sectionData, Section nextSection, SectionData nextSectionData, IParticipant participantLeft, IParticipant participantRight)
+        public SectionData MoveParticipantsToNextSection(SectionData sectionData, Section nextSection, SectionData nextSectionData, IParticipant participantLeft, IParticipant participantRight)
         {
             if (!this.CanPlaceParticipants(nextSectionData, participantLeft, participantRight))
             {
@@ -211,9 +213,9 @@ namespace Controller
 
         }
 
-        private void PlaceParticipantsOnStartPositions()
+        public void PlaceParticipantsOnStartPositions()
         {
-            List<IParticipant> participants = this.Participants.ToList();
+            List<IParticipant> participants = this.StartParticipants;
             Section[] sections = this.Track.Sections.ToArray();
 
             foreach (var section in sections)
