@@ -16,7 +16,7 @@
         <Label Width="auto" Height="40" FontWeight="SemiBold" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,90,0,0" 
                Content="{Binding FinishedParticipants}" Foreground="Red" />
 
-        <ListView Width="400" Height="200" Margin="200,139,200,95" ItemsSource="{Binding Participants}">
+        <ListView Width="400" Height="200" Margin="143,139,257,95" ItemsSource="{Binding Participants}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Deelnemer" Width="75" DisplayMemberBinding="{Binding Name}" />
@@ -24,6 +24,14 @@
                     <GridViewColumn Header="Kwaliteit" Width="75" DisplayMemberBinding="{Binding Equipment.Quality}" />
                     <GridViewColumn Header="Snelheid" Width="75" DisplayMemberBinding="{Binding Equipment.Speed}" />
                     <GridViewColumn Header="Performance" Width="75" DisplayMemberBinding="{Binding Equipment.Performance}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        
+        <ListView Width="100" Height="200" Margin="562,139,138,95" ItemsSource="{Binding Sections}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Sectie" Width="100" DisplayMemberBinding="{Binding SectionType}" />
                 </GridView>
             </ListView.View>
         </ListView>

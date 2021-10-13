@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Documents;
 using Controller;
 using Model;
+using Section = Model.Section;
 
 namespace WPFRaceSimulator
 {
@@ -16,6 +18,7 @@ namespace WPFRaceSimulator
         public string FinishedParticipants { get; private set; }
         public string FinishedTracks { get; private set; }
 
+        public List<Section> Sections { get; private set; }
         public List<IParticipant> Participants { get; private set; }
 
         public List<Race> Races { get; private set; }
@@ -46,6 +49,7 @@ namespace WPFRaceSimulator
             }
 
             this.Participants = race.Participants;
+            this.Sections = race.Track.Sections.ToList();
 
             if (this.Races == null)
             {
@@ -68,6 +72,7 @@ namespace WPFRaceSimulator
 
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TrackName"));
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("ActiveTrackName"));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Sections"));
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Participants"));
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("FinishedParticipants"));
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("FinishedTracks"));
