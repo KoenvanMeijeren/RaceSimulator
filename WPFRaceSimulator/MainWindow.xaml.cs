@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Controller;
+using Application = System.Windows.Application;
 using DispatcherPriority = System.Windows.Threading.DispatcherPriority;
 
 namespace WPFRaceSimulator
@@ -25,6 +26,8 @@ namespace WPFRaceSimulator
 
         private RaceStatistics _raceStatisticsWindow;
         private CompetitionStatistics _competitionStatisticsWindow;
+
+        public static event EventHandler<DriversChangedEventArgs> RaceChanged; 
 
         public MainWindow()
         {
@@ -67,6 +70,8 @@ namespace WPFRaceSimulator
 
             WPFVisualization.Initialize();
             Data.CurrentRace.Start();
+            
+            MainWindow.RaceChanged?.Invoke(this, new DriversChangedEventArgs(Data.CurrentRace));
         }
 
         private void MenuItem_RaceStatistics_Click(object sender, RoutedEventArgs e)
