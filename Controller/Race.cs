@@ -250,7 +250,7 @@ namespace Controller
             }
         }
 
-        private SectionData ParticipantsToSectionData(Section section, SectionData sectionData, IParticipant leftParticipant, IParticipant rightParticipant)
+        public SectionData ParticipantsToSectionData(Section section, SectionData sectionData, IParticipant leftParticipant, IParticipant rightParticipant)
         {
             if (!this.CanPlaceParticipants(sectionData, leftParticipant, rightParticipant))
             {
@@ -262,7 +262,7 @@ namespace Controller
             return new SectionData(section, leftParticipant, defaultDistance, rightParticipant, defaultDistance);
         }
 
-        private SectionData ParticipantToSectionData(Section section, SectionData sectionData, IParticipant participant)
+        public SectionData ParticipantToSectionData(Section section, SectionData sectionData, IParticipant participant)
         {
             int defaultDistance = Race.StartDistanceOfParticipant;
 

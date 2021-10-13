@@ -436,6 +436,32 @@ namespace ControllerTests
             
             Assert.IsNull(this._race.GetParticipantWhoShouldMoveToNextSection(sectionData));
         }
+
+        [Test]
+        public void Race_CannotSetParticipantOnSection()
+        {
+            IEquipment toyota = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
+            IParticipant participant = new Driver(name: "Koen van Meijeren", points: 200, equipment: toyota, teamColor: TeamColors.Red);
+            IParticipant participantTwo = new Driver(name: "Koen van Meijeren", points: 200, equipment: toyota, teamColor: TeamColors.Red);
+            
+            Section section = new Section(SectionTypes.Straight);
+            SectionData sectionData = new SectionData(section, participant, 0, participantTwo, 0);
+            
+            Assert.IsNull(this._race.ParticipantToSectionData(section, sectionData, participant));
+        }
+        
+        [Test]
+        public void Race_CannotSetParticipantsOnSection()
+        {
+            IEquipment toyota = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
+            IParticipant participant = new Driver(name: "Koen van Meijeren", points: 200, equipment: toyota, teamColor: TeamColors.Red);
+            IParticipant participantTwo = new Driver(name: "Koen van Meijeren", points: 200, equipment: toyota, teamColor: TeamColors.Red);
+            
+            Section section = new Section(SectionTypes.Straight);
+            SectionData sectionData = new SectionData(section, participant, 0, participantTwo, 0);
+            
+            Assert.IsNull(this._race.ParticipantsToSectionData(section, sectionData, participant, participant));
+        }
         
     }
 }

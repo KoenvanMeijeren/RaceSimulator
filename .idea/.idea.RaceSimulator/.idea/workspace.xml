@@ -12,10 +12,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Controller/Race.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controller/Race.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ControllerTests/Controller_RaceShould.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ControllerTests/Controller_RaceShould.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Coverage.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Coverage/src/1.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Coverage/src/2.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Coverage/src/33.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/33.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -156,13 +152,6 @@
       <workItem from="1633937735966" duration="5000" />
       <workItem from="1633940668657" duration="27279000" />
       <workItem from="1634020773329" duration="15575000" />
-    </task>
-    <task id="LOCAL-00050" summary="Add is broken check">
-      <created>1633329721811</created>
-      <option name="number" value="00050" />
-      <option name="presentableId" value="LOCAL-00050" />
-      <option name="project" value="LOCAL" />
-      <updated>1633329721812</updated>
     </task>
     <task id="LOCAL-00051" summary="Implement driver is broken visualization">
       <created>1633329916063</created>
@@ -500,40 +489,55 @@
       <option name="project" value="LOCAL" />
       <updated>1634110903758</updated>
     </task>
-    <option name="localTasksCounter" value="99" />
+    <task id="LOCAL-00099" summary="Update tests">
+      <created>1634118301634</created>
+      <option name="number" value="00099" />
+      <option name="presentableId" value="LOCAL-00099" />
+      <option name="project" value="LOCAL" />
+      <updated>1634118301634</updated>
+    </task>
+    <option name="localTasksCounter" value="100" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="UnitTestsCoverage.Settings">
-    <option name="coveragePercentColumnWidth" value="89" />
+    <option name="coveragePercentColumnWidth" value="88" />
     <option name="sortOrder" value="DESCENDING" />
     <option name="sortedColumn" value="1" />
-    <option name="symbolColumnWidth" value="350" />
+    <option name="symbolColumnWidth" value="342" />
     <coverage-tree-state>
       <expand>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 61% 846/2181" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 62% 839/2197" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 61% 846/2181" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Controller 94% 21/352" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 62% 839/2197" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 96% 14/352" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 61% 846/2181" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Controller 94% 21/352" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="(1.0.0.0, net5.0) 94% 21/352" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 62% 839/2197" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 96% 14/352" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="(1.0.0.0, net5.0) 96% 14/352" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 61% 846/2181" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Controller 94% 21/352" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="(1.0.0.0, net5.0) 94% 21/352" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Controller 94% 21/352" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 62% 839/2197" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 96% 14/352" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="(1.0.0.0, net5.0) 96% 14/352" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 96% 14/352" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+        </path>
+        <path>
+          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
+          <item name="Total 62% 839/2197" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 96% 14/352" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="(1.0.0.0, net5.0) 96% 14/352" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 96% 14/352" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Race 95% 14/290" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
       </expand>
       <select />
@@ -558,7 +562,6 @@
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="Implement track sections type count methods" />
-    <MESSAGE value="Update tests" />
     <MESSAGE value="Create main bitmap" />
     <MESSAGE value="Debug using the cached images property" />
     <MESSAGE value="Implement correct calculating of the track width and height" />
@@ -582,7 +585,8 @@
     <MESSAGE value="Debug placing the participants" />
     <MESSAGE value="Update race tests" />
     <MESSAGE value="Test place participants method" />
-    <option name="LAST_COMMIT_MESSAGE" value="Test place participants method" />
+    <MESSAGE value="Update tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update tests" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
