@@ -59,7 +59,7 @@ namespace WPFRaceSimulator
             }
 
             int finishedTracks = this.Races.Count - Data.Tracks.Count;
-            if (!race.AllParticipantsFinished())
+            if (finishedTracks > 0 && !race.AllParticipantsFinished())
             {
                 finishedTracks--;
             }
