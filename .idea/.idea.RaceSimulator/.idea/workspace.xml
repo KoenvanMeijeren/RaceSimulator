@@ -10,10 +10,7 @@
   <component name="ChangeListManager">
     <list default="true" id="8a783f09-19f2-47c7-9340-0fa8907541ee" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WPFRaceSimulator/CompetitionStatistics.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/WPFRaceSimulator/CompetitionStatistics.xaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WPFRaceSimulator/MainWindow.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/WPFRaceSimulator/MainWindow.xaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WPFRaceSimulator/RaceDataContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WPFRaceSimulator/Model/RaceDataContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WPFRaceSimulator/RaceStatistics.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/WPFRaceSimulator/RaceStatistics.xaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WPFRaceSimulator/Model/RaceDataContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WPFRaceSimulator/Model/RaceDataContext.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -149,14 +146,7 @@
       <workItem from="1633937735966" duration="5000" />
       <workItem from="1633940668657" duration="27279000" />
       <workItem from="1634020773329" duration="15575000" />
-      <workItem from="1634139677538" duration="3192000" />
-    </task>
-    <task id="LOCAL-00060" summary="Enable test drivers">
-      <created>1633339873653</created>
-      <option name="number" value="00060" />
-      <option name="presentableId" value="LOCAL-00060" />
-      <option name="project" value="LOCAL" />
-      <updated>1633339873653</updated>
+      <workItem from="1634139677538" duration="3320000" />
     </task>
     <task id="LOCAL-00061" summary="Debug decreasing the speed">
       <created>1633340433600</created>
@@ -494,7 +484,14 @@
       <option name="project" value="LOCAL" />
       <updated>1634145287606</updated>
     </task>
-    <option name="localTasksCounter" value="109" />
+    <task id="LOCAL-00109" summary="Move race data context to model folder">
+      <created>1634145429456</created>
+      <option name="number" value="00109" />
+      <option name="presentableId" value="LOCAL-00109" />
+      <option name="project" value="LOCAL" />
+      <updated>1634145429456</updated>
+    </task>
+    <option name="localTasksCounter" value="110" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -551,7 +548,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Debug track drawing positions" />
     <MESSAGE value="Debug track drawing positions for console" />
     <MESSAGE value="Refactor static events to non-static events" />
     <MESSAGE value="Refactor responsibility for start direction to track" />
@@ -576,7 +572,8 @@
     <MESSAGE value="Implement sections list" />
     <MESSAGE value="Debug showing more information" />
     <MESSAGE value="Update car blue" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update car blue" />
+    <MESSAGE value="Move race data context to model folder" />
+    <option name="LAST_COMMIT_MESSAGE" value="Move race data context to model folder" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
