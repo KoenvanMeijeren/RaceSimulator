@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>E:\Development\C#\RaceSimulator\WPFRaceSimulator\MainWindow.xaml.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using Controller;
+using Application = System.Windows.Application;
+using DispatcherPriority = System.Windows.Threading.DispatcherPriority;
+
+namespace WPFRaceSimulator
+{
+    /// &lt;summary&gt;
+    /// Interaction logic for MainWindow.xaml
+    /// &lt;/summary&gt;
+    public partial class MainWindow : Window
+    {
+
+        private RaceStatistics _raceStatisticsWindow;
+        private CompetitionStatistics _competitionStatisticsWindow;
+
+        public static event EventHandler&lt;DriversChangedEventArgs&gt; RaceChanged; 
+
+        public MainWindow()
+        {
+            this.InitializeComponent();
+
+            Data.Initialize();
+            this.StartRace();
+        }
+
+        private void OnDriversChanged(object sender, DriversChangedEventArgs eventArgs)
+        {
+            // Dispatches an action for drawing the track until the program closes. When the current race changes, the
+            // drawn track will also change.
+            this.TrackImage.Dispatcher.BeginInvoke(
+                DispatcherPriority.Render,
+                new Action(() =&gt;
+                {
+                    this.TrackImage.Source = null;
+                    this.TrackImage.Source = WPFVisualization.DrawTrack(Data.CurrentRace);
+                })
+            );
+        }
+
+        private void OnRaceEnded(object source, DriversChangedEventArgs eventArgs)
+        {
+            Data.NextRace();
+            if (Data.CurrentRace == null)
+            {
+                Console.WriteLine(&quot;De races zijn afgelopen.&quot;);
+                return;
+            }
+
+            this.StartRace();
+        }
+
+        private void StartRace()
+        {
+            Data.CurrentRace.DriversChanged += OnDriversChanged;
+            Data.CurrentRace.RaceEnded += OnRaceEnded;
+
+            WPFVisualization.Initialize();
+            Data.CurrentRace.Start();
+            
+            MainWindow.RaceChanged?.Invoke(this, new DriversChangedEventArgs(Data.CurrentRace));
+        }
+
+        private void MenuItem_RaceStatistics_Click(object sender, RoutedEventArgs e)
+        {
+            this._raceStatisticsWindow = new RaceStatistics();
+            this._raceStatisticsWindow.Show();
+        }
+        private void MenuItem_CompetitionStatistics_Click(object sender, RoutedEventArgs e)
+        {
+            this._competitionStatisticsWindow = new CompetitionStatistics();
+            this._competitionStatisticsWindow.Show();
+        }
+
+        private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+            Application.Current.Shutdown();
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[32,9,32,28,0],[33,9,33,10,0],[34,13,34,40,0],[36,13,36,31,0],[37,13,37,30,0],[38,9,38,10,0],[41,9,41,10,0],[44,13,47,17,0],[47,17,47,18,0],[47,18,48,21,0],[48,21,48,51,0],[48,51,49,21,0],[49,21,49,91,0],[49,91,50,17,0],[50,17,50,18,0],[50,18,51,15,0],[52,9,52,10,0],[55,9,55,10,0],[56,13,56,29,0],[57,13,57,42,0],[58,13,58,14,0],[59,17,59,63,0],[60,17,60,24,0],[63,13,63,30,0],[64,9,64,10,0],[67,9,67,10,0],[68,13,68,65,0],[69,13,69,55,0],[71,13,71,43,0],[72,13,72,38,0],[74,13,74,97,0],[75,9,75,10,0],[78,9,78,10,0],[79,13,79,63,0],[80,13,80,47,0],[81,9,81,10,0],[83,9,83,10,0],[84,13,84,77,0],[85,13,85,54,0],[86,9,86,10,0],[89,9,89,10,0],[90,13,90,26,0],[91,13,91,44,0],[92,9,92,10,0]]);
+    </script>
+  </body>
+</html>

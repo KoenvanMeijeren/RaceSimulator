@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>E:\Development\C#\RaceSimulator\ControllerTests\Controller_DataShould.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Controller;
+using Model;
+using NUnit.Framework;
+
+namespace ControllerTests
+{
+
+    [TestFixture]
+    public class Controller_DataShould
+    {
+
+        [SetUp]
+        public void Setup()
+        {
+            Data.Initialize();
+        }
+
+        [Test]
+        public void Data_Initialize_Participants_CanRead()
+        {
+            Data.Initialize();
+
+            Assert.IsNotEmpty(Data.Participants);
+            Assert.AreEqual(5, Data.Participants.Count);
+            Assert.AreEqual(&quot;Koen&quot;, Data.Participants.First().Name);
+            Assert.AreEqual(&quot;Henk&quot;, Data.Participants[1].Name);
+            Assert.AreEqual(&quot;Jan&quot;, Data.Participants[2].Name);
+            Assert.AreEqual(&quot;Piet&quot;, Data.Participants[3].Name);
+            Assert.AreEqual(&quot;Stan&quot;, Data.Participants[4].Name);
+        }
+
+        [Test]
+        public void Data_Participants_CanAdd()
+        {
+            IEquipment defaultCar = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
+
+            Data.AddParticipant(new Driver(&quot;Test Driver&quot;, 100, defaultCar, TeamColors.Green));
+
+            Assert.AreEqual(6, Data.Participants.Count);
+            Assert.AreEqual(&quot;Koen&quot;, Data.Participants.First().Name);
+            Assert.AreEqual(&quot;Stan&quot;, Data.Participants[4].Name);
+            Assert.AreEqual(&quot;Test Driver&quot;, Data.Participants[5].Name);
+        }
+
+        [Test]
+        public void Data_Initialize_Tracks_CanRead()
+        {
+            Data.Initialize();
+
+            Assert.IsNotEmpty(Data.Tracks);
+            Assert.AreEqual(3, Data.Tracks.Count);
+            Assert.AreNotSame(&quot;Circuit Zwolle&quot;, Data.Tracks.Peek().Name);
+            Assert.AreSame(&quot;TT Assen&quot;, Data.Tracks.Peek().Name);
+            Assert.AreSame(&quot;Circuit Harderwijk&quot;, Data.Tracks.ToArray()[1].Name);
+        }
+
+        [Test]
+        public void Data_Tracks_CanAdd()
+        {
+            SectionTypes[] routeAmsterdam =
+            {
+                SectionTypes.RightCorner, SectionTypes.StartGrid, SectionTypes.RightCorner, SectionTypes.Finish, SectionTypes.RightCorner,
+                SectionTypes.StartGrid, SectionTypes.RightCorner, SectionTypes.StartGrid
+            };
+
+            Data.AddTrack(new Track(&quot;Test Route&quot;, routeAmsterdam));
+            
+            Assert.AreEqual(4, Data.Tracks.Count);
+            Assert.AreSame(&quot;Test Route&quot;, Data.Tracks.ToArray()[3].Name);
+        }
+
+        [Test]
+        public void Data_CurrentRace_CanRead()
+        {
+            Assert.AreEqual(5, Data.CurrentRace.Participants.Count);
+            Assert.AreSame(&quot;Circuit Zwolle&quot;, Data.CurrentRace.Track.Name);
+        }
+
+        [Test]
+        public void Data_CurrentRace_NextRace()
+        {
+            Assert.AreSame(&quot;Circuit Zwolle&quot;, Data.CurrentRace.Track.Name);
+            Data.NextRace();
+            Assert.AreSame(&quot;TT Assen&quot;, Data.CurrentRace.Track.Name);
+            Data.NextRace();
+            Assert.AreSame(&quot;Circuit Harderwijk&quot;, Data.CurrentRace.Track.Name);
+        }
+
+        [Test]
+        public void Data_CurrentRace_NextRace_ReturnsNull()
+        {
+            Data.NextRace();
+            Assert.IsNotNull(Data.CurrentRace);
+            Data.NextRace();
+            Assert.IsNotNull(Data.CurrentRace);
+            Data.NextRace();
+            Assert.IsNotNull(Data.CurrentRace);
+            Data.NextRace();
+            Assert.IsNull(Data.CurrentRace);
+            Data.NextRace();
+            Assert.IsNull(Data.CurrentRace);
+        }
+
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[19,9,19,10,1],[20,13,20,31,1],[21,9,21,10,1],[25,9,25,10,1],[26,13,26,31,1],[28,13,28,50,1],[29,13,29,57,1],[30,13,30,69,1],[31,13,31,64,1],[32,13,32,63,1],[33,13,33,64,1],[34,13,34,64,1],[35,9,35,10,1],[39,9,39,10,1],[40,13,40,157,1],[42,13,42,95,1],[44,13,44,57,1],[45,13,45,69,1],[46,13,46,64,1],[47,13,47,71,1],[48,9,48,10,1],[52,9,52,10,1],[53,13,53,31,1],[55,13,55,44,1],[56,13,56,51,1],[57,13,57,74,1],[58,13,58,65,1],[59,13,59,81,1],[60,9,60,10,1],[64,9,64,10,1],[65,13,69,15,1],[71,13,71,68,1],[73,13,73,51,1],[74,13,74,73,1],[75,9,75,10,1],[79,9,79,10,1],[80,13,80,69,1],[81,13,81,75,1],[82,9,82,10,1],[86,9,86,10,1],[87,13,87,75,1],[88,13,88,29,1],[89,13,89,69,1],[90,13,90,29,1],[91,13,91,79,1],[92,9,92,10,1],[96,9,96,10,1],[97,13,97,29,1],[98,13,98,48,1],[99,13,99,29,1],[100,13,100,48,1],[101,13,101,29,1],[102,13,102,48,1],[103,13,103,29,1],[104,13,104,45,1],[105,13,105,29,1],[106,13,106,45,1],[107,9,107,10,1]]);
+    </script>
+  </body>
+</html>
