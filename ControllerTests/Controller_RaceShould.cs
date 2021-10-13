@@ -241,6 +241,31 @@ namespace ControllerTests
             Assert.AreNotEqual(this._participants.Count, participantsCount);
             Assert.AreEqual(2, participantsCount);
         }
+
+        [Test]
+        public void Race_CanOnlyPlaceParticipantsOnStartGrid()
+        {
+            SectionTypes[] route =
+            {
+                SectionTypes.StartGrid, SectionTypes.StartGrid, SectionTypes.Straight, SectionTypes.Finish
+            };
+
+            Race race = new Race(new Track("test", route), this._participants);
+            race.PlaceParticipantsOnStartPositions();
+            
+            foreach (KeyValuePair<Section,SectionData> racePosition in race.Positions)
+            {
+                if (racePosition.Key.SectionType is SectionTypes.Finish or SectionTypes.Straight)
+                {
+                    Assert.IsNull(racePosition.Value.Left);
+                    Assert.IsNull(racePosition.Value.Right);
+                }
+                else if (racePosition.Key.SectionType == SectionTypes.StartGrid)
+                {
+                    Assert.IsNotNull(racePosition.Value.Left ?? racePosition.Value.Right);
+                }
+            }
+        }
         
     }
 }
