@@ -365,7 +365,10 @@ namespace ControllerTests
             race.MoveParticipants();
             race.MoveParticipants();
             race.MoveParticipants();
+            race.MoveParticipants();
             
+            race.OnTimedEvent(this, null);
+            race.OnTimedEvent(this, null);
             race.OnTimedEvent(this, null);
             
             Assert.IsTrue(this._raceEndedEventFired);

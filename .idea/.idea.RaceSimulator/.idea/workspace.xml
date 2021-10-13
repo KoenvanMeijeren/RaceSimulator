@@ -10,7 +10,9 @@
   <component name="ChangeListManager">
     <list default="true" id="8a783f09-19f2-47c7-9340-0fa8907541ee" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WPFRaceSimulator/Model/RaceDataContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WPFRaceSimulator/Model/RaceDataContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ControllerTests/Controller_DataShould.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ControllerTests/Controller_DataShould.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ControllerTests/Controller_DriversChangedEventArgsShould.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ControllerTests/Controller_DriversChangedEventArgsShould.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ControllerTests/Controller_RaceShould.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ControllerTests/Controller_RaceShould.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -499,33 +501,50 @@
     <option name="version" value="3" />
   </component>
   <component name="UnitTestsCoverage.Settings">
-    <option name="coveragePercentColumnWidth" value="89" />
+    <option name="coveragePercentColumnWidth" value="87" />
     <option name="sortOrder" value="DESCENDING" />
     <option name="sortedColumn" value="1" />
-    <option name="symbolColumnWidth" value="350" />
+    <option name="symbolColumnWidth" value="340" />
     <coverage-tree-state>
       <expand>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 61% 865/2207" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 61% 888/2262" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 61% 865/2207" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Controller 94% 23/354" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 61% 888/2262" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 95% 17/359" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 61% 865/2207" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Controller 94% 23/354" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="(1.0.0.0, net5.0) 94% 23/354" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 61% 888/2262" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 95% 17/359" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="(1.0.0.0, net5.0) 95% 17/359" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 61% 865/2207" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Controller 94% 23/354" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="(1.0.0.0, net5.0) 94% 23/354" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Controller 94% 23/354" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 61% 888/2262" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 95% 17/359" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="(1.0.0.0, net5.0) 95% 17/359" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 95% 17/359" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+        </path>
+        <path>
+          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
+          <item name="Total 61% 888/2262" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 95% 17/359" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="(1.0.0.0, net5.0) 95% 17/359" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 95% 17/359" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="DriversChangedEventArgs 89% 1/9" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+        </path>
+        <path>
+          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
+          <item name="Total 61% 888/2262" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 95% 17/359" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="(1.0.0.0, net5.0) 95% 17/359" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 95% 17/359" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="DriversChangedEventArgs 89% 1/9" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="RaceEnded 50% 1/2" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
       </expand>
       <select />
