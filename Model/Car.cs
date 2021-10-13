@@ -16,7 +16,7 @@ namespace Model
             {
                 if (value is < IEquipment.MinimumQuality or > IEquipment.MaximumQuality)
                 {
-                    throw new ArgumentOutOfRangeException("Quality", value, $"The value must be equal to or higher then: {IEquipment.MinimumQuality} and lower then or equal to {IEquipment.MaximumQuality}.");
+                    throw new ArgumentOutOfRangeException($"Quality", value, $"The value must be equal to or higher then: {IEquipment.MinimumQuality} and lower then or equal to {IEquipment.MaximumQuality}.");
                 }
 
                 this._quality = value;
@@ -31,7 +31,7 @@ namespace Model
             {
                 if (value is < IEquipment.MinimumPerformance or > IEquipment.MaximumPerformance)
                 {
-                    throw new ArgumentOutOfRangeException("Performance", value, $"The value must be equal to or higher then: {IEquipment.MinimumPerformance} and lower then or equal to {IEquipment.MaximumPerformance}.");
+                    throw new ArgumentOutOfRangeException($"Performance", value, $"The value must be equal to or higher then: {IEquipment.MinimumPerformance} and lower then or equal to {IEquipment.MaximumPerformance}.");
                 }
 
                 this._performance = value;
@@ -46,7 +46,7 @@ namespace Model
             {
                 if (value is < IEquipment.MinimumSpeed or > IEquipment.MaximumSpeed)
                 {
-                    throw new ArgumentOutOfRangeException("Speed", value, $"The value must be equal to or higher then: {IEquipment.MinimumSpeed} and lower then or equal to {IEquipment.MaximumSpeed}.");
+                    throw new ArgumentOutOfRangeException($"Speed", value, $"The value must be equal to or higher then: {IEquipment.MinimumSpeed} and lower then or equal to {IEquipment.MaximumSpeed}.");
                 }
 
                 this._speed = value;
