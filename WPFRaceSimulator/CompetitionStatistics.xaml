@@ -4,9 +4,27 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFRaceSimulator"
+        xmlns:model="clr-namespace:WPFRaceSimulator.Model"
         mc:Ignorable="d"
         Title="CompetitionStatistics" Height="450" Width="800">
-    <Grid>
-        
+    <Window.DataContext>
+        <model:RaceDataContext/>
+    </Window.DataContext>
+    <Grid Background="Lime">
+        <Label Content="Competitie statistieken" Foreground="Red" Width="auto" Height="40" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Top" />
+        <Label Width="auto" Height="40" FontWeight="SemiBold" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,40,0,0" 
+               Content="{Binding FinishedTracks}" Foreground="Red" />
+        <Label Width="auto" Height="40" FontWeight="SemiBold" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,90,0,0" 
+               Content="{Binding ActiveTrackName}" Foreground="Red" />
+
+        <ListView Width="400" Height="200" Margin="200,150,200,95" ItemsSource="{Binding Races}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Track" Width="150" DisplayMemberBinding="{Binding Track.Name}" />
+                    <GridViewColumn Header="Secties" Width="100" DisplayMemberBinding="{Binding Track.Sections.Count}" />
+                    <GridViewColumn Header="Deelnemers" Width="100" DisplayMemberBinding="{Binding Participants.Count}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>

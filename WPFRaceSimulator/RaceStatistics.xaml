@@ -4,9 +4,37 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFRaceSimulator"
+        xmlns:model="clr-namespace:WPFRaceSimulator.Model"
         mc:Ignorable="d"
         Title="RaceStatistics" Height="450" Width="800">
-    <Grid>
+    <Window.DataContext>
+        <model:RaceDataContext/>
+    </Window.DataContext>
+    <Grid Background="Lime">
+        <Label Content="Race statistieken" Foreground="Red" Width="auto" Height="40" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Top" />
+        <Label Width="auto" Height="40" FontWeight="SemiBold" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,40,0,0" 
+               Content="{Binding TrackName}" Foreground="Red" />
+        <Label Width="auto" Height="40" FontWeight="SemiBold" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,90,0,0" 
+               Content="{Binding FinishedParticipants}" Foreground="Red" />
+
+        <ListView Width="400" Height="200" Margin="143,139,257,95" ItemsSource="{Binding Participants}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Deelnemer" Width="75" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="Team" Width="75" DisplayMemberBinding="{Binding TeamColor}" />
+                    <GridViewColumn Header="Kwaliteit" Width="75" DisplayMemberBinding="{Binding Equipment.Quality}" />
+                    <GridViewColumn Header="Snelheid" Width="75" DisplayMemberBinding="{Binding Equipment.Speed}" />
+                    <GridViewColumn Header="Performance" Width="75" DisplayMemberBinding="{Binding Equipment.Performance}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
         
+        <ListView Width="100" Height="200" Margin="562,139,138,95" ItemsSource="{Binding Sections}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Sectie" Width="100" DisplayMemberBinding="{Binding SectionType}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>
