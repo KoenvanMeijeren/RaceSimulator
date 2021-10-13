@@ -11,27 +11,8 @@
     <list default="true" id="8a783f09-19f2-47c7-9340-0fa8907541ee" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Controller/Race.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controller/Race.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ControllerTests/Controller_DataShould.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ControllerTests/Controller_DataShould.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ControllerTests/Controller_RaceShould.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ControllerTests/Controller_RaceShould.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Coverage.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Coverage/css/dotcover.report.gen.css" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/css/dotcover.report.gen.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Coverage/images/metadata-icons.svg" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/images/metadata-icons.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Coverage/src/13.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/13.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Coverage/src/14.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/14.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Coverage/src/15.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/15.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Coverage/src/18.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/18.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Coverage/src/24.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/24.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Coverage/src/29.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/29.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Coverage/src/3.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/3.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Coverage/src/30.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/30.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Coverage/src/31.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/31.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Coverage/src/32.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/32.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Coverage/src/33.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/33.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Coverage/src/4.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/4.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Coverage/src/7.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/7.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Coverage/src/8.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/8.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Coverage/src/9.html" beforeDir="false" afterPath="$PROJECT_DIR$/Coverage/src/9.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ModelTests/Model_TrackShould.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ModelTests/Model_TrackShould.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,6 +48,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1adc1bc383fa4cd79069d357fc19dec66ec80/6A/Gdiplus.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/3aa0b4f5b859439cb46e3d299e3e3154218578/56/DispatcherPriority.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/bc3d7024e97f4f818de53bc3c23872b48f5790/81/EventArgs.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Race.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/578643b7d10a415b979d299b20801ef0f55f78/ba/cfa4d97f/Window.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8c5d964499a04c04b2b151bbd137532725590/4/Console.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/C#/RaceSimulator/WPFRaceSimulator/MainWindow.xaml.cs" root0="SKIP_HIGHLIGHTING" />
@@ -79,7 +61,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.23672806" />
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.23704216" />
     <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
@@ -170,13 +152,6 @@
       <workItem from="1633937735966" duration="5000" />
       <workItem from="1633940668657" duration="27279000" />
       <workItem from="1634020773329" duration="15575000" />
-    </task>
-    <task id="LOCAL-00046" summary="Update .idea">
-      <created>1633025138664</created>
-      <option name="number" value="00046" />
-      <option name="presentableId" value="LOCAL-00046" />
-      <option name="project" value="LOCAL" />
-      <updated>1633025138664</updated>
     </task>
     <task id="LOCAL-00047" summary="Implement ending a race and starting a new race">
       <created>1633025187548</created>
@@ -514,22 +489,29 @@
       <option name="project" value="LOCAL" />
       <updated>1634044431975</updated>
     </task>
-    <option name="localTasksCounter" value="95" />
+    <task id="LOCAL-00095" summary="Debug tests">
+      <created>1634063925881</created>
+      <option name="number" value="00095" />
+      <option name="presentableId" value="LOCAL-00095" />
+      <option name="project" value="LOCAL" />
+      <updated>1634063925881</updated>
+    </task>
+    <option name="localTasksCounter" value="96" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="UnitTestsCoverage.Settings">
-    <option name="coveragePercentColumnWidth" value="95" />
+    <option name="coveragePercentColumnWidth" value="55" />
     <option name="sortOrder" value="DESCENDING" />
     <option name="sortedColumn" value="1" />
-    <option name="symbolColumnWidth" value="381" />
+    <option name="symbolColumnWidth" value="193" />
     <coverage-tree-state>
       <expand>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 57% 859/2012" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 58% 861/2060" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
       </expand>
       <select />
@@ -556,7 +538,6 @@
     <MESSAGE value="Update data" />
     <MESSAGE value="Add graphics" />
     <MESSAGE value="Implement loading images from cache" />
-    <MESSAGE value="Debug tests" />
     <MESSAGE value="Implement track sections type count methods" />
     <MESSAGE value="Update tests" />
     <MESSAGE value="Create main bitmap" />
@@ -578,7 +559,8 @@
     <MESSAGE value="Visualize start position for participants in corner" />
     <MESSAGE value="Update participants" />
     <MESSAGE value="Implement participants movement in corners" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implement participants movement in corners" />
+    <MESSAGE value="Debug tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="Debug tests" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

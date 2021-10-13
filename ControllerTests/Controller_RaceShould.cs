@@ -17,6 +17,8 @@ namespace ControllerTests
         private Race _race;
         private Race _emptyRace;
 
+        private List<IParticipant> _participants;
+
         [SetUp]
         public void Setup()
         {
@@ -35,6 +37,7 @@ namespace ControllerTests
             participants.Add(new Driver(name: "Klaas van Meijeren", points: 190, equipment: toyota, teamColor: TeamColors.Blue));
             participants.Add(new Driver(name: "Jan van Meijeren", points: 195, equipment: defaultCar, teamColor: TeamColors.Green));
 
+            this._participants = participants;
             this._race = new Race(new Track(name: "Monaco", sections: route), participants);
             this._emptyRace = new Race(new Track("Test", new SectionTypes[0]), new List<IParticipant>());
         }
@@ -182,9 +185,61 @@ namespace ControllerTests
         }
 
         [Test]
-        public void Race_CanPlaceParticipants()
+        public void Race_CanPlaceAllParticipants()
         {
+            SectionTypes[] route =
+            {
+                SectionTypes.StartGrid, SectionTypes.StartGrid, SectionTypes.Straight, SectionTypes.Finish
+            };
+
+            Race race = new Race(new Track("test", route), this._participants);
+            race.PlaceParticipantsOnStartPositions();
+
+            int participantsCount = 0;
+            foreach (KeyValuePair<Section,SectionData> racePosition in race.Positions)
+            {
+                if (racePosition.Value.Left != null)
+                {
+                    participantsCount++;
+                }
+
+                if (racePosition.Value.Right != null)
+                {
+                    participantsCount++;
+                }
+            }
             
+            Assert.AreEqual(race.Participants.Count, participantsCount);
+            Assert.AreNotEqual(race.Participants.Count - 1, participantsCount);
+        }
+        
+        [Test]
+        public void Race_CannotPlaceAllParticipants()
+        {
+            SectionTypes[] route =
+            {
+                SectionTypes.RightCorner, SectionTypes.StartGrid, SectionTypes.Finish
+            };
+
+            Race race = new Race(new Track("test", route), this._participants);
+            race.PlaceParticipantsOnStartPositions();
+
+            int participantsCount = 0;
+            foreach (KeyValuePair<Section,SectionData> racePosition in race.Positions)
+            {
+                if (racePosition.Value.Left != null)
+                {
+                    participantsCount++;
+                }
+
+                if (racePosition.Value.Right != null)
+                {
+                    participantsCount++;
+                }
+            }
+            
+            Assert.AreNotEqual(this._participants.Count, participantsCount);
+            Assert.AreEqual(2, participantsCount);
         }
         
     }

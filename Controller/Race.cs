@@ -30,7 +30,7 @@ namespace Controller
         private readonly Random _random;
 
         // Only 2 participants per section are allowed.
-        private readonly Dictionary<Section, SectionData> _positions;
+        public Dictionary<Section, SectionData> Positions { get; private set; }
 
         private readonly Dictionary<IParticipant, int> _rounds;
 
@@ -46,7 +46,7 @@ namespace Controller
             this.Participants = participants;
             this.StartParticipants = participants.ToList();
             this._random = new Random(DateTime.Now.Millisecond);
-            this._positions = new Dictionary<Section, SectionData>();
+            this.Positions = new Dictionary<Section, SectionData>();
             this._rounds = new Dictionary<IParticipant, int>(participants.Capacity);
             this._timer = new Timer(Race.TimerInterval);
             this._timer.Elapsed += this.OnTimedEvent;
@@ -335,25 +335,25 @@ namespace Controller
         
         public SectionData GetSectionData(Section section)
         {
-            if (this._positions.TryGetValue(section, out var foundSectionData))
+            if (this.Positions.TryGetValue(section, out var foundSectionData))
             {
                 return foundSectionData;
             }
             
             foundSectionData = new SectionData();
-            this._positions.Add(section, foundSectionData);
+            this.Positions.Add(section, foundSectionData);
 
             return foundSectionData;
         }
 
         public bool UpdateSectionData(Section section, SectionData sectionData)
         {
-            if (!this._positions.ContainsKey(section))
+            if (!this.Positions.ContainsKey(section))
             {
                 return false;
             }
 
-            this._positions[section] = sectionData;
+            this.Positions[section] = sectionData;
             return true;
         }
         
