@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>E:\Development\C#\RaceSimulator\WPFRaceSimulator\RaceDataContext.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.ComponentModel;
+using Controller;
+
+namespace WPFRaceSimulator
+{
+    public class RaceDataContext : INotifyPropertyChanged
+    {
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private string _trackName;
+        public string TrackName
+        {
+            get =&gt; this._trackName;
+            private set
+            {
+                this._trackName = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(&quot;TrackName&quot;));
+            }
+        }
+
+        public RaceDataContext()
+        {
+            MainWindow.RaceChanged += this.OnRaceChanged;
+        }
+
+        private void OnRaceChanged(object sender, DriversChangedEventArgs eventArgs)
+        {
+            this.TrackName = eventArgs.Race.Track.Name;
+        }
+
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[14,20,14,35,0],[16,13,16,14,0],[17,17,17,41,0],[18,17,18,95,0],[19,13,19,14,0],[22,9,22,33,0],[23,9,23,10,0],[24,13,24,58,0],[25,9,25,10,0],[28,9,28,10,0],[29,13,29,56,0],[30,9,30,10,0]]);
+    </script>
+  </body>
+</html>

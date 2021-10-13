@@ -8,7 +8,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8a783f09-19f2-47c7-9340-0fa8907541ee" name="Changes" comment="" />
+    <list default="true" id="8a783f09-19f2-47c7-9340-0fa8907541ee" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controller/DriversChangedEventArgs.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controller/DriversChangedEventArgs.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controller/Race.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controller/Race.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WPFRaceSimulator/MainWindow.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WPFRaceSimulator/MainWindow.xaml.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WPFRaceSimulator/RaceDataContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WPFRaceSimulator/RaceDataContext.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,7 +23,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="feature/coding-standards" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -148,13 +154,6 @@
       <workItem from="1633937735966" duration="5000" />
       <workItem from="1633940668657" duration="27279000" />
       <workItem from="1634020773329" duration="15575000" />
-    </task>
-    <task id="LOCAL-00051" summary="Implement driver is broken visualization">
-      <created>1633329916063</created>
-      <option name="number" value="00051" />
-      <option name="presentableId" value="LOCAL-00051" />
-      <option name="project" value="LOCAL" />
-      <updated>1633329916063</updated>
     </task>
     <task id="LOCAL-00052" summary="Update .idea">
       <created>1633329927299</created>
@@ -492,7 +491,14 @@
       <option name="project" value="LOCAL" />
       <updated>1634118301634</updated>
     </task>
-    <option name="localTasksCounter" value="100" />
+    <task id="LOCAL-00100" summary="Update .idea">
+      <created>1634120915205</created>
+      <option name="number" value="00100" />
+      <option name="presentableId" value="LOCAL-00100" />
+      <option name="project" value="LOCAL" />
+      <updated>1634120915205</updated>
+    </task>
+    <option name="localTasksCounter" value="101" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -507,25 +513,25 @@
       <expand>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 61% 856/2202" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 61% 860/2206" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 61% 856/2202" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Controller 95% 16/351" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 61% 860/2206" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 95% 18/353" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 61% 856/2202" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Controller 95% 16/351" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="(1.0.0.0, net5.0) 95% 16/351" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 61% 860/2206" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 95% 18/353" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="(1.0.0.0, net5.0) 95% 18/353" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 61% 856/2202" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Controller 95% 16/351" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="(1.0.0.0, net5.0) 95% 16/351" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Controller 95% 16/351" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 61% 860/2206" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 95% 18/353" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="(1.0.0.0, net5.0) 95% 18/353" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 95% 18/353" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
       </expand>
       <select />
@@ -561,7 +567,6 @@
     <MESSAGE value="Refactor static events to non-static events" />
     <MESSAGE value="Refactor responsibility for start direction to track" />
     <MESSAGE value="Refactor race events, start and end" />
-    <MESSAGE value="Update .idea" />
     <MESSAGE value="Rename load bitmap image method" />
     <MESSAGE value="Implement track and participants movement visualization" />
     <MESSAGE value="Implement participants movement for straight sections" />
@@ -574,7 +579,8 @@
     <MESSAGE value="Update race tests" />
     <MESSAGE value="Test place participants method" />
     <MESSAGE value="Update tests" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update tests" />
+    <MESSAGE value="Update .idea" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update .idea" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
