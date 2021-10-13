@@ -2,79 +2,34 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>E:\Development\C#\RaceSimulator\Controller\Data.cs</title>
+    <title>E:\Development\C#\RaceSimulator\ModelTests\Model_Competition_NextTrackShould.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
+using NUnit.Framework;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Model;
 
-namespace Controller
+namespace ControllerTests
 {
-    public static class Data
+
+    [TestFixture]
+    public class Model_Competition_NextTrackShould
     {
 
-        private static Competition _competition;
-        public static Race CurrentRace { get; private set; }
+        private Competition _emptyCompetition;
+        private Competition _competition;
 
-        public static List&lt;IParticipant&gt; Participants { get; private set; }
-        public static Queue&lt;Track&gt; Tracks { get; private set; }
+        private Queue&lt;Track&gt; _tracks = new Queue&lt;Track&gt;();
 
-        public static void Initialize()
-        {
-            // resets the data in order to prevent data errors.
-            Data._competition = null;
-            Data.CurrentRace = null;
-            Data.Participants = new List&lt;IParticipant&gt;();
-            Data.Tracks = new Queue&lt;Track&gt;();
-
-            Data.AddTestParticipants();
-            Data.AddTestTracks();
-
-            Data._competition = new Competition(Data.Participants, Data.Tracks);
-
-            if (Data.CurrentRace == null)
-            {
-                Data.NextRace();
-            }
-        }
-
-        public static void NextRace()
-        {
-            if (Data.CurrentRace != null)
-            {
-                Data.CurrentRace.End();
-            }
-
-            Track currentTrack = Data._competition.NextTrack();
-            if (currentTrack == null)
-            {
-                Data.CurrentRace = null;
-                return;
-            }
-
-            Data.CurrentRace = new Race(currentTrack, Data.Participants);
-        }
-
-        private static void AddTestParticipants()
-        {
-            Data.AddParticipant(new Driver(name: &quot;Koen&quot;, points: 200, equipment: new Car(quality: 100, performance: 1, speed: 50), teamColor: TeamColors.Red));
-            Data.AddParticipant(new Driver(name: &quot;Henk&quot;, points: 190, equipment: new Car(quality: 65, performance: 1, speed: 25), teamColor: TeamColors.Blue));
-            Data.AddParticipant(new Driver(name: &quot;Jan&quot;, points: 195, equipment: new Car(quality: 65, performance: 2, speed: 30), teamColor: TeamColors.Green));
-            Data.AddParticipant(new Driver(name: &quot;Piet&quot;, points: 192, equipment: new Car(quality: 65, performance: 2, speed: 50), teamColor: TeamColors.Grey));
-            Data.AddParticipant(new Driver(name: &quot;Stan&quot;, points: 197, equipment: new Car(quality: 65, performance: 2, speed: 25), teamColor: TeamColors.Yellow));
-        }
-
-        public static void AddParticipant(Driver driver)
-        {
-            Data.Participants ??= new List&lt;IParticipant&gt;();
-
-            Data.Participants.Add(driver);
-        }
-
-        private static void AddTestTracks()
+        [SetUp]
+        public void Setup()
         {
             SectionTypes[] routeZwolle = {
                 SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.Finish,
@@ -82,12 +37,12 @@ namespace Controller
             };
 
             SectionTypes[] routeElburg = {
-                SectionTypes.StartGrid, SectionTypes.Finish, SectionTypes.RightCorner, SectionTypes.Straight,
-                SectionTypes.LeftCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.RightCorner,
-                SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.LeftCorner,
-                SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.LeftCorner, SectionTypes.RightCorner,
-                SectionTypes.RightCorner, SectionTypes.LeftCorner, SectionTypes.Straight, SectionTypes.RightCorner,
-                SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.RightCorner,
+                SectionTypes.StartGrid, SectionTypes.Finish, SectionTypes.RightCorner, SectionTypes.Straight, 
+                SectionTypes.LeftCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.RightCorner, 
+                SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.LeftCorner, 
+                SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.LeftCorner, SectionTypes.RightCorner, 
+                SectionTypes.RightCorner, SectionTypes.LeftCorner, SectionTypes.Straight, SectionTypes.RightCorner, 
+                SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.RightCorner, 
                 SectionTypes.StartGrid, SectionTypes.StartGrid
             };
 
@@ -97,27 +52,66 @@ namespace Controller
                 SectionTypes.StartGrid, SectionTypes.RightCorner, SectionTypes.StartGrid
             };
 
-            SectionTypes[] routeHarderwijk =
-            {
-                SectionTypes.StartGrid, SectionTypes.Finish, SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.RightCorner, 
-                SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, 
-                SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.LeftCorner, 
-                SectionTypes.Straight, SectionTypes.LeftCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, 
-                SectionTypes.Straight, SectionTypes.LeftCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, 
-                SectionTypes.RightCorner, SectionTypes.StartGrid, SectionTypes.StartGrid,
-            };
-            
-            Data.AddTrack(new Track(name: &quot;Circuit Zwolle&quot;, sections: routeElburg));
-            Data.AddTrack(new Track(name: &quot;TT Assen&quot;, sections: routeZwolle));
-            Data.AddTrack(new Track(name: &quot;Circuit Harderwijk&quot;, sections: routeHarderwijk));
-            Data.AddTrack(new Track(name: &quot;Monaco&quot;, sections: routeAmsterdam));
+            this._tracks = new Queue&lt;Track&gt;();
+            this._tracks.Enqueue(new Track(name: &quot;Circuit Zwolle&quot;, sections: routeZwolle));
+            this._tracks.Enqueue(new Track(name: &quot;TT Assen&quot;, sections: routeElburg));
+            this._tracks.Enqueue(new Track(name: &quot;Monaco&quot;, sections: routeAmsterdam));
+
+            this._emptyCompetition = new Competition(new List&lt;IParticipant&gt;(), new Queue&lt;Track&gt;());
+            this._competition = new Competition(new List&lt;IParticipant&gt;(), this._tracks);
         }
 
-        public static void AddTrack(Track track)
+        [Test]
+        public void NextTrack_EmptyQueue_ReturnNull()
         {
-            Data.Tracks ??= new Queue&lt;Track&gt;();
+            var result = this._emptyCompetition.NextTrack();
+            Assert.IsNull(result);
+            Assert.AreEqual(0, this._emptyCompetition.Tracks.Count);
+        }
 
-            Data.Tracks.Enqueue(track);
+        [Test]
+        public void NextTrack_OneInQueue_ReturnTrack()
+        {
+            var result = this._competition.NextTrack();
+            Assert.IsInstanceOf(typeof(Track), result);
+        }
+
+        [Test]
+        public void NextTrack_OneInQueue_RemoveTrackFromQueue()
+        {
+            SectionTypes[] routeZwolle = {
+                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.Finish,
+                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.StartGrid
+            };
+            Queue&lt;Track&gt; tracks = new Queue&lt;Track&gt;();
+            tracks.Enqueue(new Track(name: &quot;Circuit Zwolle&quot;, sections: routeZwolle));
+
+            Competition testCompetition = new Competition(new List&lt;IParticipant&gt;(), tracks);
+
+            Assert.AreEqual(&quot;Circuit Zwolle&quot;, testCompetition.NextTrack().Name);
+            Assert.IsNull(testCompetition.NextTrack());
+            Assert.IsNull(testCompetition.NextTrack());
+        }
+
+        [Test]
+        public void NextTrack_TracksInQueue_ReturnNextTrack()
+        {
+            Assert.AreEqual(3, this._competition.Tracks.Count);
+
+            Track currentTrack = this._competition.NextTrack();
+            Assert.IsInstanceOf(typeof(Track), currentTrack);
+            Assert.AreEqual(2, this._competition.Tracks.Count);
+            Assert.AreEqual(&quot;Circuit Zwolle&quot;, currentTrack.Name);
+
+            currentTrack = this._competition.NextTrack();
+            Assert.IsInstanceOf(typeof(Track), currentTrack);
+            Assert.AreEqual(1, this._competition.Tracks.Count);
+            Assert.AreEqual(&quot;TT Assen&quot;, currentTrack.Name);
+
+            currentTrack = this._competition.NextTrack();
+            Assert.IsInstanceOf(typeof(Track), currentTrack);
+            Assert.AreEqual(0, this._competition.Tracks.Count);
+            Assert.AreEqual(&quot;Monaco&quot;, currentTrack.Name);
         }
 
     }
@@ -125,7 +119,7 @@ namespace Controller
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[10,42,10,46,1],[10,47,10,59,1],[12,57,12,61,1],[12,62,12,74,1],[13,45,13,49,1],[13,50,13,62,1],[16,9,16,10,1],[18,13,18,38,1],[19,13,19,37,1],[20,13,20,58,1],[21,13,21,46,1],[23,13,23,40,1],[24,13,24,34,1],[26,13,26,81,1],[28,13,28,42,1],[29,13,29,14,1],[30,17,30,33,1],[31,13,31,14,1],[32,9,32,10,1],[35,9,35,10,1],[36,13,36,42,1],[37,13,37,14,1],[38,17,38,40,1],[39,13,39,14,1],[41,13,41,64,1],[42,13,42,38,1],[43,13,43,14,1],[44,17,44,41,1],[45,17,45,24,1],[48,13,48,74,1],[49,9,49,10,1],[52,9,52,10,1],[53,13,53,160,1],[54,13,54,160,1],[55,13,55,160,1],[56,13,56,160,1],[57,13,57,162,1],[58,9,58,10,1],[61,9,61,10,1],[62,13,62,60,1],[64,13,64,43,1],[65,9,65,10,1],[68,9,68,10,1],[69,13,72,15,1],[74,13,82,15,1],[84,13,88,15,1],[90,13,98,15,1],[100,13,100,85,1],[101,13,101,79,1],[102,13,102,93,1],[103,13,103,80,1],[104,9,104,10,1],[107,9,107,10,1],[108,13,108,48,1],[110,13,110,40,1],[111,9,111,10,1]]);
+      highlightRanges([[19,9,19,59,1],[23,9,23,10,1],[24,13,27,15,1],[29,13,37,15,1],[39,13,43,15,1],[45,13,45,47,1],[46,13,46,92,1],[47,13,47,86,1],[48,13,48,87,1],[50,13,50,100,1],[51,13,51,89,1],[52,9,52,10,1],[56,9,56,10,1],[57,13,57,61,1],[58,13,58,35,1],[59,13,59,69,1],[60,9,60,10,1],[64,9,64,10,1],[65,13,65,56,1],[66,13,66,56,1],[67,9,67,10,1],[71,9,71,10,1],[72,13,75,15,1],[76,13,76,54,1],[77,13,77,86,1],[79,13,79,93,1],[81,13,81,81,1],[82,13,82,56,1],[83,13,83,56,1],[84,9,84,10,1],[88,9,88,10,1],[89,13,89,64,1],[91,13,91,64,1],[92,13,92,62,1],[93,13,93,64,1],[94,13,94,66,1],[96,13,96,58,1],[97,13,97,62,1],[98,13,98,64,1],[99,13,99,60,1],[101,13,101,58,1],[102,13,102,62,1],[103,13,103,64,1],[104,13,104,58,1],[105,9,105,10,1]]);
     </script>
   </body>
 </html>

@@ -27,7 +27,8 @@ namespace ControllerTests
 
             DriversChangedEventArgs eventArgs = new DriversChangedEventArgs(new Race(new Track(name: "Monaco", sections: route), participants));
 
-            Assert.AreEqual("Monaco", eventArgs.Race.Track.Name);
+            Assert.AreSame("Monaco", eventArgs.Race.Track.Name);
+            Assert.IsFalse(eventArgs.RaceEnded);
         }
 
     }

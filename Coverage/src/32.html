@@ -2,24 +2,43 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>E:\Development\C#\RaceSimulator\Controller\DriversChangedEventArgs.cs</title>
+    <title>E:\Development\C#\RaceSimulator\ControllerTests\Controller_DriversChangedEventArgsShould.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
-using System;
+using System.Collections.Generic;
+using Controller;
+using Model;
+using NUnit.Framework;
 
-namespace Controller
+namespace ControllerTests
 {
-    public class DriversChangedEventArgs : EventArgs
+    [TestFixture]
+    public class Controller_DriversChangedEventArgsShould
     {
 
-        public Race Race { get; private set; }
-
-        public DriversChangedEventArgs(Race race)
+        [Test]
+        public void DriversChangedEventArgs_CanCreate()
         {
-            this.Race = race;
+            SectionTypes[] route =
+            {
+                SectionTypes.RightCorner, SectionTypes.StartGrid, SectionTypes.RightCorner, SectionTypes.Finish, SectionTypes.RightCorner,
+                SectionTypes.StartGrid, SectionTypes.RightCorner, SectionTypes.StartGrid
+            };
+            List&lt;IParticipant&gt; participants = new List&lt;IParticipant&gt;();
+            IEquipment defaultCar = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
+            IEquipment toyota = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
+
+            participants.Add(new Driver(name: &quot;Koen van Meijeren&quot;, points: 200, equipment: defaultCar, teamColor: TeamColors.Red));
+            participants.Add(new Driver(name: &quot;Klaas van Meijeren&quot;, points: 190, equipment: toyota, teamColor: TeamColors.Blue));
+            participants.Add(new Driver(name: &quot;Jan van Meijeren&quot;, points: 195, equipment: defaultCar, teamColor: TeamColors.Green));
+
+            DriversChangedEventArgs eventArgs = new DriversChangedEventArgs(new Race(new Track(name: &quot;Monaco&quot;, sections: route), participants));
+
+            Assert.AreSame(&quot;Monaco&quot;, eventArgs.Race.Track.Name);
+            Assert.IsFalse(eventArgs.RaceEnded);
         }
 
     }
@@ -27,7 +46,7 @@ namespace Controller
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[8,28,8,32,1],[8,33,8,45,1],[10,9,10,50,1],[11,9,11,10,1],[12,13,12,30,1],[13,9,13,10,1]]);
+      highlightRanges([[14,9,14,10,1],[15,13,19,15,1],[20,13,20,72,1],[21,13,21,157,1],[22,13,22,153,1],[24,13,24,132,1],[25,13,25,130,1],[26,13,26,133,1],[28,13,28,145,1],[30,13,30,65,1],[31,13,31,49,1],[32,9,32,10,1]]);
     </script>
   </body>
 </html>

@@ -50,9 +50,12 @@ namespace ControllerTests
 
             Assert.IsNotEmpty(Data.Tracks);
             Assert.AreEqual(3, Data.Tracks.Count);
+            Assert.AreEqual(3, Data.TracksList.Count);
             Assert.AreNotSame("Circuit Zwolle", Data.Tracks.Peek().Name);
+            Assert.AreNotSame("Circuit Zwolle", Data.TracksList.First().Name);
             Assert.AreSame("TT Assen", Data.Tracks.Peek().Name);
             Assert.AreSame("Circuit Harderwijk", Data.Tracks.ToArray()[1].Name);
+            Assert.AreSame("Circuit Harderwijk", Data.TracksList[1].Name);
         }
 
         [Test]
