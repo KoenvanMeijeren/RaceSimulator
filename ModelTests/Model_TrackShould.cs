@@ -69,6 +69,11 @@ namespace ModelTests
             };
             
             Track track = new Track("Test Track 2", route);
+            
+            Assert.AreEqual(0, track.MinEastPosition);
+            Assert.AreEqual(5, track.MaxEastPosition);
+            Assert.AreEqual(0, track.MinNorthPosition);
+            Assert.AreEqual(3, track.MaxNorthPosition);
 
             SectionTypes[] routeTest = {
                 SectionTypes.StartGrid, SectionTypes.Finish, SectionTypes.RightCorner, SectionTypes.Straight,
@@ -83,6 +88,11 @@ namespace ModelTests
             
             Track trackTest = new Track("Test Track 2", routeTest);
 
+            Assert.AreEqual(-2, trackTest.MinEastPosition);
+            Assert.AreEqual(6, trackTest.MaxEastPosition);
+            Assert.AreEqual(0, trackTest.MinNorthPosition);
+            Assert.AreEqual(5, trackTest.MaxNorthPosition);
+            
             SectionTypes[] routeTestTwo =
             {
                 SectionTypes.Straight,
@@ -96,7 +106,10 @@ namespace ModelTests
 
             Track trackTestTwo = new Track("Test track 3", routeTestTwo);
             
-            Assert.Fail();
+            Assert.AreEqual(0, trackTestTwo.MinEastPosition);
+            Assert.AreEqual(3, trackTestTwo.MaxEastPosition);
+            Assert.AreEqual(-2, trackTestTwo.MinNorthPosition);
+            Assert.AreEqual(0, trackTestTwo.MaxNorthPosition);
         }
 
     }

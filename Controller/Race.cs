@@ -23,13 +23,14 @@ namespace Controller
         public Track Track { get; private set; }
 
         public List<IParticipant> Participants { get; private set; }
+        public List<IParticipant> StartParticipants { get; private set; }
 
         public DateTime StartTime { get; private set; }
 
         private readonly Random _random;
 
         // Only 2 participants per section are allowed.
-        private readonly Dictionary<Section, SectionData> _positions;
+        public Dictionary<Section, SectionData> Positions { get; private set; }
 
         private readonly Dictionary<IParticipant, int> _rounds;
 
@@ -43,8 +44,9 @@ namespace Controller
         {
             this.Track = track;
             this.Participants = participants;
+            this.StartParticipants = participants.ToList();
             this._random = new Random(DateTime.Now.Millisecond);
-            this._positions = new Dictionary<Section, SectionData>();
+            this.Positions = new Dictionary<Section, SectionData>();
             this._rounds = new Dictionary<IParticipant, int>(participants.Capacity);
             this._timer = new Timer(Race.TimerInterval);
             this._timer.Elapsed += this.OnTimedEvent;
@@ -79,7 +81,7 @@ namespace Controller
             this.DriversChanged?.Invoke(source, new DriversChangedEventArgs(this));
         }
 
-        private void MoveParticipants()
+        public void MoveParticipants()
         {
             Section[] sections = this.Track.Sections.ToArray();
             for (int delta = 0; delta < sections.Length; delta++)
@@ -175,7 +177,7 @@ namespace Controller
             }
         }
 
-        private SectionData MoveParticipantToNextSection(SectionData sectionData, Section nextSection, SectionData nextSectionData, IParticipant participant)
+        public SectionData MoveParticipantToNextSection(SectionData sectionData, Section nextSection, SectionData nextSectionData, IParticipant participant)
         {
             if (!this.CanPlaceParticipant(nextSectionData, participant))
             {
@@ -193,7 +195,7 @@ namespace Controller
 
         }
 
-        private SectionData MoveParticipantsToNextSection(SectionData sectionData, Section nextSection, SectionData nextSectionData, IParticipant participantLeft, IParticipant participantRight)
+        public SectionData MoveParticipantsToNextSection(SectionData sectionData, Section nextSection, SectionData nextSectionData, IParticipant participantLeft, IParticipant participantRight)
         {
             if (!this.CanPlaceParticipants(nextSectionData, participantLeft, participantRight))
             {
@@ -211,9 +213,9 @@ namespace Controller
 
         }
 
-        private void PlaceParticipantsOnStartPositions()
+        public void PlaceParticipantsOnStartPositions()
         {
-            List<IParticipant> participants = this.Participants.ToList();
+            List<IParticipant> participants = this.StartParticipants;
             Section[] sections = this.Track.Sections.ToArray();
 
             foreach (var section in sections)
@@ -248,7 +250,7 @@ namespace Controller
             }
         }
 
-        private SectionData ParticipantsToSectionData(Section section, SectionData sectionData, IParticipant leftParticipant, IParticipant rightParticipant)
+        public SectionData ParticipantsToSectionData(Section section, SectionData sectionData, IParticipant leftParticipant, IParticipant rightParticipant)
         {
             if (!this.CanPlaceParticipants(sectionData, leftParticipant, rightParticipant))
             {
@@ -260,7 +262,7 @@ namespace Controller
             return new SectionData(section, leftParticipant, defaultDistance, rightParticipant, defaultDistance);
         }
 
-        private SectionData ParticipantToSectionData(Section section, SectionData sectionData, IParticipant participant)
+        public SectionData ParticipantToSectionData(Section section, SectionData sectionData, IParticipant participant)
         {
             int defaultDistance = Race.StartDistanceOfParticipant;
 
@@ -326,32 +328,32 @@ namespace Controller
             return sectionData;
         }
         
-        private bool AllParticipantsFinished()
+        public bool AllParticipantsFinished()
         {
             return this._finishedParticipants >= this.Participants.Count;
         }
         
         public SectionData GetSectionData(Section section)
         {
-            if (this._positions.TryGetValue(section, out var foundSectionData))
+            if (this.Positions.TryGetValue(section, out var foundSectionData))
             {
                 return foundSectionData;
             }
             
             foundSectionData = new SectionData();
-            this._positions.Add(section, foundSectionData);
+            this.Positions.Add(section, foundSectionData);
 
             return foundSectionData;
         }
 
         public bool UpdateSectionData(Section section, SectionData sectionData)
         {
-            if (!this._positions.ContainsKey(section))
+            if (!this.Positions.ContainsKey(section))
             {
                 return false;
             }
 
-            this._positions[section] = sectionData;
+            this.Positions[section] = sectionData;
             return true;
         }
         
@@ -396,7 +398,7 @@ namespace Controller
                     && sectionData.DistanceRight >= Race.SectionLength && sectionData.Right != null;
         }
 
-        private IParticipant GetParticipantWhoShouldMoveToNextSection(SectionData sectionData)
+        public IParticipant GetParticipantWhoShouldMoveToNextSection(SectionData sectionData)
         {
             if (!this.ShouldMoveParticipantToNextSection(sectionData))
             {

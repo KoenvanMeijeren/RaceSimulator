@@ -10,8 +10,8 @@
   <component name="ChangeListManager">
     <list default="true" id="8a783f09-19f2-47c7-9340-0fa8907541ee" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RaceSimulator/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WPFRaceSimulator/MainWindow.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WPFRaceSimulator/MainWindow.xaml.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WPFRaceSimulator/RaceDataContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WPFRaceSimulator/RaceDataContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controller/Race.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controller/Race.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ControllerTests/Controller_RaceShould.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ControllerTests/Controller_RaceShould.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,6 +37,8 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/5c01ff2afbe140a3835861628ccbb7582b470/7/System.Drawing.Common.notsupported.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Race.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Data.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Race.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/C#/RaceSimulator/RaceSimulator/CVisualization.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/84f06ea1ac414f7f82c8570fa35e8d9fab590/E/Timer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/C#/RaceSimulator/RaceSimulator/Program.cs" root0="SKIP_HIGHLIGHTING" />
@@ -45,7 +47,9 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1adc1bc383fa4cd79069d357fc19dec66ec80/6A/Gdiplus.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/3aa0b4f5b859439cb46e3d299e3e3154218578/56/DispatcherPriority.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/bc3d7024e97f4f818de53bc3c23872b48f5790/81/EventArgs.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Race.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/578643b7d10a415b979d299b20801ef0f55f78/ba/cfa4d97f/Window.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/Development/C#/RaceSimulator/Controller/Race.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8c5d964499a04c04b2b151bbd137532725590/4/Console.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/C#/RaceSimulator/WPFRaceSimulator/MainWindow.xaml.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/Development/C#/RaceSimulator/RaceSimulator/CVisualization.cs" root0="SKIP_HIGHLIGHTING" />
@@ -57,7 +61,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.23672806" />
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.23704216" />
     <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
@@ -148,28 +152,6 @@
       <workItem from="1633937735966" duration="5000" />
       <workItem from="1633940668657" duration="27279000" />
       <workItem from="1634020773329" duration="15575000" />
-      <workItem from="1634061136668" duration="74000" />
-    </task>
-    <task id="LOCAL-00048" summary="Update .idea">
-      <created>1633329627986</created>
-      <option name="number" value="00048" />
-      <option name="presentableId" value="LOCAL-00048" />
-      <option name="project" value="LOCAL" />
-      <updated>1633329627986</updated>
-    </task>
-    <task id="LOCAL-00049" summary="Fix coding standards">
-      <created>1633329701358</created>
-      <option name="number" value="00049" />
-      <option name="presentableId" value="LOCAL-00049" />
-      <option name="project" value="LOCAL" />
-      <updated>1633329701358</updated>
-    </task>
-    <task id="LOCAL-00050" summary="Add is broken check">
-      <created>1633329721811</created>
-      <option name="number" value="00050" />
-      <option name="presentableId" value="LOCAL-00050" />
-      <option name="project" value="LOCAL" />
-      <updated>1633329721812</updated>
     </task>
     <task id="LOCAL-00051" summary="Implement driver is broken visualization">
       <created>1633329916063</created>
@@ -479,36 +461,83 @@
       <option name="project" value="LOCAL" />
       <updated>1634044431975</updated>
     </task>
-    <task id="LOCAL-00095" summary="Debug non-centered races ended message">
-      <created>1634062493338</created>
+    <task id="LOCAL-00095" summary="Debug tests">
+      <created>1634063925881</created>
       <option name="number" value="00095" />
       <option name="presentableId" value="LOCAL-00095" />
       <option name="project" value="LOCAL" />
-      <updated>1634062493338</updated>
+      <updated>1634063925881</updated>
     </task>
-    <task id="LOCAL-00096" summary="Debug starting the next race">
-      <created>1634062576419</created>
+    <task id="LOCAL-00096" summary="Debug placing the participants">
+      <created>1634109271232</created>
       <option name="number" value="00096" />
       <option name="presentableId" value="LOCAL-00096" />
       <option name="project" value="LOCAL" />
-      <updated>1634062576419</updated>
+      <updated>1634109271234</updated>
     </task>
-    <option name="localTasksCounter" value="97" />
+    <task id="LOCAL-00097" summary="Update race tests">
+      <created>1634109284876</created>
+      <option name="number" value="00097" />
+      <option name="presentableId" value="LOCAL-00097" />
+      <option name="project" value="LOCAL" />
+      <updated>1634109284876</updated>
+    </task>
+    <task id="LOCAL-00098" summary="Test place participants method">
+      <created>1634110903756</created>
+      <option name="number" value="00098" />
+      <option name="presentableId" value="LOCAL-00098" />
+      <option name="project" value="LOCAL" />
+      <updated>1634110903758</updated>
+    </task>
+    <task id="LOCAL-00099" summary="Update tests">
+      <created>1634118301634</created>
+      <option name="number" value="00099" />
+      <option name="presentableId" value="LOCAL-00099" />
+      <option name="project" value="LOCAL" />
+      <updated>1634118301634</updated>
+    </task>
+    <option name="localTasksCounter" value="100" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="UnitTestsCoverage.Settings">
-    <option name="coveragePercentColumnWidth" value="95" />
+    <option name="coveragePercentColumnWidth" value="88" />
     <option name="sortOrder" value="DESCENDING" />
     <option name="sortedColumn" value="1" />
-    <option name="symbolColumnWidth" value="374" />
+    <option name="symbolColumnWidth" value="342" />
     <coverage-tree-state>
       <expand>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 67% 562/1699" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 62% 839/2197" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+        </path>
+        <path>
+          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
+          <item name="Total 62% 839/2197" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 96% 14/352" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+        </path>
+        <path>
+          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
+          <item name="Total 62% 839/2197" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 96% 14/352" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="(1.0.0.0, net5.0) 96% 14/352" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+        </path>
+        <path>
+          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
+          <item name="Total 62% 839/2197" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 96% 14/352" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="(1.0.0.0, net5.0) 96% 14/352" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 96% 14/352" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+        </path>
+        <path>
+          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
+          <item name="Total 62% 839/2197" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 96% 14/352" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="(1.0.0.0, net5.0) 96% 14/352" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Controller 96% 14/352" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Race 95% 14/290" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
       </expand>
       <select />
@@ -532,10 +561,7 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Implement loading images from cache" />
-    <MESSAGE value="Debug tests" />
     <MESSAGE value="Implement track sections type count methods" />
-    <MESSAGE value="Update tests" />
     <MESSAGE value="Create main bitmap" />
     <MESSAGE value="Debug using the cached images property" />
     <MESSAGE value="Implement correct calculating of the track width and height" />
@@ -555,9 +581,12 @@
     <MESSAGE value="Visualize start position for participants in corner" />
     <MESSAGE value="Update participants" />
     <MESSAGE value="Implement participants movement in corners" />
-    <MESSAGE value="Debug non-centered races ended message" />
-    <MESSAGE value="Debug starting the next race" />
-    <option name="LAST_COMMIT_MESSAGE" value="Debug starting the next race" />
+    <MESSAGE value="Debug tests" />
+    <MESSAGE value="Debug placing the participants" />
+    <MESSAGE value="Update race tests" />
+    <MESSAGE value="Test place participants method" />
+    <MESSAGE value="Update tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update tests" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

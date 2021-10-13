@@ -26,7 +26,7 @@ namespace ControllerTests
             Data.Initialize();
 
             Assert.IsNotEmpty(Data.Participants);
-            Assert.AreEqual(6, Data.Participants.Count);
+            Assert.AreEqual(5, Data.Participants.Count);
             Assert.AreEqual("Koen", Data.Participants.First().Name);
             Assert.AreEqual("Henk", Data.Participants[1].Name);
             Assert.AreEqual("Jan", Data.Participants[2].Name);
@@ -41,10 +41,10 @@ namespace ControllerTests
 
             Data.AddParticipant(new Driver("Test Driver", 100, defaultCar, TeamColors.Green));
 
-            Assert.AreEqual(7, Data.Participants.Count);
+            Assert.AreEqual(6, Data.Participants.Count);
             Assert.AreEqual("Koen", Data.Participants.First().Name);
             Assert.AreEqual("Stan", Data.Participants[4].Name);
-            Assert.AreEqual("Test Driver", Data.Participants[6].Name);
+            Assert.AreEqual("Test Driver", Data.Participants[5].Name);
         }
 
         [Test]
@@ -54,9 +54,9 @@ namespace ControllerTests
 
             Assert.IsNotEmpty(Data.Tracks);
             Assert.AreEqual(3, Data.Tracks.Count);
-            Assert.AreNotEqual("TT Assen", Data.Tracks.Peek().Name);
-            Assert.AreEqual("Circuit Zwolle", Data.Tracks.Peek().Name);
-            Assert.AreEqual("Circuit Harderwijk", Data.Tracks.ToArray()[1].Name);
+            Assert.AreNotSame("Circuit Zwolle", Data.Tracks.Peek().Name);
+            Assert.AreSame("TT Assen", Data.Tracks.Peek().Name);
+            Assert.AreSame("Circuit Harderwijk", Data.Tracks.ToArray()[1].Name);
         }
 
         [Test]
@@ -71,24 +71,24 @@ namespace ControllerTests
             Data.AddTrack(new Track("Test Route", routeAmsterdam));
             
             Assert.AreEqual(4, Data.Tracks.Count);
-            Assert.AreEqual("Test Route", Data.Tracks.ToArray()[3].Name);
+            Assert.AreSame("Test Route", Data.Tracks.ToArray()[3].Name);
         }
 
         [Test]
         public void Data_CurrentRace_CanRead()
         {
-            Assert.AreEqual(6, Data.CurrentRace.Participants.Count);
-            Assert.AreEqual("TT Assen", Data.CurrentRace.Track.Name);
+            Assert.AreEqual(5, Data.CurrentRace.Participants.Count);
+            Assert.AreSame("Circuit Zwolle", Data.CurrentRace.Track.Name);
         }
 
         [Test]
         public void Data_CurrentRace_NextRace()
         {
-            Assert.AreEqual("TT Assen", Data.CurrentRace.Track.Name);
+            Assert.AreSame("Circuit Zwolle", Data.CurrentRace.Track.Name);
             Data.NextRace();
-            Assert.AreEqual("Circuit Zwolle", Data.CurrentRace.Track.Name);
+            Assert.AreSame("TT Assen", Data.CurrentRace.Track.Name);
             Data.NextRace();
-            Assert.AreEqual("Circuit Harderwijk", Data.CurrentRace.Track.Name);
+            Assert.AreSame("Circuit Harderwijk", Data.CurrentRace.Track.Name);
         }
 
         [Test]
