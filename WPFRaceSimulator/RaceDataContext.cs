@@ -8,16 +8,7 @@ namespace WPFRaceSimulator
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private string _trackName;
-        public string TrackName
-        {
-            get => this._trackName;
-            private set
-            {
-                this._trackName = value;
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TrackName"));
-            }
-        }
+        public string TrackName { get; private set; }
 
         public RaceDataContext()
         {
@@ -26,7 +17,13 @@ namespace WPFRaceSimulator
 
         private void OnRaceChanged(object sender, DriversChangedEventArgs eventArgs)
         {
-            this.TrackName = eventArgs.Race.Track.Name;
+            this.TrackName = eventArgs.Race?.Track.Name;
+            if (eventArgs.RaceEnded)
+            {
+                this.TrackName = "De races zijn afgelopen.";
+            }
+            
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TrackName"));
         }
 
     }

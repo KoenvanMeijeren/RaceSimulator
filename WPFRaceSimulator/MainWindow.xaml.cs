@@ -56,7 +56,7 @@ namespace WPFRaceSimulator
             Data.NextRace();
             if (Data.CurrentRace == null)
             {
-                Console.WriteLine("De races zijn afgelopen.");
+                MainWindow.RaceChanged?.Invoke(this, new DriversChangedEventArgs(Data.CurrentRace, true));
                 return;
             }
 
