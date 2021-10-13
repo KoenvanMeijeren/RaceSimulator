@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>E:\Development\C#\RaceSimulator\ModelTests\Model_TrackShould.cs</title>
+    <title>E:\Development\C#\RaceSimulator\Model\Section.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
@@ -13,121 +13,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Model;
-using NUnit.Framework;
 
-namespace ModelTests
+namespace Model
 {
-    [TestFixture]
-    class Model_TrackShould
+    public class Section
     {
 
-        private Track _track;
+        public SectionTypes SectionType { get; private set; }
 
-        [SetUp]
-        public void Setup()
+        public Section(SectionTypes sectionType)
         {
-            SectionTypes[] route = {
-                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.Finish,
-                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.StartGrid
-            };
-
-            this._track = new Track(&quot;Test Track&quot;, route);
-        }
-
-        [Test]
-        public void Track_CanCreate()
-        {
-            SectionTypes[] route = {
-                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.Finish,
-                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.StartGrid
-            };
-
-            Track track = new Track(&quot;Test Track 2&quot;, route);
-
-            Assert.AreEqual(&quot;Test Track 2&quot;, track.Name);
-        }
-
-        [Test]
-        public void Track_CanRead_Sections()
-        {
-            Assert.AreEqual(8, this._track.Sections.Count);
-            Assert.AreEqual(SectionTypes.LeftCorner, this._track.Sections.First.Value.SectionType);
-            Assert.AreEqual(SectionTypes.StartGrid, this._track.Sections.ElementAt(1).SectionType);
-            Assert.AreEqual(SectionTypes.LeftCorner, this._track.Sections.ElementAt(2).SectionType);
-            Assert.AreEqual(SectionTypes.Finish, this._track.Sections.ElementAt(3).SectionType);
-
-            Assert.AreEqual(SectionTypes.LeftCorner, this._track.Sections.ElementAt(4).SectionType);
-            Assert.AreEqual(SectionTypes.StartGrid, this._track.Sections.ElementAt(5).SectionType);
-            Assert.AreEqual(SectionTypes.LeftCorner, this._track.Sections.ElementAt(6).SectionType);
-            Assert.AreEqual(SectionTypes.StartGrid, this._track.Sections.ElementAt(7).SectionType);
-
-        }
-
-        [Test]
-        public void Track_CanCount_Sections()
-        {
-            SectionTypes[] route = {
-                SectionTypes.Straight,
-                SectionTypes.Straight,
-                SectionTypes.RightCorner,
-                SectionTypes.Straight,
-                SectionTypes.Straight,
-                SectionTypes.LeftCorner,
-                SectionTypes.Straight,
-                SectionTypes.Straight,
-            };
-            
-            Track track = new Track(&quot;Test Track 2&quot;, route);
-            
-            Assert.AreEqual(0, track.MinEastPosition);
-            Assert.AreEqual(5, track.MaxEastPosition);
-            Assert.AreEqual(0, track.MinNorthPosition);
-            Assert.AreEqual(3, track.MaxNorthPosition);
-
-            SectionTypes[] routeTest = {
-                SectionTypes.StartGrid, SectionTypes.Finish, SectionTypes.RightCorner, SectionTypes.Straight,
-                SectionTypes.LeftCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.RightCorner,
-                SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.LeftCorner,
-                SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.LeftCorner, SectionTypes.RightCorner,
-                SectionTypes.RightCorner, SectionTypes.LeftCorner, SectionTypes.Straight, SectionTypes.RightCorner,
-                SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.RightCorner,
-                SectionTypes.StartGrid, SectionTypes.StartGrid
-                
-            };
-            
-            Track trackTest = new Track(&quot;Test Track 2&quot;, routeTest);
-
-            Assert.AreEqual(-2, trackTest.MinEastPosition);
-            Assert.AreEqual(6, trackTest.MaxEastPosition);
-            Assert.AreEqual(0, trackTest.MinNorthPosition);
-            Assert.AreEqual(5, trackTest.MaxNorthPosition);
-            
-            SectionTypes[] routeTestTwo =
-            {
-                SectionTypes.Straight,
-                SectionTypes.LeftCorner,
-                SectionTypes.Straight,
-                SectionTypes.RightCorner,
-                SectionTypes.RightCorner,
-                SectionTypes.Straight,
-                SectionTypes.Straight,
-            };
-
-            Track trackTestTwo = new Track(&quot;Test track 3&quot;, routeTestTwo);
-            
-            Assert.AreEqual(0, trackTestTwo.MinEastPosition);
-            Assert.AreEqual(3, trackTestTwo.MaxEastPosition);
-            Assert.AreEqual(-2, trackTestTwo.MinNorthPosition);
-            Assert.AreEqual(0, trackTestTwo.MaxNorthPosition);
+            this.SectionType = sectionType;
         }
 
     }
+
+    public enum SectionTypes
+    {
+        Straight,
+        LeftCorner,
+        RightCorner,
+        StartGrid,
+        Finish
+    }
+
 }
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[19,9,19,10,1],[20,13,23,15,1],[25,13,25,58,1],[26,9,26,10,1],[30,9,30,10,1],[31,13,34,15,1],[36,13,36,60,1],[38,13,38,57,1],[39,9,39,10,1],[43,9,43,10,1],[44,13,44,60,1],[45,13,45,100,1],[46,13,46,100,1],[47,13,47,101,1],[48,13,48,97,1],[50,13,50,101,1],[51,13,51,100,1],[52,13,52,101,1],[53,13,53,100,1],[55,9,55,10,1],[59,9,59,10,1],[60,13,69,15,1],[71,13,71,60,1],[73,13,73,55,1],[74,13,74,55,1],[75,13,75,56,1],[76,13,76,56,1],[78,13,87,15,1],[89,13,89,68,1],[91,13,91,60,1],[92,13,92,59,1],[93,13,93,60,1],[94,13,94,60,1],[96,13,105,15,1],[107,13,107,74,1],[109,13,109,62,1],[110,13,110,62,1],[111,13,111,64,1],[112,13,112,63,1],[113,9,113,10,1]]);
+      highlightRanges([[12,43,12,47,1],[12,48,12,60,1],[14,9,14,49,1],[15,9,15,10,1],[16,13,16,44,1],[17,9,17,10,1]]);
     </script>
   </body>
 </html>

@@ -2,124 +2,116 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>E:\Development\C#\RaceSimulator\ModelTests\Model_Competition_NextTrackShould.cs</title>
+    <title>E:\Development\C#\RaceSimulator\WPFRaceSimulator\MainWindow.xaml.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Model;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using Controller;
+using Application = System.Windows.Application;
+using DispatcherPriority = System.Windows.Threading.DispatcherPriority;
 
-namespace ControllerTests
+namespace WPFRaceSimulator
 {
-
-    [TestFixture]
-    public class Model_Competition_NextTrackShould
+    /// &lt;summary&gt;
+    /// Interaction logic for MainWindow.xaml
+    /// &lt;/summary&gt;
+    public partial class MainWindow : Window
     {
 
-        private Competition _emptyCompetition;
-        private Competition _competition;
+        private RaceStatistics _raceStatisticsWindow;
+        private CompetitionStatistics _competitionStatisticsWindow;
 
-        private Queue&lt;Track&gt; _tracks = new Queue&lt;Track&gt;();
+        public static event EventHandler&lt;DriversChangedEventArgs&gt; RefreshScreen; 
+        public static event EventHandler&lt;DriversChangedEventArgs&gt; RaceChanged; 
 
-        [SetUp]
-        public void Setup()
+        public MainWindow()
         {
-            SectionTypes[] routeZwolle = {
-                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.Finish,
-                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.StartGrid
-            };
+            this.InitializeComponent();
 
-            SectionTypes[] routeElburg = {
-                SectionTypes.StartGrid, SectionTypes.Finish, SectionTypes.RightCorner, SectionTypes.Straight, 
-                SectionTypes.LeftCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.RightCorner, 
-                SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.LeftCorner, 
-                SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.LeftCorner, SectionTypes.RightCorner, 
-                SectionTypes.RightCorner, SectionTypes.LeftCorner, SectionTypes.Straight, SectionTypes.RightCorner, 
-                SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.RightCorner, 
-                SectionTypes.StartGrid, SectionTypes.StartGrid
-            };
+            Data.Initialize();
+            this.StartRace();
+        }
 
-            SectionTypes[] routeAmsterdam =
+        private void OnDriversChanged(object sender, DriversChangedEventArgs eventArgs)
+        {
+            MainWindow.RefreshScreen?.Invoke(this, new DriversChangedEventArgs(Data.CurrentRace));
+
+            // Dispatches an action for drawing the track until the program closes. When the current race changes, the
+            // drawn track will also change.
+            this.TrackImage.Dispatcher.BeginInvoke(
+                DispatcherPriority.Render,
+                new Action(() =&gt;
+                {
+                    this.TrackImage.Source = null;
+                    this.TrackImage.Source = WPFVisualization.DrawTrack(Data.CurrentRace);
+                })
+            );
+        }
+
+        private void OnRaceEnded(object source, DriversChangedEventArgs eventArgs)
+        {
+            Data.NextRace();
+            if (Data.CurrentRace == null)
             {
-                SectionTypes.RightCorner, SectionTypes.StartGrid, SectionTypes.RightCorner, SectionTypes.Finish, SectionTypes.RightCorner,
-                SectionTypes.StartGrid, SectionTypes.RightCorner, SectionTypes.StartGrid
-            };
+                MainWindow.RaceChanged?.Invoke(this, new DriversChangedEventArgs(Data.CurrentRace, true));
+                return;
+            }
 
-            this._tracks = new Queue&lt;Track&gt;();
-            this._tracks.Enqueue(new Track(name: &quot;Circuit Zwolle&quot;, sections: routeZwolle));
-            this._tracks.Enqueue(new Track(name: &quot;TT Assen&quot;, sections: routeElburg));
-            this._tracks.Enqueue(new Track(name: &quot;Monaco&quot;, sections: routeAmsterdam));
-
-            this._emptyCompetition = new Competition(new List&lt;IParticipant&gt;(), new Queue&lt;Track&gt;());
-            this._competition = new Competition(new List&lt;IParticipant&gt;(), this._tracks);
+            this.StartRace();
         }
 
-        [Test]
-        public void NextTrack_EmptyQueue_ReturnNull()
+        private void StartRace()
         {
-            var result = this._emptyCompetition.NextTrack();
-            Assert.IsNull(result);
-            Assert.AreEqual(0, this._emptyCompetition.Tracks.Count);
+            Data.CurrentRace.DriversChanged += OnDriversChanged;
+            Data.CurrentRace.RaceEnded += OnRaceEnded;
+
+            WPFVisualization.Initialize();
+            Data.CurrentRace.Start();
+            
+            MainWindow.RaceChanged?.Invoke(this, new DriversChangedEventArgs(Data.CurrentRace));
         }
 
-        [Test]
-        public void NextTrack_OneInQueue_ReturnTrack()
+        private void MenuItem_RaceStatistics_Click(object sender, RoutedEventArgs e)
         {
-            var result = this._competition.NextTrack();
-            Assert.IsInstanceOf(typeof(Track), result);
-        }
+            this._raceStatisticsWindow = new RaceStatistics();
+            this._raceStatisticsWindow.Show();
 
-        [Test]
-        public void NextTrack_OneInQueue_RemoveTrackFromQueue()
+            MainWindow.RefreshScreen?.Invoke(this, new DriversChangedEventArgs(Data.CurrentRace));
+        }
+        private void MenuItem_CompetitionStatistics_Click(object sender, RoutedEventArgs e)
         {
-            SectionTypes[] routeZwolle = {
-                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.Finish,
-                SectionTypes.LeftCorner, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.StartGrid
-            };
-            Queue&lt;Track&gt; tracks = new Queue&lt;Track&gt;();
-            tracks.Enqueue(new Track(name: &quot;Circuit Zwolle&quot;, sections: routeZwolle));
+            this._competitionStatisticsWindow = new CompetitionStatistics();
+            this._competitionStatisticsWindow.Show();
 
-            Competition testCompetition = new Competition(new List&lt;IParticipant&gt;(), tracks);
-
-            Assert.AreEqual(&quot;Circuit Zwolle&quot;, testCompetition.NextTrack().Name);
-            Assert.IsNull(testCompetition.NextTrack());
-            Assert.IsNull(testCompetition.NextTrack());
+            MainWindow.RefreshScreen?.Invoke(this, new DriversChangedEventArgs(Data.CurrentRace));
         }
 
-        [Test]
-        public void NextTrack_TracksInQueue_ReturnNextTrack()
+        private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)
         {
-            Assert.AreEqual(3, this._competition.Tracks.Count);
-
-            Track currentTrack = this._competition.NextTrack();
-            Assert.IsInstanceOf(typeof(Track), currentTrack);
-            Assert.AreEqual(2, this._competition.Tracks.Count);
-            Assert.AreEqual(&quot;Circuit Zwolle&quot;, currentTrack.Name);
-
-            currentTrack = this._competition.NextTrack();
-            Assert.IsInstanceOf(typeof(Track), currentTrack);
-            Assert.AreEqual(1, this._competition.Tracks.Count);
-            Assert.AreEqual(&quot;TT Assen&quot;, currentTrack.Name);
-
-            currentTrack = this._competition.NextTrack();
-            Assert.IsInstanceOf(typeof(Track), currentTrack);
-            Assert.AreEqual(0, this._competition.Tracks.Count);
-            Assert.AreEqual(&quot;Monaco&quot;, currentTrack.Name);
+            this.Close();
+            Application.Current.Shutdown();
         }
-
     }
 }
-
     </pre>
     <script type="text/javascript">
-      highlightRanges([[19,9,19,59,1],[23,9,23,10,1],[24,13,27,15,1],[29,13,37,15,1],[39,13,43,15,1],[45,13,45,47,1],[46,13,46,92,1],[47,13,47,86,1],[48,13,48,87,1],[50,13,50,100,1],[51,13,51,89,1],[52,9,52,10,1],[56,9,56,10,1],[57,13,57,61,1],[58,13,58,35,1],[59,13,59,69,1],[60,9,60,10,1],[64,9,64,10,1],[65,13,65,56,1],[66,13,66,56,1],[67,9,67,10,1],[71,9,71,10,1],[72,13,75,15,1],[76,13,76,54,1],[77,13,77,86,1],[79,13,79,93,1],[81,13,81,81,1],[82,13,82,56,1],[83,13,83,56,1],[84,9,84,10,1],[88,9,88,10,1],[89,13,89,64,1],[91,13,91,64,1],[92,13,92,62,1],[93,13,93,64,1],[94,13,94,66,1],[96,13,96,58,1],[97,13,97,62,1],[98,13,98,64,1],[99,13,99,60,1],[101,13,101,58,1],[102,13,102,62,1],[103,13,103,64,1],[104,13,104,58,1],[105,9,105,10,1]]);
+      highlightRanges([[33,9,33,28,0],[34,9,34,10,0],[35,13,35,40,0],[37,13,37,31,0],[38,13,38,30,0],[39,9,39,10,0],[42,9,42,10,0],[43,13,43,99,0],[47,13,50,17,0],[50,17,50,18,0],[50,18,51,21,0],[51,21,51,51,0],[51,51,52,21,0],[52,21,52,91,0],[52,91,53,17,0],[53,17,53,18,0],[53,18,54,15,0],[55,9,55,10,0],[58,9,58,10,0],[59,13,59,29,0],[60,13,60,42,0],[61,13,61,14,0],[62,17,62,107,0],[63,17,63,24,0],[66,13,66,30,0],[67,9,67,10,0],[70,9,70,10,0],[71,13,71,65,0],[72,13,72,55,0],[74,13,74,43,0],[75,13,75,38,0],[77,13,77,97,0],[78,9,78,10,0],[81,9,81,10,0],[82,13,82,63,0],[83,13,83,47,0],[85,13,85,99,0],[86,9,86,10,0],[88,9,88,10,0],[89,13,89,77,0],[90,13,90,54,0],[92,13,92,99,0],[93,9,93,10,0],[96,9,96,10,0],[97,13,97,26,0],[98,13,98,44,0],[99,9,99,10,0]]);
     </script>
   </body>
 </html>
