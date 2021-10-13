@@ -52,12 +52,8 @@ namespace WPFRaceSimulator.Model
 
             if (this.Races == null)
             {
-                this.Races = new List<Race>();
+                this.Races = (from subTrack in Data.TracksList select new Race(subTrack, Data.Participants)).ToList();
                 this.Races.Add(Data.CurrentRace);
-                foreach (Track subTrack in Data.TracksList)
-                {
-                    this.Races.Add(new Race(subTrack, Data.Participants));
-                }
 
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Races"));
             }
