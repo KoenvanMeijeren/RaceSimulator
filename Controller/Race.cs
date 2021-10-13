@@ -18,7 +18,7 @@ namespace Controller
         
         public const int SectionLength = IEquipment.MaximumPerformance * IEquipment.MaximumSpeed;
 
-        private int _finishedParticipants;
+        public int FinishedParticipants { get; private set; }
 
         public Track Track { get; private set; }
 
@@ -322,7 +322,7 @@ namespace Controller
                 return sectionData;
             }
             
-            this._finishedParticipants++;
+            this.FinishedParticipants++;
             sectionData.Clear(participant);
 
             return sectionData;
@@ -330,7 +330,7 @@ namespace Controller
         
         public bool AllParticipantsFinished()
         {
-            return this._finishedParticipants >= this.Participants.Count;
+            return this.FinishedParticipants >= this.Participants.Count;
         }
         
         public SectionData GetSectionData(Section section)

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Model;
 
 namespace Controller
@@ -10,6 +11,7 @@ namespace Controller
         public static Race CurrentRace { get; private set; }
 
         public static List<IParticipant> Participants { get; private set; }
+        public static List<Track> TracksList { get; private set; }
         public static Queue<Track> Tracks { get; private set; }
 
         public static void Initialize()
@@ -29,6 +31,8 @@ namespace Controller
             {
                 Data.NextRace();
             }
+
+            Data.TracksList = Data.Tracks.ToList();
         }
 
         public static void NextRace()

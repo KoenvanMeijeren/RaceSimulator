@@ -6,7 +6,26 @@
         xmlns:local="clr-namespace:WPFRaceSimulator"
         mc:Ignorable="d"
         Title="RaceStatistics" Height="450" Width="800">
-    <Grid>
-        
+    <Window.DataContext>
+        <local:RaceDataContext/>
+    </Window.DataContext>
+    <Grid Background="Lime">
+        <Label Content="Race statistieken" Foreground="Red" Width="auto" Height="40" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Top" />
+        <Label Width="auto" Height="40" FontWeight="SemiBold" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,40,0,0" 
+               Content="{Binding TrackName}" Foreground="Red" />
+        <Label Width="auto" Height="40" FontWeight="SemiBold" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,90,0,0" 
+               Content="{Binding FinishedParticipants}" Foreground="Red" />
+
+        <ListView Width="400" Height="200" Margin="200,139,200,95" ItemsSource="{Binding Participants}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Deelnemer" Width="75" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="Team" Width="75" DisplayMemberBinding="{Binding TeamColor}" />
+                    <GridViewColumn Header="Kwaliteit" Width="75" DisplayMemberBinding="{Binding Equipment.Quality}" />
+                    <GridViewColumn Header="Snelheid" Width="75" DisplayMemberBinding="{Binding Equipment.Speed}" />
+                    <GridViewColumn Header="Performance" Width="75" DisplayMemberBinding="{Binding Equipment.Performance}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>

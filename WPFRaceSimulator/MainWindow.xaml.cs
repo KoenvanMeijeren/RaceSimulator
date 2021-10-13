@@ -27,6 +27,7 @@ namespace WPFRaceSimulator
         private RaceStatistics _raceStatisticsWindow;
         private CompetitionStatistics _competitionStatisticsWindow;
 
+        public static event EventHandler<DriversChangedEventArgs> RefreshScreen; 
         public static event EventHandler<DriversChangedEventArgs> RaceChanged; 
 
         public MainWindow()
@@ -39,6 +40,8 @@ namespace WPFRaceSimulator
 
         private void OnDriversChanged(object sender, DriversChangedEventArgs eventArgs)
         {
+            MainWindow.RefreshScreen?.Invoke(this, new DriversChangedEventArgs(Data.CurrentRace));
+
             // Dispatches an action for drawing the track until the program closes. When the current race changes, the
             // drawn track will also change.
             this.TrackImage.Dispatcher.BeginInvoke(
@@ -78,11 +81,15 @@ namespace WPFRaceSimulator
         {
             this._raceStatisticsWindow = new RaceStatistics();
             this._raceStatisticsWindow.Show();
+
+            MainWindow.RefreshScreen?.Invoke(this, new DriversChangedEventArgs(Data.CurrentRace));
         }
         private void MenuItem_CompetitionStatistics_Click(object sender, RoutedEventArgs e)
         {
             this._competitionStatisticsWindow = new CompetitionStatistics();
             this._competitionStatisticsWindow.Show();
+
+            MainWindow.RefreshScreen?.Invoke(this, new DriversChangedEventArgs(Data.CurrentRace));
         }
 
         private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)
