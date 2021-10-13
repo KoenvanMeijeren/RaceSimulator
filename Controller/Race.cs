@@ -18,7 +18,7 @@ namespace Controller
         
         public const int SectionLength = IEquipment.MaximumPerformance * IEquipment.MaximumSpeed;
 
-        private int _finishedParticipants = 0;
+        private int _finishedParticipants;
 
         public Track Track { get; private set; }
 

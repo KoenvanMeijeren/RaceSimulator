@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
 using Controller;
 using Model;
 using NUnit.Framework;
@@ -48,16 +45,16 @@ namespace ControllerTests
             Assert.AreEqual(5, Data.CurrentRace.Participants.Count);
             Assert.AreSame("Circuit Zwolle", Data.CurrentRace.Track.Name);
             Assert.AreSame("Monaco", this._race.Track.Name);
-            Assert.AreEqual("Test", this._emptyRace.Track.Name);
-            Assert.AreEqual("1-1-0001 00:00:00", this._emptyRace.StartTime.ToString());
-            Assert.AreEqual("1-1-0001 00:00:00", this._race.StartTime.ToString());
+            Assert.AreSame("Test", this._emptyRace.Track.Name);
+            Assert.AreNotSame("01/01/0001 00:00:00", this._emptyRace.StartTime.ToString(CultureInfo.InvariantCulture));
+            Assert.AreNotSame("01/01/0001 00:00:00", this._race.StartTime.ToString(CultureInfo.InvariantCulture));
         }
 
         [Test]
         public void Race_CanRead_SectionData()
         {
-            Assert.IsNull(this._race.GetSectionData(this._race.Track.Sections.First.Value).Left);
-            Assert.IsNull(this._race.GetSectionData(this._race.Track.Sections.First.Value).Right);
+            Assert.IsNull(this._race.GetSectionData(this._race.Track.Sections.First?.Value).Left);
+            Assert.IsNull(this._race.GetSectionData(this._race.Track.Sections.First?.Value).Right);
             Assert.IsNotNull(this._race.GetSectionData(this._race.Track.Sections.ElementAt(1)).Left);
             Assert.IsNotNull(this._race.GetSectionData(this._race.Track.Sections.ElementAt(1)).Right);
             Assert.IsNull(this._race.GetSectionData(this._race.Track.Sections.ElementAt(2)).Left);
@@ -87,8 +84,8 @@ namespace ControllerTests
             this._race.Start();
             this._emptyRace.Start();
 
-            Assert.AreNotEqual("1-1-0001 00:00:00", this._race.StartTime.ToString());
-            Assert.AreNotEqual("1-1-0001 00:00:00", this._emptyRace.StartTime.ToString());
+            Assert.AreNotEqual("1-1-0001 00:00:00", this._race.StartTime.ToString(CultureInfo.InvariantCulture));
+            Assert.AreNotEqual("1-1-0001 00:00:00", this._emptyRace.StartTime.ToString(CultureInfo.InvariantCulture));
         }
 
         [Test]
@@ -151,7 +148,6 @@ namespace ControllerTests
         {
             while (!this._race.ShouldFixParticipantEquipment())
             {
-                continue;
             }
             
             Assert.IsTrue(true);
@@ -345,7 +341,7 @@ namespace ControllerTests
             Assert.IsNotNull(updatedSection.Right);
         }
 
-        private bool _raceEndedEventFired = false;
+        private bool _raceEndedEventFired;
         
         [Test]
         public void Race_CanFinish()
@@ -381,7 +377,7 @@ namespace ControllerTests
             this._raceEndedEventFired = true;
         }
 
-        private bool _driversChangedEventFired = false;
+        private bool _driversChangedEventFired;
 
         [Test]
         public void Race_CanFireDriversChangedEvent()
