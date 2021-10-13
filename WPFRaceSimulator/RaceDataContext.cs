@@ -54,6 +54,7 @@ namespace WPFRaceSimulator
             if (this.Races == null)
             {
                 this.Races = new List<Race>();
+                this.Races.Add(Data.CurrentRace);
                 foreach (Track subTrack in Data.TracksList)
                 {
                     this.Races.Add(new Race(subTrack, Data.Participants));
@@ -63,7 +64,7 @@ namespace WPFRaceSimulator
             }
 
             int finishedTracks = this.Races.Count - Data.Tracks.Count;
-            if (finishedTracks > 0 && !race.AllParticipantsFinished())
+            if (finishedTracks == 0 && !race.AllParticipantsFinished())
             {
                 finishedTracks--;
             }
