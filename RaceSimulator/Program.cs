@@ -24,8 +24,9 @@ namespace RaceSimulator
             Data.NextRace();
             if (Data.CurrentRace == null)
             {
-                Console.SetCursorPosition(5, 5);
-                Console.WriteLine("De races zijn afgelopen.");
+                string racesEnded = "De races zijn afgelopen.";
+                Console.SetCursorPosition(CVisualization.CenteredTextCursorEastStartPosition(racesEnded), 5);
+                Console.WriteLine(racesEnded);
                 return;
             }
             

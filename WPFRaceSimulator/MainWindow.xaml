@@ -6,8 +6,22 @@
         xmlns:local="clr-namespace:WPFRaceSimulator"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <local:RaceDataContext/>
+    </Window.DataContext>
     <Grid Background="Lime">
-        <Image x:Name="TrackImage" Margin="17,18,17,18"/>
-
+        <DockPanel LastChildFill="False" RenderTransformOrigin="0.5,0.063">
+            <Menu x:Name="Menu" DockPanel.Dock="Top" Height="30" VerticalAlignment="Top" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center">
+                <MenuItem Header="Menu" Height="30">
+                    <MenuItem Header="Race statistieken" Click="MenuItem_RaceStatistics_Click"/>
+                    <MenuItem Header="Competitie statistieken" Click="MenuItem_CompetitionStatistics_Click"/>
+                    <MenuItem Header="Afsluiten" Click="MenuItem_Exit_Click"/>
+                </MenuItem>
+            </Menu>
+        </DockPanel>
+        
+        <Label Width="auto" Height="40" FontWeight="SemiBold" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,40,0,0" 
+               Content="{Binding TrackName}" />
+        <Image x:Name="TrackImage" Margin="70,77,70,30"/>
     </Grid>
 </Window>

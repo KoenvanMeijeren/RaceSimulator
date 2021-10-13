@@ -90,7 +90,7 @@ namespace RaceSimulator
             Console.ForegroundColor = ConsoleColor.White;
             Console.Clear();
 
-            Console.SetCursorPosition(CenteredTextCursorStartPosition(track.Name),  1);
+            Console.SetCursorPosition(CenteredTextCursorEastStartPosition(track.Name),  1);
             Console.WriteLine(track.Name);
             
             CVisualization._direction = Track.StartDirection;
@@ -584,7 +584,7 @@ namespace RaceSimulator
             return distance;
         }
         
-        private static int CenteredTextCursorStartPosition(string text)
+        public static int CenteredTextCursorEastStartPosition(string text)
         {
             return (Console.WindowWidth / 2) - (text.Length / 2);
         }
