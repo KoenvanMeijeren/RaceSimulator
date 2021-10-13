@@ -14,7 +14,7 @@ namespace Controller
             StartDistanceOfParticipant = 0,
             TimerInterval = 500,
             RoundsStartValue = 0,
-            MaxRounds = 0;
+            MaxRounds = 2;
         
         public const int SectionLength = IEquipment.MaximumPerformance * IEquipment.MaximumSpeed;
 
