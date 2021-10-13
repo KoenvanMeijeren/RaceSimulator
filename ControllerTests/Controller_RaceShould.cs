@@ -266,6 +266,176 @@ namespace ControllerTests
                 }
             }
         }
+
+        [Test]
+        public void Race_CanMoveParticipantToNextSection()
+        {
+            IEquipment toyota = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
+            IParticipant participant = new Driver(name: "Koen van Meijeren", points: 200, equipment: toyota, teamColor: TeamColors.Red);
+            
+            Section section = new Section(SectionTypes.Straight);
+            SectionData sectionData = new SectionData(section, participant, 0, null, 0);
+            SectionData nextSectionData = new SectionData(section, null, 0, null, 0);
+            
+            SectionData updatedSection = this._race.MoveParticipantToNextSection(sectionData, section, nextSectionData, participant);
+
+            Assert.IsNull(sectionData.Left);
+            Assert.IsNull(sectionData.Right);
+            Assert.IsNotNull(updatedSection.Left);
+            Assert.IsNull(updatedSection.Right);
+        }
+        
+        [Test]
+        public void Race_CannotMoveParticipantToNextSection()
+        {
+            IEquipment toyota = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
+            IParticipant participant = new Driver(name: "Koen", points: 200, equipment: toyota, teamColor: TeamColors.Red);
+            IParticipant participantLeft = new Driver(name: "Test", points: 200, equipment: toyota, teamColor: TeamColors.Red);
+            IParticipant participantRight = new Driver(name: "Test", points: 200, equipment: toyota, teamColor: TeamColors.Red);
+            
+            Section section = new Section(SectionTypes.Straight);
+            SectionData sectionData = new SectionData(section, participant, 0, null, 0);
+            SectionData nextSectionData = new SectionData(section, participantLeft, 0, participantRight, 0);
+            
+            SectionData updatedSection = this._race.MoveParticipantToNextSection(sectionData, section, nextSectionData, participant);
+
+            Assert.IsNotNull(sectionData.Left);
+            Assert.IsNull(sectionData.Right);
+            Assert.IsNotNull(updatedSection.Left);
+            Assert.IsNotNull(updatedSection.Right);
+        }
+        
+        [Test]
+        public void Race_CanMoveParticipantsToNextSection()
+        {
+            IEquipment toyota = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
+            IParticipant participant = new Driver(name: "Koen van Meijeren", points: 200, equipment: toyota, teamColor: TeamColors.Red);
+            IParticipant participantRight = new Driver(name: "Test", points: 200, equipment: toyota, teamColor: TeamColors.Red);
+            
+            Section section = new Section(SectionTypes.Straight);
+            SectionData sectionData = new SectionData(section, participant, 0, participantRight, 0);
+            SectionData nextSectionData = new SectionData(section, null, 0, null, 0);
+            
+            SectionData updatedSection = this._race.MoveParticipantsToNextSection(sectionData, section, nextSectionData, participant, participantRight);
+
+            Assert.IsNull(sectionData.Left);
+            Assert.IsNull(sectionData.Right);
+            Assert.IsNotNull(updatedSection.Left);
+            Assert.IsNotNull(updatedSection.Right);
+        }
+        
+        [Test]
+        public void Race_CannotMoveParticipantsToNextSection()
+        {
+            IEquipment toyota = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
+            IParticipant participant = new Driver(name: "Koen van Meijeren", points: 200, equipment: toyota, teamColor: TeamColors.Red);
+            IParticipant participantRight = new Driver(name: "Test", points: 200, equipment: toyota, teamColor: TeamColors.Red);
+            IParticipant participantThree = new Driver(name: "Test", points: 200, equipment: toyota, teamColor: TeamColors.Red);
+            IParticipant participantFour = new Driver(name: "Test", points: 200, equipment: toyota, teamColor: TeamColors.Red);
+            
+            Section section = new Section(SectionTypes.Straight);
+            SectionData sectionData = new SectionData(section, participant, 0, participantRight, 0);
+            SectionData nextSectionData = new SectionData(section, participantThree, 0, participantFour, 0);
+            
+            SectionData updatedSection = this._race.MoveParticipantsToNextSection(sectionData, section, nextSectionData, participant, participantRight);
+
+            Assert.IsNotNull(sectionData.Left);
+            Assert.IsNotNull(sectionData.Right);
+            Assert.IsNotNull(updatedSection.Left);
+            Assert.IsNotNull(updatedSection.Right);
+        }
+
+        private bool _raceEndedEventFired = false;
+        
+        [Test]
+        public void Race_CanFinish()
+        {
+            SectionTypes[] route =
+            {
+                SectionTypes.StartGrid, SectionTypes.StartGrid, SectionTypes.Straight, SectionTypes.Finish
+            };
+
+            List<IParticipant> participants = new List<IParticipant>();
+            IEquipment toyota = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
+            participants.Add(new Driver(name: "Koen van Meijeren", points: 200, equipment: toyota, teamColor: TeamColors.Red));
+            participants.Add(new Driver(name: "Test", points: 200, equipment: toyota, teamColor: TeamColors.Red));
+            
+            Track track = new Track("test", route);
+            Race race = new Race(track, participants);
+            race.RaceEnded += this.OnRaceEnded;
+            
+            race.Start();
+            race.MoveParticipants();
+            race.MoveParticipants();
+            race.MoveParticipants();
+            race.MoveParticipants();
+            
+            race.OnTimedEvent(this, null);
+            
+            Assert.IsTrue(this._raceEndedEventFired);
+            Assert.IsTrue(race.AllParticipantsFinished());
+        }
+
+        private void OnRaceEnded(object source, DriversChangedEventArgs eventArgs)
+        {
+            this._raceEndedEventFired = true;
+        }
+
+        private bool _driversChangedEventFired = false;
+
+        [Test]
+        public void Race_CanFireDriversChangedEvent()
+        {
+            SectionTypes[] route =
+            {
+                SectionTypes.StartGrid, SectionTypes.StartGrid, SectionTypes.Straight, SectionTypes.Finish
+            };
+
+            List<IParticipant> participants = new List<IParticipant>();
+            IEquipment toyota = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
+            participants.Add(new Driver(name: "Koen van Meijeren", points: 200, equipment: toyota, teamColor: TeamColors.Red));
+            participants.Add(new Driver(name: "Test", points: 200, equipment: toyota, teamColor: TeamColors.Red));
+            
+            Track track = new Track("test", route);
+            Race race = new Race(track, participants);
+            race.DriversChanged += this.OnDriversChanged;
+            
+            race.Start();
+            race.OnTimedEvent(this, null);
+            
+            Assert.IsTrue(this._driversChangedEventFired);
+        }
+
+        private void OnDriversChanged(object source, DriversChangedEventArgs eventArgs)
+        {
+            this._driversChangedEventFired = true;
+        }
+
+        [Test]
+        public void Race_CanGetParticipantWhoShouldMoveToNextSection()
+        {
+            IEquipment toyota = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
+            IParticipant participant = new Driver(name: "Koen van Meijeren", points: 200, equipment: toyota, teamColor: TeamColors.Red);
+            
+            Section section = new Section(SectionTypes.Straight);
+            SectionData sectionData = new SectionData(section, participant, Race.SectionLength, null, 0);
+            SectionData secondSectionData = new SectionData(section, participant, Race.SectionLength + 10, null, 0);
+            
+            Assert.IsNotNull(this._race.GetParticipantWhoShouldMoveToNextSection(sectionData));
+            Assert.IsNotNull(this._race.GetParticipantWhoShouldMoveToNextSection(secondSectionData));
+        }
+        
+        [Test]
+        public void Race_CannotGetParticipantWhoShouldMoveToNextSection()
+        {
+            IEquipment toyota = new Car(quality: IEquipment.MaximumQuality, performance: IEquipment.MaximumPerformance, speed: IEquipment.MaximumSpeed);
+            IParticipant participant = new Driver(name: "Koen van Meijeren", points: 200, equipment: toyota, teamColor: TeamColors.Red);
+            
+            Section section = new Section(SectionTypes.Straight);
+            SectionData sectionData = new SectionData(section, participant, Race.SectionLength - 10, null, 0);
+            
+            Assert.IsNull(this._race.GetParticipantWhoShouldMoveToNextSection(sectionData));
+        }
         
     }
 }

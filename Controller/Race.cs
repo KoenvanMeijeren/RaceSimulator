@@ -81,7 +81,7 @@ namespace Controller
             this.DriversChanged?.Invoke(source, new DriversChangedEventArgs(this));
         }
 
-        private void MoveParticipants()
+        public void MoveParticipants()
         {
             Section[] sections = this.Track.Sections.ToArray();
             for (int delta = 0; delta < sections.Length; delta++)
@@ -177,7 +177,7 @@ namespace Controller
             }
         }
 
-        private SectionData MoveParticipantToNextSection(SectionData sectionData, Section nextSection, SectionData nextSectionData, IParticipant participant)
+        public SectionData MoveParticipantToNextSection(SectionData sectionData, Section nextSection, SectionData nextSectionData, IParticipant participant)
         {
             if (!this.CanPlaceParticipant(nextSectionData, participant))
             {
@@ -328,7 +328,7 @@ namespace Controller
             return sectionData;
         }
         
-        private bool AllParticipantsFinished()
+        public bool AllParticipantsFinished()
         {
             return this._finishedParticipants >= this.Participants.Count;
         }
@@ -398,7 +398,7 @@ namespace Controller
                     && sectionData.DistanceRight >= Race.SectionLength && sectionData.Right != null;
         }
 
-        private IParticipant GetParticipantWhoShouldMoveToNextSection(SectionData sectionData)
+        public IParticipant GetParticipantWhoShouldMoveToNextSection(SectionData sectionData)
         {
             if (!this.ShouldMoveParticipantToNextSection(sectionData))
             {
